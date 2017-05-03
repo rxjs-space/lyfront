@@ -1,14 +1,23 @@
-<md-card>
-  <p *ngIf="isLoading">Loading</p>
+<p *ngIf="isLoading">Loading</p>
 
-  <p *ngIf="isError">Something went wrong.</p>
+<p *ngIf="isError">Something went wrong.</p>
 
-  <div *ngIf="!isLoading&&!isError">
-    <p>
-      list works!
-    </p>
-  </div>
-</md-card>
+<div *ngIf="!isLoading&&!isError">
+  
+
+<md-list class="vehicle-list">
+  <md-list-item *ngFor="let vehicle of vList" [routerLink]="['../'+vehicle.vin, {id: vehicle.id, isFromList: true}]">
+    <i class="material-icons" md-list-icon>drive_eta</i>
+    <!--<md-icon md-list-icon>folder</md-icon>-->
+    <h3 md-line>{{vehicle.vehicle.plateNo}} -- {{vehicle.vin}} -- <small>{{vehicle.entranceDate | date}}</small></h3>
+    <small md-line>申请表: 100% -- 台账: 80% -- 商务部网: 90% -- 治安网: 0% </small>
+    <small md-line>拆解计划下达日期: {{vehicle.dismantling.orderDate | date}} </small>
+  </md-list-item>
+</md-list>
+
+
+</div>
+
 
 
 

@@ -5,3 +5,26 @@
 .sidenav {
   padding: 20px;
 }
+
+.filler {
+  min-width: 10px;
+  width: 5%;
+  max-width: 15px;
+}
+
+// .menu-bar {
+//   opacity: 0.6;
+//   min-height: 15px;
+//   height: 30px;
+// }
+
+.menu-list md-list-item {
+  display: inline;
+}
+
+.vin-search-bar {
+  width: 100%;
+  input {
+    padding: 0 15px;
+  }
+}

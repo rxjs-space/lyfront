@@ -5,7 +5,7 @@ import { ShowLoginGuard } from './show-login.guard';
 
 
 const routes: Routes = [
-  { path: 'login',  component: LoginComponent, canActivate: [ShowLoginGuard] },
+  { path: '',  component: LoginComponent, canActivate: [ShowLoginGuard], pathMatch: 'full' },
 ];
 
 @NgModule({

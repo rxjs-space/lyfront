@@ -1,3 +1,5 @@
-<p>
-  show works!
-</p>
+<small *ngIf="isFromListRx | async" class="center-icon" (click)="goBack()">
+  <i class="material-icons">navigate_before</i>返回
+</small>
+
+<app-vehicle-details [types]="typesRx | async" [vehicle]="vehicleRx | async"></app-vehicle-details>

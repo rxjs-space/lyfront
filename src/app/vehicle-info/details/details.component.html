@@ -1,0 +1,18 @@
+<div *ngIf="vehicle">
+  <md-input-container>
+    <input mdInput placeholder="车辆识别代码" disabled [value]="vehicle.vin">
+  </md-input-container>
+  <md-input-container>
+    <input mdInput placeholder="号牌号码" [value]="vehicle.vehicle.plateNo">
+  </md-input-container>
+  <md-select placeholder="车辆类型"  name="vType">
+    <md-option *ngFor="let vType of types.vehicleTypes" [value]="vType">
+      {{vType.name}}
+    </md-option>
+  </md-select>
+  
+</div>
+
+
+{{types | json}}
+

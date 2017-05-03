@@ -8,34 +8,15 @@ import {MdDialog, MdDialogRef, MdSnackBar} from '@angular/material';
 })
 export class AppComponent {
   title = 'app works!';
+  navLinks = [
+    {route: '/dashboard', label: '主页'},
+    {route: '/vehicles', label: '车辆'},
+    {route: '/part-inventory', label: '回用件库存'},
+    {route: '/part-sales', label: '回用件销售'},
+    {route: '/admin', label: '系统管理员入口'},
+  ]
 
-  isDarkTheme: boolean = false;
-  lastDialogResult: string;
 
-  foods: any[] = [
-    {name: 'Pizza', rating: 'Excellent'},
-    {name: 'Burritos', rating: 'Great'},
-    {name: 'French fries', rating: 'Pretty good'},
-  ];
 
-  progress: number = 0;
 
-/*  constructor(private _dialog: MdDialog, private _snackbar: MdSnackBar) {
-    // Update the value for the progress-bar on an interval.
-    setInterval(() => {
-      this.progress = (this.progress + Math.floor(Math.random() * 4) + 1) % 100;
-    }, 200);
-  }*/
-
-  // openDialog() {
-  //   let dialogRef = this._dialog.open(DialogContent);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.lastDialogResult = result;
-  //   })
-  // }
-
-  // showSnackbar() {
-  //   this._snackbar.open('YUM SNACKS', 'CHEW');
-  // }
 }

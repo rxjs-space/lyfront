@@ -9,12 +9,12 @@ import { LearnmdModule } from './learnmd/learnmd.module';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DataService } from './data/data.service';
-
+import { TypesResolverService } from './data/types-resolver.service';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +25,7 @@ import { DataService } from './data/data.service';
     AuthModule,
     DashboardModule,
   ],
-  providers: [ DataService ],
+  providers: [ DataService, TypesResolverService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

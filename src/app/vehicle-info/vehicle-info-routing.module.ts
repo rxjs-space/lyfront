@@ -3,16 +3,25 @@ import { Routes, RouterModule } from '@angular/router';
 import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
+import { HomeComponent } from './home/home.component';
+/*
+  TypesResolverService is provided at app.module
+*/
+import { TypesResolverService } from '../data/types-resolver.service';
 
 
 const routes: Routes = [
-  {path: '', component: ListComponent, pathMatch: 'full'},
-  {path: 'new', component: NewComponent},
-  {path: ':vin', component: ShowComponent}
+  {path: '', component: HomeComponent, children: [
+    {path: '', redirectTo: 'list', pathMatch: 'full'},
+    {path: 'new', component: NewComponent},
+    {path: 'list', component: ListComponent},
+    {path: ':vin', resolve: {types: TypesResolverService}, component: ShowComponent}
+  ]},
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class VehicleInfoRoutingModule { }

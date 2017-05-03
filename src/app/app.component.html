@@ -1,22 +1,43 @@
-<md-sidenav-container class="example-container">
-  <md-sidenav #sidenav class="sidenav">
-    Jolly good!
-  </md-sidenav>
-  <div class="example-sidenav-content">
     <md-toolbar color="primary">
-      <button md-button (click)="sidenav.open()">
+      <!--<button md-button (click)="sidenav.open()">
         <i class="material-icons">menu</i>
-      </button>
-      <span routerLink="/">隆运报废车辆及回用件管理APP</span>
+      </button>-->
+      <!--<span routerLink="/">
+      <i class="material-icons">dashboard</i>
+      </span>-->
+
+      <i class="material-icons" routerLink="/">dashboard</i>
+      <span class="filler"></span>
+      <span routerLink="/">隆运 报废车辆及回用件管理系统</span>
+      
+
       <!--<span class="app-toolbar-filler"></span>
       <button md-button>TOGGLE DARK THEME</button>-->
     </md-toolbar>
 
+
+
+    <nav md-tab-nav-bar>
+      <a md-tab-link 
+        *ngFor="let link of navLinks" 
+        [routerLink]="link.route" 
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">
+        {{link.label}}
+      </a>
+    </nav>
+
+    <!--<nav md-tab-nav-bar>
+      <a md-tab-link
+        *ngFor="let link of navLinks"
+        [routerLink]="link"
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">
+        {{tabLink.label}}
+      </a>
+    </nav>-->
     <!--<app-learnmd></app-learnmd>-->
-
+    <md-input-container class="vin-search-bar">
+      <input mdInput placeholder="搜索 车牌号 或 车辆识别代码">
+    </md-input-container>
     <router-outlet></router-outlet>
-
-  </div>
-
-
-</md-sidenav-container>
