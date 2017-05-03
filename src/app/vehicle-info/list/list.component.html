@@ -1,3 +1,14 @@
-<p>
-  list works!
-</p>
+<md-card>
+  <p *ngIf="isLoading">Loading</p>
+
+  <p *ngIf="isError">Something went wrong.</p>
+
+  <div *ngIf="!isLoading&&!isError">
+    <p>
+      list works!
+    </p>
+  </div>
+</md-card>
+
+
+

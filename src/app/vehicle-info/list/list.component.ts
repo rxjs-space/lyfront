@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data/data.service';
 
 @Component({
   selector: 'app-list',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-
-  constructor() { }
+  private isLoading: Boolean = true;
+  private isError: Boolean = null;
+  constructor(private data: DataService) { }
 
   ngOnInit() {
+    this.data.getVehicles().subscribe(data => {
+      this.isLoading = false;
+      if (data.ok === false) {
+        this.isError = true;
+      }
+      console.log(JSON.stringify(data, undefined, 2));
+    });
   }
 
 }

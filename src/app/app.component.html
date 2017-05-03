@@ -1,26 +1,22 @@
-
-
-
 <md-sidenav-container class="example-container">
-  <md-sidenav #sidenav class="example-sidenav">
+  <md-sidenav #sidenav class="sidenav">
     Jolly good!
   </md-sidenav>
+  <div class="example-sidenav-content">
+    <md-toolbar color="primary">
+      <button md-button (click)="sidenav.open()">
+        <i class="material-icons">menu</i>
+      </button>
+      <span routerLink="/">隆运报废车辆及回用件管理APP</span>
+      <!--<span class="app-toolbar-filler"></span>
+      <button md-button>TOGGLE DARK THEME</button>-->
+    </md-toolbar>
 
-  <md-toolbar color="primary">
-    
-    <button md-button (click)="sidenav.open()">
-      <i class="material-icons">menu</i>
-    </button>
-    <span routerLink="/">隆运报废车辆及回用件管理APP</span>
-    
+    <!--<app-learnmd></app-learnmd>-->
 
-    <span class="app-toolbar-filler"></span>
-    <button md-button>TOGGLE DARK THEME</button>
-  </md-toolbar>
+    <router-outlet></router-outlet>
 
-<!--<app-learnmd></app-learnmd>-->
-
-<router-outlet></router-outlet>
+  </div>
 
 
 </md-sidenav-container>

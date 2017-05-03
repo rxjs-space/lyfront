@@ -14,6 +14,7 @@ import { AuthGuard } from './auth/auth.guard';
     survey-plan,
     part-order,
     part-inventory,
+    part-pricing,
     admin
 
 
