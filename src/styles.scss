@@ -10,6 +10,9 @@ body {
 
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+.lighter-color {
+  opacity: .6;
+}
 // md-card:not(.module-header-card) {
 //   margin: 20px;
 // }

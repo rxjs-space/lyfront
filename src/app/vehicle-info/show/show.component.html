@@ -1,5 +1,9 @@
-<small *ngIf="isFromListRx | async" class="center-icon" (click)="goBack()">
-  <i class="material-icons">navigate_before</i>返回
-</small>
-
-<app-vehicle-details [types]="typesRx | async" [vehicle]="vehicleRx | async"></app-vehicle-details>
+<ng-container *ngIf="resolvedData">
+  <button md-button *ngIf="isFromListRx | async" class="lighter-color" (click)="goBack()">
+    <i class="material-icons">navigate_before</i>返回
+  </button>
+  <!--<div><span><small *ngIf="isFromListRx | async" class="center-icon" (click)="goBack()">
+    <i class="material-icons">navigate_before</i>返回
+  </small></span></div>-->
+  <app-vehicle-details [types]="resolvedData.types" [vehicle]="resolvedData.vehicle"></app-vehicle-details>
+</ng-container>

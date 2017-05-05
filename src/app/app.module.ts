@@ -8,8 +8,10 @@ import { AppComponent } from './app.component';
 import { LearnmdModule } from './learnmd/learnmd.module';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { DataService } from './data/data.service';
-import { TypesResolverService } from './data/types-resolver.service';
+/*
+  dataServices including DataService and resolvers
+*/
+import { dataServices } from './data';
 
 
 @NgModule({
@@ -25,7 +27,7 @@ import { TypesResolverService } from './data/types-resolver.service';
     AuthModule,
     DashboardModule,
   ],
-  providers: [ DataService, TypesResolverService ],
+  providers: [ ...dataServices ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

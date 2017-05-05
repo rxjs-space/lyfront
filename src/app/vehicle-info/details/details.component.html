@@ -1,18 +1,78 @@
-<div *ngIf="vehicle">
-  <md-input-container>
-    <input mdInput placeholder="车辆识别代码" disabled [value]="vehicle.vin">
-  </md-input-container>
-  <md-input-container>
-    <input mdInput placeholder="号牌号码" [value]="vehicle.vehicle.plateNo">
-  </md-input-container>
-  <md-select placeholder="车辆类型"  name="vType">
-    <md-option *ngFor="let vType of types.vehicleTypes" [value]="vType">
-      {{vType.name}}
-    </md-option>
-  </md-select>
-  
-</div>
 
 
-{{types | json}}
+<form [formGroup]="vehicleForm" novalidate>
+  <div class="form-group">
+
+    <md-input-container>
+      <input mdInput placeholder="车辆识别代码" formControlName="id">
+    </md-input-container>
+
+    <ng-container formGroupName="vehicle">
+      <md-input-container>
+        <input mdInput placeholder="号牌号码" formControlName="plateNo">
+      </md-input-container>
+
+      <!--<md-select placeholder="车辆类型" formControlName="vehicleTypeName">
+        <md-option *ngFor="let vType of types.vehicleTypes" [value]="vType.id">
+          {{vType.name}}
+        </md-option>
+      </md-select>-->
+
+    <md-input-container>
+      <input mdInput placeholder="车辆类型" [mdAutocomplete]="autoVType" formControlName="vehicleTypeName">
+    </md-input-container>
+
+    <md-autocomplete #autoVType="mdAutocomplete">
+      <md-option *ngFor="let vTypeName of filteredVTypeNamesRx | async" [value]="vTypeName">
+        {{ vTypeName }}
+      </md-option>
+    </md-autocomplete>
+
+    </ng-container>
+  </div>
+
+  <div class="form-group" formGroupName="owner">
+    <md-input-container>
+      <input mdInput placeholder="所有人" formControlName="name">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput placeholder="短地址" formControlName="addressShort">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput placeholder="邮编" formControlName="zipCode">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput placeholder="长地址" formControlName="addressLong">
+    </md-input-container>
+  </div>
+
+  <div class="form-group" formGroupName="vehicle">
+    <md-select placeholder="使用性质" formControlName="useCharacterId">
+      <md-option *ngFor="let uChar of types.useCharacters" [value]="uChar.id">
+        {{uChar.name}}
+      </md-option>
+    </md-select>
+
+    <!-- start of brand auto-complete-->
+
+    <md-input-container>
+      <input mdInput placeholder="品牌" [mdAutocomplete]="autoBrand" formControlName="brandName">
+    </md-input-container>
+
+    <md-autocomplete #autoBrand="mdAutocomplete">
+      <md-option *ngFor="let brandName of filteredBrandNamesRx | async" [value]="brandName">
+        {{ brandName }}
+      </md-option>
+    </md-autocomplete>
+
+    <!-- end of brand auto-complete-->
+
+
+  </div>
+</form>
+
+{{vehicleForm.value | json}}
+{{vehicleForm.status | json}}
+{{vehicleForm.get('vehicle.vehicleTypeName').errors | json}}
+
 

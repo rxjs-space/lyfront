@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
   TypesResolverService is provided at app.module
 */
 import { TypesResolverService } from '../data/types-resolver.service';
+import { VehicleResolverService } from '../data/vehicle-resolver.service';
 
 
 const routes: Routes = [
@@ -15,7 +16,10 @@ const routes: Routes = [
     {path: '', redirectTo: 'list', pathMatch: 'full'},
     {path: 'new', component: NewComponent},
     {path: 'list', component: ListComponent},
-    {path: ':vin', resolve: {types: TypesResolverService}, component: ShowComponent}
+    {path: ':id', resolve: {
+      types: TypesResolverService,
+      vehicle: VehicleResolverService
+      }, component: ShowComponent}
   ]},
 
 ];
