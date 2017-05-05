@@ -2,19 +2,30 @@
 
 <form [formGroup]="vehicleForm" novalidate>
   <md-toolbar class="vehicle-id-toolbar">
-    <md-input-container>
-      <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
-    </md-input-container>
+    <div>
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
+      </md-input-container>
+      <small>
+        <md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.mofcomRegistryType" value="Sushi">
+        </md-input-container>
+        
+        <md-input-container>
+          <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.entranceDate">
+        </md-input-container>
+      </small>
+    </div>
   </md-toolbar>
 
-  <md-card class="info-card">
+  <!--<md-card class="info-card">
     <md-card-header>
       <md-card-title>类别信息</md-card-title>
     </md-card-header>
     <md-card-content>
       
     </md-card-content>
-  </md-card>
+  </md-card>-->
 
 
   <md-card class="info-card">
@@ -177,6 +188,14 @@
 
 </form>
 
+<md-card class="info-card">
+  <button md-raised-button class="lighter-color" color="primary">
+    保存更改
+  </button>  
+  <button md-raised-button class="lighter-color" color="warn">
+    删除记录
+  </button>
+</md-card>
 
 
 <md-card>

@@ -3,7 +3,8 @@
 </ng-container>
 
 <ng-container *ngIf="resolvedData">
-  <button md-button *ngIf="isFromListRx | async" class="lighter-color" (click)="goBack()">
+  <button md-button color="primary"
+    *ngIf="isFromListRx | async" class="lighter-color" (click)="goBack()">
     <i class="material-icons">navigate_before</i>返回
   </button>
   <!--<div><span><small *ngIf="isFromListRx | async" class="center-icon" (click)="goBack()">
