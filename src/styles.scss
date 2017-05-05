@@ -17,3 +17,14 @@ body {
 //   margin: 20px;
 // }
 
+
+@media print {
+  body .not-for-print {
+    display: none;
+  }
+}
+
+// delete margin-left for md-card-header
+div.mat-card-header-text {
+  margin-left: 0;
+}

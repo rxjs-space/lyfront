@@ -8,7 +8,10 @@
       </md-input-container>
       <small>
         <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.mofcomRegistryType" value="Sushi">
+          <input class="l-size-input" mdInput [placeholder]="titles.vehicles.mofcomRegistryType" value="Sushi">
+        </md-input-container>        
+        <md-input-container>
+          <input class="s-size-input" mdInput [placeholder]="titles.vehicles.owner.isPeople" value="Sushi">
         </md-input-container>
         
         <md-input-container>
@@ -91,13 +94,6 @@
           <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.vehicle.registrationDate" formControlName="registrationDate">
         </md-input-container>
 
-      </div>
-
-
-
-      <div class="form-group" formGroupName="vehicle">
-
-
         <md-input-container>
           <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.totalMassKG" formControlName="totalMassKG">
         </md-input-container>
@@ -134,6 +130,8 @@
       </div>
 
 
+
+
     </md-card-content>
   </md-card>
 
@@ -151,7 +149,7 @@
           <input class="xl-size-input" mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
         </md-input-container>
         <md-input-container>
-          <input class="m-size-input" type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
+          <input class="l-size-input" type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
         </md-input-container>
         <md-input-container>
           <input class="m-size-input" mdInput [placeholder]="titles.vehicles.owner.addressShort" formControlName="addressShort">
@@ -188,7 +186,7 @@
 
 </form>
 
-<md-card class="info-card">
+<md-card class="info-card not-for-print">
   <button md-raised-button class="lighter-color" color="primary">
     保存更改
   </button>  
@@ -196,6 +194,9 @@
     删除记录
   </button>
 </md-card>
+
+
+<div class="not-for-print diagnosis-only">
 
 
 <md-card>
@@ -218,7 +219,7 @@
   </md-card-header>
   <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
 </md-card>
-
+</div>
 
 
 

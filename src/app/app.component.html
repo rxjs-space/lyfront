@@ -1,4 +1,4 @@
-    <md-toolbar color="primary">
+    <md-toolbar color="primary" class="not-for-print">
       <!--<button md-button (click)="sidenav.open()">
         <i class="material-icons">menu</i>
       </button>-->
@@ -17,7 +17,7 @@
 
 
 
-    <nav md-tab-nav-bar>
+    <nav md-tab-nav-bar class="not-for-print">
       <a md-tab-link 
         *ngFor="let link of navLinks" 
         [routerLink]="link.route" 
@@ -37,7 +37,28 @@
       </a>
     </nav>-->
     <!--<app-learnmd></app-learnmd>-->
-    <md-input-container class="vin-search-bar">
+    <md-input-container class="vin-search-bar not-for-print">
       <input mdInput placeholder="搜索 车牌号 或 车辆识别代码">
     </md-input-container>
+
+  <md-card style="display:none" class="info-card">
+    <md-card-header>
+      <md-card-title>project plan</md-card-title>
+    </md-card-header>
+    <md-card-content>
+        20170506: finish the show detail part; 
+        20170507: finish the new part with validation; 
+        20170508: finish the temp-export to taizhang part;
+        20170509: finish the filter/reporting part;
+        20170510: finish the dismatling planning part;
+        20170511-12: finish the backend/db;
+        20170513: deploy onnline;
+        20170514-16: finish the mofcom auto-complete;
+        20170517: finish the zhianwang auto-complete;
+        20170518-19: add login/auth;
+        20170520-22: part-pricing;
+        20170523-24: part-inventory;
+        20170525-27: part-sales;
+    </md-card-content>
+  </md-card>
     <router-outlet></router-outlet>
