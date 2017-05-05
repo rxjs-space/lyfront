@@ -5,7 +5,7 @@ import {
   MdButtonModule, MdCheckboxModule, MdInputModule, MdAutocompleteModule,
   MdSidenavModule, MdDialogModule, MdToolbarModule, MdIconModule,
   MdCardModule, MdMenuModule, MdGridListModule, MdListModule,
-  MdTabsModule, MdSelectModule
+  MdTabsModule, MdSelectModule, MdProgressSpinnerModule
 } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +24,8 @@ const mdModules = [
     MdGridListModule,
     MdListModule,
     MdTabsModule,
-    MdSelectModule
+    MdSelectModule,
+    MdProgressSpinnerModule
 ];
 
 @NgModule({

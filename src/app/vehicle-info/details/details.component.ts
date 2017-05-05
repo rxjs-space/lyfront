@@ -12,9 +12,11 @@ export class DetailsComponent implements OnInit {
   vehicleForm: FormGroup;
   @Input() vehicle;
   @Input() types;
+  @Input() titles;
 
   filteredBrandNamesRx: Observable<any[]>;
   filteredVTypeNamesRx: Observable<any[]>;
+  filteredUseCharacterNamesRx: Observable<any[]>;
 
   constructor(private fb: FormBuilder) { }
 
@@ -25,11 +27,13 @@ export class DetailsComponent implements OnInit {
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
         // switch to vehicleType obj when submitting the form
         vehicleTypeName: [this.vehicle.vehicle.vehicleType.name, [
-          this.notListedValidator(this.types.vehicleTypes.map(typeObj => typeObj.name))]
+          this.notListedValidator(this.types.vehicleTypes.map(obj => obj.name))]
         ],
-        useCharacterId: [this.vehicle.vehicle.useCharacter.id],
+        useCharacterName: [this.vehicle.vehicle.useCharacter.name, [
+          this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
+        ]],
         brandName: [this.vehicle.vehicle.brand.name],
-        
+
       }),
       owner: this.fb.group({
         name: [this.vehicle.owner.name, Validators.required],
@@ -41,11 +45,15 @@ export class DetailsComponent implements OnInit {
 
     this.filteredBrandNamesRx = this.vehicleForm.get('vehicle.brandName').valueChanges
         .startWith(null)
-        .map(brand => this.filterObjList(this.types.brands, brand));
+        .map(value => this.filterObjList(this.types.brands, value));
 
     this.filteredVTypeNamesRx = this.vehicleForm.get('vehicle.vehicleTypeName').valueChanges
       .startWith(null)
-      .map(vType => this.filterObjList(this.types.vehicleTypes, vType));
+      .map(value => this.filterObjList(this.types.vehicleTypes, value));
+
+    this.filteredUseCharacterNamesRx = this.vehicleForm.get('vehicle.useCharacterName').valueChanges
+      .startWith(null)
+      .map(value => this.filterObjList(this.types.useCharacters, value));
 
   }
 

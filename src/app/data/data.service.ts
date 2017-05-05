@@ -9,6 +9,7 @@ import 'rxjs/add/observable/of';
 export class DataService {
   vehiclesApiUrl = 'http://localhost:3000/vehicles';
   typesApiUrl = 'http://localhost:3000/types';
+  titlesApiUrl = 'http://localhost:3000/titles';
   constructor(private http: Http) { }
   getVehicles() {
     return this.http.get(this.vehiclesApiUrl)
@@ -29,6 +30,12 @@ export class DataService {
       .catch(err => this.handleError(err));
   }
 
+  get titles() {
+    return this.http.get(this.titlesApiUrl)
+      .map(res => res.json())
+      .catch(err => this.handleError(err));
+
+  }
 
 
   private handleError(error: any) {

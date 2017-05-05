@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 */
 import { TypesResolverService } from '../data/types-resolver.service';
 import { VehicleResolverService } from '../data/vehicle-resolver.service';
+import { TitlesResolverService } from '../data/titles-resolver.service';
 
 
 const routes: Routes = [
@@ -18,7 +19,8 @@ const routes: Routes = [
     {path: 'list', component: ListComponent},
     {path: ':id', resolve: {
       types: TypesResolverService,
-      vehicle: VehicleResolverService
+      vehicle: VehicleResolverService,
+      titles: TitlesResolverService
       }, component: ShowComponent}
   ]},
 
