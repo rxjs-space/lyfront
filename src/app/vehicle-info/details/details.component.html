@@ -1,28 +1,37 @@
 
 
 <form [formGroup]="vehicleForm" novalidate>
+  <md-toolbar class="vehicle-id-toolbar">
+    <md-input-container>
+      <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
+    </md-input-container>
+  </md-toolbar>
+
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title>类别信息</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      
+    </md-card-content>
+  </md-card>
+
+
   <md-card class="info-card">
     <md-card-header>
       <md-card-title>车辆信息</md-card-title>
     </md-card-header>
     <md-card-content>
           
-      <div class="form-group">
-
-        <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
-        </md-input-container>
-
-        <ng-container formGroupName="vehicle">
+      <div class="form-group" formGroupName="vehicle">
           <md-input-container>
-            <input mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
+            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
               formControlName="plateNo">
           </md-input-container>
 
-
           <!-- start of vehicleType auto-complete -->
           <md-input-container>
-            <input mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleTypeName">
+            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleTypeName">
           </md-input-container>
 
           <md-autocomplete #autoVType="mdAutocomplete">
@@ -32,18 +41,9 @@
           </md-autocomplete>
           <!-- end of vehicleType auto-complete -->
 
-
-        </ng-container>
-      </div>
-
-
-
-      <div class="form-group" formGroupName="vehicle">
-
-
         <!-- start of useCharacter auto-complete -->
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacterName">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacterName">
         </md-input-container>
 
         <md-autocomplete #autoUseCharacter="mdAutocomplete">
@@ -57,7 +57,7 @@
         <!-- start of brand auto-complete-->
 
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brandName">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brandName">
         </md-input-container>
 
         <md-autocomplete #autoBrand="mdAutocomplete">
@@ -69,47 +69,58 @@
         <!-- end of brand auto-complete-->
 
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.vehicle.model" formControlName="model">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.model" formControlName="model">
         </md-input-container>
 
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.vehicle.engineNo" formControlName="engineNo">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.engineNo" formControlName="engineNo">
+        </md-input-container>
+
+        <md-input-container>
+          <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.vehicle.registrationDate" formControlName="registrationDate">
         </md-input-container>
 
       </div>
+
+
 
       <div class="form-group" formGroupName="vehicle">
+
+
         <md-input-container>
-          <input type="date" mdInput [placeholder]="titles.vehicles.vehicle.registrationDate" formControlName="registrationDate">
+          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.totalMassKG" formControlName="totalMassKG">
         </md-input-container>
 
         <md-input-container>
-          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.totalMassKG" formControlName="totalMassKG">
+          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.lengthOverallMM" formControlName="lengthOverallMM">
         </md-input-container>
 
         <md-input-container>
-          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.lengthOverallMM" formControlName="lengthOverallMM">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.color" formControlName="color">
         </md-input-container>
 
-        <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.vehicle.color" formControlName="color">
-        </md-input-container>
-      </div>
 
-      <div formGroupName="vehicle">
-        <span class="lighter-color">{{titles.vehicles.vehicle.aquisition.type}}</span>
-        <md-radio-group formControlName="aquisitionTypeName">
-          <md-radio-button class="aquisition-radio" *ngFor="let aTypeName of aquisitionTypeNames" [value]="aTypeName">
-            {{aTypeName}}
-          </md-radio-button>
-        </md-radio-group>
+
+        <!-- start of aquisitionType auto-complete-->
+
         <md-input-container>
-          <input [hidden]="!(vehicleForm.get('vehicle.aquisitionTypeName').value === '其他')"
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.aquisition.type" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionTypeName">
+        </md-input-container>
+
+        <md-autocomplete #autoAquisitionType="mdAutocomplete">
+          <md-option *ngFor="let aTypeName of filteredAquistionTypeNamesRx | async" [value]="aTypeName">
+            {{ aTypeName }}
+          </md-option>
+        </md-autocomplete>
+
+        <!-- end of aquisitionType auto-complete-->
+
+        <md-input-container>
+          <input class="m-size-input" [hidden]="!(vehicleForm.get('vehicle.aquisitionTypeName').value === '其他')"
             mdInput [placeholder]="titles.vehicles.vehicle.aquisition.detail" formControlName="aquisitionTypeDetail">
         </md-input-container>
-        
-      </div>
 
+      </div>
 
 
     </md-card-content>
@@ -123,26 +134,28 @@
       
       <div class="form-group" formGroupName="owner">
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
         </md-input-container>
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.owner.addressShort" formControlName="addressShort">
+          <input class="xl-size-input" mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
         </md-input-container>
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
+          <input class="m-size-input" type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
         </md-input-container>
         <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.owner.addressLong" formControlName="addressLong">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.owner.addressShort" formControlName="addressShort">
+        </md-input-container>
+        <md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
+        </md-input-container>
+        <md-input-container>
+          <input class="l-size-input" mdInput [placeholder]="titles.vehicles.owner.addressLong" formControlName="addressLong">
         </md-input-container>
       </div>
 
       <div class="form-group" formGroupName="owner">
-        <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
-        </md-input-container>
-        <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
-        </md-input-container>
+
+
       </div>
     </md-card-content>
   </md-card>
@@ -184,7 +197,7 @@
   <md-card-header>
     <md-card-title>vehicleForm.get('vehicle.vehicleTypeName').errors</md-card-title>
   </md-card-header>
-  <md-card-content>{{vehicleForm.get('vehicle.vehicleTypeName').errors | json}}</md-card-content>
+  <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
 </md-card>
 
 
