@@ -17,6 +17,7 @@ export class DetailsComponent implements OnInit {
   filteredBrandNamesRx: Observable<any[]>;
   filteredVTypeNamesRx: Observable<any[]>;
   filteredUseCharacterNamesRx: Observable<any[]>;
+  aquisitionTypeNames: any[];
 
   constructor(private fb: FormBuilder) { }
 
@@ -33,6 +34,17 @@ export class DetailsComponent implements OnInit {
           this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
         ]],
         brandName: [this.vehicle.vehicle.brand.name],
+        model: [this.vehicle.vehicle.model],
+        engineNo: [this.vehicle.vehicle.engineNo],
+        registrationDate: [this.vehicle.vehicle.registrationDate],
+        totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
+        lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
+        color: [this.vehicle.vehicle.color],
+        aquisitionTypeName: [this.vehicle.vehicle.aquisition.type.name],
+        aquisitionTypeDetail: [
+          this.vehicle.vehicle.aquisition.type.name === '其他' && this.vehicle.vehicle.aquisition.type.detail ?
+             this.vehicle.vehicle.aquisition.type.detail : ''
+        ]
 
       }),
       owner: this.fb.group({
@@ -40,6 +52,8 @@ export class DetailsComponent implements OnInit {
         addressShort: [this.vehicle.owner.addressShort],
         addressLong: [this.vehicle.owner.addressLong],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
+        idNo: [this.vehicle.owner.idNo],
+        tel: [this.vehicle.owner.tel]
       })
     });
 
@@ -55,6 +69,7 @@ export class DetailsComponent implements OnInit {
       .startWith(null)
       .map(value => this.filterObjList(this.types.useCharacters, value));
 
+    this.aquisitionTypeNames = this.types.aquisitionTypes.map(obj => obj.name);
   }
 
 
