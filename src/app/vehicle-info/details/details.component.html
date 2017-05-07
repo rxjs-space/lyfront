@@ -6,6 +6,7 @@
       <md-input-container>
         <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
       </md-input-container>
+
       <small>
 
         <!-- start of mofcomRegistryType auto-complete -->
@@ -39,8 +40,25 @@
           <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
         </md-input-container>
       </small>
+      
     </div>
+
+
   </md-toolbar>
+
+<md-toolbar color="warn" *ngIf="this.vehicle.isDeleted">
+  <div>
+    <small>
+      <md-input-container>
+        <input class="s-size-input" mdInput [placeholder]="titles.vehicles.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
+      </md-input-container>
+
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.deletedFor" formControlName="deletedFor">
+      </md-input-container>
+    </small>
+  </div>
+</md-toolbar>
 
   <!--<md-card class="info-card">
     <md-card-header>
@@ -153,19 +171,19 @@
         </md-input-container>
 
         <md-input-container>
-          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
+          <input class="s-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
         </md-input-container>
 
 
         <!-- start of fuelType auto-complete-->
 
         <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelTypeName">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelType">
         </md-input-container>
 
-        <md-autocomplete #autoFuelType="mdAutocomplete">
-          <md-option *ngFor="let fTypeName of filteredFuelTypeNamesRx | async" [value]="fTypeName">
-            {{ fTypeName }}
+        <md-autocomplete #autoFuelType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-option *ngFor="let fuelType of types.fuelTypes" [value]="fuelType">
+            {{ fuelType.name }}
           </md-option>
         </md-autocomplete>
 
@@ -177,8 +195,6 @@
         <md-input-container>
           <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoBoolean" formControlName="isNEV">
         </md-input-container>
-
-
 
         <!-- end of isNEV auto-complete-->
 

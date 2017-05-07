@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   vehicleForm: FormGroup;
   @Input() vehicle;
   @Input() types;
@@ -17,13 +18,16 @@ export class DetailsComponent implements OnInit {
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
-  filteredFuelTypeNamesRx: Observable<any[]>;
+
+  subscriptionOnMofcomRegistryType: Subscription;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.vehicleForm = this.fb.group({
       id: {value: this.vehicle.id, disabled: true},
+      isDeleted: [this.vehicle.isDeleted],
+      deletedFor: [this.vehicle.deletedFor],
       mofcomRegistryType: [this.vehicle.mofcomRegistryType, [
         this.validatorNotListedInObjList(this.types.mofcomRegistryTypes)
       ]],
@@ -54,7 +58,9 @@ export class DetailsComponent implements OnInit {
              this.vehicle.vehicle.aquisitionDetail : ''
         ],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
-        fuelTypeName: [this.vehicle.vehicle.fuelType.name],
+        fuelType: [this.vehicle.vehicle.fuelType, [
+          this.validatorNotListedInObjList(this.types.fuelTypes)
+        ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
         isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.validatorIsBoolean()]],
       }),
@@ -65,7 +71,8 @@ export class DetailsComponent implements OnInit {
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
-        isPerson: [this.vehicle.owner.isPerson]
+        isPerson: [this.vehicle.owner.isPerson],
+        isRemote: [this.vehicle.owner.isRemote]
       })
     });
 
@@ -82,9 +89,25 @@ export class DetailsComponent implements OnInit {
       this.vehicleForm, 'vehicle.brand', this.types.brands, this.filterObjListFac(this.sortObjListByName, true)
     );
 
-    this.filteredFuelTypeNamesRx = this.vehicleForm.get('vehicle.fuelTypeName').valueChanges
-      .startWith(null)
-      .map(value => this.filterObjList(this.types.fuelTypes, value));
+    /*
+      change ... on mofcomRegistryType changes
+    */
+    this.subscriptionOnMofcomRegistryType = this.vehicleForm.get('mofcomRegistryType').valueChanges
+      .subscribe(value => {
+        switch (value.name) {
+          // change isRemote on mofcomRegistryTypeChange
+          case '异地':
+            this.vehicleForm.get('owner.isRemote').setValue(true);
+            break;
+          default:
+            this.vehicleForm.get('owner.isRemote').setValue(false);
+        }
+      });
+
+  }
+
+  ngOnDestroy() {
+    this.subscriptionOnMofcomRegistryType.unsubscribe();
   }
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {
