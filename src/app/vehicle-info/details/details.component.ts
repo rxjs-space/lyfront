@@ -18,7 +18,6 @@ export class DetailsComponent implements OnInit {
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
   filteredFuelTypeNamesRx: Observable<any[]>;
-  aquisitionTypeNames: any[];
 
   constructor(private fb: FormBuilder) { }
 
@@ -47,18 +46,17 @@ export class DetailsComponent implements OnInit {
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
         lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
         color: [this.vehicle.vehicle.color],
-        aquisitionTypeName: [this.vehicle.vehicle.aquisition.type.name, [
-          this.notListedValidator(this.types.aquisitionTypes.map(obj => obj.name))
+        aquisitionType: [this.vehicle.vehicle.aquisitionType, [
+          this.validatorNotListedInObjList(this.types.aquisitionTypes)
         ]],
-        aquisitionTypeDetail: [
-          this.vehicle.vehicle.aquisition.type.name === '其他' && this.vehicle.vehicle.aquisition.type.detail ?
-             this.vehicle.vehicle.aquisition.type.detail : ''
+        aquisitionDetail: [
+          this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionDetail ?
+             this.vehicle.vehicle.aquisitionDetail : ''
         ],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         fuelTypeName: [this.vehicle.vehicle.fuelType.name],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
         isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.validatorIsBoolean()]],
-
       }),
       owner: this.fb.group({
         name: [this.vehicle.owner.name, Validators.required],
@@ -87,8 +85,6 @@ export class DetailsComponent implements OnInit {
     this.filteredFuelTypeNamesRx = this.vehicleForm.get('vehicle.fuelTypeName').valueChanges
       .startWith(null)
       .map(value => this.filterObjList(this.types.fuelTypes, value));
-
-    this.aquisitionTypeNames = this.types.aquisitionTypes.map(obj => obj.name);
   }
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {

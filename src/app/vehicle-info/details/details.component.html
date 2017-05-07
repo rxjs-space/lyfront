@@ -101,7 +101,6 @@
           </md-option>
         </md-autocomplete>
 
-
         <!-- end of brand auto-complete-->
 
         <md-input-container>
@@ -137,20 +136,20 @@
         <!-- start of aquisitionType auto-complete-->
 
         <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.aquisition.type" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionTypeName">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.aquisitionType" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionType">
         </md-input-container>
 
-        <md-autocomplete #autoAquisitionType="mdAutocomplete">
-          <md-option *ngFor="let aTypeName of filteredAquistionTypeNamesRx | async" [value]="aTypeName">
-            {{ aTypeName }}
+        <md-autocomplete #autoAquisitionType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-option *ngFor="let aType of types.aquisitionTypes" [value]="aType">
+            {{ aType.name }}
           </md-option>
         </md-autocomplete>
 
         <!-- end of aquisitionType auto-complete-->
 
         <md-input-container>
-          <input class="m-size-input" [hidden]="!(vehicleForm.get('vehicle.aquisitionTypeName').value === '其他')"
-            mdInput [placeholder]="titles.vehicles.vehicle.aquisition.detail" formControlName="aquisitionTypeDetail">
+          <input class="m-size-input" [hidden]="!(vehicleForm.get('vehicle.aquisitionType').value.name === '其他')"
+            mdInput [placeholder]="titles.vehicles.vehicle.aquisitionDetail" formControlName="aquisitionDetail">
         </md-input-container>
 
         <md-input-container>
@@ -233,9 +232,6 @@
       
     </md-card-content>
   </md-card>
-
-
-
 
 
 
