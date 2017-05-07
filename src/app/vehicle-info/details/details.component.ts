@@ -14,7 +14,6 @@ export class DetailsComponent implements OnInit {
   @Input() types;
   @Input() titles;
 
-  filteredBrandNamesRx: Observable<any[]>;
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
@@ -42,7 +41,6 @@ export class DetailsComponent implements OnInit {
           this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
         ]],
         brand: [this.vehicle.vehicle.brand],
-        brandName: [this.vehicle.vehicle.brand.name],
         model: [this.vehicle.vehicle.model],
         engineNo: [this.vehicle.vehicle.engineNo],
         registrationDate: [this.vehicle.vehicle.registrationDate],
@@ -73,10 +71,6 @@ export class DetailsComponent implements OnInit {
       })
     });
 
-
-    this.filteredBrandNamesRx = this.vehicleForm.get('vehicle.brandName').valueChanges
-        .startWith(null)
-        .map(value => this.filterObjList(this.types.brands, value));
 
     this.filteredVTypesRx = this.valueChangesToFilteredObjListRx(
       this.vehicleForm, 'vehicle.vehicleType', this.types.vehicleTypes, this.filterObjListFac(this.sortObjListByName)
