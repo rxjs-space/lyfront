@@ -15,6 +15,7 @@ export class DetailsComponent implements OnInit {
   @Input() titles;
 
   filteredBrandNamesRx: Observable<any[]>;
+  filteredVTypesRx: Observable<any[]>;
   filteredVTypeNamesRx: Observable<any[]>;
   filteredUseCharacterNamesRx: Observable<any[]>;
   filteredAquistionTypeNamesRx: Observable<any[]>;
@@ -28,6 +29,7 @@ export class DetailsComponent implements OnInit {
       id: {value: this.vehicle.id, disabled: true},
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
+        vehicleType: [this.vehicle.vehicle.vehicleType],
         // switch to vehicleType obj when submitting the form
         vehicleTypeName: [this.vehicle.vehicle.vehicleType.name, [
           this.notListedValidator(this.types.vehicleTypes.map(obj => obj.name))
@@ -52,7 +54,7 @@ export class DetailsComponent implements OnInit {
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         fuelTypeName: [this.vehicle.vehicle.fuelType.name],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
-        isNEV: [this.vehicle.vehicle.isNEV],
+        isNEV: [this.vehicle.vehicle.isNEV ? true : false],
 
       }),
       owner: this.fb.group({
@@ -72,6 +74,10 @@ export class DetailsComponent implements OnInit {
     this.filteredVTypeNamesRx = this.vehicleForm.get('vehicle.vehicleTypeName').valueChanges
       .startWith(null)
       .map(value => this.filterObjList(this.types.vehicleTypes, value));
+    
+    this.filteredVTypesRx = this.vehicleForm.get('vehicle.vehicleType').valueChanges
+      .startWith(null)
+      .map(value => this.filterObjList2(this.types.vehicleTypes, value));
 
     this.filteredUseCharacterNamesRx = this.vehicleForm.get('vehicle.useCharacterName').valueChanges
       .startWith(null)
@@ -94,6 +100,9 @@ export class DetailsComponent implements OnInit {
     return value ? list.filter(item => new RegExp(`^${value}`, 'gi').test(item)) : list;
   }
 
+  filterObjList2(objList: {[key: string]: any}[], value: any): any[] {
+    return value ? objList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : objList;
+  }
 
   notListedValidator(list: any[]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
@@ -105,6 +114,10 @@ export class DetailsComponent implements OnInit {
 
   displayFnBoolean(ctrlValue) {
     return ctrlValue ? '是' : '否';
+  }
+
+  displayFnObj(ctrlValue) {
+    return ctrlValue.name;
   }
 
 }

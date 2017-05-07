@@ -45,15 +45,27 @@
 
           <!-- start of vehicleType auto-complete -->
           <md-input-container>
-            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleTypeName">
+            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
           </md-input-container>
 
-          <md-autocomplete #autoVType="mdAutocomplete">
+          <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="displayFnObj">
+            <md-option *ngFor="let vType of filteredVTypesRx | async" [value]="vType">
+              {{ vType.name }}
+            </md-option>
+          </md-autocomplete>
+          <!-- end of vehicleType auto-complete -->        
+
+          <!-- start of vehicleTypeName auto-complete -->
+          <md-input-container>
+            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVTypeName" formControlName="vehicleTypeName">
+          </md-input-container>
+
+          <md-autocomplete #autoVTypeName="mdAutocomplete">
             <md-option *ngFor="let vTypeName of filteredVTypeNamesRx | async" [value]="vTypeName">
               {{ vTypeName }}
             </md-option>
           </md-autocomplete>
-          <!-- end of vehicleType auto-complete -->
+          <!-- end of vehicleTypeName auto-complete -->
 
         <!-- start of useCharacter auto-complete -->
         <md-input-container>
