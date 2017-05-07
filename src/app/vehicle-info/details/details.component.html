@@ -57,7 +57,7 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title>车辆信息</md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>车辆信息</span></md-card-title>
     </md-card-header>
     <md-card-content>
           
@@ -192,23 +192,11 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title>所有人信息</md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>所有人信息</span></md-card-title>
     </md-card-header>
     <md-card-content>
       
       <div class="form-group variable-length-input-container" formGroupName="owner">
-      <!-- start of mofcomRegistryType auto-complete -->
-        <md-input-container class="m-size-input leading-input">
-          <input  mdInput [placeholder]="titles.vehicles.owner.isPerson" [mdAutocomplete]="autoBoolean" formControlName="isPerson">
-        </md-input-container>
-
-        <md-autocomplete #autoBoolean="mdAutocomplete" [displayWith]="displayFnBoolean">
-          <md-option *ngFor="let tf of [true, false]" [value]="tf">
-            {{ tf ? '是' : '否' }}
-          </md-option>
-        </md-autocomplete>
-
-      <!-- end of mofcomRegistryType auto-complete -->  
 
         <md-input-container class="xxl-size-input">
           <input mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
@@ -218,6 +206,19 @@
       
 
       <div class="form-group" formGroupName="owner">
+
+      <!-- start of isPerson auto-complete -->
+        <md-input-container class="m-size-input leading-input">
+          <input mdInput [placeholder]="titles.vehicles.owner.isPerson" [mdAutocomplete]="autoBoolean" formControlName="isPerson">
+        </md-input-container>
+
+        <md-autocomplete #autoBoolean="mdAutocomplete" [displayWith]="displayFnBoolean">
+          <md-option *ngFor="let tf of [true, false]" [value]="tf">
+            {{ tf ? '是' : '否' }}
+          </md-option>
+        </md-autocomplete>
+
+      <!-- end of isPerson auto-complete -->
 
         <!-- start of idType auto-complete-->
 
@@ -274,11 +275,11 @@
     </md-card-content>
 
     <md-card-header>
-      <md-card-title>经办人信息</md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>经办人信息</span></md-card-title>
     </md-card-header>
     <md-card-content>
       <div class="form-group" formGroupName="agent">
-        <md-input-container class="l-size-input">
+        <md-input-container class="m-size-input">
           <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
         </md-input-container>
 
@@ -310,23 +311,81 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title>申请人需要提供的材料</md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人需要提供的材料</span></md-card-title>
     </md-card-header>
-    <md-card-content>
-      <md-checkbox>Check me!</md-checkbox>
+    <md-card-content formGroupName="docsProvided">
+      <div>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+      </div>
+      <div>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+      </div>
+      <div>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+      </div>
+      <div>
+        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
+          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        </md-checkbox>
+      </div>
     </md-card-content>
   </md-card>
 
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>车辆状况</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      完好、无氟、少量费油
+    </md-card-content>
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>车辆残值</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      人民币 伍百元整 500.00
+    </md-card-content>    
+  </md-card>
 
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人签字</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur suscipit nam repudiandae quis tempore rerum dolorem pariatur expedita temporibus, nesciunt, id laboriosam et quo omnis ab nihil laborum rem itaque.</div>
+      签字
+    </md-card-content> 
+  </md-card>
 
-
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>验车员签字</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      签字
+    </md-card-content> 
+  </md-card>  
 </form>
 
 <md-card class="info-card not-for-print">
-  <button md-raised-button class="lighter-color" color="primary">
+  <button md-raised-button color="primary">
     保存更改
   </button>  
-  <button md-raised-button class="lighter-color" color="warn">
+  <button md-raised-button color="warn">
     删除记录
   </button>
 </md-card>
@@ -335,26 +394,26 @@
 <div class="not-for-print diagnosis-only">
 
 
-<md-card>
-  <md-card-header>
-    <md-card-title>vehicleForm.value</md-card-title>
-  </md-card-header>
-  <md-card-content>{{vehicleForm.value | json}}</md-card-content>
-</md-card>
+  <md-card>
+    <md-card-header>
+      <md-card-title>vehicleForm.value</md-card-title>
+    </md-card-header>
+    <md-card-content>{{vehicleForm.value | json}}</md-card-content>
+  </md-card>
 
-<md-card>
-  <md-card-header>
-    <md-card-title>vehicleForm.status</md-card-title>
-  </md-card-header>
-  <md-card-content>{{vehicleForm.status | json}}</md-card-content>
-</md-card>
+  <md-card>
+    <md-card-header>
+      <md-card-title>vehicleForm.status</md-card-title>
+    </md-card-header>
+    <md-card-content>{{vehicleForm.status | json}}</md-card-content>
+  </md-card>
 
-<md-card>
-  <md-card-header>
-    <md-card-title>vehicleForm.get('vehicle.vehicleTypeName').errors</md-card-title>
-  </md-card-header>
-  <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
-</md-card>
+  <md-card>
+    <md-card-header>
+      <md-card-title>vehicleForm.get('vehicle.vehicleTypeName').errors</md-card-title>
+    </md-card-header>
+    <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
+  </md-card>
 </div>
 
 

@@ -82,6 +82,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
         idType: [this.vehicle.owner.idType],
         idNo: [this.vehicle.agent.idNo],
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
+      }),
+      docsProvided: this.fb.group({
+        vehicleRegistrationCertificate: [
+          this.vehicle.docsProvided.vehicleRegistrationCertificate ? this.vehicle.docsProvided.vehicleRegistrationCertificate : false,
+          [this.validatorIsBoolean()]
+        ]
       })
     });
 

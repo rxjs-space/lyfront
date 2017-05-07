@@ -16,11 +16,15 @@ input[type="date"] {
     margin-right: -30px;
   }
   .info-card {
-    margin-bottom: -30px;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
 
-
+.vertical-center-container {
+  display: flex;
+  align-items: center;
+}
 
 
 .vehicle-id-toolbar {
@@ -58,3 +62,10 @@ input[type="date"] {
   }
 }
 
+md-checkbox {
+  margin-right: 15px;
+}
+
+md-card-title {
+  margin-bottom: 0.5em;
+}
