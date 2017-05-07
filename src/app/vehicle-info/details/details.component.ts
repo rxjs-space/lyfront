@@ -19,7 +19,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
 
-  subscriptionOnMofcomRegistryType: Subscription;
+  mofcomRegistryTypeChange_: Subscription;
+  isPersonChange_: Subscription;
 
   constructor(private fb: FormBuilder) { }
 
@@ -66,13 +67,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
       }),
       owner: this.fb.group({
         name: [this.vehicle.owner.name, Validators.required],
-        addressShort: [this.vehicle.owner.addressShort],
-        addressLong: [this.vehicle.owner.addressLong],
+        address: [this.vehicle.owner.address],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
+        idType: [this.vehicle.owner.idType],
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
         isPerson: [this.vehicle.owner.isPerson],
         isRemote: [this.vehicle.owner.isRemote]
+      }),
+      agent: this.fb.group({
+        name: [this.vehicle.agent.name],
+        idType: [this.vehicle.owner.idType],
+        idNo: [this.vehicle.agent.idNo],
+        tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       })
     });
 
@@ -92,7 +99,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     /*
       change ... on mofcomRegistryType changes
     */
-    this.subscriptionOnMofcomRegistryType = this.vehicleForm.get('mofcomRegistryType').valueChanges
+    this.mofcomRegistryTypeChange_ = this.vehicleForm.get('mofcomRegistryType').valueChanges
       .subscribe(value => {
         switch (value.name) {
           // change isRemote on mofcomRegistryTypeChange
@@ -104,10 +111,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
+      .subscribe(value => {
+        this.vehicleForm.get('owner.idType').setValue({});
+      });
   }
 
   ngOnDestroy() {
-    this.subscriptionOnMofcomRegistryType.unsubscribe();
+    this.mofcomRegistryTypeChange_.unsubscribe();
   }
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {
