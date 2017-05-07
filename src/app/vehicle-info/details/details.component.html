@@ -7,15 +7,36 @@
         <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
       </md-input-container>
       <small>
+
+        <!-- start of mofcomRegistryType auto-complete -->
         <md-input-container>
-          <input class="l-size-input" mdInput [placeholder]="titles.vehicles.mofcomRegistryType" value="Sushi">
-        </md-input-container>        
-        <md-input-container>
-          <input class="s-size-input" mdInput [placeholder]="titles.vehicles.owner.isPeople" value="Sushi">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.mofcomRegistryType" [mdAutocomplete]="autoMofcomRegistryType" formControlName="mofcomRegistryType">
         </md-input-container>
-        
+
+        <md-autocomplete #autoMofcomRegistryType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-option *ngFor="let mType of types.mofcomRegistryTypes" [value]="mType">
+            {{ mType.name }}
+          </md-option>
+        </md-autocomplete>
+        <!-- end of mofcomRegistryType auto-complete -->           
+
+        <!-- start of mofcomRegistryType auto-complete -->
+        <ng-container formGroupName="owner">
+          <md-input-container>
+            <input class="s-size-input" mdInput [placeholder]="titles.vehicles.owner.isPerson" [mdAutocomplete]="autoBoolean" formControlName="isPerson">
+          </md-input-container>
+
+          <md-autocomplete #autoBoolean="mdAutocomplete" [displayWith]="displayFnBoolean">
+            <md-option *ngFor="let tf of [true, false]" [value]="tf">
+              {{ tf ? '是' : '否' }}
+            </md-option>
+          </md-autocomplete>
+
+        </ng-container>
+        <!-- end of mofcomRegistryType auto-complete -->  
+
         <md-input-container>
-          <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.entranceDate">
+          <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
         </md-input-container>
       </small>
     </div>
@@ -38,34 +59,22 @@
     <md-card-content>
           
       <div class="form-group" formGroupName="vehicle">
-          <md-input-container>
-            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
-              formControlName="plateNo">
-          </md-input-container>
+        <md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
+            formControlName="plateNo">
+        </md-input-container>
 
-          <!-- start of vehicleType auto-complete -->
-          <md-input-container>
-            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
-          </md-input-container>
+        <!-- start of vehicleType auto-complete -->
+        <md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
+        </md-input-container>
 
-          <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="displayFnObj">
-            <md-option *ngFor="let vType of filteredVTypesRx | async" [value]="vType">
-              {{ vType.name }}
-            </md-option>
-          </md-autocomplete>
-          <!-- end of vehicleType auto-complete -->        
-
-          <!-- start of vehicleTypeName auto-complete -->
-          <md-input-container>
-            <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVTypeName" formControlName="vehicleTypeName">
-          </md-input-container>
-
-          <md-autocomplete #autoVTypeName="mdAutocomplete">
-            <md-option *ngFor="let vTypeName of filteredVTypeNamesRx | async" [value]="vTypeName">
-              {{ vTypeName }}
-            </md-option>
-          </md-autocomplete>
-          <!-- end of vehicleTypeName auto-complete -->
+        <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-option *ngFor="let vType of filteredVTypesRx | async" [value]="vType">
+            {{ vType.name }}
+          </md-option>
+        </md-autocomplete>
+        <!-- end of vehicleType auto-complete -->        
 
         <!-- start of useCharacter auto-complete -->
         <md-input-container>
@@ -166,14 +175,10 @@
         <!-- start of isNEV auto-complete-->
 
         <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoIsNEV" formControlName="isNEV">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoBoolean" formControlName="isNEV">
         </md-input-container>
 
-        <md-autocomplete #autoIsNEV="mdAutocomplete" [displayWith]="displayFnBoolean">
-          <md-option *ngFor="let tf of [true, false]" [value]="tf">
-            {{ tf ? '是' : '否' }}
-          </md-option>
-        </md-autocomplete>
+
 
         <!-- end of isNEV auto-complete-->
 

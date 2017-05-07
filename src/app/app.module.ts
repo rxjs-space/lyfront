@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID  } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from './shared/shared.module';
@@ -27,7 +27,10 @@ import { dataServices } from './data';
     AuthModule,
     DashboardModule,
   ],
-  providers: [ ...dataServices ],
+  providers: [
+    ...dataServices,
+    { provide: LOCALE_ID, useValue: 'zh-cn' }
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

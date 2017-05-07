@@ -27,12 +27,14 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     this.vehicleForm = this.fb.group({
       id: {value: this.vehicle.id, disabled: true},
+      mofcomRegistryType: [this.vehicle.mofcomRegistryType, [
+        this.validatorNotListedInObjList(this.types.mofcomRegistryTypes)
+      ]],
+      entranceDate: [this.vehicle.entranceDate],
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
-        vehicleType: [this.vehicle.vehicle.vehicleType],
-        // switch to vehicleType obj when submitting the form
-        vehicleTypeName: [this.vehicle.vehicle.vehicleType.name, [
-          this.notListedValidator(this.types.vehicleTypes.map(obj => obj.name))
+        vehicleType: [this.vehicle.vehicle.vehicleType, [
+          this.validatorNotListedInObjList(this.types.vehicleTypes)
         ]],
         useCharacterName: [this.vehicle.vehicle.useCharacter.name, [
           this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
@@ -54,7 +56,7 @@ export class DetailsComponent implements OnInit {
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         fuelTypeName: [this.vehicle.vehicle.fuelType.name],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
-        isNEV: [this.vehicle.vehicle.isNEV ? true : false],
+        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.validatorIsBoolean()]],
 
       }),
       owner: this.fb.group({
@@ -63,21 +65,24 @@ export class DetailsComponent implements OnInit {
         addressLong: [this.vehicle.owner.addressLong],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
         idNo: [this.vehicle.owner.idNo],
-        tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)]
+        tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
+        isPerson: [this.vehicle.owner.isPerson]
       })
     });
+
 
     this.filteredBrandNamesRx = this.vehicleForm.get('vehicle.brandName').valueChanges
         .startWith(null)
         .map(value => this.filterObjList(this.types.brands, value));
 
-    this.filteredVTypeNamesRx = this.vehicleForm.get('vehicle.vehicleTypeName').valueChanges
-      .startWith(null)
-      .map(value => this.filterObjList(this.types.vehicleTypes, value));
+    this.filteredVTypesRx = this.valueChangesToFilteredObjListRx(
+      this.vehicleForm, 'vehicle.vehicleType', this.types.vehicleTypes, this.filterObjList2
+    );
     
-    this.filteredVTypesRx = this.vehicleForm.get('vehicle.vehicleType').valueChanges
-      .startWith(null)
-      .map(value => this.filterObjList2(this.types.vehicleTypes, value));
+    
+    // this.vehicleForm.get('vehicle.vehicleType').valueChanges
+    //   .startWith(null)
+    //   .map(value => this.filterObjList2(this.types.vehicleTypes, value));
 
     this.filteredUseCharacterNamesRx = this.vehicleForm.get('vehicle.useCharacterName').valueChanges
       .startWith(null)
@@ -92,6 +97,13 @@ export class DetailsComponent implements OnInit {
       .map(value => this.filterObjList(this.types.fuelTypes, value));
 
     this.aquisitionTypeNames = this.types.aquisitionTypes.map(obj => obj.name);
+  }
+
+  valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {
+    console.log(JSON.stringify(objList));
+    return fg.get(ctrlPath).valueChanges
+      .startWith(null)
+      .map(value => filterFn(objList, value));
   }
 
 
@@ -111,6 +123,55 @@ export class DetailsComponent implements OnInit {
       return notListed ? {'notListed': {value}} : null;
     };
   }
+
+  validatorNotListedInObjList(objList: {[key: string]: any}[]): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      const value = control.value;
+      let notListed = true;
+      for (let i = 0; i < objList.length; i++) {
+        if (this.isEquivalent(objList[i], value)) {
+          notListed = false;
+          break;
+        }
+      }
+      return notListed ? {'notListed': {value}} : null;
+    };
+  }
+
+  validatorIsBoolean(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      const value = control.value;
+      const isBoolean = typeof value === 'boolean';
+      return isBoolean ? null : {'notBooleanValue': {value}};
+    }
+  }
+
+  isEquivalent(a, b) {
+      // Create arrays of property names
+      const aProps = Object.getOwnPropertyNames(a);
+      const bProps = Object.getOwnPropertyNames(b);
+
+      // If number of properties is different,
+      // objects are not equivalent
+      if (aProps.length != bProps.length) {
+          return false;
+      }
+
+      for (let i = 0; i < aProps.length; i++) {
+          const propName = aProps[i];
+
+          // If values of same property are not equal,
+          // objects are not equivalent
+          if (a[propName] !== b[propName]) {
+              return false;
+          }
+      }
+
+      // If we made it this far, objects
+      // are considered equivalent
+      return true;
+  }
+
 
   displayFnBoolean(ctrlValue) {
     return ctrlValue ? '是' : '否';
