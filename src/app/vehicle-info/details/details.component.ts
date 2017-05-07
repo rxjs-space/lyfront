@@ -76,13 +76,8 @@ export class DetailsComponent implements OnInit {
         .map(value => this.filterObjList(this.types.brands, value));
 
     this.filteredVTypesRx = this.valueChangesToFilteredObjListRx(
-      this.vehicleForm, 'vehicle.vehicleType', this.types.vehicleTypes, this.filterObjList2
+      this.vehicleForm, 'vehicle.vehicleType', this.types.vehicleTypes, this.filterObjListFac(this.sortObjListByName)
     );
-    
-    
-    // this.vehicleForm.get('vehicle.vehicleType').valueChanges
-    //   .startWith(null)
-    //   .map(value => this.filterObjList2(this.types.vehicleTypes, value));
 
     this.filteredUseCharacterNamesRx = this.vehicleForm.get('vehicle.useCharacterName').valueChanges
       .startWith(null)
@@ -114,6 +109,17 @@ export class DetailsComponent implements OnInit {
 
   filterObjList2(objList: {[key: string]: any}[], value: any): any[] {
     return value ? objList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : objList;
+  }
+
+  filterObjListFac(sortFn) {
+    return (objList: {name: string}[], value: any): any[] => {
+      const sortedObjList = sortFn(objList);
+      return value ? sortedObjList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : sortedObjList;
+    }
+  }
+
+  sortObjListByName(objList: {name: string}[]) {
+    return objList.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   notListedValidator(list: any[]): ValidatorFn {
