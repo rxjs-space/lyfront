@@ -192,7 +192,7 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>所有人信息</span></md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>所有人/经办人信息</span></md-card-title>
     </md-card-header>
     <md-card-content>
       
@@ -270,14 +270,6 @@
       </div>
 
 
-
-
-    </md-card-content>
-
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>经办人信息</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
       <div class="form-group" formGroupName="agent">
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
@@ -303,10 +295,11 @@
           <input type="tel" mdInput [placeholder]="titles.vehicles.agent.tel" formControlName="tel">
         </md-input-container>
 
-
-
       </div>
+
+
     </md-card-content>
+
   </md-card>
 
   <md-card class="info-card">
