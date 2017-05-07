@@ -78,12 +78,12 @@
 
         <!-- start of useCharacter auto-complete -->
         <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacterName">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacter">
         </md-input-container>
 
-        <md-autocomplete #autoUseCharacter="mdAutocomplete">
-          <md-option *ngFor="let useCharacterName of filteredUseCharacterNamesRx | async" [value]="useCharacterName">
-            {{ useCharacterName }}
+        <md-autocomplete #autoUseCharacter="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-option *ngFor="let useCharacter of filteredUseCharactersRx | async" [value]="useCharacter">
+            {{ useCharacter.name }}
           </md-option>
         </md-autocomplete>
 
@@ -92,14 +92,25 @@
         <!-- start of brand auto-complete-->
 
         <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brandName">
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brand">
         </md-input-container>
 
-        <md-autocomplete #autoBrand="mdAutocomplete">
+        <md-autocomplete #autoBrand="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-option *ngFor="let brand of filteredBrandsRx | async" [value]="brand">
+            {{ brand.name }}
+          </md-option>
+        </md-autocomplete>
+
+
+        <!--<md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrandName" formControlName="brandName">
+        </md-input-container>
+
+        <md-autocomplete #autoBrandName="mdAutocomplete">
           <md-option *ngFor="let brandName of filteredBrandNamesRx | async" [value]="brandName">
             {{ brandName }}
           </md-option>
-        </md-autocomplete>
+        </md-autocomplete>-->
 
         <!-- end of brand auto-complete-->
 

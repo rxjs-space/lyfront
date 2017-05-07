@@ -16,9 +16,8 @@ export class DetailsComponent implements OnInit {
 
   filteredBrandNamesRx: Observable<any[]>;
   filteredVTypesRx: Observable<any[]>;
-  filteredVTypeNamesRx: Observable<any[]>;
-  filteredUseCharacterNamesRx: Observable<any[]>;
-  filteredAquistionTypeNamesRx: Observable<any[]>;
+  filteredUseCharactersRx: Observable<any[]>;
+  filteredBrandsRx: Observable<any[]>;
   filteredFuelTypeNamesRx: Observable<any[]>;
   aquisitionTypeNames: any[];
 
@@ -36,9 +35,13 @@ export class DetailsComponent implements OnInit {
         vehicleType: [this.vehicle.vehicle.vehicleType, [
           this.validatorNotListedInObjList(this.types.vehicleTypes)
         ]],
+        useCharacter: [this.vehicle.vehicle.useCharacter, [
+          this.validatorNotListedInObjList(this.types.useCharacters)
+        ]],
         useCharacterName: [this.vehicle.vehicle.useCharacter.name, [
           this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
         ]],
+        brand: [this.vehicle.vehicle.brand],
         brandName: [this.vehicle.vehicle.brand.name],
         model: [this.vehicle.vehicle.model],
         engineNo: [this.vehicle.vehicle.engineNo],
@@ -79,13 +82,13 @@ export class DetailsComponent implements OnInit {
       this.vehicleForm, 'vehicle.vehicleType', this.types.vehicleTypes, this.filterObjListFac(this.sortObjListByName)
     );
 
-    this.filteredUseCharacterNamesRx = this.vehicleForm.get('vehicle.useCharacterName').valueChanges
-      .startWith(null)
-      .map(value => this.filterObjList(this.types.useCharacters, value));
+    this.filteredUseCharactersRx = this.valueChangesToFilteredObjListRx(
+      this.vehicleForm, 'vehicle.useCharacter', this.types.useCharacters, this.filterObjListFac(this.sortObjListByName)
+    );
 
-    this.filteredAquistionTypeNamesRx = this.vehicleForm.get('vehicle.useCharacterName').valueChanges
-      .startWith(null)
-      .map(value => this.filterObjList(this.types.aquisitionTypes, value));
+    this.filteredBrandsRx = this.valueChangesToFilteredObjListRx(
+      this.vehicleForm, 'vehicle.brand', this.types.brands, this.filterObjListFac(this.sortObjListByName, true)
+    );
 
     this.filteredFuelTypeNamesRx = this.vehicleForm.get('vehicle.fuelTypeName').valueChanges
       .startWith(null)
@@ -95,7 +98,6 @@ export class DetailsComponent implements OnInit {
   }
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {
-    console.log(JSON.stringify(objList));
     return fg.get(ctrlPath).valueChanges
       .startWith(null)
       .map(value => filterFn(objList, value));
@@ -107,14 +109,14 @@ export class DetailsComponent implements OnInit {
     return value ? list.filter(item => new RegExp(`^${value}`, 'gi').test(item)) : list;
   }
 
-  filterObjList2(objList: {[key: string]: any}[], value: any): any[] {
-    return value ? objList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : objList;
-  }
-
-  filterObjListFac(sortFn) {
+  filterObjListFac(sortFn, hideInitList?: Boolean) {
     return (objList: {name: string}[], value: any): any[] => {
       const sortedObjList = sortFn(objList);
-      return value ? sortedObjList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : sortedObjList;
+      if (hideInitList) {
+        return value ? sortedObjList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : [];
+      } else {
+        return value ? sortedObjList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : sortedObjList;
+      }
     }
   }
 
