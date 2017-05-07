@@ -47,10 +47,14 @@ input[type="date"] {
   width: 100%;
 }
 
-.owner-type-and-name {
+.variable-length-input-container {
+  width: 100%;
   display: flex;
 }
 
-.owner-type {
-  margin-right: 5px;
+.variable-length-input-container {
+  .leading-input {
+    margin-right: 5px
+  }
 }
+

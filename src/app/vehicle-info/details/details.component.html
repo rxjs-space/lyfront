@@ -10,8 +10,8 @@
       <small>
 
         <!-- start of mofcomRegistryType auto-complete -->
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.mofcomRegistryType" [mdAutocomplete]="autoMofcomRegistryType" formControlName="mofcomRegistryType">
+        <md-input-container class="m-size-input" >
+          <input mdInput [placeholder]="titles.vehicles.mofcomRegistryType" [mdAutocomplete]="autoMofcomRegistryType" formControlName="mofcomRegistryType">
         </md-input-container>
 
         <md-autocomplete #autoMofcomRegistryType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -23,8 +23,8 @@
 
 
 
-        <md-input-container>
-          <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
+        <md-input-container class="l-size-input">
+          <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
         </md-input-container>
       </small>
       
@@ -34,17 +34,15 @@
   </md-toolbar>
 
   <md-toolbar color="warn" *ngIf="this.vehicle.isDeleted">
-    <div>
-      <small>
-        <md-input-container>
-          <input class="s-size-input" mdInput [placeholder]="titles.vehicles.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
-        </md-input-container>
+    <small class="form-group variable-length-input-container">
+      <md-input-container class="s-size-input leading-input">
+        <input mdInput [placeholder]="titles.vehicles.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
+      </md-input-container>
 
-        <md-input-container>
-          <input mdInput [placeholder]="titles.vehicles.deletedFor" formControlName="deletedFor">
-        </md-input-container>
-      </small>
-    </div>
+      <md-input-container class="xxl-size-input">
+        <input mdInput [placeholder]="titles.vehicles.deletedFor" formControlName="deletedFor">
+      </md-input-container>
+    </small>
   </md-toolbar>
 
   <!--<md-card class="info-card">
@@ -64,14 +62,14 @@
     <md-card-content>
           
       <div class="form-group" formGroupName="vehicle">
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
             formControlName="plateNo">
         </md-input-container>
 
         <!-- start of vehicleType auto-complete -->
-        <md-input-container>
-          <input class="l-size-input" mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
         </md-input-container>
 
         <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -82,8 +80,8 @@
         <!-- end of vehicleType auto-complete -->        
 
         <!-- start of useCharacter auto-complete -->
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacter">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacter">
         </md-input-container>
 
         <md-autocomplete #autoUseCharacter="mdAutocomplete" [displayWith]="displayFnObj">
@@ -96,8 +94,8 @@
 
         <!-- start of brand auto-complete-->
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brand">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brand">
         </md-input-container>
 
         <md-autocomplete #autoBrand="mdAutocomplete" [displayWith]="displayFnObj">
@@ -108,40 +106,40 @@
 
         <!-- end of brand auto-complete-->
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.model" formControlName="model">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.model" formControlName="model">
         </md-input-container>
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.engineNo" formControlName="engineNo">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.engineNo" formControlName="engineNo">
         </md-input-container>
 
-        <md-input-container>
-          <input class="l-size-input" type="date" mdInput [placeholder]="titles.vehicles.vehicle.registrationDate" formControlName="registrationDate">
+        <md-input-container class="l-size-input">
+          <input type="date" mdInput [placeholder]="titles.vehicles.vehicle.registrationDate" formControlName="registrationDate">
         </md-input-container>
 
-        <md-input-container>
-          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.totalMassKG" formControlName="totalMassKG">
+        <md-input-container class="m-size-input">
+          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.totalMassKG" formControlName="totalMassKG">
         </md-input-container>
 
-        <md-input-container>
-          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.lengthOverallMM" formControlName="lengthOverallMM">
+        <md-input-container class="m-size-input">
+          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.lengthOverallMM" formControlName="lengthOverallMM">
         </md-input-container>
 
-        <md-input-container>
-          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.seats" formControlName="seats">
+        <md-input-container class="m-size-input">
+          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.seats" formControlName="seats">
         </md-input-container>
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.color" formControlName="color">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.color" formControlName="color">
         </md-input-container>
 
 
 
         <!-- start of aquisitionType auto-complete-->
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.aquisitionType" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionType">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.aquisitionType" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionType">
         </md-input-container>
 
         <md-autocomplete #autoAquisitionType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -152,20 +150,19 @@
 
         <!-- end of aquisitionType auto-complete-->
 
-        <md-input-container>
-          <input class="m-size-input" [hidden]="!(vehicleForm.get('vehicle.aquisitionType').value.name === '其他')"
-            mdInput [placeholder]="titles.vehicles.vehicle.aquisitionDetail" formControlName="aquisitionDetail">
+        <md-input-container class="m-size-input" *ngIf="(vehicleForm.get('vehicle.aquisitionType').value.name === '其他')">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.aquisitionDetail" formControlName="aquisitionDetail">
         </md-input-container>
 
-        <md-input-container>
-          <input class="s-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
+        <md-input-container class="s-size-input">
+          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
         </md-input-container>
 
 
         <!-- start of fuelType auto-complete-->
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelType">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelType">
         </md-input-container>
 
         <md-autocomplete #autoFuelType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -179,8 +176,8 @@
 
         <!-- start of isNEV auto-complete-->
 
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoBoolean" formControlName="isNEV">
+        <md-input-container class="s-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoBoolean" formControlName="isNEV">
         </md-input-container>
 
         <!-- end of isNEV auto-complete-->
@@ -199,9 +196,9 @@
     </md-card-header>
     <md-card-content>
       
-      <div class="form-group owner-type-and-name" formGroupName="owner">
+      <div class="form-group variable-length-input-container" formGroupName="owner">
       <!-- start of mofcomRegistryType auto-complete -->
-        <md-input-container class="m-size-input owner-type">
+        <md-input-container class="m-size-input leading-input">
           <input  mdInput [placeholder]="titles.vehicles.owner.isPerson" [mdAutocomplete]="autoBoolean" formControlName="isPerson">
         </md-input-container>
 
@@ -218,14 +215,16 @@
         </md-input-container>
       </div>
 
+      
+
       <div class="form-group" formGroupName="owner">
 
         <!-- start of idType auto-complete-->
 
         <!-- start of pId -->
         <ng-container *ngIf="vehicleForm.get('owner.isPerson').value">
-          <md-input-container>
-            <input class="l-size-input" mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoPIdType" formControlName="idType">
+          <md-input-container class="l-size-input">
+            <input mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoPIdType" formControlName="idType">
           </md-input-container>
 
           <md-autocomplete #autoPIdType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -239,8 +238,8 @@
         <!-- start of oId -->
 
         <ng-container *ngIf="!vehicleForm.get('owner.isPerson').value">
-          <md-input-container>
-            <input class="l-size-input" mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoIdType" formControlName="idType">
+          <md-input-container class="l-size-input">
+            <input mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoIdType" formControlName="idType">
           </md-input-container>
 
           <md-autocomplete #autoIdType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -255,17 +254,17 @@
 
         <!-- end of idType auto-complete-->
 
-        <md-input-container>
-          <input class="xl-size-input" mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
+        <md-input-container class="xl-size-input">
+          <input mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
         </md-input-container>
-        <md-input-container>
-          <input class="l-size-input" type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
+        <md-input-container class="l-size-input">
+          <input type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
         </md-input-container>
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.owner.address" formControlName="address">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.owner.address" formControlName="address">
         </md-input-container>
-        <md-input-container>
-          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
         </md-input-container>
       </div>
 
@@ -279,13 +278,13 @@
     </md-card-header>
     <md-card-content>
       <div class="form-group" formGroupName="agent">
-        <md-input-container>
-          <input class="l-size-input" mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
         </md-input-container>
 
         <!-- start of idType auto-complete-->
-        <md-input-container>
-          <input class="l-size-input" mdInput [placeholder]="titles.vehicles.agent.idType" [mdAutocomplete]="autoAgentPIdType" formControlName="idType">
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="titles.vehicles.agent.idType" [mdAutocomplete]="autoAgentPIdType" formControlName="idType">
         </md-input-container>
 
         <md-autocomplete #autoAgentPIdType="mdAutocomplete" [displayWith]="displayFnObj">
@@ -296,11 +295,11 @@
 
         <!-- end of idType auto-complete-->
 
-        <md-input-container>
-          <input class="xl-size-input" mdInput [placeholder]="titles.vehicles.agent.idNo" formControlName="idNo">
+        <md-input-container class="xl-size-input">
+          <input mdInput [placeholder]="titles.vehicles.agent.idNo" formControlName="idNo">
         </md-input-container>
-        <md-input-container>
-          <input class="l-size-input" type="tel" mdInput [placeholder]="titles.vehicles.agent.tel" formControlName="tel">
+        <md-input-container class="l-size-input">
+          <input type="tel" mdInput [placeholder]="titles.vehicles.agent.tel" formControlName="tel">
         </md-input-container>
 
 
