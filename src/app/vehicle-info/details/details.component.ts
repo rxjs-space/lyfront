@@ -27,12 +27,14 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.vehicleForm = this.fb.group({
       id: {value: this.vehicle.id, disabled: true},
-      isDeleted: [this.vehicle.isDeleted],
-      deletedFor: [this.vehicle.deletedFor],
       mofcomRegistryType: [this.vehicle.mofcomRegistryType, [
         this.validatorNotListedInObjList(this.types.mofcomRegistryTypes)
       ]],
       entranceDate: [this.vehicle.entranceDate],
+      metadata: this.fb.group({
+        isDeleted: [this.vehicle.metadata.isDeleted],
+        deletedFor: [this.vehicle.metadata.deletedFor],
+      }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
         vehicleType: [this.vehicle.vehicle.vehicleType, [

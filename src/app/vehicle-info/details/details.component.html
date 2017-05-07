@@ -33,14 +33,14 @@
 
   </md-toolbar>
 
-  <md-toolbar color="warn" *ngIf="this.vehicle.isDeleted">
-    <small class="form-group variable-length-input-container">
+  <md-toolbar color="warn" *ngIf="this.vehicle.metadata.isDeleted">
+    <small class="form-group variable-length-input-container" formGroupName="metadata">
       <md-input-container class="s-size-input leading-input">
-        <input mdInput [placeholder]="titles.vehicles.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
+        <input mdInput [placeholder]="titles.vehicles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
       </md-input-container>
 
       <md-input-container class="xxl-size-input">
-        <input mdInput [placeholder]="titles.vehicles.deletedFor" formControlName="deletedFor">
+        <input mdInput [placeholder]="titles.vehicles.metadata.deletedFor" formControlName="deletedFor">
       </md-input-container>
     </small>
   </md-toolbar>
@@ -310,10 +310,10 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title>其他信息</md-card-title>
+      <md-card-title>申请人需要提供的材料</md-card-title>
     </md-card-header>
     <md-card-content>
-      
+      <md-checkbox>Check me!</md-checkbox>
     </md-card-content>
   </md-card>
 

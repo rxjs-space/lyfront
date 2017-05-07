@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 const mdModules = [
+    MdCheckboxModule,
     MdButtonModule,
     MdInputModule,
     MdAutocompleteModule,
