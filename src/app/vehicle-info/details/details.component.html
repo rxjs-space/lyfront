@@ -103,6 +103,10 @@
         </md-input-container>
 
         <md-input-container>
+          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.seats" formControlName="seats">
+        </md-input-container>
+
+        <md-input-container>
           <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.color" formControlName="color">
         </md-input-container>
 
@@ -126,6 +130,40 @@
           <input class="m-size-input" [hidden]="!(vehicleForm.get('vehicle.aquisitionTypeName').value === '其他')"
             mdInput [placeholder]="titles.vehicles.vehicle.aquisition.detail" formControlName="aquisitionTypeDetail">
         </md-input-container>
+
+        <md-input-container>
+          <input class="m-size-input" type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
+        </md-input-container>
+
+
+        <!-- start of fuelType auto-complete-->
+
+        <md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelTypeName">
+        </md-input-container>
+
+        <md-autocomplete #autoFuelType="mdAutocomplete">
+          <md-option *ngFor="let fTypeName of filteredFuelTypeNamesRx | async" [value]="fTypeName">
+            {{ fTypeName }}
+          </md-option>
+        </md-autocomplete>
+
+        <!-- end of fuelType auto-complete-->
+
+
+        <!-- start of isNEV auto-complete-->
+
+        <md-input-container>
+          <input class="m-size-input" mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoIsNEV" formControlName="isNEV">
+        </md-input-container>
+
+        <md-autocomplete #autoIsNEV="mdAutocomplete" [displayWith]="displayFnBoolean">
+          <md-option *ngFor="let tf of [true, false]" [value]="tf">
+            {{ tf ? '是' : '否' }}
+          </md-option>
+        </md-autocomplete>
+
+        <!-- end of isNEV auto-complete-->
 
       </div>
 

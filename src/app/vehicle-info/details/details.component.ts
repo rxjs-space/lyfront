@@ -18,6 +18,7 @@ export class DetailsComponent implements OnInit {
   filteredVTypeNamesRx: Observable<any[]>;
   filteredUseCharacterNamesRx: Observable<any[]>;
   filteredAquistionTypeNamesRx: Observable<any[]>;
+  filteredFuelTypeNamesRx: Observable<any[]>;
   aquisitionTypeNames: any[];
 
   constructor(private fb: FormBuilder) { }
@@ -47,7 +48,11 @@ export class DetailsComponent implements OnInit {
         aquisitionTypeDetail: [
           this.vehicle.vehicle.aquisition.type.name === '其他' && this.vehicle.vehicle.aquisition.type.detail ?
              this.vehicle.vehicle.aquisition.type.detail : ''
-        ]
+        ],
+        displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
+        fuelTypeName: [this.vehicle.vehicle.fuelType.name],
+        seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
+        isNEV: [this.vehicle.vehicle.isNEV],
 
       }),
       owner: this.fb.group({
@@ -76,6 +81,10 @@ export class DetailsComponent implements OnInit {
       .startWith(null)
       .map(value => this.filterObjList(this.types.aquisitionTypes, value));
 
+    this.filteredFuelTypeNamesRx = this.vehicleForm.get('vehicle.fuelTypeName').valueChanges
+      .startWith(null)
+      .map(value => this.filterObjList(this.types.fuelTypes, value));
+
     this.aquisitionTypeNames = this.types.aquisitionTypes.map(obj => obj.name);
   }
 
@@ -92,6 +101,10 @@ export class DetailsComponent implements OnInit {
       const notListed = list.indexOf(value) === -1;
       return notListed ? {'notListed': {value}} : null;
     };
+  }
+
+  displayFnBoolean(ctrlValue) {
+    return ctrlValue ? '是' : '否';
   }
 
 }
