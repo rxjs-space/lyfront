@@ -10,17 +10,20 @@ import { HomeComponent } from './home/home.component';
 import { TypesResolverService } from '../data/types-resolver.service';
 import { VehicleResolverService } from '../data/vehicle-resolver.service';
 import { TitlesResolverService } from '../data/titles-resolver.service';
+import { DismantlingOrdersByVINResolverService } from '../data/dismantling-orders-by-vin-resolver.service';
+
 
 
 const routes: Routes = [
   {path: '', component: HomeComponent, children: [
-    {path: '', redirectTo: 'list', pathMatch: 'full'},
+    {path: '', component: ListComponent, pathMatch: 'full'},
     {path: 'new', component: NewComponent},
-    {path: 'list', component: ListComponent},
+    // {path: 'list', component: ListComponent},
     {path: ':id', resolve: {
       types: TypesResolverService,
       vehicle: VehicleResolverService,
-      titles: TitlesResolverService
+      titles: TitlesResolverService,
+      dismantlingOrders: DismantlingOrdersByVINResolverService
       }, component: ShowComponent}
   ]},
 

@@ -11,5 +11,10 @@
   <!--<div><span><small *ngIf="isFromListRx | async" class="center-icon" (click)="goBack()">
     <i class="material-icons">navigate_before</i>返回
   </small></span></div>-->
-  <app-vehicle-details [titles]="resolvedData.titles" [types]="resolvedData.types" [vehicle]="resolvedData.vehicle"></app-vehicle-details>
+  <app-vehicle-details
+    [titles]="resolvedData.titles" 
+    [types]="resolvedData.types"
+    [vehicle]="resolvedData.vehicle"
+    [dismantlingOrders]="resolvedData.dismantlingOrders"
+  ></app-vehicle-details>
 </ng-container>

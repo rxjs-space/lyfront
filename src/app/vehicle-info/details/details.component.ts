@@ -14,6 +14,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   @Input() vehicle;
   @Input() types;
   @Input() titles;
+  @Input() dismantlingOrders;
 
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
@@ -84,12 +85,31 @@ export class DetailsComponent implements OnInit, OnDestroy {
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       }),
       docsProvided: this.fb.group({
-        vehicleRegistrationCertificate: [
-          this.vehicle.docsProvided.vehicleRegistrationCertificate ? this.vehicle.docsProvided.vehicleRegistrationCertificate : false,
-          [this.validatorIsBoolean()]
-        ]
+        vRegistrationCert: [this.vehicle.docsProvided.vRegistrationCert ? this.vehicle.docsProvided.vRegistrationCert : false],
+        vLicenseA: [this.vehicle.docsProvided.vLicenseA],
+        vLicenseB: [this.vehicle.docsProvided.vLicenseB],
+        plateCount: [this.vehicle.docsProvided.plateCount, Validators.pattern(/^[0-2]$/)]
+      }),
+      dismantlingOrders: this.fb.group({
+
       })
     });
+
+/*
+
+      "dismantlingOrders": [{
+        "orderId": "n12345",
+        "orderType": {
+          "id": 1,
+          "name": "normal"
+        },
+        "orderDate": "2017-05-03T05:07:44.062Z",
+        "estimatedFinishDate": "2017-05-05T00:00:00.000Z",
+        "actualFinishDate": ""
+      }],
+
+*/
+
 
 
     this.filteredVTypesRx = this.valueChangesToFilteredObjListRx(

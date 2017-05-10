@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class DataService {
   vehiclesApiUrl = 'http://localhost:3000/vehicles';
+  dismantlingOrdersApiUrl = 'http://localhost:3000/dismantlingOrders';
   typesApiUrl = 'http://localhost:3000/types';
   titlesApiUrl = 'http://localhost:3000/titles';
   constructor(private http: Http) { }
@@ -19,6 +20,18 @@ export class DataService {
 
   getVehicleById(id) {
     return this.http.get(this.vehiclesApiUrl + '/' + id)
+      .map(res => res.json())
+      .catch(err => this.handleError(err));
+  }
+
+  getDismantlingOrders() {
+    return this.http.get(this.dismantlingOrdersApiUrl)
+      .map(res => res.json())
+      .catch(err => this.handleError(err));
+  }
+
+  getDismantlingOrdersByVIN(vin: string) {
+    return this.http.get(this.dismantlingOrdersApiUrl + '?vin=' + vin)
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }

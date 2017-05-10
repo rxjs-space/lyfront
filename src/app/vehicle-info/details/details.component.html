@@ -308,32 +308,37 @@
     </md-card-header>
     <md-card-content formGroupName="docsProvided">
       <div>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        <md-checkbox color="primary" formControlName="vRegistrationCert">
+          {{titles.vehicles.docsProvided.vRegistrationCert}}
         </md-checkbox>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        <md-checkbox color="primary" formControlName="vLicenseA">
+          {{titles.vehicles.docsProvided.vLicenseA}}
         </md-checkbox>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        <md-checkbox color="primary" formControlName="vLicenseB">
+          {{titles.vehicles.docsProvided.vLicenseB}}
+        </md-checkbox>
+        <md-input-container class="s-size-input">
+          <input type="number" mdInput [placeholder]="titles.vehicles.docsProvided.plateCount" formControlName="plateCount">
+        </md-input-container>
+      </div>
+      <div>
+        <md-checkbox color="primary" formControlName="vRegistrationCert">
+          {{titles.vehicles.docsProvided.vRegistrationCert}}
+        </md-checkbox>
+        <!-- a dummy md-input for setting same line-height -->
+        <md-input-container><input mdInput style="width:0"></md-input-container>
+      </div>
+      <div>
+        <md-checkbox color="primary" formControlName="vRegistrationCert">
+          {{titles.vehicles.docsProvided.vRegistrationCert}}
+        </md-checkbox>
+        <md-checkbox color="primary" formControlName="vRegistrationCert">
+          {{titles.vehicles.docsProvided.vRegistrationCert}}
         </md-checkbox>
       </div>
       <div>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
-        </md-checkbox>
-      </div>
-      <div>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
-        </md-checkbox>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
-        </md-checkbox>
-      </div>
-      <div>
-        <md-checkbox color="primary" formControlName="vehicleRegistrationCertificate">
-          {{titles.vehicles.docsProvided.vehicleRegistrationCertificate}}
+        <md-checkbox color="primary" formControlName="vRegistrationCert">
+          {{titles.vehicles.docsProvided.vRegistrationCert}}
         </md-checkbox>
       </div>
     </md-card-content>
@@ -356,7 +361,7 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人签字</span></md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人承诺</span></md-card-title>
     </md-card-header>
     <md-card-content>
       <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur suscipit nam repudiandae quis tempore rerum dolorem pariatur expedita temporibus, nesciunt, id laboriosam et quo omnis ab nihil laborum rem itaque.</div>
@@ -366,13 +371,23 @@
 
   <md-card class="info-card">
     <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>验车员签字</span></md-card-title>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>查验员签字</span></md-card-title>
     </md-card-header>
     <md-card-content>
       签字
     </md-card-content> 
   </md-card>  
 </form>
+
+<md-card class="info-card not-for-print">
+  <md-card-header>
+    <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>拆解</span></md-card-title>
+  </md-card-header>
+
+  <button md-raised-button color="primary">
+    新建拆解计划
+  </button>  
+</md-card>
 
 <md-card class="info-card not-for-print">
   <button md-raised-button color="primary">
@@ -382,6 +397,8 @@
     删除记录
   </button>
 </md-card>
+
+
 
 
 <div class="not-for-print diagnosis-only">
@@ -406,6 +423,9 @@
       <md-card-title>vehicleForm.get('vehicle.vehicleTypeName').errors</md-card-title>
     </md-card-header>
     <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
+  </md-card>
+  <md-card>
+    {{dismantlingOrders | json}}
   </md-card>
 </div>
 
