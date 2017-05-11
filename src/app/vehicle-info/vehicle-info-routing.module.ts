@@ -16,9 +16,10 @@ import { DismantlingOrdersByVINResolverService } from '../data/dismantling-order
 
 const routes: Routes = [
   {path: '', component: HomeComponent, children: [
-    {path: '', component: ListComponent, pathMatch: 'full'},
+    {path: '', redirectTo: 'list', pathMatch: 'full'},
+    // {path: '', component: ListComponent, pathMatch: 'full'},
     {path: 'new', component: NewComponent},
-    // {path: 'list', component: ListComponent},
+    {path: 'list', component: ListComponent},
     {path: ':id', resolve: {
       types: TypesResolverService,
       vehicle: VehicleResolverService,

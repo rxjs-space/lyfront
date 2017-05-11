@@ -36,11 +36,11 @@
   <md-toolbar color="warn" *ngIf="this.vehicle.metadata.isDeleted">
     <small class="form-group variable-length-input-container" formGroupName="metadata">
       <md-input-container class="s-size-input leading-input">
-        <input mdInput [placeholder]="titles.vehicles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
+        <input mdInput [placeholder]="titles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
       </md-input-container>
 
       <md-input-container class="xxl-size-input">
-        <input mdInput [placeholder]="titles.vehicles.metadata.deletedFor" formControlName="deletedFor">
+        <input mdInput [placeholder]="titles.metadata.deletedFor" formControlName="deletedFor">
       </md-input-container>
     </small>
   </md-toolbar>
@@ -359,7 +359,17 @@
     </md-card-content>    
   </md-card>
 
-  <md-card class="info-card">
+
+  <md-card class="info-card not-for-print">
+    <button md-raised-button color="primary">
+      保存更改
+    </button>  
+    <button md-raised-button color="warn">
+      删除记录
+    </button>
+  </md-card>
+
+  <!--<md-card class="info-card">
     <md-card-header>
       <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人承诺</span></md-card-title>
     </md-card-header>
@@ -376,27 +386,59 @@
     <md-card-content>
       签字
     </md-card-content> 
-  </md-card>  
+  </md-card>  -->
 </form>
 
-<md-card class="info-card not-for-print">
-  <md-card-header>
-    <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>拆解</span></md-card-title>
-  </md-card-header>
 
-  <button md-raised-button color="primary">
-    新建拆解计划
-  </button>  
-</md-card>
+<form [formGroup]="dismantlingOrdersForm" novalidate >
+  <md-card class="info-card not-for-print">
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>拆解计划</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <div formArrayName="dismantlingOrders">
+        <div *ngFor="let dOrder of dismantlingOrders.controls; let i=index" [formGroupName]="i">
+          <md-input-container class="m-size-input">
+            <input mdInput [placeholder]="titles.dismantlingOrders.id" formControlName="id">
+          </md-input-container>
+          <!-- start of mofcomRegistryType auto-complete -->
+          <md-input-container class="m-size-input" >
+            <input mdInput [placeholder]="titles.dismantlingOrders.orderType" [mdAutocomplete]="autoDimantlingOrderType" formControlName="orderType">
+          </md-input-container>
 
-<md-card class="info-card not-for-print">
-  <button md-raised-button color="primary">
-    保存更改
-  </button>  
-  <button md-raised-button color="warn">
-    删除记录
-  </button>
-</md-card>
+          <md-autocomplete #autoDimantlingOrderType="mdAutocomplete" [displayWith]="displayFnObj">
+            <md-option *ngFor="let dOType of types.dismantlingOrderTypes" [value]="dOType">
+              {{ dOType.name }}
+            </md-option>
+          </md-autocomplete>
+          <!-- end of mofcomRegistryType auto-complete -->   
+
+          <md-input-container class="l-size-input">
+            <input mdInput type="date" [placeholder]="titles.dismantlingOrders.orderDate" formControlName="orderDate">
+          </md-input-container>          
+          <md-input-container class="l-size-input">
+            <input mdInput type="date" [placeholder]="titles.dismantlingOrders.actualFinishDate" formControlName="actualFinishDate">
+          </md-input-container>
+          <ng-container *ngIf="!dOrder.get('actualFinishDate').value">
+            <button md-raised-button color="primary">
+              保存
+            </button>  
+            <button md-raised-button color="warn">
+              删除
+            </button>             
+          </ng-container>
+        </div>
+      </div>
+
+      <button md-raised-button color="primary" (click)="addDismantlingOrder()">
+        新建拆解计划
+      </button>  
+    </md-card-content>
+  </md-card>
+</form>
+
+
+
 
 
 
@@ -406,9 +448,9 @@
 
   <md-card>
     <md-card-header>
-      <md-card-title>vehicleForm.value</md-card-title>
+      <md-card-title>dismantlingOrdersForm.value</md-card-title>
     </md-card-header>
-    <md-card-content>{{vehicleForm.value | json}}</md-card-content>
+    <md-card-content>{{dismantlingOrdersForm.value | json}}</md-card-content>
   </md-card>
 
   <md-card>
@@ -424,9 +466,7 @@
     </md-card-header>
     <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
   </md-card>
-  <md-card>
-    {{dismantlingOrders | json}}
-  </md-card>
+
 </div>
 
 

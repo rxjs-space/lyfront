@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -11,10 +11,11 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   vehicleForm: FormGroup;
+  dismantlingOrdersForm: FormGroup;
   @Input() vehicle;
   @Input() types;
   @Input() titles;
-  @Input() dismantlingOrders;
+  @Input() dismantlingOrdersInput;
 
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
@@ -90,9 +91,23 @@ export class DetailsComponent implements OnInit, OnDestroy {
         vLicenseB: [this.vehicle.docsProvided.vLicenseB],
         plateCount: [this.vehicle.docsProvided.plateCount, Validators.pattern(/^[0-2]$/)]
       }),
-      dismantlingOrders: this.fb.group({
+    });
 
-      })
+    this.dismantlingOrdersForm = this.fb.group({
+      dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
+        id: {value: dOrder.id, disabled: true},
+        vin: [dOrder.vin],
+        orderType: [{value: dOrder.orderType, disabled: true}, this.validatorNotListedInObjList(this.types.dismantlingOrderTypes)],
+        orderDate: [{value: dOrder.orderDate, disabled: true}],
+        estimatedFinishDate: [{
+          value: dOrder.estimatedFinishDate,
+          disabled: dOrder.estimatedFinishDate ? true : false
+        }],
+        actualFinishDate: [{
+          value: dOrder.actualFinishDate,
+          disabled: dOrder.actualFinishDate ? true : false
+        }]
+      })))
     });
 
 /*
@@ -144,6 +159,25 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.vehicleForm.get('owner.idType').setValue({});
       });
   }
+
+
+  // -------- start of dismantlingOrders related methods --------
+  get dismantlingOrders(): FormArray  {
+    return this.dismantlingOrdersForm.get('dismantlingOrders') as FormArray;
+  }
+
+  addDismantlingOrder() {
+    this.dismantlingOrders.push(this.fb.group({
+      id: {value: '待定', disabled: true},
+      vin: [this.vehicle.vin],
+      orderType: ['', this.validatorNotListedInObjList(this.types.dismantlingOrderTypes)],
+      orderDate: [(new Date()).toISOString().slice(0, 10)],
+      estimatedFinishDate: [''],
+      actualFinishDate: ['']
+    }));
+  }
+
+  // -------- end of dismantlingOrders related methods --------
 
   ngOnDestroy() {
     this.mofcomRegistryTypeChange_.unsubscribe();
