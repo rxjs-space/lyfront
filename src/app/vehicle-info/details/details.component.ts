@@ -3,6 +3,8 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, Validat
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
+import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
+
 
 @Component({
   selector: 'app-vehicle-details',
@@ -24,13 +26,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
   mofcomRegistryTypeChange_: Subscription;
   isPersonChange_: Subscription;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private sv: SharedValidatorsService) { }
 
   ngOnInit() {
     this.vehicleForm = this.fb.group({
       id: {value: this.vehicle.id, disabled: true},
       mofcomRegistryType: [this.vehicle.mofcomRegistryType, [
-        this.validatorNotListedInObjList(this.types.mofcomRegistryTypes)
+        this.sv.notListedInObjList(this.types.mofcomRegistryTypes)
       ]],
       entranceDate: [this.vehicle.entranceDate],
       metadata: this.fb.group({
@@ -40,10 +42,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
         vehicleType: [this.vehicle.vehicle.vehicleType, [
-          this.validatorNotListedInObjList(this.types.vehicleTypes)
+          this.sv.notListedInObjList(this.types.vehicleTypes)
         ]],
         useCharacter: [this.vehicle.vehicle.useCharacter, [
-          this.validatorNotListedInObjList(this.types.useCharacters)
+          this.sv.notListedInObjList(this.types.useCharacters)
         ]],
         useCharacterName: [this.vehicle.vehicle.useCharacter.name, [
           this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
@@ -56,7 +58,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
         color: [this.vehicle.vehicle.color],
         aquisitionType: [this.vehicle.vehicle.aquisitionType, [
-          this.validatorNotListedInObjList(this.types.aquisitionTypes)
+          this.sv.notListedInObjList(this.types.aquisitionTypes)
         ]],
         aquisitionDetail: [
           this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionDetail ?
@@ -64,16 +66,16 @@ export class DetailsComponent implements OnInit, OnDestroy {
         ],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         fuelType: [this.vehicle.vehicle.fuelType, [
-          this.validatorNotListedInObjList(this.types.fuelTypes)
+          this.sv.notListedInObjList(this.types.fuelTypes)
         ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
-        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.validatorIsBoolean()]],
+        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.isBoolean()]],
       }),
       owner: this.fb.group({
         name: [this.vehicle.owner.name, Validators.required],
         address: [this.vehicle.owner.address],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
-        idType: [this.vehicle.owner.idType],
+        idType: [this.vehicle.owner.idType], // setValidator here after setting isPerson
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
         isPerson: [this.vehicle.owner.isPerson],
@@ -97,7 +99,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
         id: {value: dOrder.id, disabled: true},
         vin: [dOrder.vin],
-        orderType: [{value: dOrder.orderType, disabled: true}, this.validatorNotListedInObjList(this.types.dismantlingOrderTypes)],
+        orderType: [{value: dOrder.orderType, disabled: true}, this.sv.notListedInObjList(this.types.dismantlingOrderTypes)],
         orderDate: [{value: dOrder.orderDate, disabled: true}],
         estimatedFinishDate: [{
           value: dOrder.estimatedFinishDate,
@@ -109,21 +111,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
         }]
       })))
     });
-
-/*
-
-      "dismantlingOrders": [{
-        "orderId": "n12345",
-        "orderType": {
-          "id": 1,
-          "name": "normal"
-        },
-        "orderDate": "2017-05-03T05:07:44.062Z",
-        "estimatedFinishDate": "2017-05-05T00:00:00.000Z",
-        "actualFinishDate": ""
-      }],
-
-*/
 
 
 
@@ -170,7 +157,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.dismantlingOrders.push(this.fb.group({
       id: {value: '待定', disabled: true},
       vin: [this.vehicle.vin],
-      orderType: ['', this.validatorNotListedInObjList(this.types.dismantlingOrderTypes)],
+      orderType: ['', this.sv.notListedInObjList(this.types.dismantlingOrderTypes)],
       orderDate: [(new Date()).toISOString().slice(0, 10)],
       estimatedFinishDate: [''],
       actualFinishDate: ['']
@@ -218,53 +205,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  validatorNotListedInObjList(objList: {[key: string]: any}[]): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
-      const value = control.value;
-      let notListed = true;
-      for (let i = 0; i < objList.length; i++) {
-        if (this.isEquivalent(objList[i], value)) {
-          notListed = false;
-          break;
-        }
-      }
-      return notListed ? {'notListed': {value}} : null;
-    };
-  }
-
-  validatorIsBoolean(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
-      const value = control.value;
-      const isBoolean = typeof value === 'boolean';
-      return isBoolean ? null : {'notBooleanValue': {value}};
-    }
-  }
-
-  isEquivalent(a, b) {
-      // Create arrays of property names
-      const aProps = Object.getOwnPropertyNames(a);
-      const bProps = Object.getOwnPropertyNames(b);
-
-      // If number of properties is different,
-      // objects are not equivalent
-      if (aProps.length != bProps.length) {
-          return false;
-      }
-
-      for (let i = 0; i < aProps.length; i++) {
-          const propName = aProps[i];
-
-          // If values of same property are not equal,
-          // objects are not equivalent
-          if (a[propName] !== b[propName]) {
-              return false;
-          }
-      }
-
-      // If we made it this far, objects
-      // are considered equivalent
-      return true;
-  }
 
 
   displayFnBoolean(ctrlValue) {

@@ -11,6 +11,8 @@ import {
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { SharedValidatorsService } from './validators/shared-validators.service';
+
 
 const mdModules = [
     MdCheckboxModule,
@@ -47,6 +49,7 @@ const mdModules = [
     ReactiveFormsModule
   ],
   providers: [
+    SharedValidatorsService
   ]
 })
 export class SharedModule { }

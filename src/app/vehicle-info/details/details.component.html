@@ -1,5 +1,3 @@
-
-
 <form [formGroup]="vehicleForm" novalidate class="main-form">
   <md-toolbar class="vehicle-id-toolbar">
     <div>
@@ -328,19 +326,6 @@
         <!-- a dummy md-input for setting same line-height -->
         <md-input-container><input mdInput style="width:0"></md-input-container>
       </div>
-      <div>
-        <md-checkbox color="primary" formControlName="vRegistrationCert">
-          {{titles.vehicles.docsProvided.vRegistrationCert}}
-        </md-checkbox>
-        <md-checkbox color="primary" formControlName="vRegistrationCert">
-          {{titles.vehicles.docsProvided.vRegistrationCert}}
-        </md-checkbox>
-      </div>
-      <div>
-        <md-checkbox color="primary" formControlName="vRegistrationCert">
-          {{titles.vehicles.docsProvided.vRegistrationCert}}
-        </md-checkbox>
-      </div>
     </md-card-content>
   </md-card>
 
@@ -389,13 +374,15 @@
   </md-card>  -->
 </form>
 
+<md-card class="info-card not-for-print">
+  <md-card-header>
+    <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>拆解计划</span></md-card-title>
+  </md-card-header>
 
-<form [formGroup]="dismantlingOrdersForm" novalidate >
-  <md-card class="info-card not-for-print">
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>拆解计划</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
+
+  <md-card-content>
+    <div *ngIf="!dismantlingOrdersInput.length">暂无</div>
+    <form *ngIf="dismantlingOrdersInput.length" [formGroup]="dismantlingOrdersForm" novalidate >      
       <div formArrayName="dismantlingOrders">
         <div *ngFor="let dOrder of dismantlingOrders.controls; let i=index" [formGroupName]="i">
           <md-input-container class="m-size-input">
@@ -430,13 +417,13 @@
         </div>
       </div>
 
-      <button md-raised-button color="primary" (click)="addDismantlingOrder()">
-        新建拆解计划
-      </button>  
-    </md-card-content>
-  </md-card>
-</form>
+    </form>
+  </md-card-content>
+  <button md-raised-button color="primary" (click)="addDismantlingOrder()">
+    新建拆解计划
+  </button>  
 
+</md-card>
 
 
 
