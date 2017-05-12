@@ -1,24 +1,16 @@
-<p *ngIf="isLoading">
-  <md-spinner></md-spinner>
-</p>
+<app-loading-or-error [httpJsonData]="vList">
 
-<p *ngIf="isError">Something went wrong.</p>
+  <md-list class="vehicle-list">
+    <md-list-item *ngFor="let vehicle of vList" [routerLink]="['../'+vehicle.id, {isFromList: true}]">
+      <i class="material-icons" md-list-icon>drive_eta</i>
+      <!--<md-icon md-list-icon>folder</md-icon>-->
+      <h3 md-line>{{vehicle.id}} / {{(vehicle.vehicle && vehicle.vehicle.plateNo) || '号牌暂无'}} / <small>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</small></h3>
+      <small md-line>申请表: 100% / 台账: 80% / 商务部网: 90% / 治安网: 0% </small>
+      <small md-line>拆解状态: {{calculateDimantlingStatus(vehicle.latestDismantlingOrder)}}</small>
+    </md-list-item>
+  </md-list>
 
-<div *ngIf="!isLoading&&!isError">
-  
-
-<md-list class="vehicle-list">
-  <md-list-item *ngFor="let vehicle of vList" [routerLink]="['../'+vehicle.id, {isFromList: true}]">
-    <i class="material-icons" md-list-icon>drive_eta</i>
-    <!--<md-icon md-list-icon>folder</md-icon>-->
-    <h3 md-line>{{vehicle.id}} / {{(vehicle.vehicle && vehicle.vehicle.plateNo) || '号牌暂无'}} / <small>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</small></h3>
-    <small md-line>申请表: 100% / 台账: 80% / 商务部网: 90% / 治安网: 0% </small>
-    <small md-line>拆解状态: {{calculateDimantlingStatus(vehicle.latestDismantlingOrder)}}</small>
-  </md-list-item>
-</md-list>
-
-</div>
-
+</app-loading-or-error>
 
 
 

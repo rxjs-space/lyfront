@@ -12,6 +12,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedValidatorsService } from './validators/shared-validators.service';
+import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 
 
 const mdModules = [
@@ -40,13 +41,14 @@ const mdModules = [
     ...mdModules,
     ReactiveFormsModule
   ],
-  declarations: [NotFoundComponent],
+  declarations: [NotFoundComponent, LoadingOrErrorComponent],
   exports: [
     CommonModule,
     HttpModule,
     ...mdModules,
     NotFoundComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoadingOrErrorComponent
   ],
   providers: [
     SharedValidatorsService

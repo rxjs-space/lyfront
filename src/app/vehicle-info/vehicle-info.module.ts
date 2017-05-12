@@ -13,7 +13,12 @@ import { DetailsComponent } from './details/details.component';
     SharedModule,
     VehicleInfoRoutingModule
   ],
-  declarations: [NewComponent, 
-  ShowComponent, ListComponent, HomeComponent, DetailsComponent]
+  declarations: [
+    NewComponent,
+    ShowComponent,
+    ListComponent,
+    HomeComponent,
+    DetailsComponent
+  ]
 })
 export class VehicleInfoModule { }

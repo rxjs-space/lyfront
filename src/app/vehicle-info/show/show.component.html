@@ -12,9 +12,11 @@
     <i class="material-icons">navigate_before</i>返回
   </small></span></div>-->
   <app-vehicle-details
-    [titles]="resolvedData.titles" 
-    [types]="resolvedData.types"
+    [titles]="resolvedDataP.titles" 
+    [types]="resolvedDataP.types"
     [vehicle]="resolvedData.vehicle"
     [dismantlingOrdersInput]="resolvedData.dismantlingOrders"
   ></app-vehicle-details>
 </ng-container>
+
+{{resolvedDataP | json}}

@@ -1,0 +1,23 @@
+<!--<p *ngIf="!httpJsonData">
+  <md-spinner></md-spinner>
+</p>
+
+<p *ngIf="httpJsonData.ok === false">Something went wrong.</p>
+
+<div *ngIf="!isLoading&&!isError">
+
+  <ng-content></ng-content>
+</div>-->
+
+
+<ng-container [ngSwitch]="true">
+  <p *ngSwitchCase="!httpJsonData">
+    <md-spinner></md-spinner>
+  </p>
+
+  <p *ngSwitchCase="httpJsonData && httpJsonData.ok === false">Something went wrong.</p>
+
+  <div *ngSwitchDefault>
+    <ng-content></ng-content>
+  </div>
+</ng-container>

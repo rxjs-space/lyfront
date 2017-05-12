@@ -19,6 +19,7 @@ export class ShowComponent implements OnInit {
   isFromListRx: Observable<Boolean>;
   vehicleRx: Observable<any>;
   resolvedData: any;
+  resolvedDataP: any;
   typesRx: Observable<any>;
 
   constructor(
@@ -32,6 +33,7 @@ export class ShowComponent implements OnInit {
     });
     this.isFromListRx = this.route.params.map(params => params['isFromList']);
     this.route.data.subscribe(data => this.resolvedData = data); // shall we use immutable?
+    this.route.parent.data.subscribe(data => this.resolvedDataP = data); // shall we use immutable?
     // this.typesRx = this.route.data.map(data => data['types']);
   }
 
