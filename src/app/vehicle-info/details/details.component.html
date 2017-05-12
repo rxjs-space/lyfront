@@ -12,7 +12,7 @@
           <input mdInput [placeholder]="titles.vehicles.mofcomRegistryType" [mdAutocomplete]="autoMofcomRegistryType" formControlName="mofcomRegistryType">
         </md-input-container>
 
-        <md-autocomplete #autoMofcomRegistryType="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoMofcomRegistryType="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let mType of types.mofcomRegistryTypes" [value]="mType">
             {{ mType.name }}
           </md-option>
@@ -70,19 +70,19 @@
           <input mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
         </md-input-container>
 
-        <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let vType of filteredVTypesRx | async" [value]="vType">
             <small>{{ vType.name }}</small>
           </md-option>
         </md-autocomplete>
-        <!-- end of vehicleType auto-complete -->        
+        <!-- end of vehicleType auto-complete -->
 
         <!-- start of useCharacter auto-complete -->
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacter">
         </md-input-container>
 
-        <md-autocomplete #autoUseCharacter="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoUseCharacter="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let useCharacter of filteredUseCharactersRx | async" [value]="useCharacter">
             {{ useCharacter.name }}
           </md-option>
@@ -96,7 +96,7 @@
           <input mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brand">
         </md-input-container>
 
-        <md-autocomplete #autoBrand="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoBrand="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let brand of filteredBrandsRx | async" [value]="brand">
             {{ brand.name }}
           </md-option>
@@ -140,7 +140,7 @@
           <input mdInput [placeholder]="titles.vehicles.vehicle.aquisitionType" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionType">
         </md-input-container>
 
-        <md-autocomplete #autoAquisitionType="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoAquisitionType="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let aType of types.aquisitionTypes" [value]="aType">
             {{ aType.name }}
           </md-option>
@@ -163,7 +163,7 @@
           <input mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelType">
         </md-input-container>
 
-        <md-autocomplete #autoFuelType="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoFuelType="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let fuelType of types.fuelTypes" [value]="fuelType">
             {{ fuelType.name }}
           </md-option>
@@ -210,7 +210,7 @@
           <input mdInput [placeholder]="titles.vehicles.owner.isPerson" [mdAutocomplete]="autoBoolean" formControlName="isPerson">
         </md-input-container>
 
-        <md-autocomplete #autoBoolean="mdAutocomplete" [displayWith]="displayFnBoolean">
+        <md-autocomplete #autoBoolean="mdAutocomplete" [displayWith]="df.dBoolean">
           <md-option *ngFor="let tf of [true, false]" [value]="tf">
             {{ tf ? '是' : '否' }}
           </md-option>
@@ -226,7 +226,7 @@
             <input mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoPIdType" formControlName="idType">
           </md-input-container>
 
-          <md-autocomplete #autoPIdType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-autocomplete #autoPIdType="mdAutocomplete" [displayWith]="df.dName">
             <md-option *ngFor="let pIdType of types.pIdTypes" [value]="pIdType">
               <small>{{ pIdType.name }}</small>
             </md-option>
@@ -241,7 +241,7 @@
             <input mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoIdType" formControlName="idType">
           </md-input-container>
 
-          <md-autocomplete #autoIdType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-autocomplete #autoIdType="mdAutocomplete" [displayWith]="df.dName">
             <md-option *ngFor="let oIdType of types.oIdTypes" [value]="oIdType">
               <small>{{ oIdType.name }}</small>
             </md-option>
@@ -278,7 +278,7 @@
           <input mdInput [placeholder]="titles.vehicles.agent.idType" [mdAutocomplete]="autoAgentPIdType" formControlName="idType">
         </md-input-container>
 
-        <md-autocomplete #autoAgentPIdType="mdAutocomplete" [displayWith]="displayFnObj">
+        <md-autocomplete #autoAgentPIdType="mdAutocomplete" [displayWith]="df.dName">
           <md-option *ngFor="let pIdType of types.pIdTypes" [value]="pIdType">
             <small>{{ pIdType.name }}</small>
           </md-option>
@@ -393,7 +393,7 @@
             <input mdInput [placeholder]="titles.dismantlingOrders.orderType" [mdAutocomplete]="autoDimantlingOrderType" formControlName="orderType">
           </md-input-container>
 
-          <md-autocomplete #autoDimantlingOrderType="mdAutocomplete" [displayWith]="displayFnObj">
+          <md-autocomplete #autoDimantlingOrderType="mdAutocomplete" [displayWith]="df.dName">
             <md-option *ngFor="let dOType of types.dismantlingOrderTypes" [value]="dOType">
               {{ dOType.name }}
             </md-option>

@@ -22,7 +22,7 @@ import { dataServices } from './data';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule,
+    SharedModule.forRoot(),
     LearnmdModule,
     AuthModule,
     DashboardModule,

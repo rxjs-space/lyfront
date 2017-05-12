@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import {
@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedValidatorsService } from './validators/shared-validators.service';
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
+import { DisplayFunctionsService } from './display-functions/display-functions.service';
 
 
 const mdModules = [
@@ -50,8 +51,15 @@ const mdModules = [
     ReactiveFormsModule,
     LoadingOrErrorComponent
   ],
-  providers: [
-    SharedValidatorsService
-  ]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        SharedValidatorsService,
+        DisplayFunctionsService
+      ]
+    };
+  }
+}

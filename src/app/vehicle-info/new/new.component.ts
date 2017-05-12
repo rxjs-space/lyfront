@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators, ValidatorFn, FormC
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../data/data.service';
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
+import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
 @Component({
   selector: 'app-vehicle-new',
@@ -13,11 +14,13 @@ export class NewComponent implements OnInit {
   vehicleForm: FormGroup;
   resolvedDataP: any;
   types: any;
+  titles: any;
 
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private df: DisplayFunctionsService) { }
 
 /*
 
@@ -30,6 +33,7 @@ export class NewComponent implements OnInit {
     this.route.parent.data.subscribe(data => {
       this.resolvedDataP = data;
       this.types = this.resolvedDataP.types;
+      this.titles = this.resolvedDataP.titles;
       this.vehicleForm = this.fb.group({
         id: '',
         mofcomRegistryType: ['', [

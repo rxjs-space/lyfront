@@ -7,6 +7,14 @@ export class SharedValidatorsService {
   constructor() { }
 
 
+  notListed(list: any[]): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      const value = control.value;
+      const notListed = list.indexOf(value) === -1;
+      return notListed ? {'notListed': {value}} : null;
+    };
+  }
+
   notListedInObjList(objList: {[key: string]: any}[]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       const value = control.value;

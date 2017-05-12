@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
+import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
 
 @Component({
@@ -26,7 +27,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   mofcomRegistryTypeChange_: Subscription;
   isPersonChange_: Subscription;
 
-  constructor(private fb: FormBuilder, private sv: SharedValidatorsService) { }
+  constructor(
+    private fb: FormBuilder,
+    private sv: SharedValidatorsService,
+    private df: DisplayFunctionsService) { }
 
   ngOnInit() {
     this.vehicleForm = this.fb.group({
@@ -46,9 +50,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
         ]],
         useCharacter: [this.vehicle.vehicle.useCharacter, [
           this.sv.notListedInObjList(this.types.useCharacters)
-        ]],
-        useCharacterName: [this.vehicle.vehicle.useCharacter.name, [
-          this.notListedValidator(this.types.useCharacters.map(obj => obj.name))
         ]],
         brand: [this.vehicle.vehicle.brand],
         model: [this.vehicle.vehicle.model],
@@ -195,24 +196,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   sortObjListByName(objList: {name: string}[]) {
     return objList.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  notListedValidator(list: any[]): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} => {
-      const value = control.value;
-      const notListed = list.indexOf(value) === -1;
-      return notListed ? {'notListed': {value}} : null;
-    };
-  }
-
-
-
-  displayFnBoolean(ctrlValue) {
-    return ctrlValue ? '是' : '否';
-  }
-
-  displayFnObj(ctrlValue) {
-    return ctrlValue.name;
   }
 
 }
