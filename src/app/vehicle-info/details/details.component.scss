@@ -6,9 +6,7 @@
   margin-bottom: 5px;
 }
 
-input[type="date"] {
-  height: 1em;
-}
+
 
 @media print {
   .main-form {
@@ -27,29 +25,7 @@ input[type="date"] {
 }
 
 
-.vehicle-id-toolbar {
-  padding-top: 15px;
-}
 
-.s-size-input {
-  width: 4em;
-}
-
-.m-size-input {
-  width: 6em;
-}
-
-.l-size-input {
-  width: 9em;
-}
-
-.xl-size-input {
-  width: 12em;
-}
-
-.xxl-size-input {
-  width: 90%;
-}
 
 .variable-length-input-container {
   width: 100%;

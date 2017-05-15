@@ -36,10 +36,11 @@ export class NewComponent implements OnInit {
       this.titles = this.resolvedDataP.titles;
       this.vehicleForm = this.fb.group({
         id: '',
+        idConfirm: '',
         mofcomRegistryType: ['', [
           this.sv.notListedInObjList(this.types.mofcomRegistryTypes)
         ]],
-        // entranceDate: [this.vehicle.entranceDate],
+        entranceDate: [(new Date()).toISOString().slice(0, 10)],
         // metadata: this.fb.group({
         //   isDeleted: [this.vehicle.metadata.isDeleted],
         //   deletedFor: [this.vehicle.metadata.deletedFor],
