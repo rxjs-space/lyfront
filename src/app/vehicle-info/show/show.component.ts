@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../data/data.service';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/zip';
@@ -13,18 +14,14 @@ import 'rxjs/add/observable/zip';
   templateUrl: './show.component.html',
   styleUrls: ['./show.component.scss']
 })
-export class ShowComponent implements OnInit {
+export class ShowComponent implements OnInit, OnDestroy {
   /*
     if isFromList (meaning the showPage is triggered from the listPage), show 'goBack' button
   */
-  isFromListRx: Observable<Boolean>;
-  vehicleRx: Observable<any>;
-  dismantlingOrdersRx: Observable<any>;
-  resolvedData: any;
-  // resolvedDataP: any;
   typesRx: Observable<any>;
   titlesRx: Observable<any>;
-  zipRx: Observable<any>;
+  zip_: Subscription;
+  zipData: any;
 
   constructor(
     private location: Location,
@@ -32,19 +29,8 @@ export class ShowComponent implements OnInit {
     private data: DataService) { }
 
   ngOnInit() {
-    this.vehicleRx = this.route.params.switchMap(params => {
-      return this.data.getVehicleById(params['id']);
-    });
-    this.dismantlingOrdersRx = this.route.params.switchMap(params => {
-      return this.data.getDismantlingOrdersByVIN(params['id]']);
-    });
-    this.isFromListRx = this.route.params.map(params => params['isFromList']);
-    this.route.data.subscribe(data => this.resolvedData = data); // shall we use immutable?
-    // this.route.parent.data.subscribe(data => this.resolvedDataP = data); // shall we use immutable?
-    this.typesRx = this.data.typesRx;
-    this.titlesRx = this.data.titlesRx;
 
-    this.zipRx = this.route.params.switchMap(params => {
+    this.zip_ = this.route.params.switchMap(params => {
       return Observable.zip(
         this.data.getVehicleById(params['id']),
         this.data.getDismantlingOrdersByVIN(params['id']),
@@ -54,8 +40,14 @@ export class ShowComponent implements OnInit {
         (vehicle, dismantlingOrders, types, titles, isFromList) => ({
           vehicle, dismantlingOrders, types, titles, isFromList
         }));
-    });
+    })
+      .catch(error => Observable.of({ok: false, error}))
+      .subscribe(zipData => this.zipData = zipData);
 
+  }
+
+  ngOnDestroy() {
+    this.zip_.unsubscribe();
   }
 
   goBack() {

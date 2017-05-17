@@ -1,0 +1,34 @@
+<form [formGroup]="vehicleForm" novalidate>
+  <md-toolbar class="vehicle-id-toolbar">
+    <div>
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
+      </md-input-container>
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.idConfirm" formControlName="idConfirm">
+      </md-input-container>
+      <small>
+
+        <!-- start of mofcomRegistryType auto-complete -->
+        <md-input-container class="m-size-input" >
+          <input mdInput [placeholder]="titles.vehicles.mofcomRegistryType" [mdAutocomplete]="autoMofcomRegistryType" formControlName="mofcomRegistryType">
+        </md-input-container>
+
+        <md-autocomplete #autoMofcomRegistryType="mdAutocomplete" [displayWith]="df.dName">
+          <md-option *ngFor="let mType of types.mofcomRegistryTypes" [value]="mType">
+            {{ mType.name }}
+          </md-option>
+        </md-autocomplete>
+        <!-- end of mofcomRegistryType auto-complete -->           
+
+
+        <md-input-container class="l-size-input">
+          <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
+        </md-input-container>
+      </small>
+      
+    </div>
+
+
+  </md-toolbar>
+</form>

@@ -8,11 +8,11 @@ import { DisplayFunctionsService } from '../../shared/display-functions/display-
 
 
 @Component({
-  selector: 'app-vehicle-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  selector: 'app-show-vehicle-details',
+  templateUrl: './show-vehicle-details.component.html',
+  styleUrls: ['./show-vehicle-details.component.scss']
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   vehicleForm: FormGroup;
   dismantlingOrdersForm: FormGroup;
   @Input() vehicle;

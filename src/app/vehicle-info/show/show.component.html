@@ -1,21 +1,20 @@
-<ng-container *ngIf="!resolvedData">
-  <md-spinner></md-spinner>
-</ng-container>
+<app-loading-or-error [httpJsonData]="zipData">
+</app-loading-or-error>
+<!-- app fails when wrapping following content in app-loading-or-error component -->
+<!-- will try to find out why -->
 
-<ng-container *ngIf="(zipRx | async)">
+<ng-container *ngIf="zipData">
   <button md-button color="primary"
-    *ngIf="isFromListRx | async" class="lighter-color not-for-print" 
+    *ngIf="zipData.isFromList" class="lighter-color not-for-print" 
     (click)="goBack()">
     <i class="material-icons">navigate_before</i>返回
   </button>
-  <!--<div><span><small *ngIf="isFromListRx | async" class="center-icon" (click)="goBack()">
-    <i class="material-icons">navigate_before</i>返回
-  </small></span></div>-->
-  <app-vehicle-details
-    [titles]="titlesRx | async" 
-    [types]="typesRx | async"
-    [vehicle]="resolvedData.vehicle"
-    [dismantlingOrdersInput]="resolvedData.dismantlingOrders"
-  ></app-vehicle-details>
+
+  <app-show-vehicle-details
+    [titles]="zipData.titles" 
+    [types]="zipData.types"
+    [vehicle]="zipData.vehicle"
+    [dismantlingOrdersInput]="zipData.dismantlingOrders"
+  ></app-show-vehicle-details>  
 </ng-container>
 

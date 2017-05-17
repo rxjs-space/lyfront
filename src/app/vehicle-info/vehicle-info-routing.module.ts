@@ -12,21 +12,19 @@ import { VehicleResolverService } from '../data/vehicle-resolver.service';
 import { TitlesResolverService } from '../data/titles-resolver.service';
 import { DismantlingOrdersByVINResolverService } from '../data/dismantling-orders-by-vin-resolver.service';
 
-
-
 const routes: Routes = [
-  {path: '', resolve: {
+  {path: '', /*resolve: {
       types: TypesResolverService,
       titles: TitlesResolverService,
-    }, component: HomeComponent, children: [
+    }, */component: HomeComponent, children: [
     {path: '', redirectTo: 'list', pathMatch: 'full'},
     // {path: '', component: ListComponent, pathMatch: 'full'},
     {path: 'new', component: NewComponent},
     {path: 'list', component: ListComponent},
-    {path: ':id', resolve: {
+    {path: ':id', /*resolve: {
       vehicle: VehicleResolverService,
       dismantlingOrders: DismantlingOrdersByVINResolverService
-      }, component: ShowComponent}
+      },*/ component: ShowComponent}
   ]},
 
 ];
