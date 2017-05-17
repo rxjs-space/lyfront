@@ -13,6 +13,7 @@ export class DataService {
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
   typesApiUrl = this.host + '/types';
   titlesApiUrl = this.host + '/titles';
+  private cache: {[key: string]: any} = {};
   constructor(private http: Http) { }
   getVehicles() {
     return this.http.get(this.vehiclesApiUrl)
@@ -39,16 +40,32 @@ export class DataService {
   }
 
 
-  get types() {
-    return this.http.get(this.typesApiUrl)
-      .map(res => res.json())
-      .catch(err => this.handleError(err));
+  get typesRx() {
+    if (this.cache && this.cache.types) {
+      return Observable.of(this.cache.types);
+    } else {
+      return this.http.get(this.typesApiUrl)
+        .map(res => {
+          const data = res.json();
+          this.cache.types = data;
+          return data;
+        })
+        .catch(err => this.handleError(err));
+    }
   }
 
-  get titles() {
-    return this.http.get(this.titlesApiUrl)
-      .map(res => res.json())
-      .catch(err => this.handleError(err));
+  get titlesRx() {
+    if (this.cache && this.cache.titles) {
+      return Observable.of(this.cache.titles);
+    } else {
+      return this.http.get(this.titlesApiUrl)
+        .map(res => {
+          const data = res.json();
+          this.cache.titles = res.json();
+          return res.json();
+        })
+        .catch(err => this.handleError(err));
+    }
 
   }
 

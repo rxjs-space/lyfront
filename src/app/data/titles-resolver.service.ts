@@ -6,6 +6,6 @@ export class TitlesResolverService {
 
   constructor(private data: DataService) { }
   resolve() {
-    return this.data.titles;
+    return this.data.titlesRx;
   }
 }

@@ -8,6 +8,6 @@ export class TypesResolverService {
 
   constructor(private data: DataService) { }
   resolve() {
-    return this.data.types;
+    return this.data.typesRx;
   }
 }

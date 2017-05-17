@@ -2,7 +2,7 @@
   <md-spinner></md-spinner>
 </ng-container>
 
-<ng-container *ngIf="resolvedData">
+<ng-container *ngIf="(zipRx | async)">
   <button md-button color="primary"
     *ngIf="isFromListRx | async" class="lighter-color not-for-print" 
     (click)="goBack()">
@@ -12,11 +12,10 @@
     <i class="material-icons">navigate_before</i>返回
   </small></span></div>-->
   <app-vehicle-details
-    [titles]="resolvedDataP.titles" 
-    [types]="resolvedDataP.types"
+    [titles]="titlesRx | async" 
+    [types]="typesRx | async"
     [vehicle]="resolvedData.vehicle"
     [dismantlingOrdersInput]="resolvedData.dismantlingOrders"
   ></app-vehicle-details>
 </ng-container>
 
-{{resolvedDataP | json}}

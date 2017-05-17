@@ -1,6 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { /*BaseRequestOptions,*/ HttpModule } from '@angular/http';
+// import { MockBackend } from '@angular/http/testing';
+
+
 import {
   MdButtonModule, MdCheckboxModule, MdInputModule, MdAutocompleteModule,
   MdSidenavModule, MdDialogModule, MdToolbarModule, MdIconModule,
@@ -10,6 +13,9 @@ import {
 } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { fakeBackendProvider } from './fake-backend';
+
 
 import { SharedValidatorsService } from './validators/shared-validators.service';
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
@@ -58,7 +64,7 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         SharedValidatorsService,
-        DisplayFunctionsService
+        DisplayFunctionsService,
       ]
     };
   }

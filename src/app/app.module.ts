@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { LearnmdModule } from './learnmd/learnmd.module';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
+
 /*
   dataServices including DataService and resolvers
 */
@@ -26,6 +28,7 @@ import { dataServices } from './data';
     LearnmdModule,
     AuthModule,
     DashboardModule,
+    VehicleInfoModule
   ],
   providers: [
     ...dataServices,
