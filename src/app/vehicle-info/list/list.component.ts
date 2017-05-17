@@ -7,7 +7,7 @@ import { DataService } from '../../data/data.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  private vList: any[];
+  vList: any[];
   constructor(private data: DataService) { }
 
   ngOnInit() {

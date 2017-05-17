@@ -7,10 +7,12 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class DataService {
-  vehiclesApiUrl = 'http://localhost:3000/vehicles';
-  dismantlingOrdersApiUrl = 'http://localhost:3000/dismantlingOrders';
-  typesApiUrl = 'http://localhost:3000/types';
-  titlesApiUrl = 'http://localhost:3000/titles';
+  host = 'https://lymock.herokuapp.com';
+  // host = 'http://localhost:3000';
+  vehiclesApiUrl = this.host + '/vehicles';
+  dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
+  typesApiUrl = this.host + '/types';
+  titlesApiUrl = this.host + '/titles';
   constructor(private http: Http) { }
   getVehicles() {
     return this.http.get(this.vehiclesApiUrl)

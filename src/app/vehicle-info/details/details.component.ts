@@ -30,7 +30,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
-    private df: DisplayFunctionsService) { }
+    public df: DisplayFunctionsService) { }
 
   ngOnInit() {
     this.vehicleForm = this.fb.group({

@@ -20,7 +20,7 @@ export class NewComponent implements OnInit {
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
     private route: ActivatedRoute,
-    private df: DisplayFunctionsService) { }
+    public df: DisplayFunctionsService) { }
 
 /*
 
