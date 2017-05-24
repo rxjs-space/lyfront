@@ -3,30 +3,30 @@
     <md-toolbar>登录</md-toolbar>
     <md-card>
       <md-card-content>
-      <form [formGroup]="loginForm" novalidate>
+      <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
         <div>
           <md-input-container>
             <input mdInput placeholder="用户名" formControlName="username">
-          </md-input-container>        
+          </md-input-container>   
+          <span class="errorMessage" *ngIf="(loginForm.controls['username'].touched && loginForm.controls['username'].errors && loginForm.controls['username'].errors.required)">
+            请填写用户名
+          </span>               
         </div>
         <div>
           <md-input-container>
             <input mdInput type="password" placeholder="密码" formControlName="password">
           </md-input-container>
+          <span class="errorMessage" *ngIf="(loginForm.controls['password'].touched && loginForm.controls['password'].errors && loginForm.controls['password'].errors.required)">
+            请填写密码
+          </span>          
         </div>
+        <div *ngIf="authenticateResult === 401" class="errorMessage">用户名或密码有误</div>
+        <button md-raised-button type="submit" color="primary" [disabled]="!loginForm.valid">登录</button>
       </form>
-      <div class="errorMessage" *ngIf="(loginForm.controls['username'].touched && loginForm.controls['username'].errors && loginForm.controls['username'].errors.required)">
-        请填写用户名
-      </div>
-      <div class="errorMessage" *ngIf="(loginForm.controls['password'].touched && loginForm.controls['password'].errors && loginForm.controls['password'].errors.required)">
-        请填写密码
-      </div>
+
       </md-card-content>
 
     </md-card>    
   </div>
 
 </md-card>
-
-{{ loginForm.value | json }}
-{{ loginForm.controls['username'].valid }}

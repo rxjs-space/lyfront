@@ -9,12 +9,37 @@ import 'rxjs/add/observable/of';
 export class DataService {
   host = 'https://lymock.herokuapp.com';
   // host = 'http://localhost:3000';
+  host1 = 'http://localhost:3001';
+
   vehiclesApiUrl = this.host + '/vehicles';
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
   typesApiUrl = this.host + '/types';
   titlesApiUrl = this.host + '/titles';
   private cache: {[key: string]: any} = {};
   constructor(private http: Http) { }
+
+  authenticate(user: {username: string, password: string}) {
+    const authenticateUrl = `${this.host1}/authenticate`;
+    return this.http.post(authenticateUrl, {
+      username: user.username,
+      password: user.password
+    })
+      .map(res => {
+        if (res.json() && res.json()['token']) {
+          const token = res.json()['token'];
+          localStorage.setItem('currentUser', JSON.stringify({ username: user.username, token }));
+          return true;
+        }
+        return false;
+      })
+      .catch(err => {
+        if (err.status === 401) {
+          return Observable.of(401);
+        }
+        return this.handleError(err);
+      });
+  }
+
   getVehicles() {
     return this.http.get(this.vehiclesApiUrl)
       .map(res => res.json())
