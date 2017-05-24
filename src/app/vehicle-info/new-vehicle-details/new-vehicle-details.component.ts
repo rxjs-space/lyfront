@@ -15,7 +15,7 @@ export class NewVehicleDetailsComponent implements OnInit {
   resolvedDataP: any;
 
   @Input() types;
-  @Input() titles; 
+  @Input() titles;
   constructor(
     private data: DataService,
     private fb: FormBuilder,
