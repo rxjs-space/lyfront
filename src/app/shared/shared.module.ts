@@ -20,6 +20,7 @@ import { fakeBackendProvider } from './fake-backend';
 import { SharedValidatorsService } from './validators/shared-validators.service';
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { DisplayFunctionsService } from './display-functions/display-functions.service';
+import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
 
 
 const mdModules = [
@@ -48,14 +49,15 @@ const mdModules = [
     ...mdModules,
     ReactiveFormsModule
   ],
-  declarations: [NotFoundComponent, LoadingOrErrorComponent],
+  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent],
   exports: [
     CommonModule,
     HttpModule,
     ...mdModules,
     NotFoundComponent,
     ReactiveFormsModule,
-    LoadingOrErrorComponent
+    LoadingOrErrorComponent,
+    AutocompleteComboComponent
   ],
 })
 export class SharedModule {

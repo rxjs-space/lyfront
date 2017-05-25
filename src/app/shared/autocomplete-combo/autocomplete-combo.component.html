@@ -1,0 +1,9 @@
+<md-input-container [class]="sizeClass">
+  <input mdInput [placeholder]="placeholderInput" [mdAutocomplete]="auto" [formControl]="formControlInput">
+</md-input-container>
+
+<md-autocomplete #auto="mdAutocomplete" [displayWith]="df.dName">
+  <md-option *ngFor="let type of filteredTypesRx | async" [value]="type">
+    <small>{{ type.name }}</small>
+  </md-option>
+</md-autocomplete>
