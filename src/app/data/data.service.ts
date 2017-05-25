@@ -9,7 +9,8 @@ import 'rxjs/add/observable/of';
 export class DataService {
   host = 'https://lymock.herokuapp.com';
   // host = 'http://localhost:3000';
-  host1 = 'http://localhost:3001';
+  // host1 = 'http://localhost:3001';
+  host1 = 'https://lyback.herokuapp.com';
 
   vehiclesApiUrl = this.host + '/vehicles';
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
@@ -28,13 +29,18 @@ export class DataService {
         if (res.json() && res.json()['token']) {
           const token = res.json()['token'];
           localStorage.setItem('currentUser', JSON.stringify({ username: user.username, token }));
-          return true;
+          // const x = JSON.parse(localStorage.getItem('currentUser'));
+          // console.log(x.token);
+          return {success: true};
         }
-        return false;
+        return {success: false};
       })
       .catch(err => {
         if (err.status === 401) {
-          return Observable.of(401);
+          return Observable.of({
+            success: false,
+            errorCode: 401
+          });
         }
         return this.handleError(err);
       });

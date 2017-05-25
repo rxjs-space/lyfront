@@ -23,8 +23,12 @@ const routes: Routes = [
   { path: '', children: [
     { path: '',   redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
-    { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },
-    { path: 'vehicles', loadChildren: 'app/vehicle-info/vehicle-info.module#VehicleInfoModule', canLoad: [ AuthGuard ] },
+    { path: 'dashboard',
+      canLoad: [AuthGuard],
+      loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },
+    { path: 'vehicles',
+      canLoad: [AuthGuard],
+      loadChildren: 'app/vehicle-info/vehicle-info.module#VehicleInfoModule' },
     { path: '**', component: NotFoundComponent }
   ]},
 

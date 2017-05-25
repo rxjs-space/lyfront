@@ -4,6 +4,8 @@ import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from '../auth/auth.guard';
+
 /*
   TypesResolverService is provided at app.module
 */
@@ -13,7 +15,7 @@ import { TitlesResolverService } from '../data/titles-resolver.service';
 import { DismantlingOrdersByVINResolverService } from '../data/dismantling-orders-by-vin-resolver.service';
 
 const routes: Routes = [
-  {path: '', /*resolve: {
+  {path: '', canActivate: [AuthGuard], /*resolve: {
       types: TypesResolverService,
       titles: TitlesResolverService,
     }, */component: HomeComponent, children: [

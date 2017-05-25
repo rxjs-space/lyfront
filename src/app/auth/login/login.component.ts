@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { DataService } from '../../data/data.service';
+import { AuthService } from '../auth.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -14,15 +16,16 @@ import 'rxjs/add/observable/merge';
 export class LoginComponent implements OnInit, OnDestroy {
   subscriptions_: Subscription[] = [];
   loginForm: FormGroup;
-  authenticateResult: Boolean | Number;
-  constructor(private fb: FormBuilder, private data: DataService) { }
+  authenticateResult: any;
+  constructor(
+    private fb: FormBuilder, 
+    private auth: AuthService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
-    console.log(this.loginForm.controls['username']);
     const sub0_ = Observable.merge(this.loginForm.controls['username'].valueChanges, this.loginForm.controls['password'].valueChanges)
       .subscribe(c => {
         if (this.authenticateResult) this.authenticateResult = null;
@@ -36,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     console.log('submitting');
-    this.data.authenticate(this.loginForm.value)
+    this.auth.authenticate(this.loginForm.value)
       .subscribe(authenticateResult => {
         this.authenticateResult = authenticateResult;
       });

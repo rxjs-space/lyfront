@@ -20,7 +20,8 @@
             请填写密码
           </span>          
         </div>
-        <div *ngIf="authenticateResult === 401" class="errorMessage">用户名或密码有误</div>
+        <div *ngIf="authenticateResult && authenticateResult.errorCode === 401" 
+          class="errorMessage">用户名或密码有误</div>
         <button md-raised-button type="submit" color="primary" [disabled]="!loginForm.valid">登录</button>
       </form>
 
