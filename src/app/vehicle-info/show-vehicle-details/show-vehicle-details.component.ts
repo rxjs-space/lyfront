@@ -27,6 +27,14 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   mofcomRegistryTypeChange_: Subscription;
   isPersonChange_: Subscription;
 
+  prepareSubmit() {
+    /*
+    vehicleForm.vehicle.vehicleType
+    vehicleForm.vehicle.useCharacter
+    vehicleForm.vehicle.brand (create new if not listed)
+    */
+  }
+
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -45,13 +53,13 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
-        vehicleType: [this.vehicle.vehicle.vehicleType, [
-          this.sv.notListedInObjList(this.types.vehicleTypes)
+        vehicleType: [this.vehicle.vehicle.vehicleType.name, [
+          this.sv.notListed(this.types.vehicleTypes.map(type => type.name))
         ]],
-        useCharacter: [this.vehicle.vehicle.useCharacter, [
-          this.sv.notListedInObjList(this.types.useCharacters)
+        useCharacter: [this.vehicle.vehicle.useCharacter.name, [
+          this.sv.notListed(this.types.useCharacters.map(type => type.name))
         ]],
-        brand: [this.vehicle.vehicle.brand],
+        brand: [this.vehicle.vehicle.brand.name],
         model: [this.vehicle.vehicle.model],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
         residualValue: [this.vehicle.vehicle.residualValue],
@@ -60,8 +68,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
         lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
         color: [this.vehicle.vehicle.color],
-        aquisitionType: [this.vehicle.vehicle.aquisitionType, [
-          this.sv.notListedInObjList(this.types.aquisitionTypes)
+        aquisitionType: [this.vehicle.vehicle.aquisitionType.name, [
+          this.sv.notListed(this.types.aquisitionTypes.map(type => type.name))
         ]],
         aquisitionDetail: [
           this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionDetail ?
