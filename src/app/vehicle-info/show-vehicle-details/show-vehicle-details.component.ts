@@ -53,6 +53,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         ]],
         brand: [this.vehicle.vehicle.brand],
         model: [this.vehicle.vehicle.model],
+        conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
+        residualValue: [this.vehicle.vehicle.residualValue],
         engineNo: [this.vehicle.vehicle.engineNo],
         registrationDate: [this.vehicle.vehicle.registrationDate],
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],

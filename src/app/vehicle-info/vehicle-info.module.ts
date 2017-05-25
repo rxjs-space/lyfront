@@ -8,6 +8,7 @@ import { ListComponent } from './list/list.component';
 import { HomeComponent } from './home/home.component';
 import { ShowVehicleDetailsComponent } from './show-vehicle-details/show-vehicle-details.component';
 import { NewVehicleDetailsComponent } from './new-vehicle-details/new-vehicle-details.component';
+import { ShowVehicleDetailsVehicleComponent } from './show-vehicle-details-vehicle/show-vehicle-details-vehicle.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { NewVehicleDetailsComponent } from './new-vehicle-details/new-vehicle-de
     ListComponent,
     HomeComponent,
     ShowVehicleDetailsComponent,
-    NewVehicleDetailsComponent
+    NewVehicleDetailsComponent,
+    ShowVehicleDetailsVehicleComponent
   ]
 })
 export class VehicleInfoModule { }
