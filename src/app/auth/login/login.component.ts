@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscriptions_: Subscription[] = [];
   loginForm: FormGroup;
   authenticateResult: any;
+  authenticating: Boolean = false;
   constructor(
     private fb: FormBuilder, 
     private auth: AuthService) { }
@@ -38,9 +39,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('submitting');
+    this.authenticating = true;
     this.auth.authenticate(this.loginForm.value)
       .subscribe(authenticateResult => {
+        this.authenticating = false;
         this.authenticateResult = authenticateResult;
       });
   }

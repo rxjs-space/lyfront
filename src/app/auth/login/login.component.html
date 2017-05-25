@@ -22,7 +22,9 @@
         </div>
         <div *ngIf="authenticateResult && authenticateResult.errorCode === 401" 
           class="errorMessage">用户名或密码有误</div>
-        <button md-raised-button type="submit" color="primary" [disabled]="!loginForm.valid">登录</button>
+        <button md-raised-button type="submit" color="primary" 
+          [disabled]="!loginForm.valid || authenticating">登录</button>
+        <md-spinner *ngIf="authenticating" class="inline-spinner"></md-spinner>
       </form>
 
       </md-card-content>
