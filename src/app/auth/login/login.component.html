@@ -3,7 +3,8 @@
     <md-toolbar>登录</md-toolbar>
     <md-card>
       <md-card-content>
-      <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+      <form [formGroup]="loginForm" novalidate 
+        (ngSubmit)="onSubmit()">
         <div>
           <md-input-container>
             <input mdInput placeholder="用户名" formControlName="username">

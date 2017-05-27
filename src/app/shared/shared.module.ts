@@ -9,7 +9,6 @@ import {
   MdSidenavModule, MdDialogModule, MdToolbarModule, MdIconModule,
   MdCardModule, MdMenuModule, MdGridListModule, MdListModule,
   MdTabsModule, MdSelectModule, MdProgressSpinnerModule, MdRadioModule,
-
 } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +20,7 @@ import { SharedValidatorsService } from './validators/shared-validators.service'
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { DisplayFunctionsService } from './display-functions/display-functions.service';
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
+import { DialogYesOrNoComponent } from './dialog-yes-or-no/dialog-yes-or-no.component';
 
 
 const mdModules = [
@@ -49,7 +49,7 @@ const mdModules = [
     ...mdModules,
     ReactiveFormsModule
   ],
-  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent],
+  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent, DialogYesOrNoComponent],
   exports: [
     CommonModule,
     HttpModule,
@@ -59,6 +59,7 @@ const mdModules = [
     LoadingOrErrorComponent,
     AutocompleteComboComponent
   ],
+  entryComponents: [DialogYesOrNoComponent]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

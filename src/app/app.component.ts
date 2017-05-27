@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {MdDialog, MdDialogRef, MdSnackBar} from '@angular/material';
+import {MdDialog, MdDialogRef} from '@angular/material';
 import { AuthService } from './auth/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // {route: '/admin', label: '系统管理员入口'},
   ];
   isLoggedIn: Boolean;
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, /*public dialog: MdDialog*/) {}
   ngOnInit() {
     this.isLoggedIn = this.auth.isLoggedIn();
     const sub0_ = this.auth.isLoggedInRxx.subscribe(v => this.isLoggedIn = v);
@@ -33,5 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   logout() {
     this.auth.logout();
   }
+
+
 
 }

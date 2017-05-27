@@ -17,7 +17,7 @@ import { dataServices } from './data';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

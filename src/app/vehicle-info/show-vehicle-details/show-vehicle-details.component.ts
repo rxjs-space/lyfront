@@ -27,7 +27,15 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
   mofcomRegistryTypeChange_: Subscription;
   isPersonChange_: Subscription;
-
+  
+  feesAndDeductionMethods = {
+    delete: (index: number) => {
+      (this.vehicleForm.get('feesAndDeductions') as FormArray).removeAt(index);
+    },
+    new: (newFDForm: FormGroup) => {
+      (this.vehicleForm.get('feesAndDeductions') as FormArray).push(newFDForm);
+    }
+  }
   prepareSubmit() {
     /*
     mofcomRegistryType
@@ -41,6 +49,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     feesAndDeductions.item.type
     */
   }
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -125,7 +135,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       type: [fd.type.name],
       part: [fd.part && fd.part.name],
       details: [fd.details],
-      amount: [fd.amount]
+      amount: [fd.amount, Validators.pattern(/^[0-9]+$/)]
     }));
     const fdsFormArray = this.fb.array(fds);
     this.vehicleForm.setControl('feesAndDeductions', fdsFormArray);

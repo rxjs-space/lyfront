@@ -1,0 +1,63 @@
+<!--<div md-dialog-content>What would you like to do?</div>
+<div md-dialog-actions>
+  <button md-button (click)="dialogRef.close('Option 1')">Option 1</button>
+  <button md-button (click)="dialogRef.close('Option 2')">Option 2</button>
+</div>-->
+
+<md-card>
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <!--<i class="material-icons">chevron_right</i>-->
+        <h2>添加费用或抵扣项目</h2></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <form [formGroup]="fdForm" (ngSubmit)="dialogRef.close(fdForm)">
+        <app-autocomplete-combo
+          [placeholderInput]="data.titles.vehicles.feesAndDeductions.type"
+          [formControlInput]="fdForm.controls['type']"
+          [objList]="data.types.feesAndDeductionsTypes"
+          sizeClass="m-size-input"
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+
+        <!--<md-input-container class="m-size-input">
+          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.type" formControlName="type">
+        </md-input-container>-->
+        <md-input-container class="m-size-input">
+          <input mdInput type="number" [placeholder]="data.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+        </md-input-container>      
+        <md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value==='零件遗失'">
+          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.partName" formControlName="part">
+        </md-input-container>
+        <md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value!=='零件遗失'">
+          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.othersDetails" formControlName="details">
+        </md-input-container>
+        <div md-dialog-actions>
+          <button md-button type="submit" color="primary" [disabled]="!fdForm.valid">添加（未保存）</button>
+          <button md-button (click)="dialogRef.close(null)">取消</button>
+        </div>   
+      </form>
+     </md-card-content>
+   
+</md-card>
+
+
+  <!--<md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人承诺</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur suscipit nam repudiandae quis tempore rerum dolorem pariatur expedita temporibus, nesciunt, id laboriosam et quo omnis ab nihil laborum rem itaque.</div>
+      签字
+    </md-card-content> 
+  </md-card>
+
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>查验员签字</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      签字
+    </md-card-content> 
+  </md-card>  -->

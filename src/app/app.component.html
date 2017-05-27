@@ -1,23 +1,23 @@
-    <md-toolbar color="primary" class="not-for-print">
-      <!--<button md-button (click)="sidenav.open()">
-        <i class="material-icons">menu</i>
-      </button>-->
-      <!--<span routerLink="/">
-      <i class="material-icons">dashboard</i>
-      </span>-->
+<md-toolbar color="primary" class="not-for-print">
+  <!--<button md-button (click)="sidenav.open()">
+    <i class="material-icons">menu</i>
+  </button>-->
+  <!--<span routerLink="/">
+  <i class="material-icons">dashboard</i>
+  </span>-->
 
-      <i class="material-icons" routerLink="/">dashboard</i>
-      <span class="filler"></span>
-      <!--<span routerLink="/">隆运 报废车辆及回用件管理系统</span>-->
-      <span routerLink="/">隆运 Q5</span>
-      <span class="space-filler"></span>
-      <span *ngIf="isLoggedIn">
-        <button md-button (click)="logout()">登出</button>
-      </span>
+  <i class="material-icons" routerLink="/">dashboard</i>
+  <span class="filler"></span>
+  <!--<span routerLink="/">隆运 报废车辆及回用件管理系统</span>-->
+  <span routerLink="/">隆运 Q5</span>
+  <span class="space-filler"></span>
+  <span *ngIf="isLoggedIn">
+    <button md-button (click)="logout()">登出</button>
+  </span>
 
-      <!--<span class="app-toolbar-filler"></span>
-      <button md-button>TOGGLE DARK THEME</button>-->
-    </md-toolbar>
+  <!--<span class="app-toolbar-filler"></span>
+  <button md-button>TOGGLE DARK THEME</button>-->
+</md-toolbar>
 
 
 <ng-container *ngIf="isLoggedIn">
@@ -68,4 +68,5 @@
         4: part-sales;
     </md-card-content>
   </md-card>
-    <router-outlet></router-outlet>
+
+  <router-outlet></router-outlet>

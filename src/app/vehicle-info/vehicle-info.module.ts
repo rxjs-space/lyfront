@@ -13,6 +13,7 @@ import { DetailsGeneralComponent } from './details-general/details-general.compo
 import { DetailsOwnerAgentComponent } from './details-owner-agent/details-owner-agent.component';
 import { DetailsDocsComponent } from './details-docs/details-docs.component';
 import { DetailsConditionRvFdComponent } from './details-condition-rv-fd/details-condition-rv-fd.component';
+import { DialogFdComponent } from './dialog-fd/dialog-fd.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,11 @@ import { DetailsConditionRvFdComponent } from './details-condition-rv-fd/details
     DetailsGeneralComponent,
     DetailsOwnerAgentComponent,
     DetailsDocsComponent,
-    DetailsConditionRvFdComponent
+    DetailsConditionRvFdComponent,
+    DialogFdComponent
+  ],
+  entryComponents: [
+    DialogFdComponent
   ]
 })
 export class VehicleInfoModule { }
