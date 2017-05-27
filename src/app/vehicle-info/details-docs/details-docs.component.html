@@ -1,0 +1,24 @@
+<md-card class="info-card" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{titles.vehicles.docsProvided.title}}</span></md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div>
+      <md-checkbox color="primary" formControlName="vRegistrationCert">
+        {{titles.vehicles.docsProvided.vRegistrationCert}}
+      </md-checkbox>    
+      <md-checkbox color="primary" formControlName="vLicenseA">
+        {{titles.vehicles.docsProvided.vLicenseA}}
+      </md-checkbox>
+      <md-checkbox color="primary" formControlName="vLicenseB">
+        {{titles.vehicles.docsProvided.vLicenseB}}
+      </md-checkbox>
+      <md-input-container class="s-size-input">
+        <input type="number" mdInput [placeholder]="titles.vehicles.docsProvided.plateCount" formControlName="plateCount">
+      </md-input-container>
+
+    </div>
+  </md-card-content>
+</md-card>

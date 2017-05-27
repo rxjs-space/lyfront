@@ -1,8 +1,5 @@
-.aquisition-radio {
-  margin-right: 10px;
-}
 
-.info-card {
+/deep/ .info-card {
   margin-bottom: 5px;
 }
 
@@ -27,18 +24,22 @@
 
 
 
-.variable-length-input-container {
-  width: 100%;
+
+/deep/ .flex-container {
   display: flex;
 }
 
-.variable-length-input-container {
+/deep/ .separator-in-flex-container {
+  width: 5px;
+}
+
+/deep/ .variable-length-input-container {
   .leading-input {
     margin-right: 5px
   }
 }
 
-md-checkbox {
+/deep/ md-checkbox {
   margin-right: 15px;
 }
 

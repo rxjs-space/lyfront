@@ -15,7 +15,6 @@ import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
 */
 import { dataServices } from './data';
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,13 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-
 @Component({
-  selector: 'app-details-vehicle',
-  templateUrl: './details-vehicle.component.html',
-  styleUrls: ['./details-vehicle.component.scss']
+  selector: 'app-details-docs',
+  templateUrl: './details-docs.component.html',
+  styleUrls: ['./details-docs.component.scss']
 })
-export class DetailsVehicleComponent implements OnInit {
+export class DetailsDocsComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormGroup;

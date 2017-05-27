@@ -9,6 +9,10 @@ import { HomeComponent } from './home/home.component';
 import { ShowVehicleDetailsComponent } from './show-vehicle-details/show-vehicle-details.component';
 import { NewVehicleDetailsComponent } from './new-vehicle-details/new-vehicle-details.component';
 import { DetailsVehicleComponent } from './details-vehicle/details-vehicle.component';
+import { DetailsGeneralComponent } from './details-general/details-general.component';
+import { DetailsOwnerAgentComponent } from './details-owner-agent/details-owner-agent.component';
+import { DetailsDocsComponent } from './details-docs/details-docs.component';
+import { DetailsConditionRvFdComponent } from './details-condition-rv-fd/details-condition-rv-fd.component';
 
 @NgModule({
   imports: [
@@ -22,7 +26,11 @@ import { DetailsVehicleComponent } from './details-vehicle/details-vehicle.compo
     HomeComponent,
     ShowVehicleDetailsComponent,
     NewVehicleDetailsComponent,
-    DetailsVehicleComponent
+    DetailsVehicleComponent,
+    DetailsGeneralComponent,
+    DetailsOwnerAgentComponent,
+    DetailsDocsComponent,
+    DetailsConditionRvFdComponent
   ]
 })
 export class VehicleInfoModule { }

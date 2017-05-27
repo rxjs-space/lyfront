@@ -1,357 +1,37 @@
 <form [formGroup]="vehicleForm" novalidate class="main-form">
-  <md-toolbar class="vehicle-id-toolbar">
-    <div>
-      <md-input-container>
-        <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
-      </md-input-container>
 
-      <small>
+  <!-- 一般信息 -->
+  <app-details-general
+    [titles]="titles" [types]="types"
+    [formGroupInput]="vehicleForm">
+  ></app-details-general>
 
-        <!-- start of mofcomRegistryType auto-complete -->
-        <md-input-container class="m-size-input" >
-          <input mdInput [placeholder]="titles.vehicles.mofcomRegistryType" 
-            [mdAutocomplete]="autoMofcomRegistryType" formControlName="mofcomRegistryType">
-        </md-input-container>
-
-        <md-autocomplete #autoMofcomRegistryType="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let mType of types.mofcomRegistryTypes" [value]="mType">
-            {{ mType.name }}
-          </md-option>
-        </md-autocomplete>
-        <!-- end of mofcomRegistryType auto-complete -->           
-
-
-
-        <md-input-container class="l-size-input">
-          <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
-        </md-input-container>
-      </small>
-      
-    </div>
-
-
-  </md-toolbar>
-
-  <md-toolbar color="warn" *ngIf="this.vehicle.metadata.isDeleted">
-    <small class="form-group variable-length-input-container" formGroupName="metadata">
-      <md-input-container class="s-size-input leading-input">
-        <input mdInput [placeholder]="titles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
-      </md-input-container>
-
-      <md-input-container class="xxl-size-input">
-        <input mdInput [placeholder]="titles.metadata.deletedFor" formControlName="deletedFor">
-      </md-input-container>
-    </small>
-  </md-toolbar>
-
-  <!--<md-card class="info-card">
-    <md-card-header>
-      <md-card-title>类别信息</md-card-title>
-    </md-card-header>
-    <md-card-content>
-      
-    </md-card-content>
+  <!--<md-card>
+    车辆照片车辆照片车辆照片车辆照片车辆照片车辆照片车辆照片车辆照片
   </md-card>-->
 
+  <!-- 车辆信息 -->
   <app-details-vehicle
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.controls.vehicle">
   </app-details-vehicle>
 
-  <md-card class="info-card">
-    <md-card-header>
-      <md-card-title class="vertical-center-container">
-        <i class="material-icons">chevron_right</i>
-        <span>{{titles.vehicles.vehicle.title}}</span>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content>
-          
-      <div class="form-group" formGroupName="vehicle">
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
-            formControlName="plateNo">
-        </md-input-container>
-
-        <!-- start of vehicleType auto-complete -->
-        <md-input-container class="l-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.vehicleType" [mdAutocomplete]="autoVType" formControlName="vehicleType">
-        </md-input-container>
-
-        <md-autocomplete #autoVType="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let vType of filteredVTypesRx | async" [value]="vType">
-            <small>{{ vType.name }}</small>
-          </md-option>
-        </md-autocomplete>
-        <!-- end of vehicleType auto-complete -->
-
-        <!-- start of useCharacter auto-complete -->
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.useCharacter" [mdAutocomplete]="autoUseCharacter" formControlName="useCharacter">
-        </md-input-container>
-
-        <md-autocomplete #autoUseCharacter="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let useCharacter of filteredUseCharactersRx | async" [value]="useCharacter">
-            {{ useCharacter.name }}
-          </md-option>
-        </md-autocomplete>
-
-        <!-- end of useCharacter auto-complete -->
-
-        <!-- start of brand auto-complete-->
-
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.brand" [mdAutocomplete]="autoBrand" formControlName="brand">
-        </md-input-container>
-
-        <md-autocomplete #autoBrand="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let brand of filteredBrandsRx | async" [value]="brand">
-            {{ brand.name }}
-          </md-option>
-        </md-autocomplete>
-
-        <!-- end of brand auto-complete-->
-
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.model" formControlName="model">
-        </md-input-container>
-
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.engineNo" formControlName="engineNo">
-        </md-input-container>
-
-        <md-input-container class="l-size-input">
-          <input type="date" mdInput [placeholder]="titles.vehicles.vehicle.registrationDate" formControlName="registrationDate">
-        </md-input-container>
-
-        <md-input-container class="m-size-input">
-          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.totalMassKG" formControlName="totalMassKG">
-        </md-input-container>
-
-        <md-input-container class="m-size-input">
-          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.lengthOverallMM" formControlName="lengthOverallMM">
-        </md-input-container>
-
-        <md-input-container class="m-size-input">
-          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.seats" formControlName="seats">
-        </md-input-container>
-
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.color" formControlName="color">
-        </md-input-container>
-
-
-
-        <!-- start of aquisitionType auto-complete-->
-
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.aquisitionType" [mdAutocomplete]="autoAquisitionType" formControlName="aquisitionType">
-        </md-input-container>
-
-        <md-autocomplete #autoAquisitionType="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let aType of types.aquisitionTypes" [value]="aType">
-            {{ aType.name }}
-          </md-option>
-        </md-autocomplete>
-
-        <!-- end of aquisitionType auto-complete-->
-
-        <md-input-container class="m-size-input" *ngIf="(vehicleForm.get('vehicle.aquisitionType').value.name === '其他')">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.aquisitionDetail" formControlName="aquisitionDetail">
-        </md-input-container>
-
-        <md-input-container class="s-size-input">
-          <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
-        </md-input-container>
-
-
-        <!-- start of fuelType auto-complete-->
-
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.fuelType" [mdAutocomplete]="autoFuelType" formControlName="fuelType">
-        </md-input-container>
-
-        <md-autocomplete #autoFuelType="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let fuelType of types.fuelTypes" [value]="fuelType">
-            {{ fuelType.name }}
-          </md-option>
-        </md-autocomplete>
-
-        <!-- end of fuelType auto-complete-->
-
-
-        <!-- start of isNEV auto-complete-->
-
-        <md-input-container class="s-size-input">
-          <input mdInput [placeholder]="titles.vehicles.vehicle.isNEV" [mdAutocomplete]="autoBoolean" formControlName="isNEV">
-        </md-input-container>
-
-        <!-- end of isNEV auto-complete-->
-
-      </div>
-
-
-
-
-    </md-card-content>
-  </md-card>
-
-  <md-card class="info-card">
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>所有人/经办人信息</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
-      
-      <div class="form-group variable-length-input-container" formGroupName="owner">
-
-        <md-input-container class="xxl-size-input">
-          <input mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
-        </md-input-container>
-      </div>
-
-      
-
-      <div class="form-group" formGroupName="owner">
-
-      <!-- start of isPerson auto-complete -->
-        <md-input-container class="m-size-input leading-input">
-          <input mdInput [placeholder]="titles.vehicles.owner.isPerson" [mdAutocomplete]="autoBoolean" formControlName="isPerson">
-        </md-input-container>
-
-        <md-autocomplete #autoBoolean="mdAutocomplete" [displayWith]="df.dBoolean">
-          <md-option *ngFor="let tf of [true, false]" [value]="tf">
-            {{ tf ? '是' : '否' }}
-          </md-option>
-        </md-autocomplete>
-
-      <!-- end of isPerson auto-complete -->
-
-        <!-- start of idType auto-complete-->
-
-        <!-- start of pId -->
-        <ng-container *ngIf="vehicleForm.get('owner.isPerson').value">
-          <md-input-container class="l-size-input">
-            <input mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoPIdType" formControlName="idType">
-          </md-input-container>
-
-          <md-autocomplete #autoPIdType="mdAutocomplete" [displayWith]="df.dName">
-            <md-option *ngFor="let pIdType of types.pIdTypes" [value]="pIdType">
-              <small>{{ pIdType.name }}</small>
-            </md-option>
-          </md-autocomplete>
-        </ng-container>
-        <!-- end of pId -->
-
-        <!-- start of oId -->
-
-        <ng-container *ngIf="!vehicleForm.get('owner.isPerson').value">
-          <md-input-container class="l-size-input">
-            <input mdInput [placeholder]="titles.vehicles.owner.idType" [mdAutocomplete]="autoIdType" formControlName="idType">
-          </md-input-container>
-
-          <md-autocomplete #autoIdType="mdAutocomplete" [displayWith]="df.dName">
-            <md-option *ngFor="let oIdType of types.oIdTypes" [value]="oIdType">
-              <small>{{ oIdType.name }}</small>
-            </md-option>
-          </md-autocomplete>
-        </ng-container>
-
-        <!-- end of oId -->
-
-
-        <!-- end of idType auto-complete-->
-
-        <md-input-container class="xl-size-input">
-          <input mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
-        </md-input-container>
-        <md-input-container class="l-size-input">
-          <input type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
-        </md-input-container>
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.owner.address" formControlName="address">
-        </md-input-container>
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
-        </md-input-container>
-      </div>
-
-
-      <div class="form-group" formGroupName="agent">
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
-        </md-input-container>
-
-        <!-- start of idType auto-complete-->
-        <md-input-container class="l-size-input">
-          <input mdInput [placeholder]="titles.vehicles.agent.idType" [mdAutocomplete]="autoAgentPIdType" formControlName="idType">
-        </md-input-container>
-
-        <md-autocomplete #autoAgentPIdType="mdAutocomplete" [displayWith]="df.dName">
-          <md-option *ngFor="let pIdType of types.pIdTypes" [value]="pIdType">
-            <small>{{ pIdType.name }}</small>
-          </md-option>
-        </md-autocomplete>
-
-        <!-- end of idType auto-complete-->
-
-        <md-input-container class="xl-size-input">
-          <input mdInput [placeholder]="titles.vehicles.agent.idNo" formControlName="idNo">
-        </md-input-container>
-        <md-input-container class="l-size-input">
-          <input type="tel" mdInput [placeholder]="titles.vehicles.agent.tel" formControlName="tel">
-        </md-input-container>
-
-      </div>
-
-
-    </md-card-content>
-
-  </md-card>
-
-  <md-card class="info-card">
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人需要提供的材料</span></md-card-title>
-    </md-card-header>
-    <md-card-content formGroupName="docsProvided">
-      <div>
-        <md-checkbox color="primary" formControlName="vRegistrationCert">
-          {{titles.vehicles.docsProvided.vRegistrationCert}}
-        </md-checkbox>
-        <md-checkbox color="primary" formControlName="vLicenseA">
-          {{titles.vehicles.docsProvided.vLicenseA}}
-        </md-checkbox>
-        <md-checkbox color="primary" formControlName="vLicenseB">
-          {{titles.vehicles.docsProvided.vLicenseB}}
-        </md-checkbox>
-        <md-input-container class="s-size-input">
-          <input type="number" mdInput [placeholder]="titles.vehicles.docsProvided.plateCount" formControlName="plateCount">
-        </md-input-container>
-      </div>
-      <div>
-        <md-checkbox color="primary" formControlName="vRegistrationCert">
-          {{titles.vehicles.docsProvided.vRegistrationCert}}
-        </md-checkbox>
-        <!-- a dummy md-input for setting same line-height -->
-        <md-input-container><input mdInput style="width:0"></md-input-container>
-      </div>
-    </md-card-content>
-  </md-card>
-
-  <md-card class="info-card">
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>车辆状况</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
-      完好、无氟、少量费油
-    </md-card-content>
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>车辆残值</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
-      人民币 伍百元整 500.00
-    </md-card-content>    
-  </md-card>
-
+  <!-- 车主/经办人信息 -->
+  <app-details-owner-agent
+    [titles]="titles" [types]="types"
+    [formGroupInput]="vehicleForm">
+  </app-details-owner-agent>
+  
+  <!-- 车主/经办人信息 -->
+  <app-details-docs
+    [titles]="titles" [types]="types"
+    [formGroupInput]="vehicleForm.controls.docsProvided">
+  </app-details-docs>
+
+  <app-details-condition-rv-fd
+    [titles]="titles" [types]="types"
+    [formGroupInput]="vehicleForm">
+  </app-details-condition-rv-fd>
 
   <md-card class="info-card not-for-print">
     <button md-raised-button color="primary">
@@ -384,7 +64,8 @@
 
 <md-card class="info-card not-for-print">
   <md-card-header>
-    <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>拆解计划</span></md-card-title>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i><span>拆解计划</span></md-card-title>
   </md-card-header>
 
 
@@ -457,9 +138,9 @@
 
   <md-card>
     <md-card-header>
-      <md-card-title>vehicleForm.get('vehicle.vehicleTypeName').errors</md-card-title>
+      <md-card-title>vehicleForm.get('vehicle.feesAndDeductions').errors</md-card-title>
     </md-card-header>
-    <md-card-content>{{vehicleForm.get('owner.tel').errors | json}}</md-card-content>
+    <md-card-content>{{vehicleForm.get('feesAndDeductions').value | json}}</md-card-content>
   </md-card>
 
 </div>

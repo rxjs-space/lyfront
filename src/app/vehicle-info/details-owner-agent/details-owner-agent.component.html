@@ -1,0 +1,92 @@
+<md-card class="info-card" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{titles.vehicles.owner.title}} / {{titles.vehicles.agent.title}}</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    
+    <div class="form-group flex-container" formGroupName="owner">
+      <md-input-container class="xxl-size-input">
+        <input mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
+      </md-input-container>
+    </div>
+
+      
+    <div class="form-group" formGroupName="owner">
+      <!-- 是否私家车 -->
+      <app-autocomplete-combo
+        [isTrueOrFalse]="true"
+        [placeholderInput]="titles.vehicles.owner.isPerson"
+        [formControlInput]="formGroupInput.controls['owner'].controls['isPerson']"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>   
+
+      <!-- 证件类别-个人 -->
+      <ng-container *ngIf="formGroupInput.get('owner.isPerson').value">
+        <app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.owner.idType"
+          [formControlInput]="formGroupInput.controls['owner'].controls['idType']"
+          [objList]="types.pIdTypes"
+          sizeClass='l-size-input'
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+      </ng-container>
+
+
+      <!-- 证件类别-组织 -->
+      <ng-container *ngIf="!formGroupInput.get('owner.isPerson').value">
+        <app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.owner.idType"
+          [formControlInput]="formGroupInput.controls['owner'].controls['idType']"
+          [objList]="types.oIdTypes"
+          sizeClass='l-size-input'
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+      </ng-container>
+
+
+      <md-input-container class="xl-size-input">
+        <input mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
+      </md-input-container>
+      <md-input-container class="l-size-input">
+        <input type="tel" mdInput [placeholder]="titles.vehicles.owner.tel" formControlName="tel">
+      </md-input-container>
+      <md-input-container class="m-size-input">
+        <input mdInput [placeholder]="titles.vehicles.owner.address" formControlName="address">
+      </md-input-container>
+      <md-input-container class="m-size-input">
+        <input mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
+      </md-input-container>
+    </div>
+
+    <div class="form-group" formGroupName="agent">
+      <md-input-container class="m-size-input">
+        <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
+      </md-input-container>
+
+      <app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.agent.idType"
+        [formControlInput]="formGroupInput.controls['agent'].controls['idType']"
+        [objList]="types.pIdTypes"
+        sizeClass='l-size-input'
+        [toSort]="false"
+      >
+      </app-autocomplete-combo>
+
+      <md-input-container class="xl-size-input">
+        <input mdInput [placeholder]="titles.vehicles.agent.idNo" formControlName="idNo">
+      </md-input-container>
+      <md-input-container class="l-size-input">
+        <input type="tel" mdInput [placeholder]="titles.vehicles.agent.tel" formControlName="tel">
+      </md-input-container>
+
+    </div>
+
+  </md-card-content>
+
+</md-card>

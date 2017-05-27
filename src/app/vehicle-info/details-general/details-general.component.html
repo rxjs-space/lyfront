@@ -1,0 +1,50 @@
+  <md-toolbar class="vehicle-toolbar" [formGroup]="formGroupInput">
+    <div>
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
+      </md-input-container>
+      <small>
+
+        <!-- 商务部登记类别 -->
+        <app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.mofcomRegistryType"
+          [formControlInput]="formGroupInput.controls['mofcomRegistryType']"
+          [objList]="types.mofcomRegistryTypes"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+        
+       <md-input-container class="l-size-input">
+          <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
+        </md-input-container>
+      </small>
+      
+    </div>
+  </md-toolbar>
+
+  <md-toolbar 
+    class="vehicle-toolbar warn-toolbar" 
+    *ngIf="formGroupInput.get('metadata.isDeleted').value">
+    <small class="form-group flex-container">
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="titles.metadata.isDeleted"
+          [formControlInput]="formGroupInput.controls['metadata'].controls['isDeleted']"
+          sizeClass='s-size-input'
+        >
+        </app-autocomplete-combo>   
+
+        <span class="separator-in-flex-container"></span>
+      <!--<md-input-container class="s-size-input leading-input">
+        <input mdInput [placeholder]="titles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
+      </md-input-container>-->
+
+      <md-input-container class="xxl-size-input">
+        <input mdInput 
+          [placeholder]="titles.metadata.deletedFor" 
+          [formControl]="formGroupInput.controls['metadata'].controls['deletedFor']">
+      </md-input-container>
+    </small>
+  </md-toolbar>
+
+  

@@ -30,3 +30,13 @@ https://stackoverflow.com/questions/42203135/multiple-child-component-inside-for
 </div>
 ```
 
+```html
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title>类别信息</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      
+    </md-card-content>
+  </md-card>
+```

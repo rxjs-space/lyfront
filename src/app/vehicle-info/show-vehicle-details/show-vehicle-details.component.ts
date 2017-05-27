@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/startWith';
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
@@ -29,9 +30,15 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
   prepareSubmit() {
     /*
+    mofcomRegistryType
     vehicleForm.vehicle.vehicleType
     vehicleForm.vehicle.useCharacter
     vehicleForm.vehicle.brand (create new if not listed)
+    vehicleForm.vehicle.aquisitionType
+    vehicleForm.vehicle.fuelType
+    owner.idType
+    agent.idType
+    feesAndDeductions.item.type
     */
   }
 
@@ -43,8 +50,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.vehicleForm = this.fb.group({
       id: {value: this.vehicle.id, disabled: true},
-      mofcomRegistryType: [this.vehicle.mofcomRegistryType, [
-        this.sv.notListedInObjList(this.types.mofcomRegistryTypes)
+      mofcomRegistryType: [this.vehicle.mofcomRegistryType.name, [
+        this.sv.notListed(this.types.mofcomRegistryTypes.map(type => type.name))
       ]],
       entranceDate: [this.vehicle.entranceDate],
       metadata: this.fb.group({
@@ -62,7 +69,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         brand: [this.vehicle.vehicle.brand.name],
         model: [this.vehicle.vehicle.model],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
-        residualValue: [this.vehicle.vehicle.residualValue],
+        residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],
         engineNo: [this.vehicle.vehicle.engineNo],
         registrationDate: [this.vehicle.vehicle.registrationDate],
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
@@ -76,8 +83,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
              this.vehicle.vehicle.aquisitionDetail : ''
         ],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
-        fuelType: [this.vehicle.vehicle.fuelType, [
-          this.sv.notListedInObjList(this.types.fuelTypes)
+        fuelType: [this.vehicle.vehicle.fuelType.name, [
+          this.sv.notListed(this.types.fuelTypes.map(type => type.name))
         ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
         isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.isBoolean()]],
@@ -86,7 +93,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         name: [this.vehicle.owner.name, Validators.required],
         address: [this.vehicle.owner.address],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
-        idType: [this.vehicle.owner.idType], // setValidator here after setting isPerson
+        idType: [this.vehicle.owner.idType.name, [
+          this.sv.notListedBasedOnOtherControlTF('isPerson', [
+            this.types.oIdTypes.map(type => type.name),
+            this.types.pIdTypes.map(type => type.name),
+          ])
+        ]], // setValidator here after setting isPerson
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
         isPerson: [this.vehicle.owner.isPerson],
@@ -94,7 +106,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       }),
       agent: this.fb.group({
         name: [this.vehicle.agent.name],
-        idType: [this.vehicle.owner.idType],
+        idType: [this.vehicle.owner.idType.name, this.sv.notListed(this.types.pIdTypes.map(type => type.name))],
         idNo: [this.vehicle.agent.idNo],
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       }),
@@ -104,7 +116,34 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         vLicenseB: [this.vehicle.docsProvided.vLicenseB],
         plateCount: [this.vehicle.docsProvided.plateCount, Validators.pattern(/^[0-2]$/)]
       }),
+      feesAndDeductions: this.fb.array([]),
+      residualValueAfterFD: [{value: 0, disabled: true}]
     });
+
+    /* start of - setting up this.vehicleForm.controls('feesAndDeductions')*/
+    const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
+      type: [fd.type.name],
+      part: [fd.part && fd.part.name],
+      details: [fd.details],
+      amount: [fd.amount]
+    }));
+    const fdsFormArray = this.fb.array(fds);
+    this.vehicleForm.setControl('feesAndDeductions', fdsFormArray);
+    /* end of - setting up this.vehicleForm.controls('feesAndDeductions')*/
+
+    /* set residualValueAfterFD */
+    Observable.merge(
+      this.vehicleForm.get('vehicle.residualValueBeforeFD').valueChanges, 
+      this.vehicleForm.get('feesAndDeductions').valueChanges)
+      .startWith(null)
+      .subscribe(() => {
+        const residualValueBeforeFD = this.vehicleForm.get('vehicle.residualValueBeforeFD').value;
+        let feesAndDeductions = 0;
+        (this.vehicleForm.get('feesAndDeductions') as FormArray).controls.forEach(ctrl => {
+          feesAndDeductions += ctrl.get('amount').value;
+        });
+        this.vehicleForm.get('residualValueAfterFD').setValue(residualValueBeforeFD - feesAndDeductions);
+      })
 
     this.dismantlingOrdersForm = this.fb.group({
       dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
@@ -154,7 +193,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
     this.isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
       .subscribe(value => {
-        this.vehicleForm.get('owner.idType').setValue({});
+        this.vehicleForm.get('owner.idType').setValue('');
       });
   }
 

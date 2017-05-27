@@ -1,5 +1,9 @@
-/deep/ .vehicle-id-toolbar {
+/deep/ .vehicle-toolbar {
   padding-top: 15px;
+}
+
+/deep/ .warn-toolbar {
+  border: solid red 3px;
 }
 
 /deep/ .s-size-input {
@@ -19,8 +23,10 @@
 }
 
 /deep/ .xxl-size-input {
-  width: 90%;
+  min-width: 500px;
+  flex-grow: 1;
 }
+
 
 /deep/ input[type="date"] {
   height: 1em;

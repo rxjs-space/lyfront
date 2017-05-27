@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 
 @Injectable()
 export class SharedValidatorsService {
@@ -11,9 +11,43 @@ export class SharedValidatorsService {
     return (control: AbstractControl): {[key: string]: any} => {
       const value = control.value;
       const notListed = list.indexOf(value) === -1;
+      return notListed ? {'notListed': value} : null;
+    };
+  }
+
+  notListedBasedOnOtherControlTF(otherControlName: string, lists: any[][]): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      let notListed;
+      const thisControl = control;
+      const thisValue = thisControl.value;
+      const parentControl = thisControl.parent;
+      if (!parentControl) return null;
+      const otherControlTF = thisControl.parent.get(otherControlName) as FormControl;
+      if (!otherControlTF) throw new Error('notListedBasedOnOtherControl validator: incorrect otherControlName.')
+      const otherValueTF = otherControlTF.value;
+      notListed = lists[Number(otherValueTF)].indexOf(thisControl.value) === -1;
+      return notListed ? {'notListed': thisValue} : null;
+    }
+  }
+
+  notListedPicky(possibleValues: any[], lists: any[][]): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      if (possibleValues.length !== lists.length) {
+        throw (new Error('lengths for possibleValues and lists are different.'));
+      }
+      const value = control.value;
+      let notListed;
+      for (let i = 0; i < possibleValues.length; i++) {
+        console.log(value);
+        if (value === possibleValues[i]) {
+          notListed = lists[i].indexOf(value) === -1;
+          break;
+        }
+      }
       return notListed ? {'notListed': {value}} : null;
     };
   }
+
 
   notListedInObjList(objList: {[key: string]: any}[]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {

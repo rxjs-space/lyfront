@@ -1,0 +1,49 @@
+<md-card class="info-card" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>车辆状况 / 残值 / 费用及抵扣</span></md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div class="form-group flex-container" formGroupName="vehicle">
+      <md-input-container class="xxl-size-input">
+        <input mdInput [placeholder]="titles.vehicles.vehicle.conditionOnEntrance" formControlName="conditionOnEntrance">
+      </md-input-container>
+      <span class="separator-in-flex-container"></span>
+      <md-input-container class="m-size-input">
+        <input mdInput type="number" [placeholder]="titles.vehicles.vehicle.residualValueBeforeFD" formControlName="residualValueBeforeFD">
+      </md-input-container>
+
+    </div>
+
+
+  <div formArrayName="feesAndDeductions">
+    <div *ngFor="let fd of formGroupInput.get('feesAndDeductions').controls; let i=index" [formGroupName]="i">
+      <md-input-container class="s-size-input">
+        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
+      </md-input-container>
+      <md-input-container class="m-size-input">
+        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.type" formControlName="type">
+      </md-input-container>
+      <md-input-container class="m-size-input">
+        <input mdInput type="number" [placeholder]="titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+      </md-input-container>      
+      <md-input-container class="m-size-input" *ngIf="fd.value['type']==='零件遗失'">
+        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.partName" formControlName="part">
+      </md-input-container>
+      <md-input-container class="xl-size-input" *ngIf="fd.value['type']!=='零件遗失'">
+        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.othersDetails" formControlName="details">
+      </md-input-container>
+
+    </div>
+
+  </div>
+      <div class="form-control">
+      {{titles.vehicles.vehicle.residualValueAfterFD}}：
+      <md-input-container class="s-size-input">
+        <input mdInput formControlName="residualValueAfterFD">
+      </md-input-container>
+    </div>
+  </md-card-content>
+ 
+</md-card>

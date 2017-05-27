@@ -13,15 +13,32 @@
 
 <ng-container *ngIf="!toFilterList">
 
-  <md-input-container [class]="sizeClass">
-    <input mdInput [placeholder]="placeholderInput" [mdAutocomplete]="autoNotFilter" [formControl]="formControlInput">
-  </md-input-container>
+  <ng-container *ngIf="!isTrueOrFalse">
+    <md-input-container [class]="sizeClass">
+      <input mdInput [placeholder]="placeholderInput" [mdAutocomplete]="autoNotFilter" [formControl]="formControlInput">
+    </md-input-container>
 
-  <md-autocomplete #autoNotFilter="mdAutocomplete">
-    <md-option *ngFor="let type of list" [value]="type">
-      <small>{{ type }}</small>
-    </md-option>
-  </md-autocomplete>
+    <md-autocomplete #autoNotFilter="mdAutocomplete">
+      <md-option *ngFor="let type of list" [value]="type">
+        <small>{{ type }}</small>
+      </md-option>
+    </md-autocomplete>
+  </ng-container>
+
+  <ng-container *ngIf="isTrueOrFalse">
+    <md-input-container [class]="sizeClass">
+      <input mdInput [placeholder]="placeholderInput" 
+      [mdAutocomplete]="autoNotFilter" 
+      [formControl]="formControlInput">
+    </md-input-container>
+
+    <md-autocomplete #autoNotFilter="mdAutocomplete" [displayWith]="df.dBoolean">
+      <md-option *ngFor="let type of [true, false]" [value]="type">
+        <small>{{ type ? '是' : '否' }}</small>
+      </md-option>
+    </md-autocomplete>
+  </ng-container>
+
 </ng-container>
 
 <!--<md-autocomplete #auto="mdAutocomplete" [displayWith]="df.dName">

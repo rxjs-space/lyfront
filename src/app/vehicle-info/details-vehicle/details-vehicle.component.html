@@ -21,6 +21,7 @@
           [formControlInput]="formGroupInput.controls['vehicleType']"
           [objList]="types.vehicleTypes"
           sizeClass='l-size-input'
+          [toFilterList]="true"
         >
         </app-autocomplete-combo>
 
@@ -30,6 +31,7 @@
           [formControlInput]="formGroupInput.controls['useCharacter']"
           [objList]="types.useCharacters"
           sizeClass='m-size-input'
+          [toFilterList]="true"
         >
         </app-autocomplete-combo>
 
@@ -38,8 +40,9 @@
           [placeholderInput]="titles.vehicles.vehicle.brand"
           [formControlInput]="formGroupInput.controls['brand']"
           [objList]="types.brands"
-          [hideInitList]="true"
+          [toHideInitList]="true"
           sizeClass='m-size-input'
+          [toFilterList]="true"
         >
         </app-autocomplete-combo>
 
@@ -78,7 +81,6 @@
           [formControlInput]="formGroupInput.controls['aquisitionType']"
           [objList]="types.aquisitionTypes"
           sizeClass='m-size-input'
-          [toFilterList]="false"
         >
         </app-autocomplete-combo>
 
@@ -90,6 +92,23 @@
           <input type="number" mdInput [placeholder]="titles.vehicles.vehicle.displacementL" formControlName="displacementL">
         </md-input-container>
 
+        <!-- 燃油类型 -->
+        <app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.vehicle.fuelType"
+          [formControlInput]="formGroupInput.controls['fuelType']"
+          [objList]="types.fuelTypes"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+        <!-- 是否新能源 -->
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="titles.vehicles.vehicle.isNEV"
+          [formControlInput]="formGroupInput.controls['isNEV']"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>        
 
       </div>
     </md-card-content>
