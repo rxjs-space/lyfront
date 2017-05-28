@@ -1,0 +1,17 @@
+
+.show-on-small-screen {
+  display: block;
+}
+.hide-on-small-screen {
+  display: none;
+}
+
+@media (min-width: 576px) {
+  .show-on-small-screen {
+    display: none;
+  }
+  .hide-on-small-screen {
+    display: block;
+  }
+}
+

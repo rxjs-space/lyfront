@@ -16,14 +16,25 @@
   }
 }
 
+/deep/ .same-line-height-input {
+  .mat-input-wrapper {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/deep/ .inline-block-label {
+  display: inline-block;
+  .vertical-middle-span {
+    vertical-align: middle;
+  }
+}
+
+
 /deep/ .vertical-center-container {
   display: flex;
   align-items: center;
 }
-
-
-
-
 
 /deep/ .flex-container {
   display: flex;
@@ -49,3 +60,5 @@
     margin-left: -0.2em;
   }
 }
+
+

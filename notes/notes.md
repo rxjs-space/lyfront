@@ -40,3 +40,8 @@ https://stackoverflow.com/questions/42203135/multiple-child-component-inside-for
     </md-card-content>
   </md-card>
 ```
+
+
+to activate input[type="date"],
+1) about:config
+2) dom.forms.datetime -> set to true
