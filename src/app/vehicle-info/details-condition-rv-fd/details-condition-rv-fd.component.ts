@@ -23,6 +23,7 @@ export class DetailsConditionRvFdComponent implements OnInit {
       data: {types: this.types, titles: this.titles},
     });
     dialogRef.afterClosed().subscribe((newFDForm: FormGroup) => {
+      console.log(newFDForm);
       if (newFDForm) {
         this.methods.new(newFDForm);
       }

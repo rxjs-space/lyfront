@@ -1,6 +1,8 @@
 <h3>{{data.message}}</h3>
 <h4>记录编号：{{data.index + 1}}</h4>
 <div>
-<button md-button (click)="dialogRef.close(true)">确认</button>
+
 <button md-button color="primary" (click)="dialogRef.close(false)">取消</button>
+<button md-button (click)="dialogRef.close(true)">确认</button>
+
 </div>

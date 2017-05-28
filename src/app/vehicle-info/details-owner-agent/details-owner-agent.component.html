@@ -50,6 +50,10 @@
       </ng-container>
 
 
+      <md-input-container class="m-size-input" *ngIf="(formGroupInput.get('owner.idType').value === '其他')">
+        <input mdInput [placeholder]="titles.vehicles.owner.idOtherTypeName" formControlName="idOtherTypeName">
+      </md-input-container>
+
       <md-input-container class="xl-size-input">
         <input mdInput [placeholder]="titles.vehicles.owner.idNo" formControlName="idNo">
       </md-input-container>
@@ -62,9 +66,17 @@
       <md-input-container class="m-size-input">
         <input mdInput [placeholder]="titles.vehicles.owner.zipCode" formControlName="zipCode">
       </md-input-container>
+      <app-autocomplete-combo
+        [isTrueOrFalse]="true"
+        [placeholderInput]="titles.vehicles.owner.isByAgent"
+        [formControlInput]="formGroupInput.controls['owner'].controls['isByAgent']"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>  
+
     </div>
 
-    <div class="form-group" formGroupName="agent">
+    <div class="form-group" formGroupName="agent" *ngIf="formGroupInput.get('owner.isByAgent').value">
       <md-input-container class="m-size-input">
         <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
       </md-input-container>
@@ -77,6 +89,10 @@
         [toSort]="false"
       >
       </app-autocomplete-combo>
+
+      <md-input-container class="m-size-input" *ngIf="(formGroupInput.get('agent.idType').value === '其他')">
+        <input mdInput [placeholder]="titles.vehicles.agent.idOtherTypeName" formControlName="idOtherTypeName">
+      </md-input-container>
 
       <md-input-container class="xl-size-input">
         <input mdInput [placeholder]="titles.vehicles.agent.idNo" formControlName="idNo">

@@ -88,9 +88,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         aquisitionType: [this.vehicle.vehicle.aquisitionType.name, [
           this.sv.notListed(this.types.aquisitionTypes.map(type => type.name))
         ]],
-        aquisitionDetail: [
-          this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionDetail ?
-             this.vehicle.vehicle.aquisitionDetail : ''
+        aquisitionOtherTypeDetail: [
+          this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionOtherTypeDetail ?
+             this.vehicle.vehicle.aquisitionOtherTypeDetail : ''
         ],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         fuelType: [this.vehicle.vehicle.fuelType.name, [
@@ -108,15 +108,18 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
             this.types.oIdTypes.map(type => type.name),
             this.types.pIdTypes.map(type => type.name),
           ])
-        ]], // setValidator here after setting isPerson
+        ]],
+        idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
         isPerson: [this.vehicle.owner.isPerson],
-        isRemote: [this.vehicle.owner.isRemote]
+        isRemote: [this.vehicle.owner.isRemote],
+        isByAgent: [this.vehicle.owner.isByAgent]
       }),
       agent: this.fb.group({
         name: [this.vehicle.agent.name],
         idType: [this.vehicle.owner.idType.name, this.sv.notListed(this.types.pIdTypes.map(type => type.name))],
+        idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
         idNo: [this.vehicle.agent.idNo],
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       }),

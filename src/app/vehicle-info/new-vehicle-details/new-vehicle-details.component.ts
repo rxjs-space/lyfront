@@ -64,9 +64,9 @@ export class NewVehicleDetailsComponent implements OnInit {
         //   aquisitionType: [this.vehicle.vehicle.aquisitionType, [
         //     this.validatorNotListedInObjList(this.types.aquisitionTypes)
         //   ]],
-        //   aquisitionDetail: [
-        //     this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionDetail ?
-        //        this.vehicle.vehicle.aquisitionDetail : ''
+        //   aquisitionOtherTypeDetail: [
+        //     this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionOtherTypeDetail ?
+        //        this.vehicle.vehicle.aquisitionOtherTypeDetail : ''
         //   ],
         //   displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         //   fuelType: [this.vehicle.vehicle.fuelType, [
