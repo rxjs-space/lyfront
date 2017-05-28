@@ -19,7 +19,7 @@
       <app-autocomplete-combo
         [isTrueOrFalse]="true"
         [placeholderInput]="titles.vehicles.owner.isPerson"
-        [formControlInput]="formGroupInput.controls['owner'].controls['isPerson']"
+        [formControlInput]="formGroupInput.get('owner.isPerson')"
         sizeClass='m-size-input'
       >
       </app-autocomplete-combo>   
@@ -28,7 +28,7 @@
       <ng-container *ngIf="formGroupInput.get('owner.isPerson').value">
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.owner.idType"
-          [formControlInput]="formGroupInput.controls['owner'].controls['idType']"
+          [formControlInput]="formGroupInput.get('owner.idType')"
           [objList]="types.pIdTypes"
           sizeClass='l-size-input'
           [toSort]="false"
@@ -41,7 +41,7 @@
       <ng-container *ngIf="!formGroupInput.get('owner.isPerson').value">
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.owner.idType"
-          [formControlInput]="formGroupInput.controls['owner'].controls['idType']"
+          [formControlInput]="formGroupInput.get('owner.idType')"
           [objList]="types.oIdTypes"
           sizeClass='l-size-input'
           [toSort]="false"
@@ -69,7 +69,7 @@
       <app-autocomplete-combo
         [isTrueOrFalse]="true"
         [placeholderInput]="titles.vehicles.owner.isByAgent"
-        [formControlInput]="formGroupInput.controls['owner'].controls['isByAgent']"
+        [formControlInput]="formGroupInput.get('owner.isByAgent')"
         sizeClass='s-size-input'
       >
       </app-autocomplete-combo>  
@@ -83,7 +83,7 @@
 
       <app-autocomplete-combo
         [placeholderInput]="titles.vehicles.agent.idType"
-        [formControlInput]="formGroupInput.controls['agent'].controls['idType']"
+        [formControlInput]="formGroupInput.get('agent.idType')"
         [objList]="types.pIdTypes"
         sizeClass='l-size-input'
         [toSort]="false"

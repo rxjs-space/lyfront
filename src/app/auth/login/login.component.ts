@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   subscriptions_: Subscription[] = [];
   loginForm: FormGroup;
   authenticateResult: any;
-  authenticating: Boolean = false;
+  authenticating = false;
   constructor(
     private fb: FormBuilder, 
     private auth: AuthService) { }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, FormArray } from '@angular/forms';
 import { MdDialog } from '@angular/material';
 import { DialogFdComponent } from '../dialog-fd/dialog-fd.component';
 import { DialogYesOrNoComponent } from '../../shared/dialog-yes-or-no/dialog-yes-or-no.component';
@@ -16,6 +16,7 @@ export class DetailsConditionRvFdComponent implements OnInit {
   @Input() types;
   @Input() formGroupInput: FormGroup;
   @Input() methods: any;
+  fds: AbstractControl[];
   constructor(public dialog: MdDialog) { }
   openDialogNewFD() {
     // this.dialog.open(DialogFdComponent);
@@ -31,6 +32,7 @@ export class DetailsConditionRvFdComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.fds = (this.formGroupInput.get('feesAndDeductions') as FormArray).controls;
   }
 
   openDialogDeleteFD(index: number) {

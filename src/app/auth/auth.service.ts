@@ -9,8 +9,8 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class AuthService {
   attemptedUrl: string;
-  host1 = 'http://localhost:3001';
-  // host1 = 'https://lyback.herokuapp.com';
+  // host1 = 'http://localhost:3001';
+  host1 = 'https://lyback.herokuapp.com';
   isLoggedInRxx: BehaviorSubject<Boolean> = new BehaviorSubject(false);
 
   constructor(

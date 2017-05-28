@@ -13,7 +13,7 @@
   <!-- 车辆信息 -->
   <app-details-vehicle
     [titles]="titles" [types]="types"
-    [formGroupInput]="vehicleForm.controls.vehicle">
+    [formGroupInput]="vehicleForm.get('vehicle')">
   </app-details-vehicle>
 
   <!-- 车主/经办人信息 -->
@@ -25,7 +25,7 @@
   <!-- 车主/经办人信息 -->
   <app-details-docs
     [titles]="titles" [types]="types"
-    [formGroupInput]="vehicleForm.controls.docsProvided">
+    [formGroupInput]="vehicleForm.get('docsProvided')">
   </app-details-docs>
 
   <app-details-condition-rv-fd

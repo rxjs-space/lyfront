@@ -14,7 +14,7 @@
       <form [formGroup]="fdForm" (ngSubmit)="dialogRef.close(fdForm)">
         <app-autocomplete-combo
           [placeholderInput]="data.titles.vehicles.feesAndDeductions.type"
-          [formControlInput]="fdForm.controls['type']"
+          [formControlInput]="fdForm.get('type')"
           [objList]="data.types.feesAndDeductionsTypes"
           sizeClass="m-size-input"
           [toSort]="false"

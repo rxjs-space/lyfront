@@ -18,7 +18,7 @@
         <!-- 车辆类型 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.vehicle.vehicleType"
-          [formControlInput]="formGroupInput.controls['vehicleType']"
+          [formControlInput]="formGroupInput.get('vehicleType')"
           [objList]="types.vehicleTypes"
           sizeClass='l-size-input'
           [toFilterList]="true"
@@ -28,7 +28,7 @@
         <!-- 使用性质 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.vehicle.useCharacter"
-          [formControlInput]="formGroupInput.controls['useCharacter']"
+          [formControlInput]="formGroupInput.get('useCharacter')"
           [objList]="types.useCharacters"
           sizeClass='m-size-input'
         >
@@ -37,7 +37,7 @@
         <!-- 品牌 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.vehicle.brand"
-          [formControlInput]="formGroupInput.controls['brand']"
+          [formControlInput]="formGroupInput.get('brand')"
           [objList]="types.brands"
           [toHideInitList]="true"
           sizeClass='m-size-input'
@@ -77,7 +77,7 @@
         <!-- 获得方式 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.vehicle.aquisitionType"
-          [formControlInput]="formGroupInput.controls['aquisitionType']"
+          [formControlInput]="formGroupInput.get('aquisitionType')"
           [objList]="types.aquisitionTypes"
           sizeClass='m-size-input'
         >
@@ -94,7 +94,7 @@
         <!-- 燃油类型 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.vehicle.fuelType"
-          [formControlInput]="formGroupInput.controls['fuelType']"
+          [formControlInput]="formGroupInput.get('fuelType')"
           [objList]="types.fuelTypes"
           sizeClass='m-size-input'
         >
@@ -104,7 +104,7 @@
         <app-autocomplete-combo
           [isTrueOrFalse]="true"
           [placeholderInput]="titles.vehicles.vehicle.isNEV"
-          [formControlInput]="formGroupInput.controls['isNEV']"
+          [formControlInput]="formGroupInput.get('isNEV')"
           sizeClass='m-size-input'
         >
         </app-autocomplete-combo>        

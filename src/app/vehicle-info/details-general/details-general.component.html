@@ -8,7 +8,7 @@
         <!-- 商务部登记类别 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.mofcomRegistryType"
-          [formControlInput]="formGroupInput.controls['mofcomRegistryType']"
+          [formControlInput]="formGroupInput.get('mofcomRegistryType')"
           [objList]="types.mofcomRegistryTypes"
           sizeClass='m-size-input'
         >
@@ -32,7 +32,7 @@
         <!-- 商务部登记类别 -->
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.mofcomRegistryType"
-          [formControlInput]="formGroupInput.controls['mofcomRegistryType']"
+          [formControlInput]="formGroupInput.get('mofcomRegistryType')"
           [objList]="types.mofcomRegistryTypes"
           sizeClass='m-size-input'
         >
@@ -58,7 +58,7 @@
         <app-autocomplete-combo
           [isTrueOrFalse]="true"
           [placeholderInput]="titles.metadata.isDeleted"
-          [formControlInput]="formGroupInput.controls['metadata'].controls['isDeleted']"
+          [formControlInput]="formGroupInput.get('metadata.isDeleted')"
           sizeClass='s-size-input'
         >
         </app-autocomplete-combo>   
@@ -71,7 +71,7 @@
       <md-input-container class="xxl-size-input">
         <input mdInput 
           [placeholder]="titles.metadata.deletedFor" 
-          [formControl]="formGroupInput.controls['metadata'].controls['deletedFor']">
+          [formControl]="formGroupInput.get('metadata.deletedFor')">
       </md-input-container>
     </small>
   </md-toolbar>

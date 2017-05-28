@@ -18,14 +18,14 @@
 
 
   <div formArrayName="feesAndDeductions">
-    <div *ngFor="let fd of formGroupInput.get('feesAndDeductions').controls; let i=index" [formGroupName]="i">
+    <div *ngFor="let fd of fds; let i=index" [formGroupName]="i">
       <md-input-container class="s-size-input">
         <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
       </md-input-container>
 
       <app-autocomplete-combo
         [placeholderInput]="titles.vehicles.feesAndDeductions.type"
-        [formControlInput]="fd.controls['type']"
+        [formControlInput]="fd.get('type')"
         [objList]="types.feesAndDeductionsTypes"
         sizeClass="m-size-input"
         [toSort]="false"
