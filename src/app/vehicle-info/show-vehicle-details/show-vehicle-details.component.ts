@@ -27,15 +27,20 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
   mofcomRegistryTypeChange_: Subscription;
   isPersonChange_: Subscription;
-  
-  feesAndDeductionMethods = {
-    delete: (index: number) => {
-      (this.vehicleForm.get('feesAndDeductions') as FormArray).removeAt(index);
-    },
-    new: (newFDForm: FormGroup) => {
-      (this.vehicleForm.get('feesAndDeductions') as FormArray).push(newFDForm);
+
+
+  formArrayMethods(formArrayPath) {
+    const self = this;
+    return {
+      delete: (index: number) => {
+        (self.vehicleForm.get(formArrayPath) as FormArray).removeAt(index);
+      },
+      new: (newFDForm: FormGroup) => {
+        (self.vehicleForm.get(formArrayPath) as FormArray).push(newFDForm);
+      }
     }
-  }
+  };
+
   prepareSubmit() {
     /*
     mofcomRegistryType
@@ -67,6 +72,56 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       metadata: this.fb.group({
         isDeleted: [this.vehicle.metadata.isDeleted],
         deletedFor: [this.vehicle.metadata.deletedFor],
+      }),
+      status: this.fb.group({
+        ownerDocsReady: this.fb.group({
+          done: [this.vehicle.status.ownerDocsReady.done],
+          date: [this.vehicle.status.ownerDocsReady.date]
+        }),
+        platesCollectedByOwner: this.fb.group({
+          done: [this.vehicle.status.platesCollectedByOwner.done],
+          date: [this.vehicle.status.platesCollectedByOwner.date]
+        }),
+        rubbing: this.fb.group({
+          done: [this.vehicle.status.rubbing.done],
+          date: [this.vehicle.status.rubbing.date]
+        }),
+        photosOnEntrance: this.fb.group({
+          done: [this.vehicle.status.photosOnEntrance.done],
+          date: [this.vehicle.status.photosOnEntrance.date]
+        }),
+        photosAfterCuttingUp: this.fb.group({
+          done: [this.vehicle.status.photosAfterCuttingUp.done],
+          date: [this.vehicle.status.photosAfterCuttingUp.date]
+        }),
+        policeSiteEntry: this.fb.group({
+          done: [this.vehicle.status.policeSiteEntry.done],
+          date: [this.vehicle.status.policeSiteEntry.date]
+        }),
+        mofcomEntry: this.fb.group({
+          done: [this.vehicle.status.mofcomEntry.done],
+          date: [this.vehicle.status.mofcomEntry.date],
+          ref: [this.vehicle.status.mofcomEntry.ref]
+        }),
+        mofcomCertReady: this.fb.group({
+          done: [this.vehicle.status.mofcomCertReady.done],
+          date: [this.vehicle.status.mofcomCertReady.date],
+        }),
+        mofcomCertCollectedByOwnerAndSigned: this.fb.group({
+          done: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done],
+          date: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.date],
+        }),
+        latestDismantlingOrder: this.fb.group({
+          id: [this.vehicle.status.latestDismantlingOrder.id],
+          type: [this.vehicle.status.latestDismantlingOrder.type.name],
+          done: [this.vehicle.status.latestDismantlingOrder.done],
+        }),
+        latestSurveyOrder: this.fb.group({
+          id: [this.vehicle.status.latestSurveyOrder.id],
+          type: [this.vehicle.status.latestSurveyOrder.type.name],
+          done: [this.vehicle.status.latestSurveyOrder.done],
+        }),
+        remarks: this.fb.array([]),
       }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
@@ -188,6 +243,16 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       })))
     });
 
+
+    /* start of - setting up this.vehicleForm.controls('remarks')*/
+    const remarks = this.vehicle.remarks.map(r => this.fb.group({
+      content: [{value: r.content, disabled: true}],
+      date: [{value: r.date, disabled: true}],
+      by: [{value: r.by, disabled: true}]
+    }));
+    const remarksFormArray = this.fb.array(remarks);
+    this.vehicleForm.setControl('remarks', remarksFormArray);
+    /* end of - setting up this.vehicleForm.controls('remarks')*/
 
 
     this.filteredVTypesRx = this.valueChangesToFilteredObjListRx(

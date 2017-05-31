@@ -7,14 +7,14 @@
   </md-card-header>
   <md-card-content>
     
-    <div class="form-group flex-container" formGroupName="owner">
+    <div class="flex-container" formGroupName="owner">
       <md-input-container class="xxl-size-input">
         <input mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
       </md-input-container>
     </div>
 
       
-    <div class="form-group" formGroupName="owner">
+    <div formGroupName="owner">
       <!-- 是否私家车 -->
       <app-autocomplete-combo
         [isTrueOrFalse]="true"
@@ -76,7 +76,7 @@
 
     </div>
 
-    <div class="form-group" formGroupName="agent" *ngIf="formGroupInput.get('owner.isByAgent').value">
+    <div formGroupName="agent" *ngIf="formGroupInput.get('owner.isByAgent').value">
       <md-input-container class="m-size-input">
         <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
       </md-input-container>

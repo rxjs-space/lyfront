@@ -33,7 +33,7 @@
   </md-toolbar>
 
   <md-toolbar color="warn" *ngIf="this.vehicle.metadata.isDeleted">
-    <small class="form-group variable-length-input-container" formGroupName="metadata">
+    <small class="variable-length-input-container" formGroupName="metadata">
       <md-input-container class="s-size-input leading-input">
         <input mdInput [placeholder]="titles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
       </md-input-container>
@@ -63,7 +63,7 @@
     </md-card-header>
     <md-card-content>
           
-      <div class="form-group" formGroupName="vehicle">
+      <div formGroupName="vehicle">
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="titles.vehicles.vehicle.plateNo"
             formControlName="plateNo">
@@ -198,7 +198,7 @@
     </md-card-header>
     <md-card-content>
       
-      <div class="form-group variable-length-input-container" formGroupName="owner">
+      <div class="variable-length-input-container" formGroupName="owner">
 
         <md-input-container class="xxl-size-input">
           <input mdInput [placeholder]="titles.vehicles.owner.name" formControlName="name">
@@ -207,7 +207,7 @@
 
       
 
-      <div class="form-group" formGroupName="owner">
+      <div formGroupName="owner">
 
       <!-- start of isPerson auto-complete -->
         <md-input-container class="m-size-input leading-input">
@@ -272,7 +272,7 @@
       </div>
 
 
-      <div class="form-group" formGroupName="agent">
+      <div formGroupName="agent">
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="titles.vehicles.agent.name" formControlName="name">
         </md-input-container>
@@ -350,10 +350,10 @@
 
 
   <md-card class="info-card not-for-print">
-    <button md-raised-button color="primary">
+    <button type="submit" md-raised-button color="primary">
       保存更改
     </button>  
-    <button md-raised-button color="warn">
+    <button type="button" md-raised-button color="warn">
       删除记录
     </button>
   </md-card>

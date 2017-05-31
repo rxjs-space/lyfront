@@ -9,6 +9,12 @@
   <!-- 相关照片 -->
   <!--<app-details-photos>
   </app-details-photos>-->
+  
+  <!-- 状态信息 -->
+  <app-details-status
+    [titles]="titles" [types]="types"
+    [formGroupInput]="vehicleForm.get('status')">
+  </app-details-status>
 
   <!-- 车辆信息 -->
   <app-details-vehicle
@@ -31,8 +37,14 @@
   <app-details-condition-rv-fd
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm"
-    [methods]="feesAndDeductionMethods">
+    [methods]="formArrayMethods('feesAndDeductions')">
   </app-details-condition-rv-fd>
+
+  <app-details-remarks
+    [titles]="titles" [types]="types"
+    [formGroupInput]="vehicleForm.get('remarks')"
+    [methods]="formArrayMethods('remarks')">
+  </app-details-remarks>
 
   <md-card class="info-card not-for-print">
     <button md-raised-button color="primary">
@@ -62,7 +74,7 @@
     </md-card-content> 
   </md-card>  -->
 </form>
-
+<!--
 <md-card class="info-card not-for-print">
   <md-card-header>
     <md-card-title class="vertical-center-container">
@@ -78,7 +90,9 @@
           <md-input-container class="m-size-input">
             <input mdInput [placeholder]="titles.dismantlingOrders.id" formControlName="id">
           </md-input-container>
-          <!-- start of mofcomRegistryType auto-complete -->
+
+
+
           <md-input-container class="m-size-input" >
             <input mdInput [placeholder]="titles.dismantlingOrders.orderType" [mdAutocomplete]="autoDimantlingOrderType" formControlName="orderType">
           </md-input-container>
@@ -88,7 +102,8 @@
               {{ dOType.name }}
             </md-option>
           </md-autocomplete>
-          <!-- end of mofcomRegistryType auto-complete -->   
+
+
 
           <md-input-container class="l-size-input">
             <input mdInput type="date" [placeholder]="titles.dismantlingOrders.orderDate" formControlName="orderDate">
@@ -113,12 +128,12 @@
     新建拆解计划
   </button>  
 
-</md-card>
+</md-card>-->
 
 
 
 
-
+<!--
 
 <div class="not-for-print diagnosis-only">
 
@@ -144,7 +159,7 @@
     <md-card-content>{{vehicleForm.get('feesAndDeductions').value | json}}</md-card-content>
   </md-card>
 
-</div>
+</div>-->
 
 
 

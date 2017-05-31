@@ -1,0 +1,29 @@
+<md-card class="info-card" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{titles.vehicles.remarks.title}}</span></md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div *ngIf="remarkCtrls.length===0">暂无</div>
+    <ng-container  *ngIf="remarkCtrls.length!==0">
+    <div class="flex-container" *ngFor="let remarkCtrl of remarkCtrls; let i=index" [formGroupName]="i">
+      <md-input-container class="s-size-input">
+        <input mdInput [placeholder]="titles.vehicles.remarks.id" [value]="i+1" disabled>
+      </md-input-container>
+      <md-input-container class="m-size-input">
+        <input mdInput type="date" [placeholder]="titles.vehicles.remarks.date" formControlName="date">
+      </md-input-container>
+      <md-input-container class="xxl-size-input">
+        <input mdInput [placeholder]="titles.vehicles.remarks.content" formControlName="content">
+      </md-input-container>
+    </div>
+    </ng-container>
+    
+    <button type="button" md-button color="primary" (click)="openDialogNewRemark()">
+      添加备注
+    </button>  
+
+  </md-card-content>
+ 
+</md-card>

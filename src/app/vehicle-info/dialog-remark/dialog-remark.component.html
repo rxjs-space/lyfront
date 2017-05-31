@@ -1,0 +1,23 @@
+
+<md-card>
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <!--<i class="material-icons">chevron_right</i>-->
+        <h2>添加备注</h2></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <form [formGroup]="remarkForm" (ngSubmit)="dialogRef.close(remarkForm)">
+        <div>
+        <md-input-container class="xxl-size-input">
+          <input mdInput [placeholder]="data.titles.vehicles.remarks.content" formControlName="content">
+        </md-input-container>
+        </div>
+
+        <div md-dialog-actions>
+          <button md-button type="submit" color="primary" [disabled]="!remarkForm.valid">添加（未保存）</button>
+          <button md-button type="button" (click)="dialogRef.close(null)">取消</button>
+        </div>   
+      </form>
+     </md-card-content>
+   
+</md-card>

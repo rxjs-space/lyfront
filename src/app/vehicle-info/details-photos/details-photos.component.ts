@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./details-photos.component.scss']
 })
 export class DetailsPhotosComponent implements OnInit {
-  toDisplayVehicleImage = false;
+  toShowDetails = false;
 
   constructor() { }
 

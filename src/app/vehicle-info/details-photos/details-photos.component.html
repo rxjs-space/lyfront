@@ -4,16 +4,16 @@
       <md-card-title class="vertical-center-container">
         <i class="material-icons">chevron_right</i>
         <span>相关照片</span>
-        <span><button type="button" md-button color="primary" (click)="toDisplayVehicleImage = true"
-          *ngIf="!toDisplayVehicleImage"
-        >显示照片</button></span>
-        <span><button type="button" md-button color="primary" (click)="toDisplayVehicleImage = false"
-          *ngIf="toDisplayVehicleImage"
-        >隐藏照片</button></span>
+        <span><button type="button" md-button color="primary" (click)="toShowDetails = true"
+          *ngIf="!toShowDetails"
+        >展开</button></span>
+        <span><button type="button" md-button color="primary" (click)="toShowDetails = false"
+          *ngIf="toShowDetails"
+        >收起</button></span>
       </md-card-title>
     </md-card-header>
-    <md-card-content>
-      <md-tab-group *ngIf="toDisplayVehicleImage">
+    <md-card-content *ngIf="toShowDetails">
+      <md-tab-group>
         <md-tab label="行驶证正本正面">
           <md-card>
           <img md-card-image class="vehicle-image" src="https://device4870044-5412196c.wd2go.com/api/2.7/rest/file_contents/paizhao/JinPingGuo/%E7%9B%B8%E6%9C%BA%E8%83%B6%E5%8D%B7/IMG_0119.JPG?tn_type=i1024s1&device_user_id=29242892&device_user_auth_code=19e0e010d0f73d06a6490e456453d0cb">

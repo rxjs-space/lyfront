@@ -15,6 +15,9 @@ import { DetailsDocsComponent } from './details-docs/details-docs.component';
 import { DetailsConditionRvFdComponent } from './details-condition-rv-fd/details-condition-rv-fd.component';
 import { DialogFdComponent } from './dialog-fd/dialog-fd.component';
 import { DetailsPhotosComponent } from './details-photos/details-photos.component';
+import { DetailsStatusComponent } from './details-status/details-status.component';
+import { DetailsRemarksComponent } from './details-remarks/details-remarks.component';
+import { DialogRemarkComponent } from './dialog-remark/dialog-remark.component';
 
 @NgModule({
   imports: [
@@ -34,10 +37,14 @@ import { DetailsPhotosComponent } from './details-photos/details-photos.componen
     DetailsDocsComponent,
     DetailsConditionRvFdComponent,
     DialogFdComponent,
-    DetailsPhotosComponent
+    DetailsPhotosComponent,
+    DetailsStatusComponent,
+    DetailsRemarksComponent,
+    DialogRemarkComponent
   ],
   entryComponents: [
-    DialogFdComponent
+    DialogFdComponent,
+    DialogRemarkComponent
   ]
 })
 export class VehicleInfoModule { }

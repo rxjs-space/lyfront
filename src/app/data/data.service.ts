@@ -7,8 +7,8 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class DataService {
-  host = 'https://lymock.herokuapp.com';
-  // host = 'http://localhost:3000';
+  // host = 'https://lymock.herokuapp.com';
+  host = 'http://localhost:3000';
 
 
   vehiclesApiUrl = this.host + '/vehicles';

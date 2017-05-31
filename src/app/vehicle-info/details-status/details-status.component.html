@@ -1,0 +1,110 @@
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{titles.vehicles.status.title}}</span>
+      <span><button type="button" md-button color="primary" (click)="toShowDetails = true"
+        *ngIf="!toShowDetails"
+      >展开</button></span>
+      <span><button type="button" md-button color="primary" (click)="toShowDetails = false"
+        *ngIf="toShowDetails"
+      >收起</button></span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content *ngIf="toShowDetails" [formGroup]="formGroupInput">
+    <md-grid-list cols="4" rowHeight="2em" class="checkbox-array">
+      <md-grid-tile>
+        <div formGroupName="ownerDocsReady">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.ownerDocsReady}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="platesCollectedByOwner">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.platesCollectedByOwner}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="rubbing">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.rubbing}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <div formGroupName="photosOnEntrance">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.photosOnEntrance}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="photosAfterCuttingUp">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.photosAfterCuttingUp}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="policeSiteEntry">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.policeSiteEntry}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="mofcomEntry">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.mofcomEntry.title}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile [rowspan]="2">
+        <div formGroupName="mofcomEntry">
+          <md-input-container class="l-size-input same-line-height-input">
+            <input mdInput [placeholder]="titles.vehicles.status.mofcomEntry.ref" formControlName="ref">
+          </md-input-container>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="mofcomCertReady">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.mofcomCertReady}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile [colspan]="2">
+        <div formGroupName="mofcomCertCollectedByOwnerAndSigned">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.mofcomCertCollectedByOwnerAndSigned}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile [colspan]="2">
+        <div>
+          <span>{{ titles.vehicles.status.latestDismantlingOrder.title }}：</span>
+          <span class="with-underline">{{ titles.vehicles.status.latestDismantlingOrder.type }} - 
+          {{ formGroupInput.get('latestDismantlingOrder.type').value}}；
+          {{ titles.vehicles.status.latestDismantlingOrder.done }} - 
+          {{ formGroupInput.get('latestDismantlingOrder.done').value ? '完成' : '未完成'}}</span>    
+        </div>
+      </md-grid-tile>
+      <md-grid-tile [colspan]="2">
+        <div>
+          <span>{{ titles.vehicles.status.latestSurveyOrder.title }}：</span>
+          <span class="with-underline">{{ titles.vehicles.status.latestSurveyOrder.type }} - 
+          {{ formGroupInput.get('latestSurveyOrder.type').value}}；
+          {{ titles.vehicles.status.latestSurveyOrder.done }} - 
+          {{ formGroupInput.get('latestSurveyOrder.done').value ? '完成' : '未完成'}}</span>    
+        </div>
+      </md-grid-tile>
+    </md-grid-list>
+
+  </md-card-content>
+
+
+</md-card>
