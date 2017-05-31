@@ -76,6 +76,6 @@ export class DataService {
 
   private handleError(error: any) {
     console.error('An error occurred', error); // for demo purposes only
-    return Observable.of(error.message || error);
+    return Observable.throw(error);
   }
 }

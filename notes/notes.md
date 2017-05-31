@@ -42,6 +42,18 @@ https://stackoverflow.com/questions/42203135/multiple-child-component-inside-for
 ```
 
 
-to activate input[type="date"],
+## to activate input[type="date"],
 1) about:config
 2) dom.forms.datetime -> set to true
+
+## ssh
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/ly_rsa
+ssh -vT git@git.coding.net
+
+## photos on wd via internet
+thumbnail:
+https://device4870044-5412196c-local.wd2go.com/api/2.7/rest/file_contents/paizhao/JinPingGuo/%E7%9B%B8%E6%9C%BA%E8%83%B6%E5%8D%B7/IMG_0151.JPG?tn_type=i1024s1&device_user_id=29242892&device_user_auth_code=19e0e010d0f73d06a6490e456453d0cb
+
+full pic:
+https://device4870044-5412196c-local.wd2go.com/api/2.7/rest/file_contents/paizhao/JinPingGuo/%E7%9B%B8%E6%9C%BA%E8%83%B6%E5%8D%B7/IMG_0151.JPG?device_user_id=29242892&device_user_auth_code=19e0e010d0f73d06a6490e456453d0cb

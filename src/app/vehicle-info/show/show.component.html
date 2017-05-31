@@ -1,9 +1,8 @@
-<app-loading-or-error [httpJsonData]="zipData">
-</app-loading-or-error>
-<!-- app fails when wrapping following content in app-loading-or-error component -->
-<!-- will try to find out why -->
-
 <ng-container *ngIf="zipData">
+<app-loading-or-error [httpJsonData]="zipData">
+
+<ng-container *ngIf="!zipData.error">
+
   <button md-button color="primary"
     *ngIf="zipData.isFromList" class="lighter-color not-for-print" 
     (click)="goBack()">
@@ -16,5 +15,7 @@
     [vehicle]="zipData.vehicle"
     [dismantlingOrdersInput]="zipData.dismantlingOrders"
   ></app-show-vehicle-details>  
+</ng-container>  
+</app-loading-or-error>
 </ng-container>
 

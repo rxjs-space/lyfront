@@ -14,6 +14,7 @@ import { DetailsOwnerAgentComponent } from './details-owner-agent/details-owner-
 import { DetailsDocsComponent } from './details-docs/details-docs.component';
 import { DetailsConditionRvFdComponent } from './details-condition-rv-fd/details-condition-rv-fd.component';
 import { DialogFdComponent } from './dialog-fd/dialog-fd.component';
+import { DetailsPhotosComponent } from './details-photos/details-photos.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { DialogFdComponent } from './dialog-fd/dialog-fd.component';
     DetailsOwnerAgentComponent,
     DetailsDocsComponent,
     DetailsConditionRvFdComponent,
-    DialogFdComponent
+    DialogFdComponent,
+    DetailsPhotosComponent
   ],
   entryComponents: [
     DialogFdComponent

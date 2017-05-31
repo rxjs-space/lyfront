@@ -5,6 +5,8 @@ import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from '../auth/auth.guard';
+import { NotFoundComponent } from '../shared/not-found/not-found.component';
+
 
 /*
   TypesResolverService is provided at app.module
@@ -23,10 +25,12 @@ const routes: Routes = [
     // {path: '', component: ListComponent, pathMatch: 'full'},
     {path: 'new', component: NewComponent},
     {path: 'list', component: ListComponent},
+    {path: 'dismantling', component: NotFoundComponent},
+    {path: 'survey', component: NotFoundComponent},
     {path: ':id', /*resolve: {
       vehicle: VehicleResolverService,
       dismantlingOrders: DismantlingOrdersByVINResolverService
-      },*/ component: ShowComponent}
+    },*/ component: ShowComponent},
   ]},
 
 ];
