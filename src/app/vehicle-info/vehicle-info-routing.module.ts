@@ -23,7 +23,7 @@ const routes: Routes = [
     }, */component: HomeComponent, children: [
     {path: '', redirectTo: 'list', pathMatch: 'full'},
     // {path: '', component: ListComponent, pathMatch: 'full'},
-    {path: 'new', component: NewComponent},
+    {path: 'new', component: ShowComponent},
     {path: 'list', component: ListComponent},
     {path: 'dismantling', component: NotFoundComponent},
     {path: 'survey', component: NotFoundComponent},

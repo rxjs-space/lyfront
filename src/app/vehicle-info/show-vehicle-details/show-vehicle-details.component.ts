@@ -26,8 +26,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
 
-  mofcomRegisterTypeChange_: Subscription;
-  isPersonChange_: Subscription;
+  subscriptions: Subscription[] = [];
 
 
   formArrayMethods(formArrayPath) {
@@ -59,51 +58,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     delete vehicleToSubmit.residualValueAfterFD;
     vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
 
-
-    // const tempBrand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
-    // if (tempBrand) {
-    //   vehicleToSubmit.vehicle.brand = tempBrand;
-    // } else {
-    //   // create new brand
-    // };
-
-
-    const bf = this.vehicle;
-    const af = vehicleToSubmit;
-
-
-
-
-    
-    const compare = (objA, objB) => {
-      const keys = Object.keys(objA);
-      keys.forEach(k => {
-        const keyss = Object.keys(objA[k])
-        if (keyss.length) {
-          keyss.forEach(kk => {
-            if (JSON.stringify(objA[k][kk])!==JSON.stringify(objB[k][kk])) {
-              console.log(k, kk);
-            console.log(JSON.stringify(objA[k][kk]));
-            console.log(JSON.stringify(objB[k][kk]));
-
-            }
-
-          })
-        } else {
-
-          if (JSON.stringify(objA[k])===JSON.stringify(objB[k])) {
-            console.log(k);
-          console.log(JSON.stringify(objA[k]));
-          console.log(JSON.stringify(objB[k]));
-
-          }
-
-        }
-        // console.log(objA[k], objB[k])
-      })
-    };
-    compare(bf, af);
-    debugger;
 
     /*
     vehicleForm.vehicle.brand (create new if not listed)
@@ -289,7 +243,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     /* end of - setting up this.vehicleForm.controls('feesAndDeductions')*/
 
     /* set residualValueAfterFD */
-    Observable.merge(
+    const rvCal_ = Observable.merge(
       this.vehicleForm.get('vehicle.residualValueBeforeFD').valueChanges, 
       this.vehicleForm.get('feesAndDeductions').valueChanges)
       .startWith(null)
@@ -300,7 +254,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
           feesAndDeductions += ctrl.get('amount').value;
         });
         this.vehicleForm.get('residualValueAfterFD').setValue(residualValueBeforeFD - feesAndDeductions);
-      })
+      });
+
+    this.subscriptions.push(rvCal_);
 
     // this.dismantlingOrdersForm = this.fb.group({
     //   dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
@@ -346,7 +302,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     /*
       change ... on mofcomRegisterType changes
     */
-    this.mofcomRegisterTypeChange_ = this.vehicleForm.get('mofcomRegisterType').valueChanges
+    const mofcomRegisterTypeChange_ = this.vehicleForm.get('mofcomRegisterType').valueChanges
       .subscribe(value => {
         switch (value.name) {
           // change isRemote on mofcomRegisterTypeChange
@@ -358,10 +314,19 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
+    this.subscriptions.push(mofcomRegisterTypeChange_);
+
+    const isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
       .subscribe(value => {
         this.vehicleForm.get('owner.idType').setValue('');
       });
+
+    this.subscriptions.push(isPersonChange_);
+
+    // const brandChange_ = this.vehicleForm.get('vehicle.brand').valueChanges
+    //   .subscribe(value => {
+    //     console.log(value);
+    //   })
   }
 
 
@@ -384,7 +349,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   // -------- end of dismantlingOrders related methods --------
 
   ngOnDestroy() {
-    this.mofcomRegisterTypeChange_.unsubscribe();
+    this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {

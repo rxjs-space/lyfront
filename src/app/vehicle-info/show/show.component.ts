@@ -29,17 +29,18 @@ export class ShowComponent implements OnInit, OnDestroy {
     private data: DataService) { }
 
   ngOnInit() {
-
-    this.zip_ = this.route.params.switchMap(params => {
-      console.log(params);
-      return Observable.zip(
-        this.data.getVehicleById(params['id']),
-        this.data.typesRx,
-        this.data.titlesRx,
-        Observable.of(params['isFromList']),
-        (vehicle, types, titles, isFromList) => ({
-          vehicle, types, titles, isFromList
-        }));
+    this.zip_ = this.route.url.switchMap(url => {
+      const isNew = url[0].path === 'new';
+      return this.route.params.switchMap(params => {
+        return Observable.zip(
+          (isNew ? this.data.getVehicleById('ABCD12345678') : this.data.getVehicleById(params['id'])),
+          this.data.typesRx,
+          this.data.titlesRx,
+          Observable.of(params['isFromList']),
+          (vehicle, types, titles, isFromList) => ({
+            vehicle, types, titles, isFromList
+          }));
+      });
     })
       .catch(error => Observable.of({ok: false, error}))
       .subscribe(zipData => this.zipData = zipData);

@@ -16,4 +16,5 @@ export class DetailsVehicleComponent implements OnInit {
   ngOnInit() {
   }
 
+
 }

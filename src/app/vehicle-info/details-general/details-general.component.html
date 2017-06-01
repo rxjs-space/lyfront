@@ -1,8 +1,13 @@
+  <ng-template #vehicleId>
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.id" [formControl]="formGroupInput.get('id')">
+      </md-input-container>
+  </ng-template>
+  
+  
   <md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput">
     <div>
-      <md-input-container>
-        <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
-      </md-input-container>
+      <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
       <small>
 
         <md-input-container class="l-size-input">
@@ -28,9 +33,7 @@
 
   <md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
     <div>
-      <md-input-container>
-        <input mdInput [placeholder]="titles.vehicles.id" formControlName="id">
-      </md-input-container>
+      <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
       <small>
         <md-input-container class="l-size-input">
           <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
