@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';
 
 
@@ -30,6 +31,15 @@ export class DataService {
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }
+
+  saveVehicleById(id, body) {
+    return this.http.put(this.vehiclesApiUrl + '/' + id, body)
+      .map(res => res.json())
+      .do(console.log)
+      .catch(err => this.handleError(err));
+  }
+
+
 
   getDismantlingOrders() {
     return this.http.get(this.dismantlingOrdersApiUrl)

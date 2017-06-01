@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   authenticateResult: any;
   authenticating = false;
+  isConnectionDown = false;
   constructor(
     private fb: FormBuilder, 
     private auth: AuthService) { }
@@ -40,10 +41,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.authenticating = true;
+    this.isConnectionDown = false;
     this.auth.authenticate(this.loginForm.value)
       .subscribe(authenticateResult => {
         this.authenticating = false;
-        this.authenticateResult = authenticateResult;
+        if (authenticateResult.ok === false) {
+          this.isConnectionDown = true;
+        } else {
+          this.authenticateResult = authenticateResult;
+        }
       });
   }
 }

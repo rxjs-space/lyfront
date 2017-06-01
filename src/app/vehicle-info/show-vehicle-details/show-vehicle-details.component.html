@@ -1,4 +1,4 @@
-<form [formGroup]="vehicleForm" novalidate class="main-form">
+<form [formGroup]="vehicleForm" (ngSubmit)="prepareSubmit(vehicleForm)" novalidate class="main-form">
 
   <!-- 一般信息 -->
   <app-details-general
@@ -46,14 +46,14 @@
     [methods]="formArrayMethods('remarks')">
   </app-details-remarks>
 
-  <md-card class="info-card not-for-print">
-    <button md-raised-button color="primary">
+  <div class="fixed-button-bottom">
+    <button md-raised-button color="primary" [disabled]="vehicleForm.get('metadata.isDeleted').value">
       保存更改
     </button>  
-    <button md-raised-button color="warn">
+    <button md-raised-button color="warn" [disabled]="vehicleForm.get('metadata.isDeleted').value">
       删除记录
     </button>
-  </md-card>
+  </div>
 
   <!--<md-card class="info-card">
     <md-card-header>

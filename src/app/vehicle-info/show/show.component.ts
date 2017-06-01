@@ -31,14 +31,14 @@ export class ShowComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.zip_ = this.route.params.switchMap(params => {
+      console.log(params);
       return Observable.zip(
         this.data.getVehicleById(params['id']),
-        this.data.getDismantlingOrdersByVIN(params['id']),
         this.data.typesRx,
         this.data.titlesRx,
         Observable.of(params['isFromList']),
-        (vehicle, dismantlingOrders, types, titles, isFromList) => ({
-          vehicle, dismantlingOrders, types, titles, isFromList
+        (vehicle, types, titles, isFromList) => ({
+          vehicle, types, titles, isFromList
         }));
     })
       .catch(error => Observable.of({ok: false, error}))
@@ -52,6 +52,10 @@ export class ShowComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.location.back();
+  }
+
+  saveVehicle(id, body) {
+    return this.data.saveVehicleById(id, body);
   }
 
 }

@@ -63,13 +63,7 @@
           </md-checkbox>
         </div>
       </md-grid-tile>
-      <md-grid-tile [rowspan]="2">
-        <div formGroupName="mofcomEntry">
-          <md-input-container class="l-size-input same-line-height-input">
-            <input mdInput [placeholder]="titles.vehicles.status.mofcomEntry.ref" formControlName="ref">
-          </md-input-container>
-        </div>
-      </md-grid-tile>
+
       <md-grid-tile>
         <div formGroupName="mofcomCertReady">
           <md-checkbox color="primary" formControlName="done">
@@ -84,24 +78,29 @@
           </md-checkbox>
         </div>
       </md-grid-tile>
-      <md-grid-tile [colspan]="2">
-        <div>
-          <span>{{ titles.vehicles.status.latestDismantlingOrder.title }}：</span>
-          <span class="with-underline">{{ titles.vehicles.status.latestDismantlingOrder.type }} - 
-          {{ formGroupInput.get('latestDismantlingOrder.type').value}}；
-          {{ titles.vehicles.status.latestDismantlingOrder.done }} - 
-          {{ formGroupInput.get('latestDismantlingOrder.done').value ? '完成' : '未完成'}}</span>    
+      <md-grid-tile>
+        <div formGroupName="firstSurvey">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.firstSurvey}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="secondSurvey">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.secondSurvey}}
+          </md-checkbox>
         </div>
       </md-grid-tile>
       <md-grid-tile [colspan]="2">
-        <div>
-          <span>{{ titles.vehicles.status.latestSurveyOrder.title }}：</span>
-          <span class="with-underline">{{ titles.vehicles.status.latestSurveyOrder.type }} - 
-          {{ formGroupInput.get('latestSurveyOrder.type').value}}；
-          {{ titles.vehicles.status.latestSurveyOrder.done }} - 
-          {{ formGroupInput.get('latestSurveyOrder.done').value ? '完成' : '未完成'}}</span>    
+        <div formGroupName="dismantled">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.dismantled}}
+          </md-checkbox>
+          <button md-button type="button" color="primary">查看/新建拆解计划</button>
         </div>
       </md-grid-tile>
+
     </md-grid-list>
 
   </md-card-content>

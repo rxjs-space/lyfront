@@ -26,6 +26,9 @@
         <button md-raised-button type="submit" color="primary" 
           [disabled]="!loginForm.valid || authenticating">登录</button>
         <md-spinner *ngIf="authenticating" class="inline-spinner"></md-spinner>
+        <span class="errorMessage" *ngIf="isConnectionDown">
+          请检查网络连接
+        </span>             
       </form>
 
       </md-card-content>

@@ -8,6 +8,7 @@ import { DataService } from '../../data/data.service';
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
+
 @Component({
   selector: 'app-vehicle-new',
   templateUrl: './new.component.html',
@@ -53,3 +54,5 @@ export class NewComponent implements OnInit {
   }
 
 }
+
+

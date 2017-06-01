@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -15,17 +15,18 @@ import { DisplayFunctionsService } from '../../shared/display-functions/display-
 })
 export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   vehicleForm: FormGroup;
-  dismantlingOrdersForm: FormGroup;
+  // dismantlingOrdersForm: FormGroup;
   @Input() vehicle;
   @Input() types;
   @Input() titles;
-  @Input() dismantlingOrdersInput;
+  // @Input() dismantlingOrdersInput;
+  @Output() save: EventEmitter<any> = new EventEmitter();
 
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
 
-  mofcomRegistryTypeChange_: Subscription;
+  mofcomRegisterTypeChange_: Subscription;
   isPersonChange_: Subscription;
 
 
@@ -41,9 +42,75 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     }
   };
 
-  prepareSubmit() {
+  prepareSubmit(vehicleForm: FormGroup) {
+    const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
+    vehicleToSubmit.mofcomRegisterType = this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType);
+    vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType);
+    vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter);
+    vehicleToSubmit.vehicle.aquisitionType = this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType);
+    vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType);
+    vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType);
+    vehicleToSubmit.feesAndDeductions.forEach(fd => {
+      fd.type = this.types.feesAndDeductionsTypes.find(
+        t => t.name === fd.type);
+    });
+    vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
+      find(t => t.name === vehicleToSubmit.owner.idType);
+    delete vehicleToSubmit.residualValueAfterFD;
+    vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
+
+
+    // const tempBrand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
+    // if (tempBrand) {
+    //   vehicleToSubmit.vehicle.brand = tempBrand;
+    // } else {
+    //   // create new brand
+    // };
+
+
+    const bf = this.vehicle;
+    const af = vehicleToSubmit;
+
+
+
+
+    
+    const compare = (objA, objB) => {
+      const keys = Object.keys(objA);
+      keys.forEach(k => {
+        const keyss = Object.keys(objA[k])
+        if (keyss.length) {
+          keyss.forEach(kk => {
+            if (JSON.stringify(objA[k][kk])!==JSON.stringify(objB[k][kk])) {
+              console.log(k, kk);
+            console.log(JSON.stringify(objA[k][kk]));
+            console.log(JSON.stringify(objB[k][kk]));
+
+            }
+
+          })
+        } else {
+
+          if (JSON.stringify(objA[k])===JSON.stringify(objB[k])) {
+            console.log(k);
+          console.log(JSON.stringify(objA[k]));
+          console.log(JSON.stringify(objB[k]));
+
+          }
+
+        }
+        // console.log(objA[k], objB[k])
+      })
+    };
+    compare(bf, af);
+    debugger;
+
     /*
-    mofcomRegistryType
+    vehicleForm.vehicle.brand (create new if not listed)
+    */
+
+    /*
+    mofcomRegisterType
     vehicleForm.vehicle.vehicleType
     vehicleForm.vehicle.useCharacter
     vehicleForm.vehicle.brand (create new if not listed)
@@ -64,14 +131,21 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.vehicleForm = this.fb.group({
-      id: {value: this.vehicle.id, disabled: true},
-      mofcomRegistryType: [this.vehicle.mofcomRegistryType.name, [
-        this.sv.notListed(this.types.mofcomRegistryTypes.map(type => type.name))
+      id: [{value: this.vehicle.id, disabled: true}],
+      batchId: [this.vehicle.batchId],
+      isToDeregister: [this.vehicle.isToDeregister],
+      mofcomRegisterType: [this.vehicle.mofcomRegisterType.name, [
+        this.sv.notListed(this.types.mofcomRegisterTypes.map(type => type.name))
       ]],
+      mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate],
       metadata: this.fb.group({
         isDeleted: [this.vehicle.metadata.isDeleted],
         deletedFor: [this.vehicle.metadata.deletedFor],
+        deletedBy: [this.vehicle.metadata.deletedBy],
+        deletedAt: [this.vehicle.metadata.deletedAt],
+        createdAt: [this.vehicle.metadata.createdAt],
+        createdBy: [this.vehicle.metadata.createdBy],
       }),
       status: this.fb.group({
         ownerDocsReady: this.fb.group({
@@ -111,15 +185,17 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
           done: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done],
           date: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.date],
         }),
-        latestDismantlingOrder: this.fb.group({
-          id: [this.vehicle.status.latestDismantlingOrder.id],
-          type: [this.vehicle.status.latestDismantlingOrder.type.name],
-          done: [this.vehicle.status.latestDismantlingOrder.done],
+        firstSurvey: this.fb.group({
+          done: [{value: this.vehicle.status.firstSurvey.done, disabled: true}],
+          date: [this.vehicle.status.firstSurvey.date],
         }),
-        latestSurveyOrder: this.fb.group({
-          id: [this.vehicle.status.latestSurveyOrder.id],
-          type: [this.vehicle.status.latestSurveyOrder.type.name],
-          done: [this.vehicle.status.latestSurveyOrder.done],
+        secondSurvey: this.fb.group({
+          done: [{value: this.vehicle.status.secondSurvey.done, disabled: true}],
+          date: [this.vehicle.status.secondSurvey.date],
+        }),
+        dismantled: this.fb.group({
+          done: [{value: this.vehicle.status.dismantled.done, disabled: true}],
+          date: [this.vehicle.status.dismantled.date],
         }),
         remarks: this.fb.array([]),
       }),
@@ -226,22 +302,22 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         this.vehicleForm.get('residualValueAfterFD').setValue(residualValueBeforeFD - feesAndDeductions);
       })
 
-    this.dismantlingOrdersForm = this.fb.group({
-      dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
-        id: {value: dOrder.id, disabled: true},
-        vin: [dOrder.vin],
-        orderType: [{value: dOrder.orderType, disabled: true}, this.sv.notListedInObjList(this.types.dismantlingOrderTypes)],
-        orderDate: [{value: dOrder.orderDate, disabled: true}],
-        estimatedFinishDate: [{
-          value: dOrder.estimatedFinishDate,
-          disabled: dOrder.estimatedFinishDate ? true : false
-        }],
-        actualFinishDate: [{
-          value: dOrder.actualFinishDate,
-          disabled: dOrder.actualFinishDate ? true : false
-        }]
-      })))
-    });
+    // this.dismantlingOrdersForm = this.fb.group({
+    //   dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
+    //     id: {value: dOrder.id, disabled: true},
+    //     vin: [dOrder.vin],
+    //     orderType: [{value: dOrder.orderType, disabled: true}, this.sv.notListedInObjList(this.types.dismantlingOrderTypes)],
+    //     orderDate: [{value: dOrder.orderDate, disabled: true}],
+    //     estimatedFinishDate: [{
+    //       value: dOrder.estimatedFinishDate,
+    //       disabled: dOrder.estimatedFinishDate ? true : false
+    //     }],
+    //     actualFinishDate: [{
+    //       value: dOrder.actualFinishDate,
+    //       disabled: dOrder.actualFinishDate ? true : false
+    //     }]
+    //   })))
+    // });
 
 
     /* start of - setting up this.vehicleForm.controls('remarks')*/
@@ -268,12 +344,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     );
 
     /*
-      change ... on mofcomRegistryType changes
+      change ... on mofcomRegisterType changes
     */
-    this.mofcomRegistryTypeChange_ = this.vehicleForm.get('mofcomRegistryType').valueChanges
+    this.mofcomRegisterTypeChange_ = this.vehicleForm.get('mofcomRegisterType').valueChanges
       .subscribe(value => {
         switch (value.name) {
-          // change isRemote on mofcomRegistryTypeChange
+          // change isRemote on mofcomRegisterTypeChange
           case '异地':
             this.vehicleForm.get('owner.isRemote').setValue(true);
             break;
@@ -290,25 +366,25 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
 
   // -------- start of dismantlingOrders related methods --------
-  get dismantlingOrders(): FormArray  {
-    return this.dismantlingOrdersForm.get('dismantlingOrders') as FormArray;
-  }
+  // get dismantlingOrders(): FormArray  {
+  //   return this.dismantlingOrdersForm.get('dismantlingOrders') as FormArray;
+  // }
 
-  addDismantlingOrder() {
-    this.dismantlingOrders.push(this.fb.group({
-      id: {value: '待定', disabled: true},
-      vin: [this.vehicle.vin],
-      orderType: ['', this.sv.notListedInObjList(this.types.dismantlingOrderTypes)],
-      orderDate: [(new Date()).toISOString().slice(0, 10)],
-      estimatedFinishDate: [''],
-      actualFinishDate: ['']
-    }));
-  }
+  // addDismantlingOrder() {
+  //   this.dismantlingOrders.push(this.fb.group({
+  //     id: {value: '待定', disabled: true},
+  //     vin: [this.vehicle.vin],
+  //     orderType: ['', this.sv.notListedInObjList(this.types.dismantlingOrderTypes)],
+  //     orderDate: [(new Date()).toISOString().slice(0, 10)],
+  //     estimatedFinishDate: [''],
+  //     actualFinishDate: ['']
+  //   }));
+  // }
 
   // -------- end of dismantlingOrders related methods --------
 
   ngOnDestroy() {
-    this.mofcomRegistryTypeChange_.unsubscribe();
+    this.mofcomRegisterTypeChange_.unsubscribe();
   }
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {
@@ -337,5 +413,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   sortObjListByName(objList: {name: string}[]) {
     return objList.sort((a, b) => a.name.localeCompare(b.name));
   }
+
 
 }
