@@ -2,7 +2,7 @@
 <app-loading-or-error [httpJsonData]="zipData">
 
 <ng-container *ngIf="!zipData.error">
-
+  <button (click)="saveVehicle('ABCD12345678', {test: 2})">save</button>
   <button md-button color="primary"
     *ngIf="zipData.isFromList" class="lighter-color not-for-print" 
     (click)="goBack()">
@@ -14,6 +14,7 @@
     [types]="zipData.types"
     [vehicle]="zipData.vehicle"
     [methods]="methods"
+    (save)="saveVehicle($event.id, $event.details)"
   ></app-show-vehicle-details>  
 </ng-container>  
 </app-loading-or-error>

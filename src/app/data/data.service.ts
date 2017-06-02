@@ -33,9 +33,10 @@ export class DataService {
   }
 
   saveVehicleById(id, body) {
-    return this.http.put(this.vehiclesApiUrl + '/' + id, body)
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.patch(this.vehiclesApiUrl + '/' + id, body, options)
       .map(res => res.json())
-      // .do(console.log)
       .catch(err => this.handleError(err));
   }
 

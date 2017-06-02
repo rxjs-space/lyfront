@@ -60,7 +60,11 @@ export class ShowComponent implements OnInit, OnDestroy {
   }
 
   saveVehicle(id, body) {
-    return this.data.saveVehicleById(id, body);
+    console.log(id);
+    console.log(body);
+    // return this.data.saveVehicleById(id, body)
+    //   .subscribe(r => console.log(r));
   }
+
 
 }

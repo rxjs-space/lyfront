@@ -1,4 +1,6 @@
-<form [formGroup]="vehicleForm" (ngSubmit)="prepareSubmit(vehicleForm)" novalidate class="main-form">
+<form [formGroup]="vehicleForm" 
+  (ngSubmit)="save.emit({id: vehicleForm.get('id').value, details: prepareSubmit(vehicleForm)})" 
+  novalidate class="main-form">
 
   <!-- 一般信息 -->
   <app-details-general
@@ -56,10 +58,15 @@
   </app-details-vehicle-costs>
 
   <div class="fixed-button-bottom not-for-print">
-    <button md-raised-button color="primary" [disabled]="vehicleForm.get('metadata.isDeleted').value">
+    <button md-raised-button color="primary"
+      type="submit"
+      [disabled]="!vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value"
+    >
       保存更改
     </button>  
-    <button md-raised-button color="warn" [disabled]="vehicleForm.get('metadata.isDeleted').value">
+    <button md-raised-button color="warn"
+      type="button"
+      [disabled]="!vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value">
       删除记录
     </button>
   </div>

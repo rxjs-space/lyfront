@@ -78,10 +78,14 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       fd.type = this.types.feesAndDeductionsTypes.find(
         t => t.name === fd.type);
     });
+    vehicleToSubmit.vehicleCosts.forEach(vc => {
+      vc.type = this.types.vehicleCostTypes.find(
+        t => t.name === vc.type);
+    });
     vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
       find(t => t.name === vehicleToSubmit.owner.idType);
     vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
-
+    return vehicleToSubmit;
 
     /*
     vehicleForm.vehicle.brand (create new if not listed)
@@ -272,7 +276,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       type: [{value: fd.type.name, disabled: true}],
       part: [fd.part && fd.part.name],
       details: [fd.details],
-      amount: [fd.amount, Validators.pattern(/^[0-9]+$/)]
+      amount: [fd.amount, [Validators.pattern(/^[0-9]+$/), Validators.required]]
     }));
     const fdsFormArray = this.fb.array(fds);
     this.vehicleForm.setControl('feesAndDeductions', fdsFormArray);
