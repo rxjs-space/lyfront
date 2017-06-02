@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../data/data.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -26,11 +26,12 @@ export class ShowComponent implements OnInit, OnDestroy {
     updateBrands: (brands) => {
       return this.data.updateBrands(brands);
     }
-  }
+  };
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private data: DataService) { }
+    private data: DataService,
+    private router: Router) { }
 
   ngOnInit() {
     this.zip_ = this.route.url.switchMap(url => {
@@ -60,10 +61,14 @@ export class ShowComponent implements OnInit, OnDestroy {
   }
 
   saveVehicle(id, body) {
-    // console.log(id);
-    // console.log(body);
     return this.data.saveVehicleById(id, body)
-      .subscribe(r => console.log(r));
+      .subscribe(r => {
+        // console.log(r);
+        // reload
+        console.log('saved');
+        this.zipData.vehicle = r;
+        this.router.navigate(['/vehicles/' + id]);
+      });
   }
 
 

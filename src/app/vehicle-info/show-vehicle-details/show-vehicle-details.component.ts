@@ -1,9 +1,12 @@
 import { Component, EventEmitter, OnInit, OnDestroy, Input, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/filter';
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
@@ -26,8 +29,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
-
+  pendingOps: BehaviorSubject<number> = new BehaviorSubject(0);
   subscriptions: Subscription[] = [];
+  initSubscriptions: Subscription[] = [];
 
 
   formArrayMethods(formArrayPath) {
@@ -42,16 +46,29 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     }
   };
 
+  ngOnChanges() {
+    console.log('changes');
+    if (!!this.vehicleForm) {
+      this.initSubscriptions.forEach(sub_ => sub_.unsubscribe());
+      this.vehicleForm = null;
+      this.ngOnInit.call(this);
+    }
+
+  }
+
   onBrandBlur(event) {
+    this.pendingOps.next(this.pendingOps.getValue() + 1);
     const brandName = event.target.value;
     if (brandName && !this.types.brands.find(b => b.name === brandName)) {
       return this.createBrandIfNone(brandName)
         .catch(error => Observable.of({ok: false, error}))
         .subscribe(result => {
           if (result.error) {
-            console.log(result.error)
+            console.log(result.error);
             return;
           } else {
+            console.log('got new brands');
+            this.pendingOps.next(this.pendingOps.getValue() - 1);
             this.types.brands = result.brands;
           }
         });
@@ -63,29 +80,44 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       id: this.types.brands.length + 1,
       name: brandName
     }]);
-    return this.methods.updateBrands(newBrands);
+    return this.methods.updateBrands(newBrands) as Observable<any>;
   }
 
   prepareSubmit(vehicleForm: FormGroup) {
-    const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
-    vehicleToSubmit.mofcomRegisterType = this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType);
-    vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType);
-    vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter);
-    vehicleToSubmit.vehicle.aquisitionType = this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType);
-    vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType);
-    vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType);
-    vehicleToSubmit.feesAndDeductions.forEach(fd => {
-      fd.type = this.types.feesAndDeductionsTypes.find(
-        t => t.name === fd.type);
-    });
-    vehicleToSubmit.vehicleCosts.forEach(vc => {
-      vc.type = this.types.vehicleCostTypes.find(
-        t => t.name === vc.type);
-    });
-    vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
-      find(t => t.name === vehicleToSubmit.owner.idType);
-    vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
-    return vehicleToSubmit;
+    const sub_ = this.pendingOps
+      .filter(v => {
+        return v === 0;
+      })
+      .first()
+      .map(() => { // after all pendingOps done (including updateBrands)
+        console.log('preparing');
+        const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
+        vehicleToSubmit.mofcomRegisterType = this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType);
+        vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType);
+        vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter);
+        vehicleToSubmit.vehicle.aquisitionType = this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType);
+        vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType);
+        vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType);
+        vehicleToSubmit.feesAndDeductions.forEach(fd => {
+          fd.type = this.types.feesAndDeductionsTypes.find(
+            t => t.name === fd.type);
+        });
+        vehicleToSubmit.vehicleCosts.forEach(vc => {
+          vc.type = this.types.vehicleCostTypes.find(
+            t => t.name === vc.type);
+        });
+        vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
+          find(t => t.name === vehicleToSubmit.owner.idType);
+        vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
+        return vehicleToSubmit;
+      })
+      .subscribe(v => {
+        this.save.emit({
+          id: v.id,
+          details: v
+        });
+      });
+
 
     /*
     vehicleForm.vehicle.brand (create new if not listed)
@@ -112,6 +144,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     public df: DisplayFunctionsService) { }
 
   ngOnInit() {
+
     this.vehicleForm = this.fb.group({
       id: [{value: this.vehicle.id, disabled: true}],
       batchId: [this.vehicle.batchId],
@@ -205,7 +238,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
           done: [{value: this.vehicle.status.dismantled.done, disabled: true}],
           date: [this.vehicle.status.dismantled.date],
         }),
-        remarks: this.fb.array([]),
       }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
@@ -284,6 +316,19 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       feesAndDeductions: this.fb.array([]),
       vehicleCosts: this.fb.array([]),
     });
+    
+    /* disable the control if status.done */
+    const statusObj = this.vehicle.status;
+    setTimeout(() => {
+      Object.keys(statusObj).forEach(k => {
+        if (statusObj[k].done) {
+          const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
+          // console.log(ctrl.value);
+          ctrl.disable();
+        }
+      });
+    })
+
 
 
     /* start of - setting up vehicleCosts */
@@ -322,7 +367,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         this.rvAfterFD = residualValueBeforeFD - feesAndDeductions;
       });
 
-    this.subscriptions.push(rvCal_);
+    this.initSubscriptions.push(rvCal_);
 
     /* watching status and setup date*/
     // const statusDate_ = this.vehicleForm.get()
@@ -383,14 +428,30 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.subscriptions.push(mofcomRegisterTypeChange_);
+    this.initSubscriptions.push(mofcomRegisterTypeChange_);
 
     const isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
       .subscribe(value => {
         this.vehicleForm.get('owner.idType').setValue('');
       });
 
-    this.subscriptions.push(isPersonChange_);
+
+    Object.keys(statusObj).forEach(k => {
+      this.vehicleForm.get(`status.${k}.done`).valueChanges
+        .subscribe(v => {
+          const dateCtrl = this.vehicleForm.get(`status.${k}.date`);
+          if (v && !dateCtrl.value) {
+            this.vehicleForm.get(`status.${k}.date`).setValue((new Date()).toISOString().slice(0, 10));
+          }
+
+          if (!v && dateCtrl.value) {
+            this.vehicleForm.get(`status.${k}.date`).setValue('');
+          }
+        })
+    })
+
+
+    this.initSubscriptions.push(isPersonChange_);
     // const brandChange_ = this.vehicleForm.get('vehicle.brand').valueChanges
     //   .subscribe(value => {
     //     console.log(value);
@@ -418,7 +479,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
+    this.initSubscriptions.forEach(sub_ => sub_.unsubscribe());
   }
+
 
   valueChangesToFilteredObjListRx(fg: FormGroup, ctrlPath: string, objList: {[key: string]: any}[], filterFn) {
     return fg.get(ctrlPath).valueChanges

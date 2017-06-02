@@ -1,5 +1,5 @@
 <form [formGroup]="vehicleForm" 
-  (ngSubmit)="save.emit({id: vehicleForm.get('id').value, details: prepareSubmit(vehicleForm)})" 
+  (ngSubmit)="prepareSubmit(vehicleForm)" 
   novalidate class="main-form">
 
   <!-- 一般信息 -->
