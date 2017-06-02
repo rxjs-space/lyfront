@@ -60,13 +60,13 @@
   <div class="fixed-button-bottom not-for-print">
     <button md-raised-button color="primary"
       type="submit"
-      [disabled]="!vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value"
+      [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value"
     >
       保存更改
     </button>  
     <button md-raised-button color="warn"
       type="button"
-      [disabled]="!vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value">
+      [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value">
       删除记录
     </button>
   </div>
@@ -90,6 +90,7 @@
     </md-card-content> 
   </md-card>  -->
 </form>
+
 <!--
 <md-card class="info-card not-for-print">
   <md-card-header>

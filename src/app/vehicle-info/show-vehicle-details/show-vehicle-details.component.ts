@@ -131,40 +131,66 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       }),
       status: this.fb.group({
         ownerDocsReady: this.fb.group({
-          done: [this.vehicle.status.ownerDocsReady.done],
+          done: [{
+            value: this.vehicle.status.ownerDocsReady.done,
+            disabled: this.vehicle.status.ownerDocsReady.done ? true : false
+          }],
           date: [this.vehicle.status.ownerDocsReady.date]
         }),
         platesCollectedByOwner: this.fb.group({
-          done: [this.vehicle.status.platesCollectedByOwner.done],
+          done: [{
+            value: this.vehicle.status.platesCollectedByOwner.done,
+            disabled: this.vehicle.status.platesCollectedByOwner.done ? true : false
+          }],
           date: [this.vehicle.status.platesCollectedByOwner.date]
         }),
         rubbing: this.fb.group({
-          done: [this.vehicle.status.rubbing.done],
+          done: [{
+            value: this.vehicle.status.rubbing.done,
+            disabled: this.vehicle.status.rubbing.done ? true : false
+          }],
           date: [this.vehicle.status.rubbing.date]
         }),
         photosOnEntrance: this.fb.group({
-          done: [this.vehicle.status.photosOnEntrance.done],
+          done: [{
+            value: this.vehicle.status.photosOnEntrance.done,
+            disabled: this.vehicle.status.photosOnEntrance.done ? true : false}],
           date: [this.vehicle.status.photosOnEntrance.date]
         }),
         photosAfterCuttingUp: this.fb.group({
-          done: [this.vehicle.status.photosAfterCuttingUp.done],
+          done: [{
+            value: this.vehicle.status.photosAfterCuttingUp.done,
+            disabled: this.vehicle.status.photosAfterCuttingUp.done ? true : false
+          }],
           date: [this.vehicle.status.photosAfterCuttingUp.date]
         }),
         policeSiteEntry: this.fb.group({
-          done: [this.vehicle.status.policeSiteEntry.done],
+          done: [{
+            value: this.vehicle.status.policeSiteEntry.done,
+            disabled: this.vehicle.status.policeSiteEntry.done ? true : false
+          }],
           date: [this.vehicle.status.policeSiteEntry.date]
         }),
         mofcomEntry: this.fb.group({
-          done: [this.vehicle.status.mofcomEntry.done],
+          done: [{
+            value: this.vehicle.status.mofcomEntry.done,
+            disabled: this.vehicle.status.mofcomEntry.done ? true : false
+          }],
           date: [this.vehicle.status.mofcomEntry.date],
           ref: [this.vehicle.status.mofcomEntry.ref]
         }),
         mofcomCertReady: this.fb.group({
-          done: [this.vehicle.status.mofcomCertReady.done],
+          done: [{
+            value: this.vehicle.status.mofcomCertReady.done,
+            disabled: this.vehicle.status.mofcomCertReady.done ? true : false
+          }],
           date: [this.vehicle.status.mofcomCertReady.date],
         }),
         mofcomCertCollectedByOwnerAndSigned: this.fb.group({
-          done: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done],
+          done: [{
+            value: this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done,
+            disabled: this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done ? true : false
+          }],
           date: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.date],
         }),
         firstSurvey: this.fb.group({
@@ -298,6 +324,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(rvCal_);
 
+    /* watching status and setup date*/
+    // const statusDate_ = this.vehicleForm.get()
+
     // this.dismantlingOrdersForm = this.fb.group({
     //   dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
     //     id: {value: dOrder.id, disabled: true},
@@ -362,7 +391,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       });
 
     this.subscriptions.push(isPersonChange_);
-
     // const brandChange_ = this.vehicleForm.get('vehicle.brand').valueChanges
     //   .subscribe(value => {
     //     console.log(value);
