@@ -1,8 +1,0 @@
-<app-loading-or-error [httpJsonData]="zipData">
-</app-loading-or-error>
-
-<ng-container *ngIf="zipData">
-  <app-new-vehicle-details
-    [types]="zipData.types" [titles]="zipData.titles"
-  ></app-new-vehicle-details>
-</ng-container>

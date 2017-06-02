@@ -1,0 +1,33 @@
+<md-card>
+    <!--<md-card-header>
+      <md-card-title class="vertical-center-container">
+        <h3>添加成本项目</h3></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <form [formGroup]="vCost" (ngSubmit)="dialogRef.close(vCost)">
+        <app-autocomplete-combo
+          [placeholderInput]="data.titles.vehicles.feesAndDeductions.type"
+          [formControlInput]="vCost.get('type')"
+          [objList]="data.types.feesAndDeductionsTypes"
+          sizeClass="m-size-input"
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+
+        <md-input-container class="m-size-input">
+          <input mdInput type="number" [placeholder]="data.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+        </md-input-container>      
+        <md-input-container class="xl-size-input" *ngIf="vCost.get('type').value==='零件遗失'">
+          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.partName" formControlName="part">
+        </md-input-container>
+        <md-input-container class="xl-size-input" *ngIf="vCost.get('type').value!=='零件遗失'">
+          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.details" formControlName="details">
+        </md-input-container>
+        <div md-dialog-actions>
+          <button md-button type="submit" color="primary" [disabled]="!vCost.valid">添加（未保存）</button>
+          <button md-button type="button" (click)="dialogRef.close(null)">取消</button>
+        </div>   
+      </form>
+     </md-card-content>-->
+   
+</md-card>

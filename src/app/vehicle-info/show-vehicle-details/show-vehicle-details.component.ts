@@ -22,7 +22,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   // @Input() dismantlingOrdersInput;
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Input() methods: any;
-
+  rvAfterFD: number; // residual value after fees and deductions
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
@@ -44,7 +44,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
 
   onBrandBlur(event) {
     const brandName = event.target.value;
-    if (!this.types.brands.find(b => b.name === brandName)) {
+    if (brandName && !this.types.brands.find(b => b.name === brandName)) {
       return this.createBrandIfNone(brandName)
         .catch(error => Observable.of({ok: false, error}))
         .subscribe(result => {
@@ -52,7 +52,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
             console.log(result.error)
             return;
           } else {
-            this.types = result;
+            this.types.brands = result.brands;
           }
         });
     }
@@ -80,7 +80,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     });
     vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
       find(t => t.name === vehicleToSubmit.owner.idType);
-    delete vehicleToSubmit.residualValueAfterFD;
     vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
 
 
@@ -253,12 +252,24 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         others: [this.vehicle.docsProvided.others],
       }),
       feesAndDeductions: this.fb.array([]),
-      residualValueAfterFD: [{value: 0, disabled: true}]
+      vehicleCosts: this.fb.array([]),
     });
+
+
+    /* start of - setting up vehicleCosts */
+    const vCFormGroups: FormGroup[] = this.vehicle.vehicleCosts.map(vC => this.fb.group({
+      type: [{value: vC.type.name, disabled: true}],
+      details: vC.details,
+      amount: vC.amount
+    }));
+    const vCFormArray = this.fb.array(vCFormGroups);
+    this.vehicleForm.setControl('vehicleCosts', vCFormArray);
+
+    /* end of - setting up vehicleCosts */
 
     /* start of - setting up this.vehicleForm.controls('feesAndDeductions')*/
     const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
-      type: [fd.type.name],
+      type: [{value: fd.type.name, disabled: true}],
       part: [fd.part && fd.part.name],
       details: [fd.details],
       amount: [fd.amount, Validators.pattern(/^[0-9]+$/)]
@@ -267,7 +278,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     this.vehicleForm.setControl('feesAndDeductions', fdsFormArray);
     /* end of - setting up this.vehicleForm.controls('feesAndDeductions')*/
 
-    /* set residualValueAfterFD */
+    /* set rvAfterFD */
     const rvCal_ = Observable.merge(
       this.vehicleForm.get('vehicle.residualValueBeforeFD').valueChanges, 
       this.vehicleForm.get('feesAndDeductions').valueChanges)
@@ -278,7 +289,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         (this.vehicleForm.get('feesAndDeductions') as FormArray).controls.forEach(ctrl => {
           feesAndDeductions += ctrl.get('amount').value;
         });
-        this.vehicleForm.get('residualValueAfterFD').setValue(residualValueBeforeFD - feesAndDeductions);
+        this.rvAfterFD = residualValueBeforeFD - feesAndDeductions;
       });
 
     this.subscriptions.push(rvCal_);

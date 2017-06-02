@@ -16,6 +16,7 @@ export class DetailsConditionRvFdComponent implements OnInit {
   @Input() types;
   @Input() formGroupInput: FormGroup;
   @Input() methods: any;
+  @Input() rvAfterFD: number;
   fds: AbstractControl[];
   constructor(public dialog: MdDialog) { }
   openDialogNewFD() {

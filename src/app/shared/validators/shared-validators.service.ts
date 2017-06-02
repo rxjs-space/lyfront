@@ -15,6 +15,22 @@ export class SharedValidatorsService {
     };
   }
 
+  // requiredBasedOnOtherControlMatchingValue(otherControlName: string, valueToMatch: any): ValidatorFn {
+  //   return (control: AbstractControl): {[key: string]: any} => {
+  //     const thisControl = control;
+  //     const thisValue = thisControl.value;
+  //     const parentControl = thisControl.parent;
+  //     if (!parentControl) return null;
+  //     const otherControl = thisControl.parent.get(otherControlName) as FormControl;
+  //     if (!otherControl) throw new Error('requiredBasedOnOtherControlMatchingValue validator: incorrect otherControlName.')
+  //     const otherValue = otherControl.value;
+  //     console.log('value matching', otherValue === valueToMatch);
+  //     console.log('empty value', !thisValue);
+  //     // following return should happen in next tick, but how?
+  //     return ((otherValue === valueToMatch) && !thisValue) ? {'requiredBasedOnOtherControl': otherControlName + ' is ' + valueToMatch} : null;
+  //   }
+  // }
+
   notListedBasedOnOtherControlTF(otherControlName: string, lists: any[][]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       let notListed;

@@ -1,0 +1,64 @@
+<md-card class="info-card" [class.not-for-print]="!toShowDetails" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{titles.vehicles.vehicleCosts.title}}</span>
+      <span><button type="button" md-button color="primary" (click)="toShowDetails = true"
+        *ngIf="!toShowDetails"
+      >展开</button></span>
+      <span><button type="button" md-button color="primary" (click)="toShowDetails = false"
+        *ngIf="toShowDetails"
+      >收起</button></span>
+      </md-card-title>
+  </md-card-header>
+  <md-card-content *ngIf="toShowDetails">
+    <div *ngIf="vCostCtrls.length===0">暂无</div>
+    <ng-container  *ngIf="vCostCtrls.length!==0">
+      <!--<div class="flex-container">
+        <md-input-container class="s-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.id" [value]="1" disabled>
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.type" value="抵扣后残值" disabled>
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.amount" [value]="rvAfterFD" disabled>
+        </md-input-container>
+      </div>-->
+      <div class="flex-container" *ngFor="let vCostCtrl of vCostCtrls; let i=index" [formGroupName]="i">
+        <md-input-container class="s-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.id" [value]="i+1" disabled>
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.type" formControlName="type">
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.amount" formControlName="amount">
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="xxl-size-input">
+          <input mdInput [placeholder]="titles.vehicles.vehicleCosts.details" formControlName="details">
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <button type="button" md-button><i class="material-icons">delete_forever</i></button>
+      </div>
+    </ng-container>
+    
+    <button type="button" md-button color="primary">
+      添加成本项目
+    </button>
+    <div>
+      {{titles.vehicles.vehicle.costSum}}：
+      <md-input-container class="s-size-input">
+        <input mdInput [value]="costSum" disabled>
+      </md-input-container>
+      <span *ngIf="hasTBD">有待定（金额为 0）项目</span>
+    </div>
+
+  </md-card-content>
+ 
+</md-card>

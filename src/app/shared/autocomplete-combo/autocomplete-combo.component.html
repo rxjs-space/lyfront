@@ -23,7 +23,7 @@
     </md-input-container>
 
     <md-autocomplete #autoNotFilter="mdAutocomplete">
-      <md-option *ngFor="let type of list" [value]="type">
+      <md-option *ngFor="let type of baseList" [value]="type">
         <small>{{ type }}</small>
       </md-option>
     </md-autocomplete>

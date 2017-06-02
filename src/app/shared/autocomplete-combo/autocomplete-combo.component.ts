@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -24,11 +24,17 @@ export class AutocompleteComboComponent implements OnInit {
   @Input() isTrueOrFalse: Boolean = false;
   @Input() toSort: Boolean = true;
   @Output() blur: EventEmitter<any> = new EventEmitter();
+  baseList: string[];
   filteredTypesRx: Observable<string[]>;
   constructor(
     public df: DisplayFunctionsService
   ) { }
 
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes && changes.objList && changes.objList.previousValue) {
+  //     this.ngOnInit();
+  //   }
+  // }
 
   ngOnInit() {
     let sortedList;
@@ -39,28 +45,21 @@ export class AutocompleteComboComponent implements OnInit {
         console.log(this.list);
         // no break;
       case Boolean(this.objList):
-        this.list = this.objList.map(item => item.name);
+        this.baseList = this.objList.map(item => item.name);
+        break;
+      case Boolean(this.list):
+        this.baseList = this.list;
         break;
     }
 
-    if (this.list && this.toSort) {
-      sortedList = this.list.sort((a, b) => a.localeCompare(b, 'zh-CN'));
+    if (this.baseList && this.toSort) {
+      sortedList = this.baseList.sort((a, b) => a.localeCompare(b, 'zh-CN'));
     } else {
-      sortedList = this.list;
+      sortedList = this.baseList;
     }
 
-    // if (this.objList && this.list) {
-    //   console.error('list provided is discarded in favor of the objList provided.');
-    //   console.log('the list provided is:');
-    //   console.log(this.list);
-    // }
-    // if (this.objList) {
-    //   this.list = this.objList.map(item => item.name);
-    // }
-    // const sortedList = this.list.sort((a, b) => a.localeCompare(b, 'zh-CN'));
-    //         console.log(sortedList);
 
-    this.filteredTypesRx = !this.list ? null : this.formControlInput
+    this.filteredTypesRx = !this.baseList ? null : this.formControlInput
       .valueChanges
       .startWith(null)
       // .map(v => this.filterObjListFac(this.sortObjListByName, this.hideInitList)(this.objList, v))
@@ -73,20 +72,5 @@ export class AutocompleteComboComponent implements OnInit {
   }
 
 
-
-  // filterObjListFac(sortFn, hideInitList?: Boolean) {
-  //   return (objList: {name: string}[], value: any): any[] => {
-  //     const sortedObjList = sortFn(objList);
-  //     if (hideInitList) {
-  //       return value ? sortedObjList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : [];
-  //     } else {
-  //       return value ? sortedObjList.filter(item => new RegExp(`^${value}`, 'gi').test(item.name)) : sortedObjList;
-  //     }
-  //   }
-  // }
-
-  // sortObjListByName(objList: {name: string}[]) {
-  //   return objList.sort((a, b) => a.name.localeCompare(b.name));
-  // }
 
 }

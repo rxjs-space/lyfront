@@ -2,12 +2,10 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
 import { VehicleInfoRoutingModule } from './vehicle-info-routing.module';
-import { NewComponent } from './new/new.component';
 import { ShowComponent } from './show/show.component';
 import { ListComponent } from './list/list.component';
 import { HomeComponent } from './home/home.component';
 import { ShowVehicleDetailsComponent } from './show-vehicle-details/show-vehicle-details.component';
-import { NewVehicleDetailsComponent } from './new-vehicle-details/new-vehicle-details.component';
 import { DetailsVehicleComponent } from './details-vehicle/details-vehicle.component';
 import { DetailsGeneralComponent } from './details-general/details-general.component';
 import { DetailsOwnerAgentComponent } from './details-owner-agent/details-owner-agent.component';
@@ -19,6 +17,8 @@ import { DetailsStatusComponent } from './details-status/details-status.componen
 import { DetailsRemarksComponent } from './details-remarks/details-remarks.component';
 import { DialogRemarkComponent } from './dialog-remark/dialog-remark.component';
 import { DialogBrandComponent } from './dialog-brand/dialog-brand.component';
+import { DetailsVehicleCostsComponent } from './details-vehicle-costs/details-vehicle-costs.component';
+import { DialogVehicleCostsComponent } from './dialog-vehicle-costs/dialog-vehicle-costs.component';
 
 @NgModule({
   imports: [
@@ -26,12 +26,10 @@ import { DialogBrandComponent } from './dialog-brand/dialog-brand.component';
     VehicleInfoRoutingModule
   ],
   declarations: [
-    NewComponent,
     ShowComponent,
     ListComponent,
     HomeComponent,
     ShowVehicleDetailsComponent,
-    NewVehicleDetailsComponent,
     DetailsVehicleComponent,
     DetailsGeneralComponent,
     DetailsOwnerAgentComponent,
@@ -42,11 +40,15 @@ import { DialogBrandComponent } from './dialog-brand/dialog-brand.component';
     DetailsStatusComponent,
     DetailsRemarksComponent,
     DialogRemarkComponent,
-    DialogBrandComponent
+    DialogBrandComponent,
+    DetailsVehicleCostsComponent,
+    DialogVehicleCostsComponent
   ],
   entryComponents: [
     DialogFdComponent,
-    DialogRemarkComponent
+    DialogRemarkComponent,
+    DialogVehicleCostsComponent,
+    DialogBrandComponent
   ]
 })
 export class VehicleInfoModule { }
