@@ -31,7 +31,7 @@
           <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.partName" formControlName="part">
         </md-input-container>
         <md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value!=='零件遗失'">
-          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.othersDetails" formControlName="details">
+          <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.details" formControlName="details">
         </md-input-container>
         <div md-dialog-actions>
           <button md-button type="submit" color="primary" [disabled]="!fdForm.valid">添加（未保存）</button>

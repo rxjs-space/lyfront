@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
@@ -23,10 +23,12 @@ export class AutocompleteComboComponent implements OnInit {
   @Input() toFilterList: Boolean = false;
   @Input() isTrueOrFalse: Boolean = false;
   @Input() toSort: Boolean = true;
+  @Output() blur: EventEmitter<any> = new EventEmitter();
   filteredTypesRx: Observable<string[]>;
   constructor(
     public df: DisplayFunctionsService
   ) { }
+
 
   ngOnInit() {
     let sortedList;

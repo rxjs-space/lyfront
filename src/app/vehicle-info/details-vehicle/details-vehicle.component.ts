@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 
@@ -11,10 +11,10 @@ export class DetailsVehicleComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormGroup;
+  @Output() onBrandBlur = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
   }
-
 
 }

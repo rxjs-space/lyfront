@@ -22,7 +22,11 @@ export class ShowComponent implements OnInit, OnDestroy {
   titlesRx: Observable<any>;
   zip_: Subscription;
   zipData: any;
-
+  methods = {
+    updateBrands: (brands) => {
+      return this.data.updateBrands(brands);
+    }
+  }
   constructor(
     private location: Location,
     private route: ActivatedRoute,

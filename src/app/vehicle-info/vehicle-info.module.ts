@@ -18,6 +18,7 @@ import { DetailsPhotosComponent } from './details-photos/details-photos.componen
 import { DetailsStatusComponent } from './details-status/details-status.component';
 import { DetailsRemarksComponent } from './details-remarks/details-remarks.component';
 import { DialogRemarkComponent } from './dialog-remark/dialog-remark.component';
+import { DialogBrandComponent } from './dialog-brand/dialog-brand.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { DialogRemarkComponent } from './dialog-remark/dialog-remark.component';
     DetailsPhotosComponent,
     DetailsStatusComponent,
     DetailsRemarksComponent,
-    DialogRemarkComponent
+    DialogRemarkComponent,
+    DialogBrandComponent
   ],
   entryComponents: [
     DialogFdComponent,

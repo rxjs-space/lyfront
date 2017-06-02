@@ -1,7 +1,9 @@
 <ng-container *ngIf="toFilterList">
 
   <md-input-container [class]="sizeClass">
-    <input mdInput [placeholder]="placeholderInput" [mdAutocomplete]="auto" [formControl]="formControlInput">
+    <input mdInput [placeholder]="placeholderInput" 
+      [mdAutocomplete]="auto" [formControl]="formControlInput"
+      (blur)="blur.emit($event)">
   </md-input-container>
 
   <md-autocomplete #auto="mdAutocomplete">
@@ -15,7 +17,9 @@
 
   <ng-container *ngIf="!isTrueOrFalse">
     <md-input-container [class]="sizeClass">
-      <input mdInput [placeholder]="placeholderInput" [mdAutocomplete]="autoNotFilter" [formControl]="formControlInput">
+      <input mdInput [placeholder]="placeholderInput" 
+      [mdAutocomplete]="autoNotFilter" [formControl]="formControlInput"
+      (blur)="blur.emit($event)">
     </md-input-container>
 
     <md-autocomplete #autoNotFilter="mdAutocomplete">
@@ -29,7 +33,8 @@
     <md-input-container [class]="sizeClass">
       <input mdInput [placeholder]="placeholderInput" 
       [mdAutocomplete]="autoNotFilter" 
-      [formControl]="formControlInput">
+      [formControl]="formControlInput"
+      (blur)="blur.emit($event)">
     </md-input-container>
 
     <md-autocomplete #autoNotFilter="mdAutocomplete" [displayWith]="df.dBoolean">

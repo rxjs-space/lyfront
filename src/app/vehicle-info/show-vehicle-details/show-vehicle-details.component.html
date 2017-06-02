@@ -19,7 +19,8 @@
   <!-- 车辆信息 -->
   <app-details-vehicle
     [titles]="titles" [types]="types"
-    [formGroupInput]="vehicleForm.get('vehicle')">
+    [formGroupInput]="vehicleForm.get('vehicle')"
+    (onBrandBlur)="onBrandBlur($event)">
   </app-details-vehicle>
 
   <!-- 车主/经办人信息 -->
@@ -46,7 +47,7 @@
     [methods]="formArrayMethods('remarks')">
   </app-details-remarks>
 
-  <div class="fixed-button-bottom">
+  <div class="fixed-button-bottom not-for-print">
     <button md-raised-button color="primary" [disabled]="vehicleForm.get('metadata.isDeleted').value">
       保存更改
     </button>  

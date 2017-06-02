@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -35,11 +35,18 @@ export class DataService {
   saveVehicleById(id, body) {
     return this.http.put(this.vehiclesApiUrl + '/' + id, body)
       .map(res => res.json())
-      .do(console.log)
+      // .do(console.log)
       .catch(err => this.handleError(err));
   }
 
-
+  updateBrands(brands) {
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.patch(this.host + '/types', {brands}, options)
+      .map(res => res.json())
+      // .do(console.log)
+      .catch(err => this.handleError(err));
+  }
 
 
   getDismantlingOrders() {

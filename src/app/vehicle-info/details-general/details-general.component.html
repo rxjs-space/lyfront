@@ -1,84 +1,78 @@
-  <ng-template #vehicleId>
-      <md-input-container>
-        <input mdInput [placeholder]="titles.vehicles.id" [formControl]="formGroupInput.get('id')">
+<ng-template #vehicleIdAndEntranceDate>
+    <md-input-container>
+      <input mdInput [placeholder]="titles.vehicles.id" [formControl]="formGroupInput.get('id')">
+    </md-input-container>
+    <small>
+      <md-input-container class="l-size-input">
+        <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" 
+          [formControl]="formGroupInput.get('entranceDate')">
       </md-input-container>
-  </ng-template>
+    </small>
+</ng-template>
+
+
+<ng-template #mofocom>
+    <small>
+      <!-- 商务部登记类别 -->
+      <app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.mofcomRegisterType"
+        [formControlInput]="formGroupInput.get('mofcomRegisterType')"
+        [objList]="types.mofcomRegisterTypes"
+        [toSort]="false"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>
+      <md-input-container class="xl-size-input">
+        <small>
+          <input mdInput [placeholder]="titles.vehicles.mofcomRegisterRef" 
+            [formControl]="formGroupInput.get('mofcomRegisterRef')">
+        </small>
+      </md-input-container>
+    </small>
+</ng-template>
+
   
-  
-  <md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput">
-    <div>
-      <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
-      <small>
 
-        <md-input-container class="l-size-input">
-          <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
-        </md-input-container>
-        
-        <!-- 商务部登记类别 -->
-        <app-autocomplete-combo
-          [placeholderInput]="titles.vehicles.mofcomRegisterType"
-          [formControlInput]="formGroupInput.get('mofcomRegisterType')"
-          [objList]="types.mofcomRegisterTypes"
-          [toSort]="false"
-          sizeClass='m-size-input'
-        >
-        </app-autocomplete-combo>
-        <md-input-container class="xl-size-input">
-          <small><input mdInput [placeholder]="titles.vehicles.mofcomRegisterRef" formControlName="mofcomRegisterRef"></small>
-        </md-input-container>
-      </small>
-      
-    </div>
-  </md-toolbar>
+<!-- hide-on-small-screen -->
 
-  <md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
-    <div>
-      <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
-      <small>
-        <md-input-container class="l-size-input">
-          <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" formControlName="entranceDate">
-        </md-input-container>
-        
+<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput">
+  <div>
+    <ng-container *ngTemplateOutlet="vehicleIdAndEntranceDate"></ng-container>
+    <ng-container *ngTemplateOutlet="mofocom"></ng-container>
+  </div>
+</md-toolbar>
 
-      </small>
-      </div>
-  </md-toolbar>
 
-  <md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
-    <div>
-      <small>
-        <!-- 商务部登记类别 -->
-        <app-autocomplete-combo
-          [placeholderInput]="titles.vehicles.mofcomRegisterType"
-          [formControlInput]="formGroupInput.get('mofcomRegisterType')"
-          [objList]="types.mofcomRegisterTypes"
-          [toSort]="false"
-          sizeClass='m-size-input'
-        >
-        </app-autocomplete-combo>
-        <md-input-container class="xl-size-input">
-          <small><input mdInput [placeholder]="titles.vehicles.mofcomRegisterRef" formControlName="mofcomRegisterRef"></small>
-        </md-input-container>
-      </small>
-    </div>
-  </md-toolbar>
 
+<!-- show-on-small-screen -->
+
+<md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
+  <div>
+      <ng-container *ngTemplateOutlet="vehicleIdAndEntranceDate"></ng-container>
+  </div>
+</md-toolbar>
+
+<md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
+  <div>
+    <ng-container *ngTemplateOutlet="mofocom"></ng-container>
+  </div>
+</md-toolbar>
+
+
+<!-- afterDeleted part -->
   <md-toolbar 
     class="vehicle-toolbar warn-toolbar" 
     *ngIf="formGroupInput.get('metadata.isDeleted').value">
     <small class="flex-container">
-        <app-autocomplete-combo
-          [isTrueOrFalse]="true"
-          [placeholderInput]="titles.metadata.isDeleted"
-          [formControlInput]="formGroupInput.get('metadata.isDeleted')"
-          sizeClass='s-size-input'
-        >
-        </app-autocomplete-combo>   
+      <app-autocomplete-combo
+        [isTrueOrFalse]="true"
+        [placeholderInput]="titles.metadata.isDeleted"
+        [formControlInput]="formGroupInput.get('metadata.isDeleted')"
+        sizeClass='s-size-input'
+      >
+      </app-autocomplete-combo>   
 
-        <span class="separator-in-flex-container"></span>
-      <!--<md-input-container class="s-size-input leading-input">
-        <input mdInput [placeholder]="titles.metadata.isDeleted" [mdAutocomplete]="autoBoolean" formControlName="isDeleted">
-      </md-input-container>-->
+      <span class="separator-in-flex-container"></span>
 
       <md-input-container class="xxl-size-input">
         <input mdInput 

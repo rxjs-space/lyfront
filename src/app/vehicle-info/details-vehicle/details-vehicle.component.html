@@ -42,6 +42,7 @@
           [toHideInitList]="true"
           sizeClass='m-size-input'
           [toFilterList]="true"
+          (blur)="onBrandBlur.emit($event)"
         >
         </app-autocomplete-combo>
 

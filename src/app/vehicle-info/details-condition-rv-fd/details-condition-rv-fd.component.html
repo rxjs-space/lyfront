@@ -42,7 +42,7 @@
         <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.partName" formControlName="part">
       </md-input-container>
       <md-input-container class="xl-size-input" *ngIf="fd.value['type']!=='零件遗失'">
-        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.othersDetails" formControlName="details">
+        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.details" formControlName="details">
       </md-input-container>
       <button type="button" md-button (click)="openDialogDeleteFD(i)"><i class="material-icons">delete_forever</i></button>
 

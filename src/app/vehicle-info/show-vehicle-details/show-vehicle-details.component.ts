@@ -21,6 +21,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   @Input() titles;
   // @Input() dismantlingOrdersInput;
   @Output() save: EventEmitter<any> = new EventEmitter();
+  @Input() methods: any;
 
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
@@ -40,6 +41,30 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       }
     }
   };
+
+  onBrandBlur(event) {
+    const brandName = event.target.value;
+    if (!this.types.brands.find(b => b.name === brandName)) {
+      return this.createBrandIfNone(brandName)
+        .catch(error => Observable.of({ok: false, error}))
+        .subscribe(result => {
+          if (result.error) {
+            console.log(result.error)
+            return;
+          } else {
+            this.types = result;
+          }
+        });
+    }
+  }
+
+  createBrandIfNone(brandName: string) {
+    const newBrands = this.types.brands.slice().concat([{
+      id: this.types.brands.length + 1,
+      name: brandName
+    }]);
+    return this.methods.updateBrands(newBrands);
+  }
 
   prepareSubmit(vehicleForm: FormGroup) {
     const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
