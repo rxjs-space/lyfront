@@ -21,11 +21,17 @@ export class DialogVehicleCostsComponent implements OnInit {
   ngOnInit() {
     this.vCostForm = this.fb.group({
       type: ['', [
+        Validators.required,
         this.sv.notListed(this.data.types.vehicleCostTypes.map(type => type.name))
       ]],
       details: [''],
-      amount: ['', Validators.pattern(/^[0-9]+$/)]
+      amount: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]
     });
+  }
+
+  add() {
+    this.vCostForm.get('type').disable();
+    this.dialogRef.close(this.vCostForm);
   }
 
 }

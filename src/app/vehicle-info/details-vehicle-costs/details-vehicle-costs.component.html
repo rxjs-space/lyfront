@@ -44,11 +44,11 @@
           <input mdInput [placeholder]="titles.vehicles.vehicleCosts.details" formControlName="details">
         </md-input-container>
         <span class="separator-in-flex-container"></span>
-        <button type="button" md-button><i class="material-icons">delete_forever</i></button>
+        <button type="button" md-button (click)="openDialogDeleteFD(i)"><i class="material-icons">delete_forever</i></button>
       </div>
     </ng-container>
     
-    <button type="button" md-button color="primary">
+    <button type="button" md-button color="primary" (click)="openDialogNewVCosts()">
       添加成本项目
     </button>
     <div>

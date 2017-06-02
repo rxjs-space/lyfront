@@ -4,6 +4,8 @@ import { MdDialog } from '@angular/material';
 import { DialogVehicleCostsComponent } from '../dialog-vehicle-costs/dialog-vehicle-costs.component';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/startWith';
+import { DialogYesOrNoComponent } from '../../shared/dialog-yes-or-no/dialog-yes-or-no.component';
+
 
 @Component({
   selector: 'app-details-vehicle-costs',
@@ -22,6 +24,36 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
   hasTBD: boolean = false;
   toShowDetails: boolean = false;
   constructor(public dialog: MdDialog) { }
+
+  openDialogNewVCosts() {
+    const dialogRef = this.dialog.open(DialogVehicleCostsComponent, {
+      data: {types: this.types, titles: this.titles},
+    });
+    const dialogSub_ = dialogRef.afterClosed().subscribe((newVCostsForm: FormGroup) => {
+      if (newVCostsForm) {
+        this.methods.new(newVCostsForm);
+      }
+    });
+    this.subscriptions.push(dialogSub_);
+
+  }
+
+  openDialogDeleteFD(index: number) {
+    const dialogRef = this.dialog.open(DialogYesOrNoComponent, {
+      data: {
+        message: '删除此条记录？',
+        index
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: Boolean) => {
+      if (result) {
+        this.methods.delete(index);
+      }
+    });
+
+  }
+
+
 
   ngOnInit() {
     this.vCostCtrls = this.formGroupInput.controls;
