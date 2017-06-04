@@ -10,6 +10,8 @@ import 'rxjs/add/operator/filter';
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
+import jsonpatch from 'fast-json-patch';
+
 
 @Component({
   selector: 'app-show-vehicle-details',
@@ -112,10 +114,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         return vehicleToSubmit;
       })
       .subscribe(v => {
-        this.save.emit({
-          id: v.id,
-          details: v
-        });
+        const diff = jsonpatch.compare(this.vehicle, v);
+        console.log(diff);
+        // this.save.emit({
+        //   id: v.id,
+        //   details: v
+        // });
       });
 
 
@@ -161,6 +165,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         deletedAt: [this.vehicle.metadata.deletedAt],
         createdAt: [this.vehicle.metadata.createdAt],
         createdBy: [this.vehicle.metadata.createdBy],
+        lastModifiedAt: [this.vehicle.metadata.lastModifiedAt],
+        lastModifiedBy: [this.vehicle.metadata.lastModifiedBy],
       }),
       status: this.fb.group({
         ownerDocsReady: this.fb.group({
@@ -316,7 +322,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       feesAndDeductions: this.fb.array([]),
       vehicleCosts: this.fb.array([]),
     });
-    
+
     /* disable the control if status.done */
     const statusObj = this.vehicle.status;
     setTimeout(() => {
