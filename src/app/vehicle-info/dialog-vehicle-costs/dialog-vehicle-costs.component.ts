@@ -22,7 +22,7 @@ export class DialogVehicleCostsComponent implements OnInit {
     this.vCostForm = this.fb.group({
       type: ['', [
         Validators.required,
-        this.sv.notListed(this.data.types.vehicleCostTypes.map(type => type.name))
+        this.sv.notListedButCanBeEmpty(this.data.types.vehicleCostTypes.map(type => type.name))
       ]],
       details: [''],
       amount: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]

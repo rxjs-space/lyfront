@@ -1,15 +1,32 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/zip';
+
 
 @Injectable()
 export class SharedValidatorsService {
 
   constructor() { }
 
+//   export interface AsyncValidatorFn {
+//     (c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
+// }
 
-  notListed(list: any[]): ValidatorFn {
+  matchOtherControl(otherCtrl: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      const otherValue = otherCtrl.value;
+      const value = control.value;
+      if (!value) {return null; }
+      const match = otherValue === value;
+      return match ? null : {'match': 'value not match'}
+    };
+  }
+
+  notListedButCanBeEmpty(list: any[]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       const value = control.value;
+      if (!value) {return null; }
       const notListed = list.indexOf(value) === -1;
       return notListed ? {'notListed': value} : null;
     };
@@ -31,11 +48,12 @@ export class SharedValidatorsService {
   //   }
   // }
 
-  notListedBasedOnOtherControlTF(otherControlName: string, lists: any[][]): ValidatorFn {
+  notListedBasedOnOtherControlTFButCanBeEmpty(otherControlName: string, lists: any[][]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       let notListed;
       const thisControl = control;
       const thisValue = thisControl.value;
+      if (!thisValue) {return null; }
       const parentControl = thisControl.parent;
       if (!parentControl) return null;
       const otherControlTF = thisControl.parent.get(otherControlName) as FormControl;

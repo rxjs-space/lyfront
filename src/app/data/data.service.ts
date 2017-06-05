@@ -5,6 +5,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';
 
+import { Vehicle } from './vehicle';
+
+
 
 @Injectable()
 export class DataService {
@@ -38,6 +41,10 @@ export class DataService {
     return this.http.patch(this.vehiclesApiUrl + '/' + id, body, options)
       .map(res => res.json())
       .catch(err => this.handleError(err));
+  }
+
+  createNewVehicle() {
+    return Observable.of(new Vehicle());
   }
 
   updateBrands(brands) {

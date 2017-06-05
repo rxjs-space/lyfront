@@ -17,46 +17,50 @@
     </div>
 
 
-  <div formArrayName="feesAndDeductions">
-    <div class="flex-container" *ngFor="let fd of fds; let i=index" [formGroupName]="i">
-      <md-input-container class="s-size-input">
-        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
-      </md-input-container>
-      <span class="separator-in-flex-container"></span>
+    <div *ngIf="!fds.length">
+      暂无费抵项目
+    </div>
+    <div *ngIf="fds.length" formArrayName="feesAndDeductions">
+      <div class="flex-container" *ngFor="let fd of fds; let i=index" [formGroupName]="i">
+        <md-input-container class="s-size-input">
+          <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
 
-      <!--<app-autocomplete-combo
-        [placeholderInput]="titles.vehicles.feesAndDeductions.type"
-        [formControlInput]="fd.get('type')"
-        [objList]="types.feesAndDeductionsTypes"
-        sizeClass="l-size-input"
-        [toSort]="false"
-      >
-      </app-autocomplete-combo>-->
-      <md-input-container class="l-size-input">
-        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.type" formControlName="type">
-      </md-input-container>
+        <!--<app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.feesAndDeductions.type"
+          [formControlInput]="fd.get('type')"
+          [objList]="types.feesAndDeductionsTypes"
+          sizeClass="l-size-input"
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>-->
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.type" formControlName="type">
+        </md-input-container>
+        
+
+        <span class="separator-in-flex-container"></span>
+
+
+        <md-input-container class="m-size-input">
+          <input mdInput type="number" [placeholder]="titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']==='零件遗失'">
+          <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.partName" formControlName="part">
+        </md-input-container>
+        <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']!=='零件遗失'">
+          <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.details" formControlName="details">
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <button type="button" md-button (click)="openDialogDeleteFD(i)"><i class="material-icons">delete_forever</i></button>
+
+      </div>
       
-
-      <span class="separator-in-flex-container"></span>
-
-
-      <md-input-container class="m-size-input">
-        <input mdInput type="number" [placeholder]="titles.vehicles.feesAndDeductions.amount" formControlName="amount">
-      </md-input-container>
-      <span class="separator-in-flex-container"></span>
-      <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']==='零件遗失'">
-        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.partName" formControlName="part">
-      </md-input-container>
-      <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']!=='零件遗失'">
-        <input mdInput [placeholder]="titles.vehicles.feesAndDeductions.details" formControlName="details">
-      </md-input-container>
-      <span class="separator-in-flex-container"></span>
-      <button type="button" md-button (click)="openDialogDeleteFD(i)"><i class="material-icons">delete_forever</i></button>
-
     </div>
     <button type="button" md-button (click)="openDialogNewFD()" color="primary">添加费抵项目</button>
-  </div>
-      <div class="form-control">
+    <div class="form-control">
       {{titles.vehicles.vehicle.residualValueAfterFD}}：
       <md-input-container class="s-size-input">
         <input mdInput [value]="rvAfterFD" disabled>

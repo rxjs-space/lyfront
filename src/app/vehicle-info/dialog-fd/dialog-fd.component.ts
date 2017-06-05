@@ -22,7 +22,7 @@ export class DialogFdComponent implements OnInit {
     this.fdForm = this.fb.group({
       type: ['', [
         Validators.required,
-        this.sv.notListed(this.data.types.feesAndDeductionsTypes.map(type => type.name))
+        this.sv.notListedButCanBeEmpty(this.data.types.feesAndDeductionsTypes.map(type => type.name))
       ]],
       part: [''],
       details: [''],

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, OnDestroy, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnChanges, OnDestroy, Input, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -18,7 +18,7 @@ import jsonpatch from 'fast-json-patch';
   templateUrl: './show-vehicle-details.component.html',
   styleUrls: ['./show-vehicle-details.component.scss']
 })
-export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
+export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy {
   vehicleForm: FormGroup;
   // dismantlingOrdersForm: FormGroup;
   @Input() vehicle;
@@ -28,13 +28,14 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Input() methods: any;
   rvAfterFD: number; // residual value after fees and deductions
+  rvAfterFDRxx = new BehaviorSubject(0); // residual value after fees and deductions
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
   pendingOps: BehaviorSubject<number> = new BehaviorSubject(0);
   subscriptions: Subscription[] = [];
   initSubscriptions: Subscription[] = [];
-
+  isNew: Boolean;
 
   formArrayMethods(formArrayPath) {
     const self = this;
@@ -49,7 +50,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
   };
 
   ngOnChanges() {
-    console.log('changes');
     if (!!this.vehicleForm) {
       this.initSubscriptions.forEach(sub_ => sub_.unsubscribe());
       this.vehicleForm = null;
@@ -77,6 +77,25 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkValidity() {
+    this.markAllAsDirtyAndTouched(this.vehicleForm);
+    // console.log(this.vehicleForm.get('vehicle.plateNo').errors);
+  }
+
+  markAllAsDirtyAndTouched(control: AbstractControl) {
+    if (control.hasOwnProperty('controls')) {
+      control.markAsDirty(true); // mark group
+      control.markAsTouched(true); // mark group
+      const ctrl = <any>control;
+      for (let inner in ctrl.controls) {
+        this.markAllAsDirtyAndTouched(ctrl.controls[inner] as AbstractControl);
+      }
+    } else {
+      (<FormControl>(control)).markAsDirty(true);
+      (<FormControl>(control)).markAsTouched(true);
+    }
+  }
+
   createBrandIfNone(brandName: string) {
     const newBrands = this.types.brands.slice().concat([{
       id: this.types.brands.length + 1,
@@ -94,26 +113,36 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       .map(() => { // after all pendingOps done (including updateBrands)
         console.log('preparing');
         const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
-        vehicleToSubmit.mofcomRegisterType = this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType);
-        vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType);
-        vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter);
-        vehicleToSubmit.vehicle.aquisitionType = this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType);
-        vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType);
-        vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType);
+        // const typeNameToTypeObj = (typeNameItem, typeObjDict: any[]): void => {
+        //   typeNameItem = typeObjDict.find(t => t.name === typeNameItem);
+        //   if (!Boolean(typeNameItem)) {
+        //     typeNameItem = null;
+        //   }
+        // };
+        // typeNameToTypeObj(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
+        // console.log(vehicleToSubmit.mofcomRegisterType);
+        vehicleToSubmit.mofcomRegisterType = this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType) || null;
+        vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType) || null;
+        vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter) || null;
+        vehicleToSubmit.vehicle.aquisitionType = this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType) || null;
+        vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType) || null;
+        vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType) || null;
         vehicleToSubmit.feesAndDeductions.forEach(fd => {
           fd.type = this.types.feesAndDeductionsTypes.find(
-            t => t.name === fd.type);
+            t => t.name === fd.type) || null;
         });
         vehicleToSubmit.vehicleCosts.forEach(vc => {
           vc.type = this.types.vehicleCostTypes.find(
-            t => t.name === vc.type);
+            t => t.name === vc.type) || null;
         });
         vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
-          find(t => t.name === vehicleToSubmit.owner.idType);
-        vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand);
+          find(t => t.name === vehicleToSubmit.owner.idType) || null;
+        vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
+        delete vehicleToSubmit.idConfirm;
         return vehicleToSubmit;
       })
       .subscribe(v => {
+        console.log(v);
         const diff = jsonpatch.compare(this.vehicle, v);
         console.log(diff);
         // this.save.emit({
@@ -148,13 +177,13 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
     public df: DisplayFunctionsService) { }
 
   ngOnInit() {
-
+    this.isNew = !this.vehicle.id; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
-      id: [{value: this.vehicle.id, disabled: true}],
+      id: [this.vehicle.id, Validators.required],
       batchId: [this.vehicle.batchId],
       isToDeregister: [this.vehicle.isToDeregister],
-      mofcomRegisterType: [this.vehicle.mofcomRegisterType.name, [
-        this.sv.notListed(this.types.mofcomRegisterTypes.map(type => type.name))
+      mofcomRegisterType: [this.vehicle.mofcomRegisterType ? this.vehicle.mofcomRegisterType.name : '', [
+        this.sv.notListedButCanBeEmpty(this.types.mofcomRegisterTypes.map(type => type.name))
       ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate],
@@ -215,8 +244,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
             value: this.vehicle.status.mofcomEntry.done,
             disabled: this.vehicle.status.mofcomEntry.done ? true : false
           }],
-          date: [this.vehicle.status.mofcomEntry.date],
-          ref: [this.vehicle.status.mofcomEntry.ref]
+          date: [this.vehicle.status.mofcomEntry.date]
         }),
         mofcomCertReady: this.fb.group({
           done: [{
@@ -247,13 +275,13 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
       }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
-        vehicleType: [this.vehicle.vehicle.vehicleType.name, [
-          this.sv.notListed(this.types.vehicleTypes.map(type => type.name))
+        vehicleType: [this.vehicle.vehicle.vehicleType ? this.vehicle.vehicle.vehicleType.name : '', [
+          this.sv.notListedButCanBeEmpty(this.types.vehicleTypes.map(type => type.name))
         ]],
-        useCharacter: [this.vehicle.vehicle.useCharacter.name, [
-          this.sv.notListed(this.types.useCharacters.map(type => type.name))
+        useCharacter: [this.vehicle.vehicle.useCharacter ? this.vehicle.vehicle.useCharacter.name : '', [
+          this.sv.notListedButCanBeEmpty(this.types.useCharacters.map(type => type.name))
         ]],
-        brand: [this.vehicle.vehicle.brand.name],
+        brand: [this.vehicle.vehicle.brand ? this.vehicle.vehicle.brand.name : ''],
         model: [this.vehicle.vehicle.model],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],
@@ -262,16 +290,16 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
         lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
         color: [this.vehicle.vehicle.color],
-        aquisitionType: [this.vehicle.vehicle.aquisitionType.name, [
-          this.sv.notListed(this.types.aquisitionTypes.map(type => type.name))
+        aquisitionType: [this.vehicle.vehicle.aquisitionType ? this.vehicle.vehicle.aquisitionType.name : '', [
+          this.sv.notListedButCanBeEmpty(this.types.aquisitionTypes.map(type => type.name))
         ]],
         aquisitionOtherTypeDetail: [
-          this.vehicle.vehicle.aquisitionType.name === '其他' && this.vehicle.vehicle.aquisitionOtherTypeDetail ?
+          (this.vehicle.vehicle.aquisitionType && this.vehicle.vehicle.aquisitionType.name === '其他') && this.vehicle.vehicle.aquisitionOtherTypeDetail ?
              this.vehicle.vehicle.aquisitionOtherTypeDetail : ''
         ],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
-        fuelType: [this.vehicle.vehicle.fuelType.name, [
-          this.sv.notListed(this.types.fuelTypes.map(type => type.name))
+        fuelType: [this.vehicle.vehicle.fuelType ? this.vehicle.vehicle.fuelType.name : '', [
+          this.sv.notListedButCanBeEmpty(this.types.fuelTypes.map(type => type.name))
         ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
         isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.isBoolean()]],
@@ -280,8 +308,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         name: [this.vehicle.owner.name, Validators.required],
         address: [this.vehicle.owner.address],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
-        idType: [this.vehicle.owner.idType.name, [
-          this.sv.notListedBasedOnOtherControlTF('isPerson', [
+        idType: [this.vehicle.owner.idType ? this.vehicle.owner.idType.name : '', [
+          this.sv.notListedBasedOnOtherControlTFButCanBeEmpty('isPerson', [
             this.types.oIdTypes.map(type => type.name),
             this.types.pIdTypes.map(type => type.name),
           ])
@@ -294,8 +322,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
         isByAgent: [this.vehicle.owner.isByAgent]
       }),
       agent: this.fb.group({
-        name: [this.vehicle.agent.name],
-        idType: [this.vehicle.owner.idType.name, this.sv.notListed(this.types.pIdTypes.map(type => type.name))],
+        name: [this.vehicle.agent ? this.vehicle.agent.name : ''],
+        idType: [this.vehicle.owner.idType ? this.vehicle.owner.idType.name : '', 
+          this.sv.notListedButCanBeEmpty(this.types.pIdTypes.map(type => type.name))],
         idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
         idNo: [this.vehicle.agent.idNo],
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
@@ -333,8 +362,27 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
           ctrl.disable();
         }
       });
-    })
+    });
 
+    /* setting up id and idConfirm based on isNew*/
+    if (this.isNew) {
+      const idConfirmCtrl = new FormControl(
+        '', 
+        [Validators.required, 
+        this.sv.matchOtherControl(this.vehicleForm.get('id'))]);
+      this.vehicleForm.addControl('idConfirm', idConfirmCtrl);
+    } else {
+      this.vehicleForm.get('id').disable();
+    }
+
+    /* validate idConfirm once id is changed */
+    if (this.vehicleForm.get('idConfirm')) {
+      const id_ = this.vehicleForm.get('id').valueChanges
+        .subscribe(() => {
+          this.vehicleForm.get('idConfirm').updateValueAndValidity();
+        });
+      this.initSubscriptions.push(id_);
+    }
 
 
     /* start of - setting up vehicleCosts */
@@ -371,6 +419,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnDestroy {
           feesAndDeductions += ctrl.get('amount').value;
         });
         this.rvAfterFD = residualValueBeforeFD - feesAndDeductions;
+        this.rvAfterFDRxx.next(residualValueBeforeFD - feesAndDeductions);
       });
 
     this.initSubscriptions.push(rvCal_);

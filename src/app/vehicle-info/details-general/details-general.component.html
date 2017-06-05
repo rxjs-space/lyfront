@@ -1,18 +1,17 @@
-<ng-template #vehicleIdAndEntranceDate>
+<ng-template #vehicleId>
     <md-input-container>
       <input mdInput [placeholder]="titles.vehicles.id" [formControl]="formGroupInput.get('id')">
     </md-input-container>
-    <small>
-      <md-input-container class="l-size-input">
-        <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" 
-          [formControl]="formGroupInput.get('entranceDate')">
-      </md-input-container>
-    </small>
+    <md-input-container *ngIf="isNew">
+      <input mdInput [placeholder]="titles.vehicles.idConfirm" [formControl]="formGroupInput.get('idConfirm')">
+    </md-input-container>
 </ng-template>
 
 
-<ng-template #mofocom>
+<ng-template #entranceDateAndMofocom>
     <small>
+
+      
       <!-- 商务部登记类别 -->
       <app-autocomplete-combo
         [placeholderInput]="titles.vehicles.mofcomRegisterType"
@@ -28,6 +27,12 @@
             [formControl]="formGroupInput.get('mofcomRegisterRef')">
         </small>
       </md-input-container>
+
+      <md-input-container class="l-size-input">
+        <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" 
+          [formControl]="formGroupInput.get('entranceDate')">
+      </md-input-container>
+
     </small>
 </ng-template>
 
@@ -35,10 +40,22 @@
 
 <!-- hide-on-small-screen -->
 
-<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput">
+<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput" *ngIf="!isNew">
   <div>
-    <ng-container *ngTemplateOutlet="vehicleIdAndEntranceDate"></ng-container>
-    <ng-container *ngTemplateOutlet="mofocom"></ng-container>
+    <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
+    <ng-container *ngTemplateOutlet="entranceDateAndMofocom"></ng-container>
+  </div>
+</md-toolbar>
+
+<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput" *ngIf="isNew">
+  <div>
+      <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
+  </div>
+</md-toolbar>
+
+<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput" *ngIf="isNew">
+  <div>
+    <ng-container *ngTemplateOutlet="entranceDateAndMofocom"></ng-container>
   </div>
 </md-toolbar>
 
@@ -48,13 +65,13 @@
 
 <md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
   <div>
-      <ng-container *ngTemplateOutlet="vehicleIdAndEntranceDate"></ng-container>
+      <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
   </div>
 </md-toolbar>
 
 <md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
   <div>
-    <ng-container *ngTemplateOutlet="mofocom"></ng-container>
+    <ng-container *ngTemplateOutlet="entranceDateAndMofocom"></ng-container>
   </div>
 </md-toolbar>
 

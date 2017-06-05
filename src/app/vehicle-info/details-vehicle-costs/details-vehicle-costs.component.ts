@@ -5,6 +5,8 @@ import { DialogVehicleCostsComponent } from '../dialog-vehicle-costs/dialog-vehi
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/startWith';
 import { DialogYesOrNoComponent } from '../../shared/dialog-yes-or-no/dialog-yes-or-no.component';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
 
 
 @Component({
@@ -17,7 +19,7 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
   @Input() types;
   @Input() formGroupInput: FormArray;
   @Input() methods: any;
-  @Input() rvAfterFD: number;
+  @Input() rvAfterFDRxx: any;
   vCostCtrls: AbstractControl[];
   subscriptions: Subscription[] = [];
   costSum: number;
@@ -57,19 +59,37 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.vCostCtrls = this.formGroupInput.controls;
-    const sum_ = this.formGroupInput.valueChanges
-      .startWith(null)
-      .subscribe(() => {
+
+    Observable.combineLatest(this.formGroupInput.valueChanges.startWith(null), this.rvAfterFDRxx)
+      .subscribe(combo => {
+        console.log(combo);
         let sumWithoutRV = 0;
         let prodWithoutRV = 1;
-        this.vCostCtrls.forEach(ctrl => {
-          const amount = ctrl.get('amount').value;
-          sumWithoutRV += +amount;
-          prodWithoutRV *= +amount;
-        });
-        this.costSum = sumWithoutRV + this.rvAfterFD;
+        if (combo[0]) {
+          combo[0].forEach(item => {
+            const amount = item['amount'];
+            sumWithoutRV += +amount;
+            prodWithoutRV *= +amount;
+          });
+        }
+        this.costSum = sumWithoutRV + <number>combo[1];
         this.hasTBD = !prodWithoutRV;
       });
+
+
+    // const sum_ = this.formGroupInput.valueChanges
+    //   .startWith(null)
+    //   .subscribe(() => {
+    //     let sumWithoutRV = 0;
+    //     let prodWithoutRV = 1;
+    //     this.vCostCtrls.forEach(ctrl => {
+    //       const amount = ctrl.get('amount').value;
+    //       sumWithoutRV += +amount;
+    //       prodWithoutRV *= +amount;
+    //     });
+    //     this.costSum = sumWithoutRV + this.rvAfterFD;
+    //     this.hasTBD = !prodWithoutRV;
+    //   });
   }
 
   ngOnDestroy() {

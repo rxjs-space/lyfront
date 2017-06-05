@@ -2,36 +2,28 @@
   (ngSubmit)="prepareSubmit(vehicleForm)" 
   novalidate class="main-form">
 
-  <!-- 一般信息 -->
   <app-details-general
-    [titles]="titles" [types]="types"
+    [titles]="titles" [types]="types" [isNew]="isNew"
     [formGroupInput]="vehicleForm">
   ></app-details-general>
 
-  <!-- 相关照片 -->
-  <!--<app-details-photos>
-  </app-details-photos>-->
-  
-  <!-- 状态信息 -->
+
   <app-details-status
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('status')">
   </app-details-status>
 
-  <!-- 车辆信息 -->
   <app-details-vehicle
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('vehicle')"
     (onBrandBlur)="onBrandBlur($event)">
   </app-details-vehicle>
 
-  <!-- 车主/经办人信息 -->
   <app-details-owner-agent
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm">
   </app-details-owner-agent>
   
-  <!-- 车主/经办人信息 -->
   <app-details-docs
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('docsProvided')">
@@ -41,7 +33,7 @@
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm"
     [methods]="formArrayMethods('feesAndDeductions')"
-    [rvAfterFD]="rvAfterFD">
+    [rvAfterFD]="rvAfterFDRxx | async">
   </app-details-condition-rv-fd>
 
   <app-details-remarks
@@ -54,10 +46,11 @@
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('vehicleCosts')"
     [methods]="formArrayMethods('vehicleCosts')"
-    [rvAfterFD]="rvAfterFD">
+    [rvAfterFDRxx]="rvAfterFDRxx">
   </app-details-vehicle-costs>
 
   <div class="fixed-button-bottom not-for-print">
+    <button md-button type="button" color="primary" (click)="checkValidity()">数据验证</button>
     <button md-raised-button color="primary"
       type="submit"
       [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value"
@@ -71,114 +64,13 @@
     </button>
   </div>
 
-  <!--<md-card class="info-card">
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>申请人承诺</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
-      <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur suscipit nam repudiandae quis tempore rerum dolorem pariatur expedita temporibus, nesciunt, id laboriosam et quo omnis ab nihil laborum rem itaque.</div>
-      签字
-    </md-card-content> 
-  </md-card>
-
-  <md-card class="info-card">
-    <md-card-header>
-      <md-card-title class="vertical-center-container"><i class="material-icons">chevron_right</i><span>查验员签字</span></md-card-title>
-    </md-card-header>
-    <md-card-content>
-      签字
-    </md-card-content> 
-  </md-card>  -->
 </form>
 
-
-<!--
-<md-card class="info-card not-for-print">
-  <md-card-header>
-    <md-card-title class="vertical-center-container">
-      <i class="material-icons">chevron_right</i><span>拆解计划</span></md-card-title>
-  </md-card-header>
-
-
-  <md-card-content>
-    <div *ngIf="!dismantlingOrdersInput.length">暂无</div>
-    <form *ngIf="dismantlingOrdersInput.length" [formGroup]="dismantlingOrdersForm" novalidate >      
-      <div formArrayName="dismantlingOrders">
-        <div *ngFor="let dOrder of dismantlingOrders.controls; let i=index" [formGroupName]="i">
-          <md-input-container class="m-size-input">
-            <input mdInput [placeholder]="titles.dismantlingOrders.id" formControlName="id">
-          </md-input-container>
-
-
-
-          <md-input-container class="m-size-input" >
-            <input mdInput [placeholder]="titles.dismantlingOrders.orderType" [mdAutocomplete]="autoDimantlingOrderType" formControlName="orderType">
-          </md-input-container>
-
-          <md-autocomplete #autoDimantlingOrderType="mdAutocomplete" [displayWith]="df.dName">
-            <md-option *ngFor="let dOType of types.dismantlingOrderTypes" [value]="dOType">
-              {{ dOType.name }}
-            </md-option>
-          </md-autocomplete>
-
-
-
-          <md-input-container class="l-size-input">
-            <input mdInput type="date" [placeholder]="titles.dismantlingOrders.orderDate" formControlName="orderDate">
-          </md-input-container>          
-          <md-input-container class="l-size-input">
-            <input mdInput type="date" [placeholder]="titles.dismantlingOrders.actualFinishDate" formControlName="actualFinishDate">
-          </md-input-container>
-          <ng-container *ngIf="!dOrder.get('actualFinishDate').value">
-            <button md-raised-button color="primary">
-              保存
-            </button>  
-            <button md-raised-button color="warn">
-              删除
-            </button>             
-          </ng-container>
-        </div>
-      </div>
-
-    </form>
-  </md-card-content>
-  <button md-raised-button color="primary" (click)="addDismantlingOrder()">
-    新建拆解计划
-  </button>  
-
-</md-card>-->
-
-
-
-
-<!--
-
-<div class="not-for-print diagnosis-only">
-
-
-  <md-card>
-    <md-card-header>
-      <md-card-title>dismantlingOrdersForm.value</md-card-title>
-    </md-card-header>
-    <md-card-content>{{dismantlingOrdersForm.value | json}}</md-card-content>
-  </md-card>
-
-  <md-card>
-    <md-card-header>
-      <md-card-title>vehicleForm.status</md-card-title>
-    </md-card-header>
-    <md-card-content>{{vehicleForm.status | json}}</md-card-content>
-  </md-card>
-
-  <md-card>
-    <md-card-header>
-      <md-card-title>vehicleForm.get('vehicle.feesAndDeductions').errors</md-card-title>
-    </md-card-header>
-    <md-card-content>{{vehicleForm.get('feesAndDeductions').value | json}}</md-card-content>
-  </md-card>
-
-</div>-->
-
+{{vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value}}
+{{vehicleForm.pristine}}
+{{!vehicleForm.valid}}
+{{vehicleForm.get('metadata.isDeleted').value}}
+{{vehicleForm.errors | json}}
 
 
 

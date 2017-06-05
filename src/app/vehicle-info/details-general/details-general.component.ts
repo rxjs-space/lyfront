@@ -10,6 +10,7 @@ export class DetailsGeneralComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormGroup;
+  @Input() isNew: Boolean;
   constructor() { }
 
   ngOnInit() {
