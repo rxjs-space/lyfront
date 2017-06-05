@@ -16,7 +16,11 @@ export class DialogFdComponent implements OnInit {
     @Inject(MD_DIALOG_DATA) public data: any,
     private sv: SharedValidatorsService
     ) { }
-    
+
+  onSubmit() {
+    this.fdForm.get('type').disable();
+    this.dialogRef.close(this.fdForm);
+  }
 
   ngOnInit() {
     this.fdForm = this.fb.group({

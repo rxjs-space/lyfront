@@ -50,7 +50,9 @@
   </app-details-vehicle-costs>
 
   <div class="fixed-button-bottom not-for-print">
-    <button md-button type="button" color="primary" (click)="checkValidity()">数据验证</button>
+    <button md-button type="button" color="primary" (click)="checkValidity()"
+      *ngIf="(vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value)"
+    >数据验证</button>
     <button md-raised-button color="primary"
       type="submit"
       [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value"
@@ -65,12 +67,4 @@
   </div>
 
 </form>
-
-{{vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value}}
-{{vehicleForm.pristine}}
-{{!vehicleForm.valid}}
-{{vehicleForm.get('metadata.isDeleted').value}}
-{{vehicleForm.errors | json}}
-
-
 

@@ -5,7 +5,150 @@
       <span>{{titles.vehicles.docsProvided.title}}</span></md-card-title>
   </md-card-header>
   <md-card-content>
-    <div>
+    <small>
+    <md-grid-list cols="4" rowHeight="2em" class="checkbox-array">
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="vRegistrationCert">
+            {{titles.vehicles.docsProvided.vRegistrationCert}}
+          </md-checkbox>  
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="vLicenseA">
+            {{titles.vehicles.docsProvided.vLicenseA}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="vLicenseB">
+            {{titles.vehicles.docsProvided.vLicenseB}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div>
+          <label class="inline-block-label">
+            <span class="vertical-middle-span">
+            {{titles.vehicles.docsProvided.plateCount}}：
+            <md-input-container class="s-size-input same-line-height-input">
+              <input type="number" mdInput formControlName="plateCount">
+            </md-input-container>
+            </span>
+          </label> 
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile [colspan]="2">
+        <div>
+          <md-checkbox color="primary" formControlName="infoQueryForm">
+            {{titles.vehicles.docsProvided.infoQueryForm}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile [colspan]="2">
+        <div>
+      <md-checkbox color="primary" formControlName="registrationTransferDeregistrationApplication">
+        {{titles.vehicles.docsProvided.registrationTransferDeregistrationApplication}}
+      </md-checkbox>   
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile *ngIf="!formGroupInput.parent.get('owner.isPerson').value" [colspan]="2">
+        <div>
+          <md-checkbox color="primary" formControlName="ownerOIdCopy">
+            {{titles.vehicles.docsProvided.ownerOIdCopy}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile *ngIf="formGroupInput.parent.get('owner.isPerson').value" [colspan]="2">
+        <div>
+          <md-checkbox color="primary" formControlName="ownerPIdCopy">
+            {{titles.vehicles.docsProvided.ownerPIdCopy}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile [colspan]="2">
+        <div>
+          <md-checkbox color="primary" formControlName="agentIdCopy">
+            {{titles.vehicles.docsProvided.agentIdCopy}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="powerOfAttorney">
+            {{titles.vehicles.docsProvided.powerOfAttorney}}
+          </md-checkbox> 
+        </div>
+      </md-grid-tile>      
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="surveyRecords">
+            {{titles.vehicles.docsProvided.surveyRecords}}
+          </md-checkbox> 
+        </div>
+      </md-grid-tile>      
+      <md-grid-tile [colspan]="2">
+        <div>
+          <md-checkbox color="primary" formControlName="statementOfLossOnNewspaper">
+            {{titles.vehicles.docsProvided.statementOfLossOnNewspaper}}
+          </md-checkbox>  
+        </div>
+      </md-grid-tile>
+      <ng-container *ngIf="!formGroupInput.parent.get('owner.isPerson').value">
+        <md-grid-tile [colspan]="2">
+          <div>
+            <md-checkbox color="primary" formControlName="orgDeregistrationFormCopy">
+              {{titles.vehicles.docsProvided.orgDeregistrationFormCopy}}
+            </md-checkbox>
+          </div>
+        </md-grid-tile>      
+        <md-grid-tile>
+          <div>
+            <md-checkbox color="primary" formControlName="orgRenamingDoc">
+              {{titles.vehicles.docsProvided.orgRenamingDoc}}
+            </md-checkbox>   
+          </div>
+        </md-grid-tile>   
+      
+      </ng-container>      
+   
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="ownershipCert">
+            {{titles.vehicles.docsProvided.ownershipCert}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile> 
+      <md-grid-tile>
+        <div>
+          <md-checkbox color="primary" formControlName="affiliationAgreement">
+            {{titles.vehicles.docsProvided.affiliationAgreement}}
+          </md-checkbox> 
+        </div>
+      </md-grid-tile> 
+      <md-grid-tile [colspan]="2">
+        <div>
+          <label class="inline-block-label">
+            <span class="vertical-middle-span">
+              {{titles.vehicles.docsProvided.others}}：
+              <md-input-container class="xl-size-input same-line-height-input">
+                <input mdInput formControlName="others">
+              </md-input-container>
+            </span>
+          </label>
+        </div>
+      </md-grid-tile> 
+
+    </md-grid-list>
+    </small>
+    <!--<div>
       <md-checkbox color="primary" formControlName="vRegistrationCert">
         {{titles.vehicles.docsProvided.vRegistrationCert}}
       </md-checkbox>    
@@ -24,11 +167,9 @@
         </span>
       </label> 
 
+    </div>-->
 
-
-    </div>
-
-    <div>
+    <!--<div>
       <md-checkbox color="primary" formControlName="infoQueryForm">
         {{titles.vehicles.docsProvided.infoQueryForm}}
       </md-checkbox>
@@ -42,23 +183,19 @@
       >
         {{titles.vehicles.docsProvided.ownerPIdCopy}}
       </md-checkbox>
-    </div>
-    <div>
+    </div>-->
+    <!--<div>
       <md-checkbox color="primary" formControlName="agentIdCopy">
         {{titles.vehicles.docsProvided.agentIdCopy}}
       </md-checkbox>
       <md-checkbox color="primary" formControlName="powerOfAttorney">
         {{titles.vehicles.docsProvided.powerOfAttorney}}
       </md-checkbox>    
-    </div>
-    <div> 
+    </div>-->
+    <!--<div> 
     
-      <md-checkbox color="primary" formControlName="registrationTransferDeregistrationApplication">
-        {{titles.vehicles.docsProvided.registrationTransferDeregistrationApplication}}
-      </md-checkbox>   
-      <md-checkbox color="primary" formControlName="surveyRecords">
-        {{titles.vehicles.docsProvided.surveyRecords}}
-      </md-checkbox> 
+
+
     </div>
     <div>
 
@@ -72,14 +209,14 @@
       >
         {{titles.vehicles.docsProvided.orgRenamingDoc}}
       </md-checkbox>   
-    </div>
-    <div>
+    </div>-->
+    <!--<div>
 
       <md-checkbox color="primary" formControlName="statementOfLossOnNewspaper">
         {{titles.vehicles.docsProvided.statementOfLossOnNewspaper}}
       </md-checkbox>   
-    </div>
-    <div>
+    </div>-->
+    <!--<div>
       <md-checkbox color="primary" formControlName="ownershipCert">
         {{titles.vehicles.docsProvided.ownershipCert}}
       </md-checkbox>   
@@ -95,7 +232,7 @@
         </span>
       </label>
 
-    </div>
+    </div>-->
 
   </md-card-content>
 </md-card>

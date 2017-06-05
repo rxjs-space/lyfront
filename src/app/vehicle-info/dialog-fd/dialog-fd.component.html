@@ -11,7 +11,7 @@
         <h3>添加费用或抵扣项目</h3></md-card-title>
     </md-card-header>
     <md-card-content>
-      <form [formGroup]="fdForm" (ngSubmit)="dialogRef.close(fdForm)">
+      <form [formGroup]="fdForm" (ngSubmit)="onSubmit()">
         <app-autocomplete-combo
           [placeholderInput]="data.titles.vehicles.feesAndDeductions.type"
           [formControlInput]="fdForm.get('type')"
@@ -26,13 +26,28 @@
         </md-input-container>-->
         <md-input-container class="m-size-input">
           <input mdInput type="number" [placeholder]="data.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
-        </md-input-container>      
-        <md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value==='零件遗失'">
+        </md-input-container>  
+      <app-autocomplete-combo
+        *ngIf="fdForm.get('type').value==='零件遗失'"
+        [placeholderInput]="data.titles.vehicles.feesAndDeductions.partName"
+        [formControlInput]="fdForm.get('part')"
+        [objList]="data.types.parts"
+        [toSort]="false"
+        sizeClass='xl-size-input'
+      >
+      </app-autocomplete-combo>
+
+
+        <!--<md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value==='零件遗失'">
           <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.partName" formControlName="part">
-        </md-input-container>
+        </md-input-container>-->
         <md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value!=='零件遗失'">
           <input mdInput [placeholder]="data.titles.vehicles.feesAndDeductions.details" formControlName="details">
         </md-input-container>
+
+
+
+        
         <div md-dialog-actions>
           <button md-button type="submit" color="primary" [disabled]="!fdForm.valid">添加（未保存）</button>
           <button md-button type="button" (click)="dialogRef.close(null)">取消</button>

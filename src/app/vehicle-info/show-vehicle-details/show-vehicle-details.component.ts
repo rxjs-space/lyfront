@@ -27,7 +27,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   // @Input() dismantlingOrdersInput;
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Input() methods: any;
-  rvAfterFD: number; // residual value after fees and deductions
   rvAfterFDRxx = new BehaviorSubject(0); // residual value after fees and deductions
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
@@ -84,14 +83,14 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
   markAllAsDirtyAndTouched(control: AbstractControl) {
     if (control.hasOwnProperty('controls')) {
-      control.markAsDirty(true); // mark group
+      // control.markAsDirty(true); // mark group
       control.markAsTouched(true); // mark group
       const ctrl = <any>control;
       for (let inner in ctrl.controls) {
         this.markAllAsDirtyAndTouched(ctrl.controls[inner] as AbstractControl);
       }
     } else {
-      (<FormControl>(control)).markAsDirty(true);
+      // (<FormControl>(control)).markAsDirty(true);
       (<FormControl>(control)).markAsTouched(true);
     }
   }
@@ -121,15 +120,20 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         // };
         // typeNameToTypeObj(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
         // console.log(vehicleToSubmit.mofcomRegisterType);
-        vehicleToSubmit.mofcomRegisterType = this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType) || null;
+        vehicleToSubmit.mofcomRegisterType = 
+          this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType) || null;
         vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType) || null;
         vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter) || null;
-        vehicleToSubmit.vehicle.aquisitionType = this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType) || null;
+        vehicleToSubmit.vehicle.aquisitionType = 
+          this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType) || null;
         vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType) || null;
         vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType) || null;
         vehicleToSubmit.feesAndDeductions.forEach(fd => {
           fd.type = this.types.feesAndDeductionsTypes.find(
             t => t.name === fd.type) || null;
+          if (fd.part) {
+            fd.part = this.types.parts.find(p => p.name === fd.part) || null;
+          }
         });
         vehicleToSubmit.vehicleCosts.forEach(vc => {
           vc.type = this.types.vehicleCostTypes.find(
@@ -139,6 +143,15 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           find(t => t.name === vehicleToSubmit.owner.idType) || null;
         vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
         delete vehicleToSubmit.idConfirm;
+
+        // at the end of submit, reset some status
+        this.vehicleForm.markAsPristine();
+        for (let ctrl in (this.vehicleForm.get('status') as FormGroup).controls) {
+          if (this.vehicleForm.get(`status.${ctrl}.done`).value) {
+            this.vehicleForm.get(`status.${ctrl}.done`).disable();
+          }
+        }
+
         return vehicleToSubmit;
       })
       .subscribe(v => {
@@ -399,7 +412,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     /* start of - setting up this.vehicleForm.controls('feesAndDeductions')*/
     const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
       type: [{value: fd.type.name, disabled: true}],
-      part: [fd.part && fd.part.name],
+      part: [fd.part && fd.part.name, this.sv.notListedButCanBeEmpty(this.types.parts.map(p => p.name))],
       details: [fd.details],
       amount: [fd.amount, [Validators.pattern(/^[0-9]+$/), Validators.required]]
     }));
@@ -418,7 +431,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         (this.vehicleForm.get('feesAndDeductions') as FormArray).controls.forEach(ctrl => {
           feesAndDeductions += ctrl.get('amount').value;
         });
-        this.rvAfterFD = residualValueBeforeFD - feesAndDeductions;
         this.rvAfterFDRxx.next(residualValueBeforeFD - feesAndDeductions);
       });
 
@@ -502,7 +514,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           if (!v && dateCtrl.value) {
             this.vehicleForm.get(`status.${k}.date`).setValue('');
           }
-        })
+        });
     })
 
 

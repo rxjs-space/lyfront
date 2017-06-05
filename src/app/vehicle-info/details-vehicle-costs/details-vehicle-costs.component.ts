@@ -34,6 +34,8 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
     const dialogSub_ = dialogRef.afterClosed().subscribe((newVCostsForm: FormGroup) => {
       if (newVCostsForm) {
         this.methods.new(newVCostsForm);
+        this.formGroupInput.markAsTouched();
+        this.formGroupInput.markAsDirty();
       }
     });
     this.subscriptions.push(dialogSub_);
@@ -50,6 +52,8 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: Boolean) => {
       if (result) {
         this.methods.delete(index);
+        this.formGroupInput.markAsTouched();
+        this.formGroupInput.markAsDirty();
       }
     });
 
@@ -60,9 +64,9 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.vCostCtrls = this.formGroupInput.controls;
 
-    Observable.combineLatest(this.formGroupInput.valueChanges.startWith(null), this.rvAfterFDRxx)
+    /* sum changes with rvAfterFD and other costs*/
+    const sum_ = Observable.combineLatest(this.formGroupInput.valueChanges.startWith(null), this.rvAfterFDRxx)
       .subscribe(combo => {
-        console.log(combo);
         let sumWithoutRV = 0;
         let prodWithoutRV = 1;
         if (combo[0]) {
@@ -76,20 +80,8 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
         this.hasTBD = !prodWithoutRV;
       });
 
+    this.subscriptions.push(sum_);
 
-    // const sum_ = this.formGroupInput.valueChanges
-    //   .startWith(null)
-    //   .subscribe(() => {
-    //     let sumWithoutRV = 0;
-    //     let prodWithoutRV = 1;
-    //     this.vCostCtrls.forEach(ctrl => {
-    //       const amount = ctrl.get('amount').value;
-    //       sumWithoutRV += +amount;
-    //       prodWithoutRV *= +amount;
-    //     });
-    //     this.costSum = sumWithoutRV + this.rvAfterFD;
-    //     this.hasTBD = !prodWithoutRV;
-    //   });
   }
 
   ngOnDestroy() {

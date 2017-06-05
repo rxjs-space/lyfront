@@ -28,6 +28,8 @@ export class DetailsConditionRvFdComponent implements OnInit {
       // console.log(newFDForm);
       if (newFDForm) {
         this.methods.new(newFDForm);
+        this.formGroupInput.markAsTouched();
+        this.formGroupInput.markAsDirty();
       }
     });
 
@@ -47,6 +49,8 @@ export class DetailsConditionRvFdComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: Boolean) => {
       if (result) {
         this.methods.delete(index);
+        this.formGroupInput.markAsTouched();
+        this.formGroupInput.markAsDirty();
       }
     });
 
