@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.auth.authenticate(this.loginForm.value)
       .subscribe(authenticateResult => {
         this.authenticating = false;
-        if (authenticateResult.ok === false) {
+        if (authenticateResult.success === false) {
           this.isConnectionDown = true;
         } else {
           this.authenticateResult = authenticateResult;
