@@ -47,7 +47,7 @@ export class Vehicle {
     totalMassKG: 0,
     lengthOverallMM: 0,
     color: '',
-    aquisitionType: null,
+    aquisitionType: '',
     aquisitionOtherTypeDetail: '',
     displacementL: '',
     fuelType: null,

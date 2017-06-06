@@ -31,7 +31,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   filteredVTypesRx: Observable<any[]>;
   filteredUseCharactersRx: Observable<any[]>;
   filteredBrandsRx: Observable<any[]>;
-  pendingOps: BehaviorSubject<number> = new BehaviorSubject(0);
+  pendingOps = new BehaviorSubject(0);
   subscriptions: Subscription[] = [];
   initSubscriptions: Subscription[] = [];
   isNew: Boolean;
@@ -127,8 +127,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
         vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
         vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
-        vehicleToSubmit.vehicle.aquisitionType = 
-          this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType) || null;
+        vehicleToSubmit.vehicle.aquisitionType = nameToId(vehicleToSubmit.vehicle.aquisitionType, this.types.aquisitionTypes);
         vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType) || null;
         vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType) || null;
         vehicleToSubmit.feesAndDeductions.forEach(fd => {
@@ -297,13 +296,10 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
         lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
         color: [this.vehicle.vehicle.color],
-        aquisitionType: [this.vehicle.vehicle.aquisitionType ? this.vehicle.vehicle.aquisitionType.name : '', [
+        aquisitionType: [this.idToName('aquisitionType', this.vehicle.vehicle.aquisitionType), [
           this.sv.notListedButCanBeEmpty(this.types.aquisitionTypes.map(type => type.name))
         ]],
-        aquisitionOtherTypeDetail: [
-          (this.vehicle.vehicle.aquisitionType && this.vehicle.vehicle.aquisitionType.name === '其他') && this.vehicle.vehicle.aquisitionOtherTypeDetail ?
-             this.vehicle.vehicle.aquisitionOtherTypeDetail : ''
-        ],
+        aquisitionOtherTypeDetail: [this.vehicle.vehicle.aquisitionOtherTypeDetail],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
         fuelType: [this.vehicle.vehicle.fuelType ? this.vehicle.vehicle.fuelType.name : '', [
           this.sv.notListedButCanBeEmpty(this.types.fuelTypes.map(type => type.name))
