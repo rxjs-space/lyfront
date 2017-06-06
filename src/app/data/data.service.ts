@@ -16,6 +16,7 @@ export class DataService {
   host1 = 'http://localhost:3001';
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
   titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
+  brandsApiUrl1 = this.host1 + '/api/brands';
 
   vehiclesApiUrl = this.host + '/vehicles';
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
@@ -104,6 +105,22 @@ export class DataService {
         })
         .catch(err => this.handleError(err));
 
+    }
+  }
+
+  get brandsRx() {
+    if (this.cache && this.cache.brands) {
+      return Observable.of(this.cache.brands);
+    } else {
+      const options = this.setupOptions(true);
+      // return this.http.get(this.typesApiUrl)
+      return this.http.get(this.brandsApiUrl1, options)
+        .map(res => {
+          const data = res.json();
+          this.cache.types = data;
+          return data;
+        })
+        .catch(err => this.handleError(err));
     }
   }
 

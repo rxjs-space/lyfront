@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class DetailsVehicleComponent implements OnInit {
   @Input() titles;
   @Input() types;
+  @Input() brands;
   @Input() formGroupInput: FormGroup;
   @Output() onBrandBlur = new EventEmitter();
   constructor() { }

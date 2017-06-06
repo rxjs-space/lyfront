@@ -12,6 +12,7 @@
   <app-show-vehicle-details
     [titles]="zipData.titles" 
     [types]="zipData.types"
+    [brands]="zipData.brands"
     [vehicle]="zipData.vehicle"
     [methods]="methods"
     (save)="saveVehicle($event.id, $event.details)"

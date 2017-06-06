@@ -24,6 +24,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   @Input() vehicle;
   @Input() types;
   @Input() titles;
+  @Input() brands;
   // @Input() dismantlingOrdersInput;
   @Output() save: EventEmitter<any> = new EventEmitter();
   @Input() methods: any;
@@ -122,7 +123,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         // console.log(vehicleToSubmit.mofcomRegisterType);
         const nameToId = (name, types) => {
           const matchObj = types.find(t => t.name === name) || null;
-          return matchObj ? matchObj.id : '';
+          return matchObj ? (matchObj.id || matchObj._id) : '';
         };
         vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
         vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
@@ -140,7 +141,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           vc.type = nameToId(vc.type, this.types.vehicleCostTypes);
         });
         vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
-        vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.types.brands);
+        vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.brands);
         // this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
         delete vehicleToSubmit.idConfirm;
 
@@ -193,7 +194,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     id = id ? id : this.vehicle[key];
     types = types ? types : this.types[`${key}s`];
     if (!id) {return ''; } // if id is an empty string
-    const matchObj = types.find(i => i.id === id);
+    let matchObj = types.find(i => i.id === id);
+    if (!matchObj) {matchObj = types.find(i => i._id === id); }
     if (!matchObj) {throw new Error('invalid id'); } // if there's no matching obj for the id
     return matchObj['name'];
   }
@@ -284,7 +286,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         useCharacter: [this.idToName('useCharacter', this.vehicle.vehicle.useCharacter), [
           this.sv.notListedButCanBeEmpty(this.types.useCharacters.map(type => type.name))
         ]],
-        brand: [this.idToName('brand', this.vehicle.vehicle.brand)],
+        brand: [this.idToName('brand', this.vehicle.vehicle.brand, this.brands)],
         model: [this.vehicle.vehicle.model],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],

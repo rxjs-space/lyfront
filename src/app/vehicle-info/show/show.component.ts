@@ -44,9 +44,10 @@ export class ShowComponent implements OnInit, OnDestroy {
           (isNew ? this.data.createNewVehicle() : this.data.getVehicleById(params['id'])),
           this.data.typesRx,
           this.data.titlesRx,
+          this.data.brandsRx,
           Observable.of(params['isFromList']),
-          (vehicle, types, titles, isFromList) => ({
-            vehicle, types, titles, isFromList
+          (vehicle, types, titles, brands, isFromList) => ({
+            vehicle, types, titles, brands, isFromList
           }));
       });
     })
