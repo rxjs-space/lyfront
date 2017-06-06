@@ -131,15 +131,13 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         vehicleToSubmit.vehicle.fuelType = nameToId(vehicleToSubmit.vehicle.fuelType, this.types.fuelTypes);
         vehicleToSubmit.agent.idType = nameToId(vehicleToSubmit.agent.idType, this.types.idTypes);
         vehicleToSubmit.feesAndDeductions.forEach(fd => {
-          fd.type = this.types.feesAndDeductionsTypes.find(
-            t => t.name === fd.type) || null;
+          fd.type = nameToId(fd.type, this.types.feesAndDeductionsTypes);
           if (fd.part) {
-            fd.part = this.types.parts.find(p => p.name === fd.part) || null;
+            fd.part = nameToId(fd.part, this.types.parts);
           }
         });
         vehicleToSubmit.vehicleCosts.forEach(vc => {
-          vc.type = this.types.vehicleCostTypes.find(
-            t => t.name === vc.type) || null;
+          vc.type = nameToId(vc.type, this.types.vehicleCostTypes);
         });
         vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
         vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.types.brands);
@@ -350,7 +348,11 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         others: [this.vehicle.docsProvided.others],
       }),
       feesAndDeductions: this.fb.array([]),
-      vehicleCosts: this.fb.array([]),
+      vehicleCosts: this.fb.array(this.vehicle.vehicleCosts.map(vC => this.fb.group({
+        type: [{value: this.idToName(null, vC.type, this.types.vehicleCostTypes), disabled: true}],
+        details: vC.details,
+        amount: vC.amount
+      }))),
     });
 
     /* disable the control if status.done */
@@ -387,20 +389,20 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
 
     /* start of - setting up vehicleCosts */
-    const vCFormGroups: FormGroup[] = this.vehicle.vehicleCosts.map(vC => this.fb.group({
-      type: [{value: vC.type.name, disabled: true}],
-      details: vC.details,
-      amount: vC.amount
-    }));
-    const vCFormArray = this.fb.array(vCFormGroups);
-    this.vehicleForm.setControl('vehicleCosts', vCFormArray);
+    // const vCFormGroups: FormGroup[] = this.vehicle.vehicleCosts.map(vC => this.fb.group({
+    //   type: [{value: this.idToName(null, vC.type, this.types.vehicleCostTypes), disabled: true}],
+    //   details: vC.details,
+    //   amount: vC.amount
+    // }));
+    // const vCFormArray = this.fb.array(vCFormGroups);
+    // this.vehicleForm.setControl('vehicleCosts', vCFormArray);
 
     /* end of - setting up vehicleCosts */
 
     /* start of - setting up this.vehicleForm.controls('feesAndDeductions')*/
     const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
-      type: [{value: fd.type.name, disabled: true}],
-      part: [fd.part && fd.part.name, this.sv.notListedButCanBeEmpty(this.types.parts.map(p => p.name))],
+      type: [{value: this.idToName(null, fd.type, this.types.feesAndDeductionsTypes), disabled: true}],
+      part: [this.idToName(null, fd.part, this.types.parts), this.sv.notListedButCanBeEmpty(this.types.parts.map(p => p.name))],
       details: [fd.details],
       amount: [fd.amount, [Validators.pattern(/^[0-9]+$/), Validators.required]]
     }));

@@ -28,7 +28,7 @@ export class DialogFdComponent implements OnInit {
         Validators.required,
         this.sv.notListedButCanBeEmpty(this.data.types.feesAndDeductionsTypes.map(type => type.name))
       ]],
-      part: [''],
+      part: ['', [this.sv.notListedButCanBeEmpty(this.data.types.parts.map(p => p.name))]],
       details: [''],
       amount: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]
     });
