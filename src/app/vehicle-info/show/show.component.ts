@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../../data/data.service';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
@@ -27,6 +28,7 @@ export class ShowComponent implements OnInit, OnDestroy {
       return this.data.updateBrands(brands);
     }
   };
+  isLoadedRxx = new BehaviorSubject(false);
   constructor(
     private location: Location,
     private route: ActivatedRoute,
@@ -49,7 +51,7 @@ export class ShowComponent implements OnInit, OnDestroy {
       });
     })
       .catch(error => Observable.of({ok: false, error}))
-      .subscribe(zipData => this.zipData = zipData);
+      .subscribe(zipData => {this.zipData = zipData; this.isLoadedRxx.next(true);});
 
   }
 

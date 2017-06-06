@@ -27,3 +27,8 @@ show conditionOnEntrance on dismantlingOrder print
 车辆入库
 拆解计划表
 车辆出库
+
+
+## 20170606
+isLoggedInRxx isAdminRxx not pushing properly
+need to find out the reason (is it the Guard or the life cycle)

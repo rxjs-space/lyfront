@@ -10,10 +10,10 @@ import { NotFoundComponent } from '../shared/not-found/not-found.component';
 /*
   TypesResolverService is provided at app.module
 */
-import { TypesResolverService } from '../data/types-resolver.service';
-import { VehicleResolverService } from '../data/vehicle-resolver.service';
-import { TitlesResolverService } from '../data/titles-resolver.service';
-import { DismantlingOrdersByVINResolverService } from '../data/dismantling-orders-by-vin-resolver.service';
+// import { TypesResolverService } from '../data/types-resolver.service';
+// import { VehicleResolverService } from '../data/vehicle-resolver.service';
+// import { TitlesResolverService } from '../data/titles-resolver.service';
+// import { DismantlingOrdersByVINResolverService } from '../data/dismantling-orders-by-vin-resolver.service';
 
 const routes: Routes = [
   {path: '', canActivate: [AuthGuard], /*resolve: {

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
     const sub0_ = Observable.merge(this.loginForm.controls['username'].valueChanges, this.loginForm.controls['password'].valueChanges)
       .subscribe(c => {
-        if (this.authenticateResult) this.authenticateResult = null;
+        if (this.authenticateResult) {this.authenticateResult = null; }
       });
     this.subscriptions_.push(sub0_);
   }

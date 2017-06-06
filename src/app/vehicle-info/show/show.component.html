@@ -1,3 +1,4 @@
+<md-spinner *ngIf="!(isLoadedRxx | async)"></md-spinner>
 <ng-container *ngIf="zipData">
 <app-loading-or-error [httpJsonData]="zipData">
 

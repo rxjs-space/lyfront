@@ -50,6 +50,8 @@ export class AuthService {
     if (
       currentUser && 
       currentUser.token && 
+      this.getJwtPayload(currentUser.token)['sub'] &&
+      this.getJwtPayload(currentUser.token)['sub']['roles'] &&
       this.getJwtPayload(currentUser.token)['sub']['roles'].indexOf('admin') > -1) {
         isAdmin = true;
       }

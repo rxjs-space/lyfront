@@ -22,12 +22,26 @@ export class AuthGuard implements CanActivate {
     //     this.router.navigate(['/login']);
     // }
 
-    if (this.authService.isLoggedIn()) {
-      this.authService.isAdmin();
-      return true;
+    const isLoggedIn = this.authService.isLoggedIn();
+    const isAdmin = this.authService.isAdmin();
+    const isAttemptingAdminUrl = attemptedUrl.indexOf('admin') > -1;
+    let result = false;
+    switch (true) {
+      case isAttemptingAdminUrl && isAdmin:
+        result = true;
+        break;
+      case isAttemptingAdminUrl && !isAdmin:
+        result = false;
+        this.router.navigate(['/dashboard']);
+        break;
+      case isLoggedIn:
+        result = true;
+        break;
+      default:
+        this.authService.attemptedUrl = attemptedUrl;
+        this.router.navigate(['/login']);
     }
-    this.authService.attemptedUrl = attemptedUrl;
-    this.router.navigate(['/login']);
+    return result;
   }
   canActivate(
     next: ActivatedRouteSnapshot,
