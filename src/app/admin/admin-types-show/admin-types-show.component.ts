@@ -27,7 +27,7 @@ export class AdminTypesShowComponent implements OnInit {
   }
 
   prepareSubmit() {
-    
+    console.log('prepare');
   }
 
 }

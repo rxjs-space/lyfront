@@ -1,6 +1,6 @@
 <ng-container *ngIf="typesForm">
 
-<form [formGroup]="typesForm" (onSubmit)="prepareSubmit()"
+<form [formGroup]="typesForm" (ngSubmit)="prepareSubmit()"
   novalidate>
   <app-admin-types-show-parts [formGroupInput]="typesForm.get('parts')">
   </app-admin-types-show-parts>
