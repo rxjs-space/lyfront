@@ -475,6 +475,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     const isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
       .subscribe(value => {
         this.vehicleForm.get('owner.idType').setValue('');
+        if (!value) {
+          this.vehicleForm.get('owner.isByAgent').setValue(true);
+          this.vehicleForm.get('owner.isByAgent').disable();
+        } else {
+          this.vehicleForm.get('owner.isByAgent').enable();
+        }
       });
 
 
