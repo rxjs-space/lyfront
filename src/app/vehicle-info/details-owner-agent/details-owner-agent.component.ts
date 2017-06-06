@@ -10,9 +10,13 @@ export class DetailsOwnerAgentComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormGroup;
+  pTypes: any[];
+  oTypes: any[];
   constructor() { }
 
   ngOnInit() {
+    this.pTypes = this.types.idTypes.filter(t => t.id.indexOf('o') === -1);
+    this.oTypes = this.types.idTypes.filter(t => t.id.indexOf('p') === -1);
   }
 
 }

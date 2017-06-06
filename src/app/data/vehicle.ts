@@ -20,7 +20,7 @@ export class Vehicle {
     name: '',
     address: '',
     zipCode: '',
-    idType: null,
+    idType: '',
     idOtherTypeName: '',
     idNo: '',
     tel: '',
@@ -29,7 +29,7 @@ export class Vehicle {
   };
   agent = {
     name: '',
-    idType: null,
+    idType: '',
     idOtherTypeName: '',
     idNo: '',
     tel: ''

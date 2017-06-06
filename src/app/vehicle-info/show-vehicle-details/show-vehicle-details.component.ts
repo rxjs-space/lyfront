@@ -128,8 +128,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
         vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
         vehicleToSubmit.vehicle.aquisitionType = nameToId(vehicleToSubmit.vehicle.aquisitionType, this.types.aquisitionTypes);
-        vehicleToSubmit.vehicle.fuelType = nameToId(vehicleToSubmit.vehicle.fuelType, this.types.fuelTypes)
-        vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType) || null;
+        vehicleToSubmit.vehicle.fuelType = nameToId(vehicleToSubmit.vehicle.fuelType, this.types.fuelTypes);
+        vehicleToSubmit.agent.idType = nameToId(vehicleToSubmit.agent.idType, this.types.idTypes);
         vehicleToSubmit.feesAndDeductions.forEach(fd => {
           fd.type = this.types.feesAndDeductionsTypes.find(
             t => t.name === fd.type) || null;
@@ -141,8 +141,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           vc.type = this.types.vehicleCostTypes.find(
             t => t.name === vc.type) || null;
         });
-        vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
-          find(t => t.name === vehicleToSubmit.owner.idType) || null;
+        vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
         vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.types.brands);
         // this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
         delete vehicleToSubmit.idConfirm;
@@ -311,7 +310,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         name: [this.vehicle.owner.name, Validators.required],
         address: [this.vehicle.owner.address],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
-        idType: [this.vehicle.owner.idType ? this.vehicle.owner.idType.name : '', [
+        idType: [this.idToName('idType', this.vehicle.owner.idType), [
           this.sv.notListedBasedOnOtherControlTFButCanBeEmpty('isPerson', [
             this.types.oIdTypes.map(type => type.name),
             this.types.pIdTypes.map(type => type.name),
@@ -325,7 +324,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       }),
       agent: this.fb.group({
         name: [this.vehicle.agent ? this.vehicle.agent.name : ''],
-        idType: [this.vehicle.owner.idType ? this.vehicle.owner.idType.name : '', 
+        idType: [this.idToName('idType', this.vehicle.agent.idType), 
           this.sv.notListedButCanBeEmpty(this.types.pIdTypes.map(type => type.name))],
         idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
         idNo: [this.vehicle.agent.idNo],

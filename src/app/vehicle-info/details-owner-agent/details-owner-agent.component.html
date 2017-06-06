@@ -29,16 +29,36 @@
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.owner.idType"
           [formControlInput]="formGroupInput.get('owner.idType')"
-          [objList]="types.pIdTypes"
+          [objList]="pTypes"
           sizeClass='l-size-input'
           [toSort]="false"
         >
         </app-autocomplete-combo>
       </ng-container>
+      <!--<ng-container *ngIf="formGroupInput.get('owner.isPerson').value">
+        <app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.owner.idType"
+          [formControlInput]="formGroupInput.get('owner.idType')"
+          [objList]="types.pIdTypes"
+          sizeClass='l-size-input'
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+      </ng-container>-->
 
 
       <!-- 证件类别-组织 -->
       <ng-container *ngIf="!formGroupInput.get('owner.isPerson').value">
+        <app-autocomplete-combo
+          [placeholderInput]="titles.vehicles.owner.idType"
+          [formControlInput]="formGroupInput.get('owner.idType')"
+          [objList]="oTypes"
+          sizeClass='l-size-input'
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+      </ng-container>
+      <!--<ng-container *ngIf="!formGroupInput.get('owner.isPerson').value">
         <app-autocomplete-combo
           [placeholderInput]="titles.vehicles.owner.idType"
           [formControlInput]="formGroupInput.get('owner.idType')"
@@ -47,7 +67,7 @@
           [toSort]="false"
         >
         </app-autocomplete-combo>
-      </ng-container>
+      </ng-container>-->
 
 
       <md-input-container class="m-size-input" *ngIf="(formGroupInput.get('owner.idType').value === '其他')">
@@ -84,11 +104,19 @@
       <app-autocomplete-combo
         [placeholderInput]="titles.vehicles.agent.idType"
         [formControlInput]="formGroupInput.get('agent.idType')"
-        [objList]="types.pIdTypes"
+        [objList]="pTypes"
         sizeClass='l-size-input'
         [toSort]="false"
       >
       </app-autocomplete-combo>
+      <!--<app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.agent.idType"
+        [formControlInput]="formGroupInput.get('agent.idType')"
+        [objList]="types.pIdTypes"
+        sizeClass='l-size-input'
+        [toSort]="false"
+      >
+      </app-autocomplete-combo>-->
 
       <md-input-container class="m-size-input" *ngIf="(formGroupInput.get('agent.idType').value === '其他')">
         <input mdInput [placeholder]="titles.vehicles.agent.idOtherTypeName" formControlName="idOtherTypeName">
