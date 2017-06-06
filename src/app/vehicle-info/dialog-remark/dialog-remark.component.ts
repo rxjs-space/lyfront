@@ -19,7 +19,7 @@ export class DialogRemarkComponent implements OnInit {
     this.remarkForm = this.fb.group({
       date: [(new Date()).toISOString().slice(0, 10)],
       by: [localStorage.getItem('currentUser')['username']],
-      content: [''],
+      content: ['', [Validators.required]],
     })
   }
 

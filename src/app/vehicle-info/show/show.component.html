@@ -3,7 +3,7 @@
 <app-loading-or-error [httpJsonData]="zipData">
 
 <ng-container *ngIf="!zipData.error">
-  <button md-button color="primary"
+  <button type="button" md-button color="primary"
     *ngIf="zipData.isFromList" class="lighter-color not-for-print" 
     (click)="goBack()">
     <i class="material-icons">navigate_before</i>返回

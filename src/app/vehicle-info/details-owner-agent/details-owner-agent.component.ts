@@ -17,6 +17,7 @@ export class DetailsOwnerAgentComponent implements OnInit {
   ngOnInit() {
     this.pTypes = this.types.idTypes.filter(t => t.id.indexOf('o') === -1);
     this.oTypes = this.types.idTypes.filter(t => t.id.indexOf('p') === -1);
+    console.log(this.pTypes);
   }
 
 }
