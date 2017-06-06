@@ -202,13 +202,20 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     return matchObj['name'];
   }
 
+  disableIfDone(done) {
+    return {
+      value: done,
+      disabled: done ? true : false
+    }
+  }
+
   ngOnInit() {
     this.isNew = !this.vehicle.id; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
       id: [this.vehicle.id, Validators.required],
       batchId: [this.vehicle.batchId],
       isToDeregister: [this.vehicle.isToDeregister],
-      mofcomRegisterType: [this.idToName('mofcomRegisterType', null, this.types.mofcomRegisterTypes)],
+      mofcomRegisterType: [this.idToName('mofcomRegisterType')],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate],
       metadata: this.fb.group({
@@ -223,65 +230,39 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       }),
       status: this.fb.group({
         ownerDocsReady: this.fb.group({
-          done: [{
-            value: this.vehicle.status.ownerDocsReady.done,
-            disabled: this.vehicle.status.ownerDocsReady.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.ownerDocsReady.done)],
           date: [this.vehicle.status.ownerDocsReady.date]
         }),
         platesCollectedByOwner: this.fb.group({
-          done: [{
-            value: this.vehicle.status.platesCollectedByOwner.done,
-            disabled: this.vehicle.status.platesCollectedByOwner.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.platesCollectedByOwner.done)],
           date: [this.vehicle.status.platesCollectedByOwner.date]
         }),
         rubbing: this.fb.group({
-          done: [{
-            value: this.vehicle.status.rubbing.done,
-            disabled: this.vehicle.status.rubbing.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.rubbing.done)],
           date: [this.vehicle.status.rubbing.date]
         }),
         photosOnEntrance: this.fb.group({
-          done: [{
-            value: this.vehicle.status.photosOnEntrance.done,
-            disabled: this.vehicle.status.photosOnEntrance.done ? true : false}],
+          done: [this.disableIfDone(this.vehicle.status.photosOnEntrance.done)],
           date: [this.vehicle.status.photosOnEntrance.date]
         }),
         photosAfterCuttingUp: this.fb.group({
-          done: [{
-            value: this.vehicle.status.photosAfterCuttingUp.done,
-            disabled: this.vehicle.status.photosAfterCuttingUp.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.photosAfterCuttingUp.done)],
           date: [this.vehicle.status.photosAfterCuttingUp.date]
         }),
         policeSiteEntry: this.fb.group({
-          done: [{
-            value: this.vehicle.status.policeSiteEntry.done,
-            disabled: this.vehicle.status.policeSiteEntry.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.policeSiteEntry.done)],
           date: [this.vehicle.status.policeSiteEntry.date]
         }),
         mofcomEntry: this.fb.group({
-          done: [{
-            value: this.vehicle.status.mofcomEntry.done,
-            disabled: this.vehicle.status.mofcomEntry.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.mofcomEntry.done)],
           date: [this.vehicle.status.mofcomEntry.date]
         }),
         mofcomCertReady: this.fb.group({
-          done: [{
-            value: this.vehicle.status.mofcomCertReady.done,
-            disabled: this.vehicle.status.mofcomCertReady.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.mofcomCertReady.done)],
           date: [this.vehicle.status.mofcomCertReady.date],
         }),
         mofcomCertCollectedByOwnerAndSigned: this.fb.group({
-          done: [{
-            value: this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done,
-            disabled: this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done ? true : false
-          }],
+          done: [this.disableIfDone(this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.done)],
           date: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.date],
         }),
         firstSurvey: this.fb.group({
