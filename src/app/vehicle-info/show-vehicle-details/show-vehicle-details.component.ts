@@ -128,7 +128,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
         vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
         vehicleToSubmit.vehicle.aquisitionType = nameToId(vehicleToSubmit.vehicle.aquisitionType, this.types.aquisitionTypes);
-        vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType) || null;
+        vehicleToSubmit.vehicle.fuelType = nameToId(vehicleToSubmit.vehicle.fuelType, this.types.fuelTypes)
         vehicleToSubmit.agent.idType = this.types.pIdTypes.find(t => t.name === vehicleToSubmit.agent.idType) || null;
         vehicleToSubmit.feesAndDeductions.forEach(fd => {
           fd.type = this.types.feesAndDeductionsTypes.find(
@@ -301,7 +301,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         ]],
         aquisitionOtherTypeDetail: [this.vehicle.vehicle.aquisitionOtherTypeDetail],
         displacementL: [this.vehicle.vehicle.displacementL, Validators.pattern(/^[0-9]{1,2}\.?[0-9]?$/)],
-        fuelType: [this.vehicle.vehicle.fuelType ? this.vehicle.vehicle.fuelType.name : '', [
+        fuelType: [this.idToName('fuelType', this.vehicle.vehicle.fuelType), [
           this.sv.notListedButCanBeEmpty(this.types.fuelTypes.map(type => type.name))
         ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],

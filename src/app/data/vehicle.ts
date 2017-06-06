@@ -50,7 +50,7 @@ export class Vehicle {
     aquisitionType: '',
     aquisitionOtherTypeDetail: '',
     displacementL: '',
-    fuelType: null,
+    fuelType: '',
     seats: 0,
     isNEV: false
   };
