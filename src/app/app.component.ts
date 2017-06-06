@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 import { AuthService } from './auth/auth.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -12,20 +13,26 @@ import { Subscription } from 'rxjs/Subscription';
 export class AppComponent implements OnInit, OnDestroy {
   subscriptions_: Subscription[] = [];
   title = 'app works!';
-  navLinks = [
-    {route: '/dashboard', label: '主页'},
-    {route: '/vehicles', label: '车辆管理'},
-    {route: '/inventory', label: '库存管理'},
-    {route: '/sales', label: '销售管理'},
-    // {route: '/part-pricing', label: '回用件价格'},
-    // {route: '/admin', label: '系统管理员入口'},
-  ];
-  isLoggedIn: Boolean;
+  navLinks = [];
+  isLoggedInRxx: BehaviorSubject<Boolean>;
   constructor(private auth: AuthService, /*public dialog: MdDialog*/) {}
+
   ngOnInit() {
-    this.isLoggedIn = this.auth.isLoggedIn();
-    const sub0_ = this.auth.isLoggedInRxx.subscribe(v => this.isLoggedIn = v);
-    this.subscriptions_.push(sub0_);
+    this.isLoggedInRxx = this.auth.isLoggedInRxx;
+    this.navLinks = [
+      {route: '/dashboard', label: '主页'},
+      {route: '/vehicles', label: '车辆管理'},
+      {route: '/inventory', label: '库存管理'},
+      {route: '/sales', label: '销售管理'},
+    ];
+    const isAdmin_ = this.auth.isAdminRxx
+      .subscribe(result => {
+        this.navLinks = this.navLinks.filter(nl => nl.route !== '/admin');
+        if (result) {
+          this.navLinks.push({route: '/admin', label: '后台管理'});
+        }
+      });
+    this.subscriptions_.push(isAdmin_);
 }
   ngOnDestroy() {
     this.subscriptions_.forEach(sub_ => sub_.unsubscribe());

@@ -8,8 +8,22 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router) {}
-  checkLogin(attemptedUrl) {
+  checkLoginAndAdmin(attemptedUrl) {
+    // switch (true) {
+    //   case attemptedUrl.indexOf('admin') && this.authService.isAdmin():
+    //     return true;
+    //   case attemptedUrl.indexOf('admin') && this.authService.isLoggedIn():
+    //     this.router.navigate(['/login']);
+    //     break;
+    //   case this.authService.isLoggedIn():
+    //     return true;
+    //   default:
+    //     this.authService.attemptedUrl = attemptedUrl;
+    //     this.router.navigate(['/login']);
+    // }
+
     if (this.authService.isLoggedIn()) {
+      this.authService.isAdmin();
       return true;
     }
     this.authService.attemptedUrl = attemptedUrl;
@@ -18,12 +32,12 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.checkLogin(state.url);
+    return this.checkLoginAndAdmin(state.url);
   }
 
   canLoad(route: Route): boolean {
     const url = `/${route.path}`;
-    return this.checkLogin(url);
+    return this.checkLoginAndAdmin(url);
   }
 
 }

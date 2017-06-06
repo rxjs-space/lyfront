@@ -23,6 +23,9 @@ const routes: Routes = [
   { path: '', children: [
     { path: '',   redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', loadChildren: 'app/auth/auth.module#AuthModule' },
+    { path: 'admin',
+      canLoad: [AuthGuard],
+      loadChildren: 'app/admin/admin.module#AdminModule' },
     { path: 'dashboard',
       canLoad: [AuthGuard],
       loadChildren: 'app/dashboard/dashboard.module#DashboardModule' },

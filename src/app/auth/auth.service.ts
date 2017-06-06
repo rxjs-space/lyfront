@@ -11,22 +11,50 @@ export class AuthService {
   attemptedUrl: string;
   host1 = 'http://localhost:3001';
   // host1 = 'https://lyback.herokuapp.com';
-  isLoggedInRxx: BehaviorSubject<Boolean> = new BehaviorSubject(false);
+  isLoggedInRxx = new BehaviorSubject(false);
+  isAdminRxx = new BehaviorSubject(false);
+  isX = new BehaviorSubject('a');
 
   constructor(
     private http: Http,
-    private router: Router) { }
+    private router: Router) {
+      this.isLoggedIn();
+      this.isAdmin();
+    }
 
   isLoggedIn() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && currentUser.token) {
-      const payload = this.getJwtPayload(currentUser.token);
-      if (payload.exp < Math.ceil(Date.now() / 1000)) {return false; }
-      this.isLoggedInRxx.next(true);
-      return true;
-    }
-    this.isLoggedInRxx.next(false);
-    return false;
+    let isLoggedIn = false;
+    if (
+      currentUser && 
+      currentUser.token && 
+      this.getJwtPayload(currentUser.token)['exp'] > (Math.ceil(Date.now() / 1000))) {
+        isLoggedIn = true;
+      }
+    this.isLoggedInRxx.next(isLoggedIn);
+    return isLoggedIn;
+
+    // if (currentUser && currentUser.token) {
+    //   const payload = this.getJwtPayload(currentUser.token);
+    //   if (payload.exp < Math.ceil(Date.now() / 1000)) {
+    //     return false;
+    //   }
+    //   return true;
+    // }
+    // return false;
+  }
+
+  isAdmin() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    let isAdmin = false;
+    if (
+      currentUser && 
+      currentUser.token && 
+      this.getJwtPayload(currentUser.token)['sub']['roles'].indexOf('admin') > -1) {
+        isAdmin = true;
+      }
+    this.isAdminRxx.next(isAdmin);
+    return isAdmin;
   }
 
   getJwtPayload(token) {
@@ -79,6 +107,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('currentUser');
     this.isLoggedInRxx.next(false);
+    this.isAdminRxx.next(false);
     this.router.navigate(['/login']);
   }
 

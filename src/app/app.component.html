@@ -14,7 +14,7 @@
     <!--<span routerLink="/">隆运 报废车辆及回用件管理系统</span>-->
     <span routerLink="/">隆运 Q5</span>
     <span class="space-filler"></span>
-    <span *ngIf="isLoggedIn">
+    <span *ngIf="isLoggedInRxx | async">
       <button md-button (click)="logout()">登出</button>
     </span>
 
@@ -22,8 +22,7 @@
     <button md-button>TOGGLE DARK THEME</button>-->
   </md-toolbar>
 
-
-  <ng-container *ngIf="isLoggedIn">
+  <ng-container *ngIf="isLoggedInRxx | async">
     <nav md-tab-nav-bar class="not-for-print">
       <a md-tab-link 
         *ngFor="let link of navLinks" 
