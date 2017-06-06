@@ -13,7 +13,9 @@ import { Vehicle } from './vehicle';
 export class DataService {
   // host = 'https://lymock.herokuapp.com';
   host = 'http://localhost:3000';
-
+  host1 = 'http://localhost:3001';
+  typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
+  titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
 
   vehiclesApiUrl = this.host + '/vehicles';
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
@@ -22,6 +24,24 @@ export class DataService {
   private cache: {[key: string]: any} = {};
   constructor(private http: Http) { }
 
+  setupOptions(withJWT: Boolean = false): RequestOptions {
+    let headers;
+    if (withJWT) {
+      const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
+      headers = new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${jwt}`
+      });
+    } else {
+      headers = new Headers({ 'Content-Type': 'application/json' });
+    }
+    const options = new RequestOptions({ headers: headers });
+    return options;
+  }
+
+  test() {
+    console.log(this.setupOptions(true));
+  }
 
   getVehicles() {
     return this.http.get(this.vehiclesApiUrl)
@@ -74,13 +94,16 @@ export class DataService {
     if (this.cache && this.cache.types) {
       return Observable.of(this.cache.types);
     } else {
-      return this.http.get(this.typesApiUrl)
+      const options = this.setupOptions(true);
+      // return this.http.get(this.typesApiUrl)
+      return this.http.get(this.typesApiUrl1, options)
         .map(res => {
           const data = res.json();
           this.cache.types = data;
           return data;
         })
         .catch(err => this.handleError(err));
+
     }
   }
 
@@ -88,7 +111,9 @@ export class DataService {
     if (this.cache && this.cache.titles) {
       return Observable.of(this.cache.titles);
     } else {
-      return this.http.get(this.titlesApiUrl)
+      const options = this.setupOptions(true);
+      // return this.http.get(this.titlesApiUrl)
+      return this.http.get(this.titlesApiUrl1, options)
         .map(res => {
           const data = res.json();
           this.cache.titles = res.json();
