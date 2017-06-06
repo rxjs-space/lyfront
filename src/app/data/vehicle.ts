@@ -4,7 +4,7 @@ export class Vehicle {
   batchId = '';
   mofcomRegisterType = '';
   mofcomRegisterRef = '';
-  entranceDate = (new Date()).toISOString().slice(0, 10);
+  entranceDate = '';
   remarks = [];
   metadata = {
     isDeleted: false,
@@ -36,7 +36,7 @@ export class Vehicle {
   };
   vehicle = {
     plateNo: '',
-    vehicleType: null,
+    vehicleType: '',
     useCharacter: null,
     brand: null,
     model: '',

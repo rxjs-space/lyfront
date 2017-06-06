@@ -126,7 +126,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         };
         vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
 
-        vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType) || null;
+        vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
         vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter) || null;
         vehicleToSubmit.vehicle.aquisitionType = 
           this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType) || null;
@@ -217,7 +217,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       isToDeregister: [this.vehicle.isToDeregister],
       mofcomRegisterType: [this.idToName('mofcomRegisterType')],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
-      entranceDate: [this.vehicle.entranceDate],
+      entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10)],
       metadata: this.fb.group({
         isDeleted: [this.vehicle.metadata.isDeleted],
         deletedFor: [this.vehicle.metadata.deletedFor],
@@ -280,7 +280,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
-        vehicleType: [this.vehicle.vehicle.vehicleType ? this.vehicle.vehicle.vehicleType.name : '', [
+        vehicleType: [this.idToName('vehicleType', this.vehicle.vehicle.vehicleType), [
           this.sv.notListedButCanBeEmpty(this.types.vehicleTypes.map(type => type.name))
         ]],
         useCharacter: [this.vehicle.vehicle.useCharacter ? this.vehicle.vehicle.useCharacter.name : '', [
