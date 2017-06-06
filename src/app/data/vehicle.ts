@@ -25,8 +25,7 @@ export class Vehicle {
     idNo: '',
     tel: '',
     isPerson: true,
-    isRemote: '',
-    isByAgent: ''
+    isByAgent: false
   };
   agent = {
     name: '',
