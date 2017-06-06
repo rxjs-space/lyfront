@@ -37,7 +37,7 @@ export class Vehicle {
   vehicle = {
     plateNo: '',
     vehicleType: '',
-    useCharacter: null,
+    useCharacter: '',
     brand: null,
     model: '',
     conditionOnEntrance: '',

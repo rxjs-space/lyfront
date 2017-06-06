@@ -125,9 +125,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           return matchObj ? matchObj.id : '';
         };
         vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
-
         vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
-        vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter) || null;
+        vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
         vehicleToSubmit.vehicle.aquisitionType = 
           this.types.aquisitionTypes.find(t => t.name === vehicleToSubmit.vehicle.aquisitionType) || null;
         vehicleToSubmit.vehicle.fuelType = this.types.fuelTypes.find(t => t.name === vehicleToSubmit.vehicle.fuelType) || null;
@@ -215,7 +214,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       id: [this.vehicle.id, Validators.required],
       batchId: [this.vehicle.batchId],
       isToDeregister: [this.vehicle.isToDeregister],
-      mofcomRegisterType: [this.idToName('mofcomRegisterType')],
+      mofcomRegisterType: [this.idToName('mofcomRegisterType'), [
+        this.sv.notListedButCanBeEmpty(this.types.mofcomRegisterTypes.map(t => t.name))
+      ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10)],
       metadata: this.fb.group({
@@ -283,7 +284,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         vehicleType: [this.idToName('vehicleType', this.vehicle.vehicle.vehicleType), [
           this.sv.notListedButCanBeEmpty(this.types.vehicleTypes.map(type => type.name))
         ]],
-        useCharacter: [this.vehicle.vehicle.useCharacter ? this.vehicle.vehicle.useCharacter.name : '', [
+        useCharacter: [this.idToName('useCharacter', this.vehicle.vehicle.useCharacter), [
           this.sv.notListedButCanBeEmpty(this.types.useCharacters.map(type => type.name))
         ]],
         brand: [this.vehicle.vehicle.brand ? this.vehicle.vehicle.brand.name : ''],
