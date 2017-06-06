@@ -58,22 +58,22 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   }
 
   onBrandBlur(event) {
-    this.pendingOps.next(this.pendingOps.getValue() + 1);
-    const brandName = event.target.value;
-    if (brandName && !this.types.brands.find(b => b.name === brandName)) {
-      return this.createBrandIfNone(brandName)
-        .catch(error => Observable.of({ok: false, error}))
-        .subscribe(result => {
-          if (result.error) {
-            console.log(result.error);
-            return;
-          } else {
-            console.log('got new brands');
-            this.pendingOps.next(this.pendingOps.getValue() - 1);
-            this.types.brands = result.brands;
-          }
-        });
-    }
+    // this.pendingOps.next(this.pendingOps.getValue() + 1);
+    // const brandName = event.target.value;
+    // if (brandName && !this.types.brands.find(b => b.name === brandName)) {
+    //   return this.createBrandIfNone(brandName)
+    //     .catch(error => Observable.of({ok: false, error}))
+    //     .subscribe(result => {
+    //       if (result.error) {
+    //         console.log(result.error);
+    //         return;
+    //       } else {
+    //         console.log('got new brands');
+    //         this.pendingOps.next(this.pendingOps.getValue() - 1);
+    //         this.types.brands = result.brands;
+    //       }
+    //     });
+    // }
   }
 
   checkValidity() {
@@ -97,7 +97,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
   createBrandIfNone(brandName: string) {
     const newBrands = this.types.brands.slice().concat([{
-      id: this.types.brands.length + 1,
+      id: (this.types.brands.length + 1).toString(),
       name: brandName
     }]);
     return this.methods.updateBrands(newBrands) as Observable<any>;
@@ -144,7 +144,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         });
         vehicleToSubmit.owner.idType = this.types.pIdTypes.concat(this.types.oIdTypes).
           find(t => t.name === vehicleToSubmit.owner.idType) || null;
-        vehicleToSubmit.vehicle.brand = this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
+        vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.types.brands);
+        // this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
         delete vehicleToSubmit.idConfirm;
 
         // at the end of submit, reset some status
@@ -287,7 +288,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         useCharacter: [this.idToName('useCharacter', this.vehicle.vehicle.useCharacter), [
           this.sv.notListedButCanBeEmpty(this.types.useCharacters.map(type => type.name))
         ]],
-        brand: [this.vehicle.vehicle.brand ? this.vehicle.vehicle.brand.name : ''],
+        brand: [this.idToName('brand', this.vehicle.vehicle.brand)],
         model: [this.vehicle.vehicle.model],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],

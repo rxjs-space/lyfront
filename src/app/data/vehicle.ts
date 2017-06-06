@@ -38,7 +38,7 @@ export class Vehicle {
     plateNo: '',
     vehicleType: '',
     useCharacter: '',
-    brand: null,
+    brand: '',
     model: '',
     conditionOnEntrance: '',
     residualValueBeforeFD: 0,
