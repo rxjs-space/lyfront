@@ -124,10 +124,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           const matchObj = types.find(t => t.name === name) || null;
           return matchObj ? matchObj.id : '';
         };
-        vehicleToSubmit.mofcomRegisterType1 = nameToId(vehicleToSubmit.mofcomRegisterType1, this.types.mofcomRegisterTypes);
-          // this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType1) || null;
-        vehicleToSubmit.mofcomRegisterType = 
-          this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType) || null;
+        vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
+
         vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType) || null;
         vehicleToSubmit.vehicle.useCharacter = this.types.useCharacters.find(t => t.name === vehicleToSubmit.vehicle.useCharacter) || null;
         vehicleToSubmit.vehicle.aquisitionType = 
@@ -152,7 +150,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
         // at the end of submit, reset some status
         this.vehicleForm.markAsPristine();
-        for (let ctrl in (this.vehicleForm.get('status') as FormGroup).controls) {
+        for (const ctrl in (this.vehicleForm.get('status') as FormGroup).controls) {
           if (this.vehicleForm.get(`status.${ctrl}.done`).value) {
             this.vehicleForm.get(`status.${ctrl}.done`).disable();
           }
@@ -196,7 +194,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     public df: DisplayFunctionsService) { }
 
   idToName(key, id?, types?) {
-    console.log(types);
     id = id ? id : this.vehicle[key];
     types = types ? types : this.types[`${key}s`];
     if (!id) {return ''; } // if id is an empty string
@@ -211,10 +208,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       id: [this.vehicle.id, Validators.required],
       batchId: [this.vehicle.batchId],
       isToDeregister: [this.vehicle.isToDeregister],
-      mofcomRegisterType1: [this.idToName('mofcomRegisterType1', null, this.types.mofcomRegisterTypes)],
-      mofcomRegisterType: [this.vehicle.mofcomRegisterType ? this.vehicle.mofcomRegisterType.name : '', [
-        this.sv.notListedButCanBeEmpty(this.types.mofcomRegisterTypes.map(type => type.name))
-      ]],
+      mofcomRegisterType: [this.idToName('mofcomRegisterType', null, this.types.mofcomRegisterTypes)],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate],
       metadata: this.fb.group({
@@ -348,7 +342,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
         isPerson: [this.vehicle.owner.isPerson],
-        isRemote: [this.vehicle.owner.isRemote],
         isByAgent: [this.vehicle.owner.isByAgent]
       }),
       agent: this.fb.group({
@@ -497,22 +490,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       this.vehicleForm, 'vehicle.brand', this.types.brands, this.filterObjListFac(this.sortObjListByName, true)
     );
 
-    /*
-      change ... on mofcomRegisterType changes
-    */
-    const mofcomRegisterTypeChange_ = this.vehicleForm.get('mofcomRegisterType').valueChanges
-      .subscribe(value => {
-        switch (value.name) {
-          // change isRemote on mofcomRegisterTypeChange
-          case '异地':
-            this.vehicleForm.get('owner.isRemote').setValue(true);
-            break;
-          default:
-            this.vehicleForm.get('owner.isRemote').setValue(false);
-        }
-      });
 
-    this.initSubscriptions.push(mofcomRegisterTypeChange_);
 
     const isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
       .subscribe(value => {
