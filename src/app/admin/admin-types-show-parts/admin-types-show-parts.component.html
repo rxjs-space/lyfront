@@ -1,0 +1,18 @@
+<md-card class="info-card" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title>
+      回用件
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div *ngIf="formGroupInput.get('parts')===0">暂无</div>
+    <div class="inline-block-container" *ngFor="let partCtrl of formGroupInput.controls; let i=index" [formGroupName]="i">
+      <md-input-container class="s-size-input">
+        <input mdInput placeholder="编号" formControlName="id">
+      </md-input-container>
+      <md-input-container class="l-size-input">
+        <input mdInput placeholder="名称" formControlName="name">
+      </md-input-container>
+    </div>
+  </md-card-content>
+</md-card>

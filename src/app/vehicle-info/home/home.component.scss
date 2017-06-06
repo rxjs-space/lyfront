@@ -6,28 +6,3 @@
   border: solid red 3px;
 }
 
-/deep/ .s-size-input {
-  width: 4em;
-}
-
-/deep/ .m-size-input {
-  width: 6em;
-}
-
-/deep/ .l-size-input {
-  width: 9em;
-}
-
-/deep/ .xl-size-input {
-  width: 12em;
-}
-
-/deep/ .xxl-size-input {
-  min-width: 400px;
-  flex-grow: 1;
-}
-
-
-/deep/ input[type="date"] {
-  height: 1em;
-}

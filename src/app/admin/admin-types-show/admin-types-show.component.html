@@ -1,0 +1,14 @@
+<ng-container *ngIf="typesForm">
+
+<form [formGroup]="typesForm" (onSubmit)="prepareSubmit()"
+  novalidate>
+  <app-admin-types-show-parts [formGroupInput]="typesForm.get('parts')">
+  </app-admin-types-show-parts>
+
+  <div class="fixed-button-bottom not-for-print">
+    <button md-raised-button type="submit" color="primary">保存</button>
+  </div>
+
+</form>
+
+</ng-container>

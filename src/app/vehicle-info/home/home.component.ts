@@ -15,12 +15,12 @@ export class HomeComponent implements OnInit {
   ];
 
   resolvedData: any;
-  constructor(private route: ActivatedRoute) { }
+  constructor(/*private route: ActivatedRoute*/) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      this.resolvedData = data;
-    });
+    // this.route.data.subscribe(data => {
+    //   this.resolvedData = data;
+    // });
   }
 
 }
