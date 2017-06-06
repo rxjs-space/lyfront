@@ -11,7 +11,14 @@
 <ng-template #entranceDateAndMofocom>
     <small>
 
-      
+      <app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.mofcomRegisterType"
+        [formControlInput]="formGroupInput.get('mofcomRegisterType1')"
+        [objList]="types.mofcomRegisterTypes"
+        [toSort]="false"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>
       <!-- 商务部登记类别 -->
       <app-autocomplete-combo
         [placeholderInput]="titles.vehicles.mofcomRegisterType"

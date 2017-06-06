@@ -3,6 +3,7 @@ export class Vehicle {
   isToDeregister = true;
   batchId = '';
   mofcomRegisterType = null;
+  mofcomRegisterType1 = '';
   mofcomRegisterRef = '';
   entranceDate = (new Date()).toISOString().slice(0, 10);
   remarks = [];

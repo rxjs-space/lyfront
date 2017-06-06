@@ -120,6 +120,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         // };
         // typeNameToTypeObj(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
         // console.log(vehicleToSubmit.mofcomRegisterType);
+        const nameToId = (name, types) => {
+          const matchObj = types.find(t => t.name === name) || null;
+          return matchObj ? matchObj.id : '';
+        };
+        vehicleToSubmit.mofcomRegisterType1 = nameToId(vehicleToSubmit.mofcomRegisterType1, this.types.mofcomRegisterTypes);
+          // this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType1) || null;
         vehicleToSubmit.mofcomRegisterType = 
           this.types.mofcomRegisterTypes.find(t => t.name === vehicleToSubmit.mofcomRegisterType) || null;
         vehicleToSubmit.vehicle.vehicleType = this.types.vehicleTypes.find(t => t.name === vehicleToSubmit.vehicle.vehicleType) || null;
@@ -189,12 +195,23 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     private sv: SharedValidatorsService,
     public df: DisplayFunctionsService) { }
 
+  idToName(key, id?, types?) {
+    console.log(types);
+    id = id ? id : this.vehicle[key];
+    types = types ? types : this.types[`${key}s`];
+    if (!id) {return ''; } // if id is an empty string
+    const matchObj = types.find(i => i.id === id);
+    if (!matchObj) {throw new Error('invalid id'); } // if there's no matching obj for the id
+    return matchObj['name'];
+  }
+
   ngOnInit() {
     this.isNew = !this.vehicle.id; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
       id: [this.vehicle.id, Validators.required],
       batchId: [this.vehicle.batchId],
       isToDeregister: [this.vehicle.isToDeregister],
+      mofcomRegisterType1: [this.idToName('mofcomRegisterType1', null, this.types.mofcomRegisterTypes)],
       mofcomRegisterType: [this.vehicle.mofcomRegisterType ? this.vehicle.mofcomRegisterType.name : '', [
         this.sv.notListedButCanBeEmpty(this.types.mofcomRegisterTypes.map(type => type.name))
       ]],
