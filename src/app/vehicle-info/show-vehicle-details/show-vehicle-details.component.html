@@ -49,6 +49,12 @@
     [rvAfterFDRxx]="rvAfterFDRxx">
   </app-details-vehicle-costs>
 
+  <app-details-metadata
+    *ngIf="!isNew"
+    [vehicle]="vehicle"
+  >
+  </app-details-metadata>
+
   <div class="fixed-button-bottom not-for-print">
     <button md-button type="button" color="primary" (click)="checkValidity()"
       *ngIf="(vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value)"

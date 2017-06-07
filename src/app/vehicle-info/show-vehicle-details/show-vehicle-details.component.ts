@@ -157,12 +157,19 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         return vehicleToSubmit;
       })
       .subscribe(v => {
+        /* delete metadata from vehicle, for getting ready to compare with form.value*/
+        const vehicleWithoutMetadata = Object.assign({}, this.vehicle);
+        delete vehicleWithoutMetadata.createdAt;
+        delete vehicleWithoutMetadata.createdBy;
+        delete vehicleWithoutMetadata.modifiedAt;
+        delete vehicleWithoutMetadata.modifiedBy;
+        delete vehicleWithoutMetadata._id;
         const data = {
           id: v.id,
           vehicle: v,
-          patches: jsonpatch.compare(this.vehicle, v)
+          patches: jsonpatch.compare(vehicleWithoutMetadata, v)
         };
-        console.log(data);
+        // console.log(data);
         this.save.emit({
           id: data.id,
           isNew: this.isNew,
@@ -217,6 +224,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnInit() {
+    // console.log(this.vehicle);
     this.isNew = !this.vehicle.id; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
       id: [this.vehicle.id, Validators.required],
