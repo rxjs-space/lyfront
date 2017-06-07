@@ -50,11 +50,11 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   };
 
   ngOnChanges() {
-    if (!!this.vehicleForm) {
-      this.initSubscriptions.forEach(sub_ => sub_.unsubscribe());
-      this.vehicleForm = null;
-      this.ngOnInit.call(this);
-    }
+    // if (!!this.vehicleForm) {
+    //   this.initSubscriptions.forEach(sub_ => sub_.unsubscribe());
+    //   this.vehicleForm = null;
+    //   this.ngOnInit.call(this);
+    // }
 
   }
 
@@ -194,8 +194,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     id = id ? id : this.vehicle[key];
     types = types ? types : this.types[`${key}s`];
     if (!id) {return ''; } // if id is an empty string
-    let matchObj = types.find(i => i.id === id);
-    if (!matchObj) {matchObj = types.find(i => i._id === id); }
+    let matchObj;
+    if (types[0].id) {
+      matchObj = types.find(i => i.id === id);
+    } else {
+      matchObj = types.find(i => i._id === id);
+    }
     if (!matchObj) {throw new Error('invalid id'); } // if there's no matching obj for the id
     return matchObj['name'];
   }

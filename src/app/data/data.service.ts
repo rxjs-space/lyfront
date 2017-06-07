@@ -113,11 +113,10 @@ export class DataService {
       return Observable.of(this.cache.brands);
     } else {
       const options = this.setupOptions(true);
-      // return this.http.get(this.typesApiUrl)
       return this.http.get(this.brandsApiUrl1, options)
         .map(res => {
           const data = res.json();
-          this.cache.types = data;
+          this.cache.brands = data;
           return data;
         })
         .catch(err => this.handleError(err));

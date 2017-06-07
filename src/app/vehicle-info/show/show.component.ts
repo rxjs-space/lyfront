@@ -52,7 +52,9 @@ export class ShowComponent implements OnInit, OnDestroy {
       });
     })
       .catch(error => Observable.of({ok: false, error}))
-      .subscribe(zipData => {this.zipData = zipData; this.isLoadedRxx.next(true);});
+      .subscribe(zipData => {
+        this.zipData = zipData; this.isLoadedRxx.next(true);
+      });
 
   }
 
