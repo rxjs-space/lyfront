@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -6,13 +6,14 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';
 
 import { Vehicle } from './vehicle';
+import { BACK_END_URL } from '../app-config';
 
 
 
 @Injectable()
 export class DataService {
   // host1 = 'https://lymock.herokuapp.com';
-  host1 = 'https://longyunback.herokuapp.com';
+  // host1 = 'https://longyunback.herokuapp.com';
   host = 'http://localhost:3000';
   // host1 = 'http://localhost:3001';
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
@@ -20,12 +21,15 @@ export class DataService {
   brandsApiUrl1 = this.host1 + '/api/brands';
   vehiclesApiUrl1 = this.host1 + '/api/vehicles';
 
-  vehiclesApiUrl = this.host + '/vehicles';
+  // vehiclesApiUrl = this.host + '/vehicles';
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
-  typesApiUrl = this.host + '/types';
-  titlesApiUrl = this.host + '/titles';
+  // typesApiUrl = this.host + '/types';
+  // titlesApiUrl = this.host + '/titles';
   private cache: {[key: string]: any} = {};
-  constructor(private http: Http) { }
+  constructor(
+    @Inject(BACK_END_URL) private host1,
+    private http: Http
+    ) { }
 
   setupOptions(withJWT: Boolean = false): RequestOptions {
     let headers;

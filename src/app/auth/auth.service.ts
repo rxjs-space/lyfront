@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -6,18 +6,22 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
+import { BACK_END_URL } from '../app-config';
+
+
 @Injectable()
 export class AuthService {
   attemptedUrl: string;
   // host1 = 'http://localhost:3001';
   // host1 = 'https://lyback.herokuapp.com';
-  host1 = 'https://longyunback.herokuapp.com';
+  // host1 = 'https://longyunback.herokuapp.com';
   isLoggedInRxx = new BehaviorSubject(false);
   usernameRxx = new BehaviorSubject('');
   isAdminRxx = new BehaviorSubject(false);
   isX = new BehaviorSubject('a');
 
   constructor(
+    @Inject(BACK_END_URL) private host1,
     private http: Http,
     private router: Router) {
       this.isLoggedIn();
