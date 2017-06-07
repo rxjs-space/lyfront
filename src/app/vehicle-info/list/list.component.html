@@ -5,8 +5,21 @@
       <i class="material-icons" md-list-icon>drive_eta</i>
       <!--<md-icon md-list-icon>folder</md-icon>-->
       <h3 md-line>{{vehicle.id}} / {{vehicle.vehicle.plateNo || '号牌暂无'}} / <small>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</small></h3>
-      <small md-line>申请表: 100% / 台账: 80% / 商务部网: 90% / 治安网: 0% </small>
-      <small md-line>拆解状态: {{calculateDimantlingStatus(vehicle.latestDismantlingOrder)}}</small>
+      <small md-line>
+        <md-checkbox color="primary" [checked]="vehicle.status.mofcomCertReady.done" disabled>
+          打印回收证明
+        </md-checkbox>
+        <md-checkbox color="primary" [checked]="vehicle.status.firstSurvey.done" disabled>
+          一次验车
+        </md-checkbox>
+        <md-checkbox color="primary" [checked]="vehicle.status.secondSurvey.done" disabled>
+          二次验车
+        </md-checkbox>
+        <md-checkbox color="primary" [checked]="vehicle.status.dismantled.done" disabled>
+          彻底拆解
+        </md-checkbox>
+
+      </small>
     </md-list-item>
   </md-list>
 

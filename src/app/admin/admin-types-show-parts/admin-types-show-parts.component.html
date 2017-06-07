@@ -5,7 +5,7 @@
     </md-card-title>
   </md-card-header>
   <md-card-content>
-    <div *ngIf="formGroupInput.get('parts')===0">暂无</div>
+    <div *ngIf="formGroupInput.length===0">暂无</div>
     <div class="inline-block-container" *ngFor="let partCtrl of formGroupInput.controls; let i=index" [formGroupName]="i">
       <md-input-container class="s-size-input">
         <input mdInput placeholder="编号" formControlName="id">

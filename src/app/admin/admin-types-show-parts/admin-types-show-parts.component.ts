@@ -7,7 +7,7 @@ import { FormGroup, FormArray } from '@angular/forms';
   styleUrls: ['./admin-types-show-parts.component.scss']
 })
 export class AdminTypesShowPartsComponent implements OnInit {
-  @Input() formGroupInput: FormGroup | FormArray;
+  @Input() formGroupInput: FormArray;
   constructor() { }
 
   ngOnInit() {

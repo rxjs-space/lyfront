@@ -27,7 +27,15 @@
           </md-checkbox>   
         </div>
       </md-grid-tile>
-      <md-grid-tile>
+      <md-grid-tile [colspan]="2">
+        <div formGroupName="mofcomCertCollectedByOwnerAndSigned">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.mofcomCertCollectedByOwnerAndSigned}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <!--<md-grid-tile>
         <div formGroupName="rubbing">
           <md-checkbox color="primary" formControlName="done">
             {{titles.vehicles.status.rubbing}}
@@ -48,7 +56,7 @@
             {{titles.vehicles.status.photosAfterCuttingUp}}
           </md-checkbox>   
         </div>
-      </md-grid-tile>
+      </md-grid-tile>-->
       <md-grid-tile>
         <div formGroupName="policeSiteEntry">
           <md-checkbox color="primary" formControlName="done">
@@ -64,20 +72,14 @@
         </div>
       </md-grid-tile>
 
-      <md-grid-tile>
+      <md-grid-tile [colspan]="2">
         <div formGroupName="mofcomCertReady">
           <md-checkbox color="primary" formControlName="done">
             {{titles.vehicles.status.mofcomCertReady}}
           </md-checkbox>
         </div>
       </md-grid-tile>
-      <md-grid-tile [colspan]="2">
-        <div formGroupName="mofcomCertCollectedByOwnerAndSigned">
-          <md-checkbox color="primary" formControlName="done">
-            {{titles.vehicles.status.mofcomCertCollectedByOwnerAndSigned}}
-          </md-checkbox>
-        </div>
-      </md-grid-tile>
+
       <md-grid-tile>
         <div formGroupName="firstSurvey">
           <md-checkbox color="primary" formControlName="done">

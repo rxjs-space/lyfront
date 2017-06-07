@@ -11,9 +11,10 @@ import { Vehicle } from './vehicle';
 
 @Injectable()
 export class DataService {
-  // host = 'https://lymock.herokuapp.com';
+  // host1 = 'https://lymock.herokuapp.com';
+  host1 = 'https://longyunback.herokuapp.com';
   host = 'http://localhost:3000';
-  host1 = 'http://localhost:3001';
+  // host1 = 'http://localhost:3001';
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
   titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
   brandsApiUrl1 = this.host1 + '/api/brands';
@@ -75,9 +76,7 @@ export class DataService {
   }
 
   updateVehicle(id, body) {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.patch(this.vehiclesApiUrl + '/' + id, body, options)
+    return this.http.patch(`${this.vehiclesApiUrl1}/one?id=${id}`, body, this.setupOptions(true))
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }

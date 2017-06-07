@@ -77,16 +77,19 @@ export class ShowComponent implements OnInit, OnDestroy {
           }
           console.log(r.insertedIds[0]);
           // this.zipData.vehicle = r;
-          // this.router.navigate(['/vehicles/' + event.id]);
+          this.router.navigate(['/vehicles/' + event.id]);
         });
     } else {
       return this.data.updateVehicle(event.id, event.data)
         .subscribe(r => {
-          // console.log(r);
-          // reload
-          console.log('saved');
-          this.zipData.vehicle = r;
-          this.router.navigate(['/vehicles/' + event.id]);
+          if (r.ok) {
+            console.log('updated');
+            this.zipData.vehicle = event.data;
+            this.router.navigate(['/vehicles/' + event.id]);
+          } else {
+            console.log('something wrong');
+            console.log(r);
+          }
         });
     }
 

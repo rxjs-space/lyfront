@@ -9,9 +9,11 @@ import 'rxjs/add/observable/of';
 @Injectable()
 export class AuthService {
   attemptedUrl: string;
-  host1 = 'http://localhost:3001';
+  // host1 = 'http://localhost:3001';
   // host1 = 'https://lyback.herokuapp.com';
+  host1 = 'https://longyunback.herokuapp.com';
   isLoggedInRxx = new BehaviorSubject(false);
+  usernameRxx = new BehaviorSubject('');
   isAdminRxx = new BehaviorSubject(false);
   isX = new BehaviorSubject('a');
 
@@ -30,6 +32,7 @@ export class AuthService {
       currentUser.token && 
       this.getJwtPayload(currentUser.token)['exp'] > (Math.ceil(Date.now() / 1000))) {
         isLoggedIn = true;
+        this.usernameRxx.next(currentUser.username);
       }
     this.isLoggedInRxx.next(isLoggedIn);
     return isLoggedIn;
@@ -86,15 +89,16 @@ export class AuthService {
           // const x = JSON.parse(localStorage.getItem('currentUser'));
           // console.log(x.token);
           this.redirectAfterSuccess();
-          return {success: true};
+          return {ok: true};
         }
-        return {success: false};
+        return {ok: false};
       })
       .catch(err => {
         if (err.status === 401) {
           return Observable.of({
-            success: false,
-            errorCode: 401
+            ok: false,
+            errorCode: 401,
+            error: 'Unauthorized'
           });
         }
         return this.handleError(err);
@@ -103,7 +107,10 @@ export class AuthService {
 
   private handleError(error: any) {
     console.error('An error occurred', error); // for demo purposes only
-    return Observable.of(error.message || error);
+    return Observable.of({
+      ok: false,
+      error
+    });
   }
 
   logout() {

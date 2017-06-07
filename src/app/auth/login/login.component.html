@@ -29,6 +29,9 @@
         <span class="errorMessage" *ngIf="isConnectionDown">
           请检查网络连接
         </span>             
+        <span class="errorMessage" *ngIf="showUnauthorized">
+          用户名或密码错误
+        </span>             
       </form>
 
       </md-card-content>
