@@ -156,13 +156,17 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         return vehicleToSubmit;
       })
       .subscribe(v => {
-        console.log(v);
-        const diff = jsonpatch.compare(this.vehicle, v);
-        console.log(diff);
-        // this.save.emit({
-        //   id: v.id,
-        //   details: v
-        // });
+        let data;
+        if (this.isNew) {
+          data = v;
+        } else {
+          data = jsonpatch.compare(this.vehicle, v);
+        }
+        this.save.emit({
+          id: data.id,
+          isNew: this.isNew,
+          data
+        });
       });
 
 

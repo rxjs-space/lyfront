@@ -17,6 +17,7 @@ export class DataService {
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
   titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
   brandsApiUrl1 = this.host1 + '/api/brands';
+  vehiclesApiUrl1 = this.host1 + '/api/vehicles';
 
   vehiclesApiUrl = this.host + '/vehicles';
   dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
@@ -45,18 +46,35 @@ export class DataService {
   }
 
   getVehicles() {
-    return this.http.get(this.vehiclesApiUrl)
+    return this.http.get(this.vehiclesApiUrl1, this.setupOptions(true))
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }
+  // getVehicles() {
+  //   return this.http.get(this.vehiclesApiUrl)
+  //     .map(res => res.json())
+  //     .catch(err => this.handleError(err));
+  // }
 
   getVehicleById(id) {
-    return this.http.get(this.vehiclesApiUrl + '/' + id)
+    return this.http.get(`${this.vehiclesApiUrl1}/one?id=${id}`, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(err => this.handleError(err));
+  }
+  // getVehicleById(id) {
+  //   return this.http.get(this.vehiclesApiUrl + '/' + id)
+  //     .map(res => res.json())
+  //     .catch(err => this.handleError(err));
+  // }
+
+  insertVehicle(body) {
+    const options = this.setupOptions(true);
+    return this.http.post(this.vehiclesApiUrl1, body, options)
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }
 
-  saveVehicleById(id, body) {
+  updateVehicle(id, body) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
     return this.http.patch(this.vehiclesApiUrl + '/' + id, body, options)
@@ -142,7 +160,7 @@ export class DataService {
 
 
   private handleError(error: any) {
-    console.error('An error occurred', error); // for demo purposes only
+    console.error('Lyfront caught an error', error); // for demo purposes only
     return Observable.throw(error);
   }
 }
