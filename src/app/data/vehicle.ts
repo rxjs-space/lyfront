@@ -2,6 +2,7 @@ export class Vehicle {
   id = '';
   isToDeregister = true;
   batchId = '';
+  source = '';
   mofcomRegisterType = '';
   mofcomRegisterRef = '';
   entranceDate = '';

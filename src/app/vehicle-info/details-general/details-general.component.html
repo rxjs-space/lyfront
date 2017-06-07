@@ -1,69 +1,48 @@
-<ng-template #vehicleId>
+
+<md-toolbar class="vehicle-toolbar" [formGroup]="formGroupInput">
+  <div>
     <md-input-container>
       <input mdInput [placeholder]="titles.vehicles.id" [formControl]="formGroupInput.get('id')">
     </md-input-container>
     <md-input-container *ngIf="isNew">
       <input mdInput [placeholder]="titles.vehicles.idConfirm" [formControl]="formGroupInput.get('idConfirm')">
     </md-input-container>
-</ng-template>
-
-
-<ng-template #entranceDateAndMofocom>
+  </div>
+  <span class="space-filler"></span>
+  <md-input-container class="xl-size-input">
     <small>
-      <!-- 商务部登记类别 -->
-      <app-autocomplete-combo
-        [placeholderInput]="titles.vehicles.mofcomRegisterType"
-        [formControlInput]="formGroupInput.get('mofcomRegisterType')"
-        [objList]="types.mofcomRegisterTypes"
-        [toSort]="false"
-        sizeClass='m-size-input'
-      >
-      </app-autocomplete-combo>
-
-
-      <md-input-container class="xl-size-input">
-        <small>
-          <input mdInput [placeholder]="titles.vehicles.mofcomRegisterRef" 
-            [formControl]="formGroupInput.get('mofcomRegisterRef')">
-        </small>
-      </md-input-container>
-
-      <md-input-container class="l-size-input">
-        <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" 
-          [formControl]="formGroupInput.get('entranceDate')">
-      </md-input-container>
-
+      <input mdInput [placeholder]="titles.vehicles.mofcomRegisterRef" 
+        [formControl]="formGroupInput.get('mofcomRegisterRef')">
     </small>
-</ng-template>
-
-  
+  </md-input-container>   
+</md-toolbar>
 
 <!-- hide-on-small-screen -->
 
-<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput" *ngIf="!isNew">
+<!--<md-toolbar class="vehicle-toolbar" [formGroup]="formGroupInput" *ngIf="!isNew">
   <div>
     <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
     <ng-container *ngTemplateOutlet="entranceDateAndMofocom"></ng-container>
   </div>
 </md-toolbar>
 
-<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput" *ngIf="isNew">
+<md-toolbar class="vehicle-toolbar" [formGroup]="formGroupInput" *ngIf="isNew">
   <div>
       <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
   </div>
-</md-toolbar>
+</md-toolbar>-->
 
-<md-toolbar class="vehicle-toolbar hide-on-small-screen" [formGroup]="formGroupInput" *ngIf="isNew">
+<!--<md-toolbar class="vehicle-toolbar" [formGroup]="formGroupInput" *ngIf="isNew">
   <div>
     <ng-container *ngTemplateOutlet="entranceDateAndMofocom"></ng-container>
   </div>
-</md-toolbar>
+</md-toolbar>-->
 
 
 
 <!-- show-on-small-screen -->
 
-<md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
+<!--<md-toolbar class="vehicle-toolbar show-on-small-screen" [formGroup]="formGroupInput">
   <div>
       <ng-container *ngTemplateOutlet="vehicleId"></ng-container>
   </div>
@@ -73,7 +52,7 @@
   <div>
     <ng-container *ngTemplateOutlet="entranceDateAndMofocom"></ng-container>
   </div>
-</md-toolbar>
+</md-toolbar>-->
 
 
 <!-- afterDeleted part -->
@@ -99,5 +78,51 @@
     </small>
   </md-toolbar>
 
+<md-card class="info-card" [formGroup]="formGroupInput">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{titles.vehicles.title}}</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+      <md-input-container class="l-size-input">
+        <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" 
+          [formControl]="formGroupInput.get('entranceDate')">
+      </md-input-container>
+
+      <!-- 车辆来源 -->
+      <app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.source"
+        [formControlInput]="formGroupInput.get('source')"
+        [objList]="types.sources"
+        [toSort]="false"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>
+
+      <md-input-container class="xl-size-input" *ngIf="formGroupInput.get('source').value === '交警'">
+        <small>
+          <input mdInput [placeholder]="titles.vehicles.batchId" 
+            [formControl]="formGroupInput.get('batchId')">
+        </small>
+      </md-input-container>
+
+      <!-- 商务部登记类别 -->
+      <app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.mofcomRegisterType"
+        [formControlInput]="formGroupInput.get('mofcomRegisterType')"
+        [objList]="types.mofcomRegisterTypes"
+        [toSort]="false"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>
+
+
+     
+
+  </md-card-content>
+</md-card>
   
 

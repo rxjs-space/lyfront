@@ -125,6 +125,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           const matchObj = types.find(t => t.name === name) || null;
           return matchObj ? (matchObj.id || matchObj._id) : '';
         };
+        vehicleToSubmit.source = nameToId(vehicleToSubmit.source, this.types.sources);
         vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
         vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
         vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
@@ -162,11 +163,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         } else {
           data = jsonpatch.compare(this.vehicle, v);
         }
-        this.save.emit({
-          id: data.id,
-          isNew: this.isNew,
-          data
-        });
+        console.log(data);
+        // this.save.emit({
+        //   id: data.id,
+        //   isNew: this.isNew,
+        //   data
+        // });
       });
 
 
@@ -220,6 +222,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     this.vehicleForm = this.fb.group({
       id: [this.vehicle.id, Validators.required],
       batchId: [this.vehicle.batchId],
+      // createdAt: [this.vehicle.createdAt],
+      // createdBy: [this.vehicle.createdBy],
+      // _id: [this.vehicle._id],
+      source: [this.idToName('source'), [
+        this.sv.notListedButCanBeEmpty(this.types.sources.map(t => t.name))
+      ]],
       isToDeregister: [this.vehicle.isToDeregister],
       mofcomRegisterType: [this.idToName('mofcomRegisterType'), [
         this.sv.notListedButCanBeEmpty(this.types.mofcomRegisterTypes.map(t => t.name))
