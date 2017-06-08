@@ -36,6 +36,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   subscriptions: Subscription[] = [];
   initSubscriptions: Subscription[] = [];
   isNew: Boolean;
+  metadata: any;
+  formValueChangedRxx = new BehaviorSubject(false);
 
   formArrayMethods(formArrayPath) {
     const self = this;
@@ -104,6 +106,38 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     return this.methods.updateBrands(newBrands) as Observable<any>;
   }
 
+
+  prepareVehicleToSubmit() {
+    const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
+    const nameToId = (name, types) => {
+      const matchObj = types.find(t => t.name === name) || null;
+      return matchObj ? (matchObj.id || matchObj._id) : '';
+    };
+    vehicleToSubmit.source = nameToId(vehicleToSubmit.source, this.types.sources);
+    vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
+    vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
+    vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
+    vehicleToSubmit.vehicle.aquisitionType = nameToId(vehicleToSubmit.vehicle.aquisitionType, this.types.aquisitionTypes);
+    vehicleToSubmit.vehicle.fuelType = nameToId(vehicleToSubmit.vehicle.fuelType, this.types.fuelTypes);
+    vehicleToSubmit.agent.idType = nameToId(vehicleToSubmit.agent.idType, this.types.idTypes);
+    vehicleToSubmit.feesAndDeductions.forEach(fd => {
+      fd.type = nameToId(fd.type, this.types.feesAndDeductionsTypes);
+      if (fd.part) {
+        fd.part = nameToId(fd.part, this.types.parts);
+      }
+    });
+    vehicleToSubmit.vehicleCosts.forEach(vc => {
+      vc.type = nameToId(vc.type, this.types.vehicleCostTypes);
+    });
+    vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
+    vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.brands);
+    delete vehicleToSubmit.vinConfirm;
+
+
+
+    return vehicleToSubmit;
+  }
+
   prepareSubmit(vehicleForm: FormGroup) {
     const sub_ = this.pendingOps
       .filter(v => {
@@ -112,62 +146,23 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       .first()
       .map(() => { // after all pendingOps done (including updateBrands)
         console.log('preparing');
-        const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
-        // const typeNameToTypeObj = (typeNameItem, typeObjDict: any[]): void => {
-        //   typeNameItem = typeObjDict.find(t => t.name === typeNameItem);
-        //   if (!Boolean(typeNameItem)) {
-        //     typeNameItem = null;
-        //   }
-        // };
-        // typeNameToTypeObj(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
-        // console.log(vehicleToSubmit.mofcomRegisterType);
-        const nameToId = (name, types) => {
-          const matchObj = types.find(t => t.name === name) || null;
-          return matchObj ? (matchObj.id || matchObj._id) : '';
-        };
-        vehicleToSubmit.source = nameToId(vehicleToSubmit.source, this.types.sources);
-        vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
-        vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
-        vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
-        vehicleToSubmit.vehicle.aquisitionType = nameToId(vehicleToSubmit.vehicle.aquisitionType, this.types.aquisitionTypes);
-        vehicleToSubmit.vehicle.fuelType = nameToId(vehicleToSubmit.vehicle.fuelType, this.types.fuelTypes);
-        vehicleToSubmit.agent.idType = nameToId(vehicleToSubmit.agent.idType, this.types.idTypes);
-        vehicleToSubmit.feesAndDeductions.forEach(fd => {
-          fd.type = nameToId(fd.type, this.types.feesAndDeductionsTypes);
-          if (fd.part) {
-            fd.part = nameToId(fd.part, this.types.parts);
-          }
-        });
-        vehicleToSubmit.vehicleCosts.forEach(vc => {
-          vc.type = nameToId(vc.type, this.types.vehicleCostTypes);
-        });
-        vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
-        vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.brands);
-        // this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
-        delete vehicleToSubmit.vinConfirm;
+        return this.prepareVehicleToSubmit();
+      })
+      .subscribe(v => {
 
         // at the end of submit, reset some status
         this.vehicleForm.markAsPristine();
+        this.vehicleForm.markAsUntouched();
         for (const ctrl in (this.vehicleForm.get('status') as FormGroup).controls) {
           if (this.vehicleForm.get(`status.${ctrl}.done`).value) {
             this.vehicleForm.get(`status.${ctrl}.done`).disable();
           }
         }
 
-        return vehicleToSubmit;
-      })
-      .subscribe(v => {
-        /* delete metadata from vehicle, for getting ready to compare with form.value*/
-        const vehicleWithoutMetadata = Object.assign({}, this.vehicle);
-        delete vehicleWithoutMetadata.createdAt;
-        delete vehicleWithoutMetadata.createdBy;
-        delete vehicleWithoutMetadata.modifiedAt;
-        delete vehicleWithoutMetadata.modifiedBy;
-        delete vehicleWithoutMetadata._id;
         const data = {
           vin: v.vin,
           vehicle: v,
-          patches: jsonpatch.compare(vehicleWithoutMetadata, v)
+          patches: jsonpatch.compare(this.vehicle, v)
         };
         // console.log(data);
         this.save.emit({
@@ -219,10 +214,70 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     return {
       value: done,
       disabled: done ? true : false
+    };
+  }
+
+  onFormValueChanges() {
+    if (!this.vehicleForm.pristine || this.vehicleForm.touched) {
+      const v = this.prepareVehicleToSubmit();
+      const diff = jsonpatch.compare(this.vehicle, v);
+      if (!diff.length) {
+        this.formValueChangedRxx.next(false);
+      } else {
+        this.formValueChangedRxx.next(true);
+      }
     }
+
+    /* show errors on form value change */
+    // onValueChanged(data?: any) {
+    //   if (!this.heroForm) { return; }
+    //   const form = this.heroForm;
+    //   for (const field in this.formErrors) {
+    //     // clear previous error message (if any)
+    //     this.formErrors[field] = '';
+    //     const control = form.get(field);
+    //     if (control && control.dirty && !control.valid) {
+    //       const messages = this.validationMessages[field];
+    //       for (const key in control.errors) {
+    //         this.formErrors[field] += messages[key] + ' ';
+    //       }
+    //     }
+    //   }
+    // }
+    // formErrors = {
+    //   'name': '',
+    //   'power': ''
+    // };
+    // validationMessages = {
+    //   'name': {
+    //     'required':      'Name is required.',
+    //     'minlength':     'Name must be at least 4 characters long.',
+    //     'maxlength':     'Name cannot be more than 24 characters long.',
+    //     'forbiddenName': 'Someone named "Bob" cannot be a hero.'
+    //   },
+    //   'power': {
+    //     'required': 'Power is required.'
+    //   }
+    // };
+
   }
 
   ngOnInit() {
+    this.metadata = {
+      createdAt: this.vehicle.createdAt,
+      createdBy: this.vehicle.createdBy,
+      modifiedAt: this.vehicle.modifiedAt,
+      modifiedBy: this.vehicle.modifiedBy,
+      _id: this.vehicle._id,
+
+    };
+
+    delete this.vehicle.createdAt;
+    delete this.vehicle.createdBy;
+    delete this.vehicle.modifiedAt;
+    delete this.vehicle.modifiedBy;
+    delete this.vehicle._id;
+
     // console.log(this.vehicle);
     this.isNew = !this.vehicle.vin; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
@@ -522,43 +577,17 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     })
 
 
+    const formValueChanges_ = this.vehicleForm.valueChanges.subscribe(() => {
+      this.onFormValueChanges();
+    });
+
+    this.subscriptions.push(formValueChanges_);
 
     // const brandChange_ = this.vehicleForm.get('vehicle.brand').valueChanges
     //   .subscribe(value => {
     //     console.log(value);
     //   })
 
-    /* show errors on form value change */
-    // onValueChanged(data?: any) {
-    //   if (!this.heroForm) { return; }
-    //   const form = this.heroForm;
-    //   for (const field in this.formErrors) {
-    //     // clear previous error message (if any)
-    //     this.formErrors[field] = '';
-    //     const control = form.get(field);
-    //     if (control && control.dirty && !control.valid) {
-    //       const messages = this.validationMessages[field];
-    //       for (const key in control.errors) {
-    //         this.formErrors[field] += messages[key] + ' ';
-    //       }
-    //     }
-    //   }
-    // }
-    // formErrors = {
-    //   'name': '',
-    //   'power': ''
-    // };
-    // validationMessages = {
-    //   'name': {
-    //     'required':      'Name is required.',
-    //     'minlength':     'Name must be at least 4 characters long.',
-    //     'maxlength':     'Name cannot be more than 24 characters long.',
-    //     'forbiddenName': 'Someone named "Bob" cannot be a hero.'
-    //   },
-    //   'power': {
-    //     'required': 'Power is required.'
-    //   }
-    // };
 
 
   }

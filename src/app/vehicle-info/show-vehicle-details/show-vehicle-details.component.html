@@ -51,7 +51,7 @@
 
   <app-details-metadata
     *ngIf="!isNew"
-    [vehicle]="vehicle"
+    [metadata]="metadata"
   >
   </app-details-metadata>
   <!-- empty md-card to take up some space, so that the buttnos and details-metadata won't overlap -->
@@ -62,13 +62,13 @@
     >数据验证</button>
     <button md-raised-button color="primary"
       type="submit"
-      [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value"
+      [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value || !(formValueChangedRxx | async)"
     >
       保存更改
     </button>  
     <button md-raised-button color="warn"
       type="button"
-      [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value">
+      [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value || !(formValueChangedRxx | async)">
       删除记录
     </button>
   </div>

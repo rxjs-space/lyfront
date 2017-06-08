@@ -8,12 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DetailsMetadataComponent implements OnInit {
   createdAt;
   modifiedAt;
-  @Input() vehicle: any;
+  @Input() metadata: any;
   constructor() { }
 
   ngOnInit() {
-    this.createdAt = new Date(this.vehicle.createdAt);
-    this.modifiedAt = new Date(this.vehicle.modifiedAt);
+    this.createdAt = new Date(this.metadata.createdAt);
+    this.modifiedAt = new Date(this.metadata.modifiedAt);
   }
 
 }

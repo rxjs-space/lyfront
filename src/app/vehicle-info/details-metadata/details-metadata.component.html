@@ -10,7 +10,7 @@
     <div>
       此文档由
       <md-input-container class="m-size-input">
-        <input mdInput [value]="vehicle.createdBy.username" disabled>
+        <input mdInput [value]="metadata.createdBy.username" disabled>
       </md-input-container>
       创建于
       <md-input-container class="xxl-size-input">
@@ -18,10 +18,10 @@
       </md-input-container>
       。
     </div>
-    <div *ngIf="vehicle.modifiedBy">
+    <div *ngIf="metadata.modifiedBy">
       此文档最近被
       <md-input-container class="m-size-input">
-        <input mdInput [value]="vehicle.modifiedBy.username" disabled>
+        <input mdInput [value]="metadata.modifiedBy.username" disabled>
       </md-input-container>
       于
       <md-input-container class="xxl-size-input">
