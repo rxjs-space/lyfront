@@ -12,10 +12,8 @@ import { BACK_END_URL } from '../app-config';
 
 @Injectable()
 export class DataService {
-  // host1 = 'https://lymock.herokuapp.com';
-  // host1 = 'https://longyunback.herokuapp.com';
-  host = 'http://localhost:3000';
-  // host1 = 'http://localhost:3001';
+
+  host = 'http://localhost:3000'; // useless
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
   titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
   brandsApiUrl1 = this.host1 + '/api/brands';
@@ -61,8 +59,9 @@ export class DataService {
   //     .catch(err => this.handleError(err));
   // }
 
-  getVehicleByVIN(vin) {
-    return this.http.get(`${this.vehiclesApiUrl1}/one?vin=${vin}`, this.setupOptions(true))
+  getVehicleByVIN(vin, returnIDOnly = false) {
+    return this.http.get(
+      `${this.vehiclesApiUrl1}/one?vin=${vin}&returnIDOnly=${returnIDOnly}`, this.setupOptions(true))
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }
@@ -163,7 +162,7 @@ export class DataService {
 
 
   private handleError(error: any) {
-    console.error('Lyfront caught an error', error); // for demo purposes only
+    console.log('Lyfront caught an error', error); // for demo purposes only
     return Observable.throw(error);
   }
 }

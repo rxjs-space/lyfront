@@ -7,14 +7,24 @@
     <md-input-container *ngIf="isNew">
       <input mdInput [placeholder]="titles.vehicles.vinConfirm" [formControl]="formGroupInput.get('vinConfirm')">
     </md-input-container>
+    <!--{{ formGroupInput.get('vinConfirm').errors | json }}-->
+    <span class="errorMessage vertical-middle-span"
+      *ngIf="formGroupInput.get('vinConfirm').errors && formGroupInput.get('vinConfirm').errors.duplicateVIN"
+    >VIN 已存在</span>
+    <span class="vertical-middle-span"
+      *ngIf="asyncMon.progressing.validatorDuplicateVIN"
+    ><md-spinner class="inline-spinner"></md-spinner></span>
   </div>
   <span class="space-filler"></span>
+  <div>
   <md-input-container class="xl-size-input">
     <small>
       <input mdInput [placeholder]="titles.vehicles.mofcomRegisterRef" 
         [formControl]="formGroupInput.get('mofcomRegisterRef')">
     </small>
   </md-input-container>   
+</div>
+
 </md-toolbar>
 
 <!-- hide-on-small-screen -->

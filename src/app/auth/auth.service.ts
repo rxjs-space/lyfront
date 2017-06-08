@@ -12,9 +12,6 @@ import { BACK_END_URL } from '../app-config';
 @Injectable()
 export class AuthService {
   attemptedUrl: string;
-  // host1 = 'http://localhost:3001';
-  // host1 = 'https://lyback.herokuapp.com';
-  // host1 = 'https://longyunback.herokuapp.com';
   isLoggedInRxx = new BehaviorSubject(false);
   usernameRxx = new BehaviorSubject('');
   isAdminRxx = new BehaviorSubject(false);

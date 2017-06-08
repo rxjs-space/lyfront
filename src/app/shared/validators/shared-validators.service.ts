@@ -1,23 +1,38 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormControl, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/interval';
 
 import { DataService } from '../../data/data.service';
+import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 
 
 @Injectable()
 export class SharedValidatorsService {
 
-  constructor(private data: DataService) { }
+  constructor(private data: DataService,
+    private asyncMon: AsyncMonitorService) { }
 
-  duplicateVIN(): AsyncValidatorFn {
+  duplicateVIN(formId: string): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const vin = control.value;
-      const errors = control.errors;
-      console.log(vin, errors);
-      return Observable.of(null);
+      const errorKey = 'duplicateVIN';
+      this.asyncMon.progressing.validatorDuplicateVIN = true;
+      return this.data.getVehicleByVIN(vin, true)
+        .map(r => {
+          this.asyncMon.progressing.validatorDuplicateVIN = false;
+          const _id = r ? r._id : null;
+          return _id ? {[errorKey]: _id} : null;
+        }).catch(err => {
+            // if 404, that vin does not exist
+            // if other http err, will handle at other places
+            this.asyncMon.progressing.validatorDuplicateVIN = false;
+            return null;
+        })
     };
   }
 

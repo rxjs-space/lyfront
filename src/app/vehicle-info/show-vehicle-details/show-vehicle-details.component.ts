@@ -7,10 +7,12 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/filter';
+import jsonpatch from 'fast-json-patch';
+
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
 
-import jsonpatch from 'fast-json-patch';
+
 
 
 @Component({
@@ -38,6 +40,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   isNew: Boolean;
   metadata: any;
   formValueChangedRxx = new BehaviorSubject(false);
+  formId = 'vehicleDetails';
 
   constructor(
     private fb: FormBuilder,
@@ -216,7 +219,20 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     };
   }
 
+
+  formErrors = {
+    'vinConfirm': ''
+  }
+
+  validationMessages = {
+    'vinConfirm': {
+      'duplicateVIN': '此 VIN 已存在'
+    }
+  }
+
   onFormValueChanges() {
+    // use jsonpatch.compare to find out if value changed or not, after user interaction
+    // for example, user input 1 and delete 1, then there's no change
     if (!this.vehicleForm.pristine || this.vehicleForm.touched) {
       const v = this.prepareVehicleToSubmit();
       const diff = jsonpatch.compare(this.vehicle, v);
@@ -226,6 +242,15 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         this.formValueChangedRxx.next(true);
       }
     }
+
+    for (const path in this.formErrors) {
+      this.formErrors[path] = '';
+      const control = this.vehicleForm.get(path);
+      if (control && control.dirty && control.invalid) {
+        console.log(control.errors);
+      }
+    }
+
 
     /* show errors on form value change */
     // onValueChanged(data?: any) {
@@ -458,8 +483,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     if (this.isNew) {
       const vinConfirmCtrl = new FormControl(
         '', 
-        [Validators.required, 
-        this.sv.notMatchingOtherControl(this.vehicleForm.get('vin'))]);
+        [
+          Validators.required,
+          this.sv.notMatchingOtherControl(this.vehicleForm.get('vin'))
+        ],
+        [this.sv.duplicateVIN(this.formId)]
+      );
       this.vehicleForm.addControl('vinConfirm', vinConfirmCtrl);
     } else {
       this.vehicleForm.get('vin').disable();
