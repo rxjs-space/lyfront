@@ -15,7 +15,7 @@ export class DetailsGeneralComponent implements OnInit {
   @Input() formGroupInput: FormGroup;
   @Input() isNew: Boolean;
 
-  constructor(private asyncMon: AsyncMonitorService) { }
+  constructor(public asyncMon: AsyncMonitorService) { }
 
   ngOnInit() {
   }
