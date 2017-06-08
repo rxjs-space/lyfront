@@ -1,5 +1,6 @@
 export class Vehicle {
   id = '';
+  vin = '';
   isToDeregister = true;
   batchId = '';
   source = '';

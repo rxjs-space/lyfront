@@ -18,7 +18,7 @@
       </md-input-container>
       。
     </div>
-    <div>
+    <div *ngIf="vehicle.modifiedBy">
       此文档最近被
       <md-input-container class="m-size-input">
         <input mdInput [value]="vehicle.modifiedBy.username" disabled>

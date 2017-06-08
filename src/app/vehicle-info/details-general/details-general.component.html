@@ -2,10 +2,10 @@
 <md-toolbar class="vehicle-toolbar" [formGroup]="formGroupInput">
   <div>
     <md-input-container>
-      <input mdInput [placeholder]="titles.vehicles.id" [formControl]="formGroupInput.get('id')">
+      <input mdInput [placeholder]="titles.vehicles.vin" [formControl]="formGroupInput.get('vin')">
     </md-input-container>
     <md-input-container *ngIf="isNew">
-      <input mdInput [placeholder]="titles.vehicles.idConfirm" [formControl]="formGroupInput.get('idConfirm')">
+      <input mdInput [placeholder]="titles.vehicles.vinConfirm" [formControl]="formGroupInput.get('vinConfirm')">
     </md-input-container>
   </div>
   <span class="space-filler"></span>

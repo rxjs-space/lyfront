@@ -9,6 +9,6 @@ export class VehicleResolverService {
   constructor(private data: DataService) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const id = route.params['id'];
-    return this.data.getVehicleById(id);
+    return this.data.getVehicleByVIN(id);
   }
 }

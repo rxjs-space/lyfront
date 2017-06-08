@@ -144,7 +144,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
         vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.brands);
         // this.types.brands.find(t => t.name === vehicleToSubmit.vehicle.brand) || null;
-        delete vehicleToSubmit.idConfirm;
+        delete vehicleToSubmit.vinConfirm;
 
         // at the end of submit, reset some status
         this.vehicleForm.markAsPristine();
@@ -165,13 +165,12 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         delete vehicleWithoutMetadata.modifiedBy;
         delete vehicleWithoutMetadata._id;
         const data = {
-          id: v.id,
+          vin: v.vin,
           vehicle: v,
           patches: jsonpatch.compare(vehicleWithoutMetadata, v)
         };
         // console.log(data);
         this.save.emit({
-          id: data.id,
           isNew: this.isNew,
           data
         });
@@ -225,9 +224,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
   ngOnInit() {
     // console.log(this.vehicle);
-    this.isNew = !this.vehicle.id; // setup isNew based on whether vehicl.id exists
+    this.isNew = !this.vehicle.vin; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
-      id: [this.vehicle.id, Validators.required],
+      vin: [this.vehicle.vin, Validators.required],
       batchId: [this.vehicle.batchId],
       // createdAt: [this.vehicle.createdAt],
       // createdBy: [this.vehicle.createdBy],
@@ -392,22 +391,22 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       });
     });
 
-    /* setting up id and idConfirm based on isNew*/
+    /* setting up id and vinConfirm based on isNew*/
     if (this.isNew) {
-      const idConfirmCtrl = new FormControl(
+      const vinConfirmCtrl = new FormControl(
         '', 
         [Validators.required, 
-        this.sv.matchOtherControl(this.vehicleForm.get('id'))]);
-      this.vehicleForm.addControl('idConfirm', idConfirmCtrl);
+        this.sv.matchOtherControl(this.vehicleForm.get('vin'))]);
+      this.vehicleForm.addControl('vinConfirm', vinConfirmCtrl);
     } else {
-      this.vehicleForm.get('id').disable();
+      this.vehicleForm.get('vin').disable();
     }
 
-    /* validate idConfirm once id is changed */
-    if (this.vehicleForm.get('idConfirm')) {
-      const id_ = this.vehicleForm.get('id').valueChanges
+    /* validate vinConfirm once id is changed */
+    if (this.vehicleForm.get('vinConfirm')) {
+      const id_ = this.vehicleForm.get('vin').valueChanges
         .subscribe(() => {
-          this.vehicleForm.get('idConfirm').updateValueAndValidity();
+          this.vehicleForm.get('vinConfirm').updateValueAndValidity();
         });
       this.initSubscriptions.push(id_);
     }
@@ -451,8 +450,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
     this.initSubscriptions.push(rvCal_);
 
-    /* watching status and setup date*/
-    // const statusDate_ = this.vehicleForm.get()
 
     // this.dismantlingOrdersForm = this.fb.group({
     //   dismantlingOrders: this.fb.array(this.dismantlingOrdersInput.map(dOrder => this.fb.group({
@@ -500,15 +497,16 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     const isPersonChange_ = this.vehicleForm.get('owner.isPerson').valueChanges
       .subscribe(value => {
         this.vehicleForm.get('owner.idType').setValue('');
-        if (!value) {
+        if (!value) { // if organization, isByAgent is always true
           this.vehicleForm.get('owner.isByAgent').setValue(true);
           this.vehicleForm.get('owner.isByAgent').disable();
         } else {
           this.vehicleForm.get('owner.isByAgent').enable();
         }
       });
+    this.initSubscriptions.push(isPersonChange_);
 
-
+    /* watching status and setup date*/
     Object.keys(statusObj).forEach(k => {
       this.vehicleForm.get(`status.${k}.done`).valueChanges
         .subscribe(v => {
@@ -524,11 +522,45 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     })
 
 
-    this.initSubscriptions.push(isPersonChange_);
+
     // const brandChange_ = this.vehicleForm.get('vehicle.brand').valueChanges
     //   .subscribe(value => {
     //     console.log(value);
     //   })
+
+    /* show errors on form value change */
+    // onValueChanged(data?: any) {
+    //   if (!this.heroForm) { return; }
+    //   const form = this.heroForm;
+    //   for (const field in this.formErrors) {
+    //     // clear previous error message (if any)
+    //     this.formErrors[field] = '';
+    //     const control = form.get(field);
+    //     if (control && control.dirty && !control.valid) {
+    //       const messages = this.validationMessages[field];
+    //       for (const key in control.errors) {
+    //         this.formErrors[field] += messages[key] + ' ';
+    //       }
+    //     }
+    //   }
+    // }
+    // formErrors = {
+    //   'name': '',
+    //   'power': ''
+    // };
+    // validationMessages = {
+    //   'name': {
+    //     'required':      'Name is required.',
+    //     'minlength':     'Name must be at least 4 characters long.',
+    //     'maxlength':     'Name cannot be more than 24 characters long.',
+    //     'forbiddenName': 'Someone named "Bob" cannot be a hero.'
+    //   },
+    //   'power': {
+    //     'required': 'Power is required.'
+    //   }
+    // };
+
+
   }
 
 

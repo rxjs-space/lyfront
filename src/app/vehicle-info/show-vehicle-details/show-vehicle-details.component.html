@@ -54,7 +54,8 @@
     [vehicle]="vehicle"
   >
   </app-details-metadata>
-
+  <!-- empty md-card to take up some space, so that the buttnos and details-metadata won't overlap -->
+  <md-card></md-card>
   <div class="fixed-button-bottom not-for-print">
     <button md-button type="button" color="primary" (click)="checkValidity()"
       *ngIf="(vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value)"
@@ -71,6 +72,7 @@
       删除记录
     </button>
   </div>
+
 
 </form>
 

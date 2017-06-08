@@ -41,7 +41,7 @@ export class ShowComponent implements OnInit, OnDestroy {
       return this.route.params.switchMap(params => {
         return Observable.zip(
           // (isNew ? this.data.getVehicleById('ABCD12345678') : this.data.getVehicleById(params['id'])),
-          (isNew ? this.data.createNewVehicle() : this.data.getVehicleById(params['id'])),
+          (isNew ? this.data.createNewVehicle() : this.data.getVehicleByVIN(params['id'])),
           this.data.typesRx,
           this.data.titlesRx,
           this.data.brandsRx,
@@ -77,15 +77,15 @@ export class ShowComponent implements OnInit, OnDestroy {
           }
           console.log(r.insertedIds[0]);
           // this.zipData.vehicle = r;
-          this.router.navigate(['/vehicles/' + event.id]);
+          this.router.navigateByUrl('/vehicles/' + event.data.vin);
         });
     } else {
-      return this.data.updateVehicle(event.id, event.data)
+      return this.data.updateVehicle(event.data.vin, event.data)
         .subscribe(r => {
           if (r.ok) {
+            this.router.navigateByUrl('/vehicles/' + event.data.vin);
             console.log('updated');
-            this.zipData.vehicle = event.data;
-            this.router.navigate(['/vehicles/' + event.id]);
+
           } else {
             console.log('something wrong');
             console.log(r);

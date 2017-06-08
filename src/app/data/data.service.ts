@@ -61,8 +61,8 @@ export class DataService {
   //     .catch(err => this.handleError(err));
   // }
 
-  getVehicleById(id) {
-    return this.http.get(`${this.vehiclesApiUrl1}/one?id=${id}`, this.setupOptions(true))
+  getVehicleByVIN(vin) {
+    return this.http.get(`${this.vehiclesApiUrl1}/one?vin=${vin}`, this.setupOptions(true))
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }
@@ -79,8 +79,8 @@ export class DataService {
       .catch(err => this.handleError(err));
   }
 
-  updateVehicle(id, body) {
-    return this.http.patch(`${this.vehiclesApiUrl1}/one?id=${id}`, body, this.setupOptions(true))
+  updateVehicle(vin, body) {
+    return this.http.patch(`${this.vehiclesApiUrl1}/one?vin=${vin}`, body, this.setupOptions(true))
       .map(res => res.json())
       .catch(err => this.handleError(err));
   }
