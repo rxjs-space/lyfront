@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
 import { APP_CONFIG, APP_CONFIG_VALUE, BACK_END_URL_VALUE, BACK_END_URL } from './app-config';
+import { environment } from './../environments/environment';
 
 /*
   dataServices including DataService and resolvers
@@ -35,7 +36,7 @@ import { dataServices } from './data';
   providers: [
     ...dataServices,
     { provide: LOCALE_ID, useValue: 'zh-cn' },
-    { provide: BACK_END_URL, useValue: BACK_END_URL_VALUE }
+    { provide: BACK_END_URL, useValue: environment.backendUrl }
   ],
   bootstrap: [ AppComponent ]
 })

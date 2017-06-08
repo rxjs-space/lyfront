@@ -2,24 +2,32 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, FormControl, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/zip';
+import 'rxjs/add/observable/of';
+
+import { DataService } from '../../data/data.service';
 
 
 @Injectable()
 export class SharedValidatorsService {
 
-  constructor() { }
+  constructor(private data: DataService) { }
 
-//   export interface AsyncValidatorFn {
-//     (c: AbstractControl): Promise<ValidationErrors | null> | Observable<ValidationErrors | null>;
-// }
+  duplicateVIN(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const vin = control.value;
+      const errors = control.errors;
+      console.log(vin, errors);
+      return Observable.of(null);
+    };
+  }
 
-  matchOtherControl(otherCtrl: AbstractControl): ValidatorFn {
+  notMatchingOtherControl(otherCtrl: AbstractControl): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       const otherValue = otherCtrl.value;
       const value = control.value;
       if (!value) {return null; }
       const match = otherValue === value;
-      return match ? null : {'match': 'value not match'}
+      return match ? null : {'notMatching': 'value not match'}
     };
   }
 
@@ -32,21 +40,8 @@ export class SharedValidatorsService {
     };
   }
 
-  // requiredBasedOnOtherControlMatchingValue(otherControlName: string, valueToMatch: any): ValidatorFn {
-  //   return (control: AbstractControl): {[key: string]: any} => {
-  //     const thisControl = control;
-  //     const thisValue = thisControl.value;
-  //     const parentControl = thisControl.parent;
-  //     if (!parentControl) return null;
-  //     const otherControl = thisControl.parent.get(otherControlName) as FormControl;
-  //     if (!otherControl) throw new Error('requiredBasedOnOtherControlMatchingValue validator: incorrect otherControlName.')
-  //     const otherValue = otherControl.value;
-  //     console.log('value matching', otherValue === valueToMatch);
-  //     console.log('empty value', !thisValue);
-  //     // following return should happen in next tick, but how?
-  //     return ((otherValue === valueToMatch) && !thisValue) ? {'requiredBasedOnOtherControl': otherControlName + ' is ' + valueToMatch} : null;
-  //   }
-  // }
+
+
 
   notListedBasedOnOtherControlTFButCanBeEmpty(otherControlName: string, lists: any[][]): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {

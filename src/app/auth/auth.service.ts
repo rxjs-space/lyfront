@@ -81,6 +81,7 @@ export class AuthService {
   }
 
   authenticate(user: {username: string, password: string}) {
+    console.log('authenticating at backend', this.host1);
     const authenticateUrl = `${this.host1}/authenticate`;
     return this.http.post(authenticateUrl, {
       username: user.username,

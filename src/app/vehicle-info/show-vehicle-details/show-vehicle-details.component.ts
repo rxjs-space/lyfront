@@ -39,6 +39,11 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   metadata: any;
   formValueChangedRxx = new BehaviorSubject(false);
 
+  constructor(
+    private fb: FormBuilder,
+    private sv: SharedValidatorsService,
+    public df: DisplayFunctionsService) { }
+
   formArrayMethods(formArrayPath) {
     const self = this;
     return {
@@ -189,12 +194,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     */
   }
 
-
-
-  constructor(
-    private fb: FormBuilder,
-    private sv: SharedValidatorsService,
-    public df: DisplayFunctionsService) { }
 
   idToName(key, id?, types?) {
     id = id ? id : this.vehicle[key];
@@ -436,22 +435,31 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
     /* disable the control if status.done */
     const statusObj = this.vehicle.status;
-    setTimeout(() => {
-      Object.keys(statusObj).forEach(k => {
-        if (statusObj[k].done) {
-          const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
-          // console.log(ctrl.value);
-          ctrl.disable();
-        }
-      });
+
+    Object.keys(statusObj).forEach(k => {
+      if (statusObj[k].done) {
+        const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
+        // console.log(ctrl.value);
+        ctrl.disable();
+      }
     });
+
+    // setTimeout(() => {
+    //   Object.keys(statusObj).forEach(k => {
+    //     if (statusObj[k].done) {
+    //       const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
+    //       // console.log(ctrl.value);
+    //       ctrl.disable();
+    //     }
+    //   });
+    // });
 
     /* setting up id and vinConfirm based on isNew*/
     if (this.isNew) {
       const vinConfirmCtrl = new FormControl(
         '', 
         [Validators.required, 
-        this.sv.matchOtherControl(this.vehicleForm.get('vin'))]);
+        this.sv.notMatchingOtherControl(this.vehicleForm.get('vin'))]);
       this.vehicleForm.addControl('vinConfirm', vinConfirmCtrl);
     } else {
       this.vehicleForm.get('vin').disable();
