@@ -518,9 +518,9 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     /* start of - setting up this.vehicleForm.controls('feesAndDeductions')*/
     const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
       type: [{value: this.idToName(null, fd.type, this.types.feesAndDeductionsTypes), disabled: true}],
-      part: [this.idToName(null, fd.part, this.types.parts), this.sv.notListedButCanBeEmpty(this.types.parts.map(p => p.name))],
-      details: [fd.details],
-      amount: [fd.amount, [Validators.pattern(/^[0-9]+$/), Validators.required]]
+      part: [{value: this.idToName(null, fd.part, this.types.parts), disabled: true}, this.sv.notListedButCanBeEmpty(this.types.parts.map(p => p.name))],
+      details: [{value: fd.details, disabled: true}],
+      amount: [{value: fd.amount, disabled: true}, [Validators.pattern(/^[0-9]+$/), Validators.required]]
     }));
     const fdsFormArray = this.fb.array(fds);
     this.vehicleForm.setControl('feesAndDeductions', fdsFormArray);

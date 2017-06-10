@@ -18,7 +18,7 @@ export class DialogFdComponent implements OnInit {
     ) { }
 
   onSubmit() {
-    this.fdForm.get('type').disable();
+    this.fdForm.disable(); // disable the form before adding it into the parent form
     this.dialogRef.close(this.fdForm);
   }
 
@@ -33,6 +33,7 @@ export class DialogFdComponent implements OnInit {
       amount: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]]
     });
 
+    /* replace below error setting with validation function */
     this.fdForm.get('type').valueChanges.startWith(null).subscribe(v => {
       // if the type is '零件遗失' and the 'part' field is empty, ...
       if (v === this.data.types.feesAndDeductionsTypes.find(t => t.id = '1').name && !this.fdForm.get('part').value) {
