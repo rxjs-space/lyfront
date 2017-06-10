@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data/data.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -11,7 +13,13 @@ export class ListComponent implements OnInit {
   constructor(private data: DataService) { }
 
   ngOnInit() {
-    this.data.getVehicles().subscribe(data => {
+    this.data.getVehicles()
+      .catch(error => Observable.of({
+        ok: false,
+        error
+      }))
+      .subscribe(data => {
+        // console.log(data);
       this.vList = data;
     });
   }

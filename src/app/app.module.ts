@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LearnmdModule } from './learnmd/learnmd.module';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
@@ -28,7 +27,6 @@ import { dataServices } from './data';
     BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule.forRoot(),
-    LearnmdModule,
     AuthModule,
     DashboardModule,
     VehicleInfoModule

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LearnmdComponent } from './learnmd/learnmd/learnmd.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { AuthGuard } from './auth/auth.guard';
 

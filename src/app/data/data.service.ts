@@ -50,7 +50,12 @@ export class DataService {
 
   getVehicles() {
     return this.http.get(this.vehiclesApiUrl1, this.setupOptions(true))
-      .map(res => res.json())
+      .map(res => {
+        const resJSON = res.json();
+        const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
+        if (hasMongoError) {throw resJSON; }
+        return res.json();
+      })
       .catch(err => this.handleError(err));
   }
   // getVehicles() {

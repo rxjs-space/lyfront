@@ -1,9 +1,8 @@
 <app-loading-or-error [httpJsonData]="vList">
 
-  <md-list class="vehicle-list">
+  <md-list class="vehicle-list" *ngIf="vList && !vList.error">
     <md-list-item *ngFor="let vehicle of vList" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
       <i class="material-icons" md-list-icon>drive_eta</i>
-      <!--<md-icon md-list-icon>folder</md-icon>-->
       <h3 md-line>{{vehicle.vin}} / {{vehicle.vehicle.plateNo || '号牌暂无'}} / <small>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</small></h3>
       <small md-line>
         <md-checkbox color="primary" [checked]="vehicle.status.mofcomCertReady.done" disabled>

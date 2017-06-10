@@ -4,16 +4,19 @@
     <md-input-container>
       <input mdInput [placeholder]="titles.vehicles.vin" [formControl]="formGroupInput.get('vin')">
     </md-input-container>
-    <md-input-container *ngIf="isNew">
-      <input mdInput [placeholder]="titles.vehicles.vinConfirm" [formControl]="formGroupInput.get('vinConfirm')">
-    </md-input-container>
-    <!--{{ formGroupInput.get('vinConfirm').errors | json }}-->
-    <span class="errorMessage vertical-middle-span"
-      *ngIf="formGroupInput.get('vinConfirm').errors && formGroupInput.get('vinConfirm').errors.duplicateVIN"
-    >VIN 已存在</span>
-    <span class="vertical-middle-span"
-      *ngIf="asyncMon.progressing.validatorDuplicateVIN"
-    ><md-spinner class="inline-spinner"></md-spinner></span>
+    <ng-container *ngIf="isNew">
+      <md-input-container>
+        <input mdInput [placeholder]="titles.vehicles.vinConfirm" [formControl]="formGroupInput.get('vinConfirm')">
+      </md-input-container>
+      <!--{{ formGroupInput.get('vinConfirm').errors | json }}-->
+      <span class="errorMessage vertical-middle-span"
+        *ngIf="formGroupInput.get('vinConfirm').errors && formGroupInput.get('vinConfirm').errors.duplicateVIN"
+      >VIN 已存在</span>
+      <span class="vertical-middle-span"
+        *ngIf="asyncMon.progressing.validatorDuplicateVIN"
+      ><md-spinner class="inline-spinner"></md-spinner></span>
+    </ng-container>
+
   </div>
   <span class="space-filler"></span>
   <div>

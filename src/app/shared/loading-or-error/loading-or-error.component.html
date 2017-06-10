@@ -1,16 +1,4 @@
-<!--<p *ngIf="!httpJsonData">
-  <md-spinner></md-spinner>
-</p>
-
-<p *ngIf="httpJsonData.ok === false">Something went wrong.</p>
-
-<div *ngIf="!isLoading&&!isError">
-
-  <ng-content></ng-content>
-</div>-->
-
-
-<ng-container [ngSwitch]="true">
+<!--<ng-container [ngSwitch]="true">
 
   <p *ngSwitchCase="!httpJsonData">
     <md-spinner></md-spinner>
@@ -31,11 +19,37 @@
       
     </md-card>
     
-    <!--{{ httpJsonData | json }}-->
   </p>
 
   <div *ngSwitchDefault>
-  <!--<div *ngSwitchCase="httpJsonData && !httpJsonData.error">-->
     <ng-content></ng-content>
   </div>
-</ng-container>
+</ng-container>-->
+
+  <p *ngIf="!httpJsonData">
+    <md-spinner></md-spinner>
+  </p>
+
+
+  <p *ngIf="httpJsonData && !!httpJsonData.error">
+    <md-card>
+      <md-card-header>
+        <md-card-title>
+          <h4>Something went wrong.</h4>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <div *ngIf="httpJsonData.error.status === 404">
+          所请求的资源不存在。
+        </div>
+      </md-card-content>
+      
+    </md-card>
+    
+  </p>
+
+  <div *ngIf="httpJsonData && !httpJsonData.error">
+    <ng-content></ng-content>
+  </div>
+
+
