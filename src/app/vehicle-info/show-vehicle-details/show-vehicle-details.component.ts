@@ -453,8 +453,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       feesAndDeductions: this.fb.array([]),
       vehicleCosts: this.fb.array(this.vehicle.vehicleCosts.map(vC => this.fb.group({
         type: [{value: this.idToName(null, vC.type, this.types.vehicleCostTypes), disabled: true}],
-        details: vC.details,
-        amount: vC.amount
+        details: [{value: vC.details, disabled: true}],
+        amount: [{value: vC.amount, disabled: true}]
       }))),
     });
 

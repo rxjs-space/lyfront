@@ -30,7 +30,7 @@ export class DialogVehicleCostsComponent implements OnInit {
   }
 
   add() {
-    this.vCostForm.get('type').disable();
+    this.vCostForm.disable();
     this.dialogRef.close(this.vCostForm);
   }
 
