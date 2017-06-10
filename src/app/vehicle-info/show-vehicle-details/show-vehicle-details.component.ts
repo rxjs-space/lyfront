@@ -11,7 +11,7 @@ import jsonpatch from 'fast-json-patch';
 
 import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 import { DisplayFunctionsService } from '../../shared/display-functions/display-functions.service';
-
+import { FormUtilsService } from '../../shared/form-utils/form-utils.service';
 
 
 
@@ -43,21 +43,10 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   formId = 'vehicleDetails';
 
   constructor(
+    public fu: FormUtilsService,
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
     public df: DisplayFunctionsService) { }
-
-  formArrayMethods(formArrayPath) {
-    const self = this;
-    return {
-      delete: (index: number) => {
-        (self.vehicleForm.get(formArrayPath) as FormArray).removeAt(index);
-      },
-      new: (newFDForm: FormGroup) => {
-        (self.vehicleForm.get(formArrayPath) as FormArray).push(newFDForm);
-      }
-    }
-  };
 
   ngOnChanges() {
     // if (!!this.vehicleForm) {

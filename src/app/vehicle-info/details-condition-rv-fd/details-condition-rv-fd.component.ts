@@ -15,7 +15,6 @@ export class DetailsConditionRvFdComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormGroup;
-  @Input() methods: any;
   @Input() rvAfterFD: number;
   fds: AbstractControl[];
   constructor(public dialog: MdDialog) { }
@@ -27,7 +26,7 @@ export class DetailsConditionRvFdComponent implements OnInit {
     dialogRef.afterClosed().subscribe((newFDForm: FormGroup) => {
       // console.log(newFDForm);
       if (newFDForm) {
-        this.methods.new(newFDForm);
+        (this.formGroupInput.get('feesAndDeductions') as FormArray).push(newFDForm);
         this.formGroupInput.markAsTouched();
         this.formGroupInput.markAsDirty();
       }
@@ -48,7 +47,7 @@ export class DetailsConditionRvFdComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: Boolean) => {
       if (result) {
-        this.methods.delete(index);
+        (this.formGroupInput.get('feesAndDeductions') as FormArray).removeAt(index);
         this.formGroupInput.markAsTouched();
         this.formGroupInput.markAsDirty();
       }

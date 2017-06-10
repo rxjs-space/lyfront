@@ -18,7 +18,6 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormArray;
-  @Input() methods: any;
   @Input() rvAfterFDRxx: any;
   vCostCtrls: AbstractControl[];
   subscriptions: Subscription[] = [];
@@ -33,7 +32,7 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
     });
     const dialogSub_ = dialogRef.afterClosed().subscribe((newVCostsForm: FormGroup) => {
       if (newVCostsForm) {
-        this.methods.new(newVCostsForm);
+        this.formGroupInput.push(newVCostsForm);
         this.formGroupInput.markAsTouched();
         this.formGroupInput.markAsDirty();
       }
@@ -51,7 +50,7 @@ export class DetailsVehicleCostsComponent implements OnInit, OnDestroy {
     });
     dialogRef.afterClosed().subscribe((result: Boolean) => {
       if (result) {
-        this.methods.delete(index);
+        this.formGroupInput.removeAt(index);
         this.formGroupInput.markAsTouched();
         this.formGroupInput.markAsDirty();
       }

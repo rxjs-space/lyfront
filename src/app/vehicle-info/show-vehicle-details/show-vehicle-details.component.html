@@ -32,20 +32,17 @@
   <app-details-condition-rv-fd
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm"
-    [methods]="formArrayMethods('feesAndDeductions')"
     [rvAfterFD]="rvAfterFDRxx | async">
   </app-details-condition-rv-fd>
 
   <app-details-remarks
     [titles]="titles" [types]="types"
-    [formGroupInput]="vehicleForm.get('remarks')"
-    [methods]="formArrayMethods('remarks')">
+    [formGroupInput]="vehicleForm.get('remarks')">
   </app-details-remarks>
 
   <app-details-vehicle-costs
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('vehicleCosts')"
-    [methods]="formArrayMethods('vehicleCosts')"
     [rvAfterFDRxx]="rvAfterFDRxx">
   </app-details-vehicle-costs>
 
@@ -54,8 +51,8 @@
     [metadata]="metadata"
   >
   </app-details-metadata>
-  <!-- empty md-card to take up some space, so that the buttnos and details-metadata won't overlap -->
-  <md-card></md-card>
+  <!-- empty md-card to take up some space, so that the buttons and details-metadata part won't overlap -->
+  <md-card style="height: 3em"></md-card>
   <div class="fixed-button-bottom not-for-print">
     <button md-button type="button" color="primary" (click)="checkValidity()"
       *ngIf="(vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value)"

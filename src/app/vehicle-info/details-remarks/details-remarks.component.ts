@@ -13,7 +13,6 @@ export class DetailsRemarksComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormArray;
-  @Input() methods: any;
   remarkCtrls: AbstractControl[];
   constructor(public dialog: MdDialog) { }
 
@@ -26,7 +25,7 @@ export class DetailsRemarksComponent implements OnInit {
       if (newRemarkForm) {
         newRemarkForm.get('date').disable();
         newRemarkForm.get('content').disable();
-        this.methods.new(newRemarkForm);
+        this.formGroupInput.push(newRemarkForm);
         this.formGroupInput.markAsTouched();
         this.formGroupInput.markAsDirty();
       }

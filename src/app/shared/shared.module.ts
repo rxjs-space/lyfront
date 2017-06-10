@@ -22,6 +22,7 @@ import { DisplayFunctionsService } from './display-functions/display-functions.s
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
 import { DialogYesOrNoComponent } from './dialog-yes-or-no/dialog-yes-or-no.component';
 import { AsyncMonitorService } from './async-monitor/async-monitor.service';
+import { FormUtilsService } from './form-utils/form-utils.service';
 
 
 const mdModules = [
@@ -69,7 +70,8 @@ export class SharedModule {
       providers: [
         SharedValidatorsService,
         DisplayFunctionsService,
-        AsyncMonitorService
+        AsyncMonitorService,
+        FormUtilsService
       ]
     };
   }
