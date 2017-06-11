@@ -1,3 +1,8 @@
 <app-loading-or-error [httpJsonData]="types">
-  <app-admin-types-show [typesInput]="types" *ngIf="types"></app-admin-types-show>
+  <app-admin-types-show 
+    [typesInput]="types" 
+    *ngIf="types"
+    (save)="onSave($event)"
+  >
+  </app-admin-types-show>
 </app-loading-or-error>

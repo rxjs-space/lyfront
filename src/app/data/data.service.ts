@@ -1,8 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/of';
 
 import { Vehicle } from './vehicle';
@@ -24,10 +26,25 @@ export class DataService {
   // typesApiUrl = this.host + '/types';
   // titlesApiUrl = this.host + '/titles';
   private cache: {[key: string]: any} = {};
+  btityRxx = new BehaviorSubject(null);
   constructor(
     @Inject(BACK_END_URL) private host1,
     private http: Http
-    ) { }
+    ) {
+      Observable.zip(
+        this.brandsOnceRx,
+        this.titlesOnceRx,
+        this.typesOnceRx,
+        (brands, titles, types) => ({brands, titles, types})
+      )
+        .subscribe(v => {
+          console.log(v);
+          this.btityRxx.next(v);
+        });
+      // this.getTypesOnceRx();
+      // this.getTitlesOnce();
+      // this.getBrandsOnce();
+    }
 
   setupOptions(withJWT: Boolean = false): RequestOptions {
     let headers;
@@ -115,6 +132,12 @@ export class DataService {
       .catch(err => this.handleError(err));
   }
 
+  updateTypes(patches) {
+    console.log('updating types...')
+    return this.http.patch(this.typesApiUrl1, {patches}, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(err => this.handleError(err));
+  }
 
   get typesRx() {
     if (this.cache && this.cache.types) {
@@ -129,8 +152,15 @@ export class DataService {
           return data;
         })
         .catch(err => this.handleError(err));
-
     }
+  }
+
+  /* work with typesRxx */
+  get typesOnceRx() {
+    return this.http.get(this.typesApiUrl1, this.setupOptions(true))
+      .first()
+      .map(res => res.json())
+      .catch(err => this.handleError(err))
   }
 
   get brandsRx() {
@@ -148,6 +178,13 @@ export class DataService {
     }
   }
 
+  get brandsOnceRx() {
+    return this.http.get(this.brandsApiUrl1, this.setupOptions(true))
+      .first()
+      .map(res => res.json())
+      .catch(err => this.handleError(err))
+  }
+
   get titlesRx() {
     if (this.cache && this.cache.titles) {
       return Observable.of(this.cache.titles);
@@ -163,6 +200,13 @@ export class DataService {
         .catch(err => this.handleError(err));
     }
 
+  }
+
+  get titlesOnceRx() {
+    return this.http.get(this.titlesApiUrl1, this.setupOptions(true))
+      .first()
+      .map(res => res.json())
+      .catch(err => this.handleError(err));
   }
 
 

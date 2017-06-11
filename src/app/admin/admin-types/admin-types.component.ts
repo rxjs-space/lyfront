@@ -20,4 +20,15 @@ export class AdminTypesComponent implements OnInit {
       .subscribe(results => this.types = results);
   }
 
+  onSave(event) {
+    console.log('saving', JSON.stringify(event));
+    const patches = event;
+    this.data.updateTypes(patches)
+      .catch(err => Observable.of(err))
+      .subscribe(result => {
+        console.log('update types result', result);
+
+      })
+  }
+
 }

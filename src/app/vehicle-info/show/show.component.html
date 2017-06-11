@@ -1,23 +1,24 @@
 <md-spinner *ngIf="!(isLoadedRxx | async)"></md-spinner>
-<ng-container *ngIf="zipData">
-<app-loading-or-error [httpJsonData]="zipData">
 
-<ng-container *ngIf="!zipData.error">
-  <button type="button" md-button color="primary"
-    *ngIf="zipData.isFromList" class="lighter-color not-for-print" 
-    (click)="goBack()">
-    <i class="material-icons">navigate_before</i>返回
-  </button>
+<ng-container *ngIf="zipData && (data.btityRxx | async)">
+  <app-loading-or-error [httpJsonData]="zipData">
 
-  <app-show-vehicle-details
-    [titles]="zipData.titles" 
-    [types]="zipData.types"
-    [brands]="zipData.brands"
-    [vehicle]="zipData.vehicle"
-    [methods]="methods"
-    (save)="saveVehicle($event)"
-  ></app-show-vehicle-details>  
-</ng-container>  
-</app-loading-or-error>
+  <ng-container *ngIf="!zipData.error">
+    <button type="button" md-button color="primary"
+      *ngIf="zipData.isFromList" class="lighter-color not-for-print" 
+      (click)="goBack()">
+      <i class="material-icons">navigate_before</i>返回
+    </button>
+    <!--{{(data.btityRxx | async).types | json}}-->
+    <app-show-vehicle-details
+      [titles]="(data.btityRxx | async).titles" 
+      [types]="(data.btityRxx | async).types"
+      [brands]="(data.btityRxx | async).brands"
+      [vehicle]="zipData.vehicle"
+      [methods]="methods"
+      (save)="saveVehicle($event)"
+    ></app-show-vehicle-details>  
+  </ng-container>  
+  </app-loading-or-error>
 </ng-container>
 

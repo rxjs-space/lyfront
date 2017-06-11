@@ -1,6 +1,7 @@
 <form [formGroup]="vehicleForm" 
   (ngSubmit)="prepareSubmit(vehicleForm)" 
-  novalidate class="main-form">
+  novalidate class="main-form"
+  *ngIf="types">
 
   <app-details-general
     [titles]="titles" [types]="types" [isNew]="isNew"
@@ -79,6 +80,11 @@
       删除记录
     </button>
   </div>
+<!--
+     {{vehicleForm.pristine}}
+     {{!vehicleForm.valid}}
+     {{vehicleForm.get('metadata.isDeleted').value}}
+     {{!(formValueChangedRxx | async)}}-->
 
 
 </form>

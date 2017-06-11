@@ -25,9 +25,9 @@ export class DetailsRemarksComponent implements OnInit {
       if (newRemarkForm) {
         newRemarkForm.get('date').disable();
         newRemarkForm.get('content').disable();
-        this.formGroupInput.push(newRemarkForm);
-        this.formGroupInput.markAsTouched();
-        this.formGroupInput.markAsDirty();
+        this.formGroupInput.markAsTouched(); // order 1.a
+        this.formGroupInput.markAsDirty(); // order 1.b
+        this.formGroupInput.push(newRemarkForm); // order 2
       }
     });
 

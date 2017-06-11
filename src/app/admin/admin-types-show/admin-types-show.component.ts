@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import jsonpatch from 'fast-json-patch';
 
@@ -10,6 +10,7 @@ import jsonpatch from 'fast-json-patch';
 })
 export class AdminTypesShowComponent implements OnInit {
   @Input() typesInput: any;
+  @Output() save = new EventEmitter();
   types: any;
   typesForm: FormGroup;
   constructor(private fb: FormBuilder) { }
@@ -23,7 +24,7 @@ export class AdminTypesShowComponent implements OnInit {
       return this.fb.group({
         id: {value: p.id, disabled: true},
         name: p.name
-      })
+      });
     });
 
     this.typesForm = this.fb.group({
@@ -35,8 +36,17 @@ export class AdminTypesShowComponent implements OnInit {
 
   prepareSubmit() {
     console.log('prepare');
-    console.log(jsonpatch.compare(this.typesInput.parts, this.typesForm.getRawValue().parts));
-    // console.log(this.typesForm.getRawValue().parts);
+    // console.log('input', this.typesInput.parts);
+    // console.log('updated', this.typesForm.getRawValue().parts);
+    // console.log(this.typesInput);
+    const types0 = this.typesInput;
+    const types1 = Object.assign(JSON.parse(JSON.stringify(this.typesInput)), {parts: this.typesForm.getRawValue().parts});
+    const patches = jsonpatch.compare(types0, types1);
+    // console.log(patches);
+    // // console.log(this.typesForm.getRawValue().parts);
+    this.typesForm.markAsPristine();
+    this.typesForm.markAsUntouched();
+    this.save.emit(patches);
   }
 
 }

@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/zip';
 
 
@@ -32,7 +33,7 @@ export class ShowComponent implements OnInit, OnDestroy {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private data: DataService,
+    public data: DataService,
     private router: Router) { }
 
   ngOnInit() {
@@ -42,12 +43,12 @@ export class ShowComponent implements OnInit, OnDestroy {
         return Observable.zip(
           // (isNew ? this.data.getVehicleById('ABCD12345678') : this.data.getVehicleById(params['id'])),
           (isNew ? this.data.createNewVehicle() : this.data.getVehicleByVIN(params['id'])),
-          this.data.typesRx,
-          this.data.titlesRx,
-          this.data.brandsRx,
+          // this.data.typesRx,
+          // this.data.titlesRx,
+          // this.data.brandsRx,
           Observable.of(params['isFromList']),
-          (vehicle, types, titles, brands, isFromList) => ({
-            vehicle, types, titles, brands, isFromList
+          (vehicle, /*types, titles, brands, */isFromList) => ({
+            vehicle, /*types, titles, brands, */isFromList
           }));
       });
     })
