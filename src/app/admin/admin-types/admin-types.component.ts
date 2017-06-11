@@ -10,14 +10,11 @@ import { DataService } from '../../data/data.service';
   styleUrls: ['./admin-types.component.scss']
 })
 export class AdminTypesComponent implements OnInit {
-  types: any;
 
-  constructor(private data: DataService) { }
+  constructor(public data: DataService) { }
 
   ngOnInit() {
-    this.data.typesRx
-      .catch(error => Observable.of({ok: false, error}))
-      .subscribe(results => this.types = results);
+
   }
 
   onSave(event) {

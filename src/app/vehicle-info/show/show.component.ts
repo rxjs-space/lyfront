@@ -20,8 +20,6 @@ export class ShowComponent implements OnInit, OnDestroy {
   /*
     if isFromList (meaning the showPage is triggered from the listPage), show 'goBack' button
   */
-  typesRx: Observable<any>;
-  titlesRx: Observable<any>;
   zip_: Subscription;
   zipData: any;
   methods = {
@@ -41,14 +39,10 @@ export class ShowComponent implements OnInit, OnDestroy {
       const isNew = url[0].path === 'new';
       return this.route.params.switchMap(params => {
         return Observable.zip(
-          // (isNew ? this.data.getVehicleById('ABCD12345678') : this.data.getVehicleById(params['id'])),
           (isNew ? this.data.createNewVehicle() : this.data.getVehicleByVIN(params['id'])),
-          // this.data.typesRx,
-          // this.data.titlesRx,
-          // this.data.brandsRx,
           Observable.of(params['isFromList']),
-          (vehicle, /*types, titles, brands, */isFromList) => ({
-            vehicle, /*types, titles, brands, */isFromList
+          (vehicle, isFromList) => ({
+            vehicle, isFromList
           }));
       });
     })

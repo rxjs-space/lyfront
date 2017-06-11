@@ -222,7 +222,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   onFormValueChanges() {
     // use jsonpatch.compare to find out if value changed or not, after user interaction
     // for example, user input 1 and delete 1, then there's no change
-    console.log(!this.vehicleForm.pristine, this.vehicleForm.touched)
+    // console.log(!this.vehicleForm.pristine, this.vehicleForm.touched)
     if (!this.vehicleForm.pristine || this.vehicleForm.touched) {
       const v = this.prepareVehicleToSubmit();
       const diff = jsonpatch.compare(this.vehicle, v);
@@ -237,7 +237,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       this.formErrors[path] = '';
       const control = this.vehicleForm.get(path);
       if (control && control.dirty && control.invalid) {
-        console.log(control.errors);
+        // console.log(control.errors);
       }
     }
 

@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
-import { AuthService } from './auth/auth.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
+
+import { AuthService } from './auth/auth.service';
+import { DataService } from './data/data.service';
+
 
 
 @Component({
@@ -16,7 +19,9 @@ export class AppComponent implements OnInit, OnDestroy {
   navLinks = [];
   isLoggedInRxx: BehaviorSubject<Boolean>;
   usernameRxx: BehaviorSubject<any>;
-  constructor(private auth: AuthService, /*public dialog: MdDialog*/) {}
+  constructor(
+    private data: DataService, // this will run the constructor of DataService
+    private auth: AuthService, /*public dialog: MdDialog*/) {}
 
   ngOnInit() {
     this.isLoggedInRxx = this.auth.isLoggedInRxx;
