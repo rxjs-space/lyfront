@@ -21,7 +21,7 @@ export class DialogPartComponent implements OnInit {
   ngOnInit() {
     this.partForm = this.fb.group({
       id: [{value: this.data.nextId, disabled: true}],
-      name: ['', [Validators.required, this.sv.duplicateName(this.data.parts.map(p => p.name))]]
+      name: ['', [Validators.required, this.sv.duplicateNameInObjArray(this.data.parts)]]
     });
     // this.partForm.valueChanges
     //   .subscribe(() => {

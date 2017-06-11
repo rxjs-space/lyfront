@@ -6,7 +6,9 @@
   </app-admin-types-show-parts>
 
   <div class="fixed-button-bottom not-for-print">
-    <button md-raised-button type="submit" color="primary">保存</button>
+    <button md-raised-button type="submit" color="primary"
+      [disabled]="typesForm.invalid"
+    >保存</button>
   </div>
 
 </form>

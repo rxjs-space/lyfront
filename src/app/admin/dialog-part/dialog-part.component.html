@@ -18,7 +18,7 @@
       </form>
       <div *ngIf="partForm.dirty || partForm.touched">
         <div class="errorMessage" *ngIf="partForm.get('name').errors && partForm.get('name').errors.required">请填写名称</div>
-        <div class="errorMessage" *ngIf="partForm.get('name').errors && partForm.get('name').errors.duplicateName">名称重复</div>
+        <div class="errorMessage" *ngIf="partForm.get('name').errors && partForm.get('name').errors.duplicateNameInObjArray">名称重复</div>
       </div>
      </md-card-content>
 </md-card>

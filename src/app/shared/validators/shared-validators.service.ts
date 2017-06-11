@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/first';
@@ -22,6 +22,41 @@ export class SharedValidatorsService {
       const newName = control.value;
       const hasDuplicate = names.indexOf(newName) > -1;
       return hasDuplicate ? {duplicateName: newName} : null;
+    }
+  }
+
+  /*
+    if control.parent.value === {id: 'p001', name: 'abc'}
+      and objArray === [{id: 'p001', name: 'abc'}]
+      (same name, same id)
+      return null
+    if control.parent.value === {id: 'p002', name: 'abc'}
+      and objArray === [{id: 'p001', name: 'abc'}]
+      (same name, different id)
+      return error
+    if control.parent.value === {id: 'p002', name: 'xyz'}
+      and objArray === [{id: 'p001', name: 'abc'}]
+      (diff name, different id, or new id 'p002' dose not exist in objArray)
+      return null
+  */
+  duplicateNameInObjArray(objArray: {[key: string]: any}[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      const parentControl = control.parent;
+      if (!parentControl) {return null; }
+      const obj = {
+        id: (control.parent as FormGroup).get('id').value,
+        name: control.value
+      };
+      const duplicateNameCorrespondingIndex = objArray.map(o => o.name).indexOf(obj.name);
+      const duplicateNameCorrespondingId = 
+        duplicateNameCorrespondingIndex === -1 ? null : objArray[duplicateNameCorrespondingIndex].id;
+      // console.log('duplicateNameCorrespondingId', duplicateNameCorrespondingId);
+      // console.log('obj.id', obj.id);
+      const hasDuplicate = duplicateNameCorrespondingId === null ? false : (
+        duplicateNameCorrespondingId === obj.id ? false : true);
+      // console.log('hasDuplicate', hasDuplicate);
+      return hasDuplicate ? {'duplicateNameInObjArray': obj.name} : null;
+      // return null;
     }
   }
 

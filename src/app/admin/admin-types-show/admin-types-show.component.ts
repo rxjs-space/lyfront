@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import jsonpatch from 'fast-json-patch';
 
-
+import { SharedValidatorsService } from '../../shared/validators/shared-validators.service';
 @Component({
   selector: 'app-admin-types-show',
   templateUrl: './admin-types-show.component.html',
@@ -13,23 +13,26 @@ export class AdminTypesShowComponent implements OnInit {
   @Output() save = new EventEmitter();
   types: any;
   typesForm: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private sv: SharedValidatorsService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.types = JSON.parse(JSON.stringify(this.typesInput));
     const parts = (this.types.parts as {id: string, name: string}[]).sort((a, b) => {
       return a.id.localeCompare(b.id);
-    })
-    const partsGroups = parts.map(p => {
-      return this.fb.group({
-        id: {value: p.id, disabled: true},
-        name: p.name
-      });
     });
 
     this.typesForm = this.fb.group({
-      parts: this.fb.array(partsGroups)
+      parts: this.fb.array(parts.map(p => {
+        return this.fb.group({
+          id: {value: p.id, disabled: true},
+          name: [p.name, [this.sv.duplicateNameInObjArray(parts)]]
+        });
+      }))
     });
+
+    // console.log(this.typesForm.get('parts'));
 
 
   }
