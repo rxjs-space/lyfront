@@ -7,6 +7,7 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminTypesComponent } from './admin-types/admin-types.component';
 import { AdminTypesShowComponent } from './admin-types-show/admin-types-show.component';
 import { AdminTypesShowPartsComponent } from './admin-types-show-parts/admin-types-show-parts.component';
+import { DialogPartComponent } from './dialog-part/dialog-part.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { AdminTypesShowPartsComponent } from './admin-types-show-parts/admin-typ
     SharedModule,
     AdminRoutingModule
   ],
-  declarations: [AdminHomeComponent, AdminTypesComponent, AdminTypesShowComponent, AdminTypesShowPartsComponent]
+  entryComponents: [DialogPartComponent],
+  declarations: [AdminHomeComponent, AdminTypesComponent, AdminTypesShowComponent, AdminTypesShowPartsComponent, DialogPartComponent]
 })
 export class AdminModule { }

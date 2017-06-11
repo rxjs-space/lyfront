@@ -35,7 +35,7 @@ export class AdminTypesShowComponent implements OnInit {
 
   prepareSubmit() {
     console.log('prepare');
-    console.log(jsonpatch.compare(this.types.parts, this.typesForm.getRawValue().parts));
+    console.log(jsonpatch.compare(this.typesInput.parts, this.typesForm.getRawValue().parts));
     // console.log(this.typesForm.getRawValue().parts);
   }
 

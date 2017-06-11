@@ -17,7 +17,15 @@ export class SharedValidatorsService {
   constructor(private data: DataService,
     private asyncMon: AsyncMonitorService) { }
 
-  duplicateVIN(formId: string): AsyncValidatorFn {
+  duplicateName(names: string[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      const newName = control.value;
+      const hasDuplicate = names.indexOf(newName) > -1;
+      return hasDuplicate ? {duplicateName: newName} : null;
+    }
+  }
+
+  duplicateVINAsync(formId: string): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const vin = control.value;
       const errorKey = 'duplicateVIN';
@@ -31,7 +39,7 @@ export class SharedValidatorsService {
             // if 404, that vin does not exist
             // if other http err, will handle at other places
             this.asyncMon.progressing.validatorDuplicateVIN = false;
-            return null;
+            return Observable.of(null);
         })
     };
   }

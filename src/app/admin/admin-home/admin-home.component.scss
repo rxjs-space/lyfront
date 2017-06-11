@@ -1,0 +1,7 @@
+// this .vertical-center-container style is included in root scss
+// but not working unless repeat here
+// need to dig out why
+/deep/ .vertical-center-container {
+  display: flex;
+  align-items: center;
+}

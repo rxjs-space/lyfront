@@ -6,45 +6,55 @@
     [titles]="titles" [types]="types" [isNew]="isNew"
     [formGroupInput]="vehicleForm">
   ></app-details-general>
+  <!--<span>vin: {{vehicleForm.get('vin').valid}}</span>-->
+  <span *ngIf="vehicleForm.get('vinConfirm')">vinConfirm: {{vehicleForm.get('vinConfirm').valid | json}}</span>
 
 
   <app-details-status
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('status')">
   </app-details-status>
+  <!--<span>status: {{vehicleForm.get('status').valid}}</span>-->
 
   <app-details-vehicle
     [titles]="titles" [types]="types" [brands]="brands"
     [formGroupInput]="vehicleForm.get('vehicle')"
     (onBrandBlur)="onBrandBlur($event)">
   </app-details-vehicle>
+  <!--<span>vehicle: {{vehicleForm.get('vehicle').valid}}</span>-->
 
   <app-details-owner-agent
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm">
   </app-details-owner-agent>
+  <!--<span>owner: {{vehicleForm.get('owner').valid}}</span>-->
+  <!--<span>agent: {{vehicleForm.get('agent').valid}}</span>-->
   
   <app-details-docs
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('docsProvided')">
   </app-details-docs>
+  <!--<span>docsProvided: {{vehicleForm.get('docsProvided').valid}}</span>-->
 
   <app-details-condition-rv-fd
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm"
     [rvAfterFD]="rvAfterFDRxx | async">
   </app-details-condition-rv-fd>
+  <!--<span>feesAndDeductions: {{vehicleForm.get('feesAndDeductions').valid}}</span>-->
 
   <app-details-remarks
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('remarks')">
   </app-details-remarks>
+  <!--<span>remarks: {{vehicleForm.get('remarks').valid}}</span>-->
 
   <app-details-vehicle-costs
     [titles]="titles" [types]="types"
     [formGroupInput]="vehicleForm.get('vehicleCosts')"
     [rvAfterFDRxx]="rvAfterFDRxx">
   </app-details-vehicle-costs>
+  <!--<span>vehicleCosts: {{vehicleForm.get('vehicleCosts').valid}}</span>-->
 
   <app-details-metadata
     *ngIf="!isNew"
@@ -62,7 +72,7 @@
       [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value || !(formValueChangedRxx | async)"
     >
       保存更改
-    </button>  
+    </button>
     <button md-raised-button color="warn"
       type="button"
       [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value || !(formValueChangedRxx | async)">

@@ -16,7 +16,7 @@ import { NotFoundComponent } from '../shared/not-found/not-found.component';
 // import { DismantlingOrdersByVINResolverService } from '../data/dismantling-orders-by-vin-resolver.service';
 
 const routes: Routes = [
-  {path: '', /*canActivate: [AuthGuard], *//*resolve: {
+  {path: '', canActivate: [AuthGuard], /*resolve: {
       types: TypesResolverService,
       titles: TitlesResolverService,
     }, */component: HomeComponent, children: [

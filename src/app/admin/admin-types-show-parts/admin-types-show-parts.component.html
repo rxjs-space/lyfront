@@ -1,7 +1,9 @@
 <md-card class="info-card" [formGroup]="formGroupInput">
   <md-card-header>
-    <md-card-title>
-      回用件
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{'回用件'}}</span>
+      <button md-button type="button" color="primary" (click)="openDialogNewPart()">添加</button>
     </md-card-title>
   </md-card-header>
   <md-card-content>
