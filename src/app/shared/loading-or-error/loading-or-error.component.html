@@ -26,6 +26,9 @@
   </div>
 </ng-container>-->
 
+
+
+<ng-container *ngIf="!needBtity">
   <p *ngIf="!httpJsonData">
     <md-spinner></md-spinner>
   </p>
@@ -51,5 +54,35 @@
   <div *ngIf="httpJsonData && !httpJsonData.error">
     <ng-content></ng-content>
   </div>
+</ng-container>
 
+<ng-container *ngIf="needBtity">
+  <p *ngIf="!(data.btityRxx | async) || !httpJsonData">
+    <md-spinner></md-spinner>
+  </p>
+  <ng-container *ngIf="(data.btityRxx | async) && httpJsonData">
+    <p *ngIf="!!httpJsonData.error">
+      <md-card>
+        <md-card-header>
+          <md-card-title>
+            <h4>Something went wrong.</h4>
+          </md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <div *ngIf="httpJsonData.error.status === 404">
+            所请求的资源不存在。
+          </div>
+        </md-card-content>
+        
+      </md-card>
+      
+    </p>
+
+    <div *ngIf="!httpJsonData.error">
+      <ng-content></ng-content>
+    </div>
+
+
+  </ng-container>
+</ng-container>
 

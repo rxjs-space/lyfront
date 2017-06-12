@@ -57,3 +57,6 @@ https://device4870044-5412196c-local.wd2go.com/api/2.7/rest/file_contents/paizha
 
 full pic:
 https://device4870044-5412196c-local.wd2go.com/api/2.7/rest/file_contents/paizhao/JinPingGuo/%E7%9B%B8%E6%9C%BA%E8%83%B6%E5%8D%B7/IMG_0151.JPG?device_user_id=29242892&device_user_auth_code=19e0e010d0f73d06a6490e456453d0cb
+
+
+## the component which will take ngContent's place, need its own *ngIf

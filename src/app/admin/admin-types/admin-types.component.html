@@ -1,7 +1,8 @@
-<app-loading-or-error [httpJsonData]="(data.btityRxx | async)" *ngIf="(data.btityRxx | async)">
+<app-loading-or-error [httpJsonData]="(data.btityRxx | async)">
   <app-admin-types-show 
     [typesInput]="(data.btityRxx | async).types" 
     (save)="onSave($event)"
+    *ngIf="(data.btityRxx | async)"
   >
   </app-admin-types-show>
 </app-loading-or-error>
