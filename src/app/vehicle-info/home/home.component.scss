@@ -6,3 +6,8 @@
   border: solid red 3px;
 }
 
+/deep/ .vertical-center-container {
+  display: flex;
+  align-items: center;
+}
+

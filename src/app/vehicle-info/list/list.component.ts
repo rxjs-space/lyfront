@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 import { DataService } from '../../data/data.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -10,7 +12,11 @@ import 'rxjs/add/observable/of';
 })
 export class ListComponent implements OnInit {
   vList: any;
-  constructor(private data: DataService) { }
+  toShowFilters = false;
+  filtersForm: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+    private data: DataService) { }
 
   ngOnInit() {
     this.data.getVehicles()
@@ -22,6 +28,14 @@ export class ListComponent implements OnInit {
         // console.log(data);
       this.vList = data;
     });
+
+    this.filtersForm = this.fb.group({
+      mofcomCertReady: false,
+      firstSurvey: false,
+      secondSurvey: false,
+      dismantled: false,
+      dismantling: false
+    })
   }
 
   calculateDimantlingStatus(latestDismantlingOrder: {orderDate: any, actualFinishDate: any}) {

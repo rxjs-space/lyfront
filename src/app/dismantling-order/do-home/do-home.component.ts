@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../data/data.service';
 
 @Component({
   selector: 'app-do-home',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoHomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(public data: DataService) { }
 
   ngOnInit() {
+    this.data.getVehicles({dismantling: 0}).subscribe(console.log);
   }
 
 }

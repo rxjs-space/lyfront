@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
@@ -65,8 +65,16 @@ export class DataService {
     console.log(this.setupOptions(true));
   }
 
-  getVehicles() {
-    return this.http.get(this.vehiclesApiUrl1, this.setupOptions(true))
+  getVehicles(searchParmas = {}) {
+    const urlSearchParams = new URLSearchParams();
+    for (const k in searchParmas) {
+      if (k) {
+        urlSearchParams.set(k, searchParmas[k]);
+      }
+    }
+    return this.http.get(this.vehiclesApiUrl1, this.setupOptions(true).merge({
+      search: urlSearchParams
+    }))
       .map(res => {
         const resJSON = res.json();
         const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
