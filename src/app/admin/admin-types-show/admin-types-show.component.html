@@ -2,7 +2,15 @@
 
 <form [formGroup]="typesForm" (ngSubmit)="prepareSubmit()"
   novalidate>
-  <app-admin-types-show-parts [formGroupInput]="typesForm.get('parts')">
+  <app-admin-types-show-parts 
+    [formGroupInput]="typesForm.get('parts')"
+    [title]="'回用件'"
+    [type]="'parts'">
+  </app-admin-types-show-parts>
+  <app-admin-types-show-parts 
+    [formGroupInput]="typesForm.get('wastes')"
+    [title]="'危废品'"
+    [type]="'wastes'">
   </app-admin-types-show-parts>
 
   <div class="fixed-button-bottom not-for-print">

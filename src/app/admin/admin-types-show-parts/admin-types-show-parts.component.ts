@@ -15,6 +15,8 @@ export class AdminTypesShowPartsComponent implements OnInit, OnDestroy {
   @Input() formGroupInput: FormArray;
   subscriptions: Subscription[] = [];
   nextIdRxx = new BehaviorSubject('');
+  @Input() title: string;
+  @Input() type: string;
   constructor(public dialog: MdDialog) { }
 
   ngOnInit() {
@@ -33,7 +35,12 @@ export class AdminTypesShowPartsComponent implements OnInit, OnDestroy {
       str = str.toString();
       return str.length < max ? pad("0" + str, max) : str;
     }
-    const nextId = 'p' + pad(nextIdNumber, 3);
+    let prefix;
+    switch (this.type) {
+      case 'parts': prefix = 'p'; break;
+      case 'wastes': prefix = 'w'; break;
+    }
+    const nextId = prefix + pad(nextIdNumber, 3);
     return nextId;
   }
 

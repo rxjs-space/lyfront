@@ -16,6 +16,11 @@ import { DialogPartComponent } from './dialog-part/dialog-part.component';
     AdminRoutingModule
   ],
   entryComponents: [DialogPartComponent],
-  declarations: [AdminHomeComponent, AdminTypesComponent, AdminTypesShowComponent, AdminTypesShowPartsComponent, DialogPartComponent]
+  declarations: [
+    AdminHomeComponent,
+    AdminTypesComponent,
+    AdminTypesShowComponent,
+    AdminTypesShowPartsComponent,
+    DialogPartComponent,]
 })
 export class AdminModule { }
