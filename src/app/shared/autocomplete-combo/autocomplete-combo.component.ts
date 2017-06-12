@@ -65,9 +65,9 @@ export class AutocompleteComboComponent implements OnInit {
       // .map(v => this.filterObjListFac(this.sortObjListByName, this.hideInitList)(this.objList, v))
       .map(v => {
         if (this.toHideInitList) {
-          return v ? sortedList.filter(item => new RegExp(`^${v}`, 'gi').test(item)) : [];
+          return v ? sortedList.filter(item => new RegExp(`${v}`, 'gi').test(item)) : [];
         }
-        return v ? sortedList.filter(item => new RegExp(`^${v}`, 'gi').test(item)) : sortedList;
+        return v ? sortedList.filter(item => new RegExp(`${v}`, 'gi').test(item)) : sortedList;
       });
   }
 

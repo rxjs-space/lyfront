@@ -22,7 +22,19 @@ export class SharedValidatorsService {
       const newName = control.value;
       const hasDuplicate = names.indexOf(newName) > -1;
       return hasDuplicate ? {duplicateName: newName} : null;
-    }
+    };
+  }
+
+  requiredBasedOnAnotherControlAndItsValue(anotherControlName, anotherControlMatchingValue): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      const parentControl = control.parent;
+      if (!parentControl) {return null; }
+      const anotherControl = parentControl.get(anotherControlName);
+      if (!anotherControl) {return null; }
+      const anotherControlHasTheValue = anotherControl.value === anotherControlMatchingValue;
+      const empty = !control.value;
+      return (anotherControlHasTheValue && empty) ? {required: true} : null;
+    };
   }
 
   /*
