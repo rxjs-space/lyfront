@@ -99,6 +99,16 @@
   </md-card-header>
   <md-card-content>
 
+      <!-- 收车单位 -->
+      <app-autocomplete-combo
+        [placeholderInput]="titles.vehicles.facility"
+        [formControlInput]="formGroupInput.get('facility')"
+        [objList]="types.facilities"
+        [toSort]="false"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo>
+
       <md-input-container class="l-size-input">
         <input type="date" mdInput [placeholder]="titles.vehicles.entranceDate" 
           [formControl]="formGroupInput.get('entranceDate')">

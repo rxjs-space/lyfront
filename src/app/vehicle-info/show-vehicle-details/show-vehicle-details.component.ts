@@ -111,6 +111,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       return matchObj ? (matchObj.id || matchObj._id) : '';
     };
     vehicleToSubmit.source = nameToId(vehicleToSubmit.source, this.types.sources);
+    vehicleToSubmit.facility = nameToId(vehicleToSubmit.facility, this.types.facilities);
     vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
     vehicleToSubmit.vehicle.vehicleType = nameToId(vehicleToSubmit.vehicle.vehicleType, this.types.vehicleTypes);
     vehicleToSubmit.vehicle.useCharacter = nameToId(vehicleToSubmit.vehicle.useCharacter, this.types.useCharacters);
@@ -309,6 +310,10 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10)],
+      facility: [{
+        value: this.idToName('facility', null, this.types.facilities),
+        disabled: this.vehicle.facility ? true : false
+      }, [Validators.required, this.sv.notListedButCanBeEmpty(this.types.facilities.map(t => t.name))]],
       metadata: this.fb.group({
         isDeleted: [this.vehicle.metadata.isDeleted],
         deletedFor: [this.vehicle.metadata.deletedFor],
@@ -458,6 +463,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         ctrl.disable();
       }
     });
+
 
     // setTimeout(() => {
     //   Object.keys(statusObj).forEach(k => {
