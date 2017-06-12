@@ -7,6 +7,8 @@ export class Vehicle {
   mofcomRegisterType = '';
   mofcomRegisterRef = '';
   entranceDate = '';
+  facility = '';
+  waitingForDismantlingOrder = true;
   remarks = [];
   metadata = {
     isDeleted: false,

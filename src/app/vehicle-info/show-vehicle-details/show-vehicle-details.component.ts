@@ -160,7 +160,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
             this.vehicleForm.get(`status.${ctrl}.done`).disable();
           }
         }
-        v.status.waitingForDismantlingOrder = true;
         const data = {
           vin: v.vin,
           vehicle: v,
@@ -590,6 +589,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
     /* watching status and setup date*/
     Object.keys(statusObj).forEach(k => {
+      if (!statusObj[k].hasOwnProperty('done')) {return; }
       this.vehicleForm.get(`status.${k}.done`).valueChanges
         .subscribe(v => {
           const dateCtrl = this.vehicleForm.get(`status.${k}.date`);
