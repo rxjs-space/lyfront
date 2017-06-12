@@ -105,7 +105,11 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
 
   prepareVehicleToSubmit() {
-    const vehicleToSubmit = JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()));
+    const oldVehicle = JSON.parse(JSON.stringify(this.vehicle));
+    const vehicleToSubmit = Object.assign(
+      oldVehicle,
+      JSON.parse(JSON.stringify(this.vehicleForm.getRawValue()))
+    );
     const nameToId = (name, types) => {
       const matchObj = types.find(t => t.name === name) || null;
       return matchObj ? (matchObj.id || matchObj._id) : '';
@@ -156,7 +160,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
             this.vehicleForm.get(`status.${ctrl}.done`).disable();
           }
         }
-
+        v.status.waitingForDismantlingOrder = true;
         const data = {
           vin: v.vin,
           vehicle: v,
@@ -287,20 +291,14 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
 
     };
 
-    delete this.vehicle.createdAt;
-    delete this.vehicle.createdBy;
-    delete this.vehicle.modifiedAt;
-    delete this.vehicle.modifiedBy;
-    delete this.vehicle._id;
+
 
     // console.log(this.vehicle);
     this.isNew = !this.vehicle.vin; // setup isNew based on whether vehicl.id exists
     this.vehicleForm = this.fb.group({
       vin: [this.vehicle.vin, Validators.required],
       batchId: [this.vehicle.batchId],
-      // createdAt: [this.vehicle.createdAt],
-      // createdBy: [this.vehicle.createdBy],
-      // _id: [this.vehicle._id],
+
       source: [this.idToName('source'), [
         this.sv.notListedButCanBeEmpty(this.types.sources.map(t => t.name))
       ]],
@@ -319,10 +317,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         deletedFor: [this.vehicle.metadata.deletedFor],
         deletedBy: [this.vehicle.metadata.deletedBy],
         deletedAt: [this.vehicle.metadata.deletedAt],
-        createdAt: [this.vehicle.metadata.createdAt],
-        createdBy: [this.vehicle.metadata.createdBy],
-        lastModifiedAt: [this.vehicle.metadata.lastModifiedAt],
-        lastModifiedBy: [this.vehicle.metadata.lastModifiedBy],
       }),
       status: this.fb.group({
         ownerDocsReady: this.fb.group({

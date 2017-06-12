@@ -8,8 +8,8 @@ import { AuthGuard } from './auth/auth.guard';
   default route to login, if logged in, turn to dashboard
   childModules: 
     vehicle-info(prepare application form, prepare mofcom form, prepare log), 
-    dismantling-plan,
-    survey-plan,
+    dismantling-order,
+    survey-order,
     part-order,
     part-inventory,
     part-pricing,

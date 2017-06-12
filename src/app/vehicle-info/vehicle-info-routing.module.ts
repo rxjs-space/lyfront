@@ -5,6 +5,7 @@ import { ListComponent } from './list/list.component';
 import { HomeComponent } from './home/home.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
+// import { DismantlingOrderModule } from '../dismantling-order/dismantling-order.module';
 
 
 /*
@@ -24,7 +25,9 @@ const routes: Routes = [
     // {path: '', component: ListComponent, pathMatch: 'full'},
     {path: 'new', component: ShowComponent},
     {path: 'list', component: ListComponent},
-    {path: 'dismantling', component: NotFoundComponent},
+    {path: 'dismantling',
+      canLoad: [AuthGuard],
+      loadChildren: 'app/dismantling-order/dismantling-order.module#DismantlingOrderModule'},
     {path: 'survey', component: NotFoundComponent},
     {path: ':id', /*resolve: {
       vehicle: VehicleResolverService,
