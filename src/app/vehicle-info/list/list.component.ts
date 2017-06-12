@@ -9,7 +9,7 @@ import 'rxjs/add/observable/of';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  vList: any[];
+  vList: any;
   constructor(private data: DataService) { }
 
   ngOnInit() {
