@@ -19,10 +19,11 @@ export class DataService {
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
   titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
   brandsApiUrl1 = this.host1 + '/api/brands';
+  dismantlingOrderApiUrl1 = this.host1 + '/api/dismantling-orders';
   vehiclesApiUrl1 = this.host1 + '/api/vehicles';
 
   // vehiclesApiUrl = this.host + '/vehicles';
-  dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
+  // dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
   // typesApiUrl = this.host + '/types';
   // titlesApiUrl = this.host + '/titles';
   private cache: {[key: string]: any} = {};
@@ -69,15 +70,25 @@ export class DataService {
     console.log(this.setupOptions(true));
   }
 
-  getVehicles(searchParmas = {}) {
+  searchParamsObjToSearchParams(searchParamsObj) {
     const urlSearchParams = new URLSearchParams();
-    for (const k in searchParmas) {
+    for (const k in searchParamsObj) {
       if (k) {
-        urlSearchParams.set(k, searchParmas[k]);
+        urlSearchParams.set(k, searchParamsObj[k]);
       }
     }
+    return urlSearchParams;
+  }
+
+  getVehicles(searchParmas = {}) {
+    // const urlSearchParams = new URLSearchParams();
+    // for (const k in searchParmas) {
+    //   if (k) {
+    //     urlSearchParams.set(k, searchParmas[k]);
+    //   }
+    // }
     return this.http.get(this.vehiclesApiUrl1, this.setupOptions(true).merge({
-      search: urlSearchParams
+      search: this.searchParamsObjToSearchParams(searchParmas)
     }))
       .map(res => {
         const resJSON = res.json();
@@ -85,37 +96,37 @@ export class DataService {
         if (hasMongoError) {throw resJSON; }
         return res.json();
       })
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
   }
   // getVehicles() {
   //   return this.http.get(this.vehiclesApiUrl)
   //     .map(res => res.json())
-  //     .catch(err => this.handleError(err));
+  //     .catch(error => this.handleError(error));
   // }
 
   getVehicleByVIN(vin, returnIDOnly = false) {
     return this.http.get(
       `${this.vehiclesApiUrl1}/one?vin=${vin}&returnIDOnly=${returnIDOnly}`, this.setupOptions(true))
       .map(res => res.json())
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
   }
   // getVehicleById(id) {
   //   return this.http.get(this.vehiclesApiUrl + '/' + id)
   //     .map(res => res.json())
-  //     .catch(err => this.handleError(err));
+  //     .catch(error => this.handleError(error));
   // }
 
   insertVehicle(body) {
     const options = this.setupOptions(true);
     return this.http.post(this.vehiclesApiUrl1, body, options)
       .map(res => res.json())
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
   }
 
   updateVehicle(vin, body) {
     return this.http.patch(`${this.vehiclesApiUrl1}/one?vin=${vin}`, body, this.setupOptions(true))
       .map(res => res.json())
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
   }
 
   createNewVehicle() {
@@ -128,27 +139,15 @@ export class DataService {
     return this.http.patch(this.host + '/types', {brands}, options)
       .map(res => res.json())
       // .do(console.log)
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
   }
 
-
-  getDismantlingOrders() {
-    return this.http.get(this.dismantlingOrdersApiUrl)
-      .map(res => res.json())
-      .catch(err => this.handleError(err));
-  }
-
-  getDismantlingOrdersByVIN(vin: string) {
-    return this.http.get(this.dismantlingOrdersApiUrl + '?vin=' + vin)
-      .map(res => res.json())
-      .catch(err => this.handleError(err));
-  }
 
   updateTypes(patches) {
     console.log('updating types...')
     return this.http.patch(this.typesApiUrl1, {patches}, this.setupOptions(true))
       .map(res => res.json())
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
   }
 
   get typesRx() {
@@ -163,7 +162,7 @@ export class DataService {
           this.cache.types = data;
           return data;
         })
-        .catch(err => this.handleError(err));
+        .catch(error => this.handleError(error));
     }
   }
 
@@ -172,7 +171,7 @@ export class DataService {
     return this.http.get(this.typesApiUrl1, this.setupOptions(true))
       .first()
       .map(res => res.json())
-      .catch(err => this.handleError(err))
+      .catch(error => this.handleError(error))
   }
 
   get brandsRx() {
@@ -186,7 +185,7 @@ export class DataService {
           this.cache.brands = data;
           return data;
         })
-        .catch(err => this.handleError(err));
+        .catch(error => this.handleError(error));
     }
   }
 
@@ -194,7 +193,7 @@ export class DataService {
     return this.http.get(this.brandsApiUrl1, this.setupOptions(true))
       .first()
       .map(res => res.json())
-      .catch(err => this.handleError(err))
+      .catch(error => this.handleError(error))
   }
 
   get titlesRx() {
@@ -209,7 +208,7 @@ export class DataService {
           this.cache.titles = res.json();
           return res.json();
         })
-        .catch(err => this.handleError(err));
+        .catch(error => this.handleError(error));
     }
 
   }
@@ -218,7 +217,27 @@ export class DataService {
     return this.http.get(this.titlesApiUrl1, this.setupOptions(true))
       .first()
       .map(res => res.json())
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
+  }
+
+  getDismantlingOrders(searchParams = {}) {
+    return this.http.get(this.dismantlingOrderApiUrl1, this.setupOptions(true).merge({
+      search: this.searchParamsObjToSearchParams(searchParams)
+    }))
+      .map(res => {
+        const resJSON = res.json();
+        const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
+        if (hasMongoError) {throw resJSON; }
+        return res.json();
+      })
+      .catch(error => this.handleError(error));
+  }
+
+
+  insertDismantlingOrder(dismantlingOrderAndPatches: any) {
+    return this.http.post(this.dismantlingOrderApiUrl1, dismantlingOrderAndPatches, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(error => this.handleError(error));
   }
 
 

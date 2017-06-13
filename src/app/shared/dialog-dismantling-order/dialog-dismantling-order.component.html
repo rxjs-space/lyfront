@@ -4,27 +4,41 @@
       <md-card-title>拆解计划 - 车辆 VIN: {{vehicle.vin}}</md-card-title>
     </md-card-header>
     <md-card-content>
-      <form [formGroup]="doForm">
-        <div>
+      <form [formGroup]="doForm" (ngSubmit)="onDOFormSubmit()">
           <md-input-container class="m-size-input">
             <input mdInput type="date" [placeholder]="'计划下达日期'" formControlName="orderDate">
           </md-input-container>
+          <app-autocomplete-combo
+            [isTrueOrFalse]="true"
+            [placeholderInput]="'是否为临时计划'"
+            [formControlInput]="doForm.get('isAdHoc')"
+            sizeClass='m-size-input'
+          >
+          </app-autocomplete-combo> 
 
-          <md-select placeholder="计划类别" formControlName="orderType">
-            <md-option *ngFor="let type of dataFromTrigger.types.dismantlingOrderTypes" [value]="type.id">
-              {{type.name}}
-            </md-option>
-          </md-select>
+          <!-- todo: correspondingSalesOrder input -->
           <md-input-container class="m-size-input">
             <input mdInput [placeholder]="'拆解负责人'" formControlName="dismantlingPIC">
           </md-input-container>
-        </div>
+
+
+          <!--<md-select placeholder="计划类别" formControlName="isAdHoc">
+            <md-option *ngFor="let type of trueFalseCombo" [value]="type.value">
+              {{type.title}}
+            </md-option>
+          </md-select>-->
+ 
+
 
         <div>
-          <button type="submit" md-raised-button color="primary">保存</button>
-          <button type="button" md-button color="primary">打印拆解计划表</button>
+          <button type="submit" md-raised-button color="primary"
+            [disabled]="doForm.invalid"
+          >保存</button>
         </div>
       </form>
+    </md-card-content>
+    <md-card-content>
+      现有拆解计划
     </md-card-content>
   </md-card>
 </app-loading-or-error-2>

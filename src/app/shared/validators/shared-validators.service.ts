@@ -189,11 +189,11 @@ export class SharedValidatorsService {
       return true;
   }
 
-  isBoolean(): ValidatorFn {
+  shouldBeBoolean(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       const value = control.value;
       const isBoolean = typeof value === 'boolean';
-      return isBoolean ? null : {'notBooleanValue': {value}};
+      return isBoolean ? null : {'shouldBeBoolean': {value}};
     }
   }
 

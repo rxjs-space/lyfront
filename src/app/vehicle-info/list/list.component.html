@@ -49,32 +49,17 @@
 
 
   <md-list class="vehicle-list">
-    <md-list-item *ngFor="let vehicle of zipData.vehicles" >
-<!--<div md-line>
-  <md-grid-list cols="3" rowHeight="2em" >
-    <md-grid-tile [colspan]="2">
-      <md-grid-list cols="6">
-        <md-grid-tile><i class="material-icons" md-list-icon>drive_eta</i></md-grid-tile>
-        <md-grid-tile [colspan]="5">
-          <span>{{vehicle.vin}}</span><span> / </span>
-          <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
-          <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
-          <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
-        </md-grid-tile>
-      </md-grid-list>
-    </md-grid-tile>
-  </md-grid-list>
-</div>-->
-
-
-
+    <ng-container *ngFor="let vehicle of zipData.vehicles">
+    <md-list-item>
 
       <!--<i class="material-icons" md-list-icon>drive_eta</i>-->
       <!--<div md-line></div>-->
       <div md-line>
         <md-grid-list cols="9" rowHeight="3em">
-          <md-grid-tile><i class="material-icons" md-list-icon>drive_eta</i></md-grid-tile>
-          <md-grid-tile class="left-aligned-tile" colspan="5" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
+          <md-grid-tile class="clickable" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
+            <i class="material-icons" md-list-icon >drive_eta</i>
+          </md-grid-tile>
+          <md-grid-tile class="left-aligned-tile clickable" colspan="5" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
             <div>
               <div>
                 <span>{{vehicle.vin}}</span><span> / </span>
@@ -102,22 +87,7 @@
               </button>
           </md-grid-tile>
         </md-grid-list>
-<!--<md-grid-list cols="2" rowHeight="2em">
-  <md-grid-tile>
-        <span>{{vehicle.vin}}</span><span> / </span>
-        <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
-        <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
-        <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
-  </md-grid-tile>
-  <md-grid-tile [rowspan]="2">
-      <button type="button" md-button color="primary">新建/查看拆解计划</button>
-  </md-grid-tile>
-  <md-grid-tile>
-      <small>
-        <app-list-status [vehicle]="vehicle"></app-list-status>
-      </small>
-  </md-grid-tile>
-</md-grid-list>-->
+
       </div>
       <!--<div md-line>
         <span>{{vehicle.vin}}</span><span> / </span>
@@ -146,6 +116,8 @@
         </md-checkbox>
       </small>-->
     </md-list-item>
+    <md-divider></md-divider>
+    </ng-container>
   </md-list>
 
   </ng-container>

@@ -393,7 +393,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           this.sv.notListedButCanBeEmpty(this.types.fuelTypes.map(type => type.name))
         ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
-        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.isBoolean()]],
+        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.shouldBeBoolean()]],
       }),
       owner: this.fb.group({
         name: [this.vehicle.owner.name, Validators.required],
@@ -408,8 +408,8 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
         idNo: [this.vehicle.owner.idNo],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
-        isPerson: [this.vehicle.owner.isPerson],
-        isByAgent: [this.vehicle.owner.isByAgent]
+        isPerson: [this.vehicle.owner.isPerson, [this.sv.shouldBeBoolean()]],
+        isByAgent: [this.vehicle.owner.isByAgent, [this.sv.shouldBeBoolean()]]
       }),
       agent: this.fb.group({
         name: [this.vehicle.agent ? this.vehicle.agent.name : ''],
