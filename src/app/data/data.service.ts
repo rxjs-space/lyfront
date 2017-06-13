@@ -31,20 +31,24 @@ export class DataService {
     @Inject(BACK_END_URL) private host1,
     private http: Http
     ) {
-      Observable.zip(
-        this.brandsOnceRx,
-        this.titlesOnceRx,
-        this.typesOnceRx,
-        (brands, titles, types) => ({brands, titles, types})
-      )
-        .subscribe(v => {
-          console.log(v);
-          this.btityRxx.next(v);
-        });
+
       // this.getTypesOnceRx();
       // this.getTitlesOnce();
       // this.getBrandsOnce();
     }
+
+  refreshBtity() {
+    return Observable.zip(
+      this.brandsOnceRx,
+      this.titlesOnceRx,
+      this.typesOnceRx,
+      (brands, titles, types) => ({brands, titles, types})
+    ).first()
+      .subscribe(v => {
+        console.log(v);
+        this.btityRxx.next(v);
+      });
+  }
 
   setupOptions(withJWT: Boolean = false): RequestOptions {
     let headers;

@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   subscriptions_: Subscription[] = [];
   title = 'app works!';
   navLinks = [];
-  isLoggedInRxx: BehaviorSubject<Boolean>;
+  isLoggedInRxx: BehaviorSubject<boolean>;
   usernameRxx: BehaviorSubject<any>;
   constructor(
     private data: DataService, // this will run the constructor of DataService
@@ -25,6 +25,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoggedInRxx = this.auth.isLoggedInRxx;
+    this.isLoggedInRxx
+      .filter(v => v)
+      .first()
+      .subscribe(() => {
+        this.data.refreshBtity();
+      });
     this.usernameRxx = this.auth.usernameRxx;
     this.navLinks = [
       {route: '/dashboard', label: '主页'},
