@@ -23,6 +23,8 @@ import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-co
 import { DialogYesOrNoComponent } from './dialog-yes-or-no/dialog-yes-or-no.component';
 import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { FormUtilsService } from './form-utils/form-utils.service';
+import { DialogDismantlingOrderComponent } from './dialog-dismantling-order/dialog-dismantling-order.component';
+import { LoadingOrError2Component } from './loading-or-error-2/loading-or-error-2.component';
 
 
 const mdModules = [
@@ -51,7 +53,7 @@ const mdModules = [
     ...mdModules,
     ReactiveFormsModule
   ],
-  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent, DialogYesOrNoComponent],
+  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent, DialogYesOrNoComponent, DialogDismantlingOrderComponent, LoadingOrError2Component],
   exports: [
     CommonModule,
     HttpModule,
@@ -61,7 +63,10 @@ const mdModules = [
     LoadingOrErrorComponent,
     AutocompleteComboComponent
   ],
-  entryComponents: [DialogYesOrNoComponent]
+  entryComponents: [
+    DialogYesOrNoComponent,
+    DialogDismantlingOrderComponent
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

@@ -2,3 +2,6 @@
 //   opacity: 0.7;
 // }
 
+/deep/ .left-aligned-tile.mat-grid-tile .mat-figure{
+  justify-content: flex-start;
+}

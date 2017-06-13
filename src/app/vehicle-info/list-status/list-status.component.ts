@@ -37,7 +37,7 @@ export class ListStatusComponent implements OnInit {
       case this.vehicle.dismantling:
         this.dismantlingStatus = '拆解中'; break;
       default:
-        this.dismantlingStatus = '未拆解';
+        this.dismantlingStatus = '待拆解';
     }
   }
 

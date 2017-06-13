@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MdDialog } from '@angular/material';
+import { DialogDismantlingOrderComponent } from '../../shared/dialog-dismantling-order/dialog-dismantling-order.component';
+
 
 import { DataService } from '../../data/data.service';
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +21,7 @@ export class ListComponent implements OnInit {
   toShowFilters = true;
   filtersForm: FormGroup;
   zipData: any;
+  isFiltersDirty = false;
 
   mofcomCertStatusOptions = [
     {value: 1, viewValue: '忽略'},
@@ -39,19 +43,56 @@ export class ListComponent implements OnInit {
   ];
 
   constructor(
+    public dialog: MdDialog,
     private fb: FormBuilder,
     private data: DataService) { }
+
+  ifFiltersDirty() {
+    if (!this.filtersForm) {return this.isFiltersDirty = false; }
+    return this.isFiltersDirty = this.filtersForm.get('mofcomCertStatus').value !== 1 ||
+      this.filtersForm.get('surveyStatus').value !== 1 ||
+      this.filtersForm.get('dismantlingStatus').value !== 1;
+  }
+
+  resetFiltersForm() {
+    this.filtersForm = this.fb.group({
+      mofcomCertStatus: 1,
+      surveyStatus: 1,
+      dismantlingStatus: 1
+    });
+  }
+
+  openDialogDO(vin) {
+    const dialogRef = this.dialog.open(DialogDismantlingOrderComponent, {
+      data: {types: this.zipData.types, titles: this.zipData.titles, vin},
+    });
+
+    // dialogRef.afterClosed().subscribe((newRemarkForm: FormGroup) => {
+    //   if (newRemarkForm) {
+    //     newRemarkForm.get('date').disable();
+    //     newRemarkForm.get('content').disable();
+    //     this.formGroupInput.markAsTouched(); // order 1.a
+    //     this.formGroupInput.markAsDirty(); // order 1.b
+    //     this.formGroupInput.push(newRemarkForm); // order 2
+    //   }
+    // });
+
+  }
+
+
+
 
   ngOnInit() {
     this.getVehiclesAndBtity();
 
     // this.vList = [];
 
-    this.filtersForm = this.fb.group({
-      mofcomCertStatus: 1,
-      surveyStatus: 1,
-      dismantlingStatus: 1
-    });
+    this.resetFiltersForm();
+
+    this.filtersForm.valueChanges
+      .subscribe(v => {
+        this.ifFiltersDirty();
+      })
 
 
   }
