@@ -8,7 +8,7 @@ export class Vehicle {
   mofcomRegisterRef = '';
   entranceDate = '';
   facility = '';
-  dismantling = '0';
+  dismantling = false;
   remarks = [];
   metadata = {
     isDeleted: false,

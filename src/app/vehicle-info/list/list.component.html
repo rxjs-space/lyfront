@@ -1,71 +1,55 @@
-<app-loading-or-error [httpJsonData]="vList">
-  <ng-container *ngIf="vList && !vList.error">
-
   <md-card>
     <md-card-header>
       <md-card-title class="vertical-center-container">
         <i class="material-icons">chevron_right</i>
         <span>筛选器</span>
-        <span><button type="button" md-button color="primary" (click)="toShowFilters = true"
-          *ngIf="!toShowFilters"
-        >展开并应用筛选器</button></span>
-        <span><button type="button" md-button color="primary" (click)="toShowFilters = false"
-          *ngIf="toShowFilters"
-        >收起并忽略筛选器</button></span>
+        <span *ngIf="!toShowFilters">
+          <button type="button" md-button color="primary" (click)="toShowFilters = true">
+            展开</button>
+        </span>
+        <span *ngIf="toShowFilters">
+          <button type="button" md-button color="primary" (click)="toShowFilters = false">
+            收起</button></span>
       </md-card-title>
     </md-card-header>
     <md-card-content *ngIf="toShowFilters">
       <md-list class="vehicle-list">
         <md-list-item>
-          <form [formGroup]="filtersForm">
+          <form [formGroup]="filtersForm" (ngSubmit)="onFiltersFormSubmit()">
             <small>
-            <span>
-              <md-checkbox color="primary" formControlName="mofcomCertReady">
-                打印回收证明
-              </md-checkbox>
-              <span class="vertical-center-icon-span"><i class="material-icons">cancel</i></span>
-            </span>
+              <md-select placeholder="回收证明状态" formControlName="mofcomCertStatus">
+                <md-option *ngFor="let op of mofcomCertStatusOptions" [value]="op.value">
+                  {{op.viewValue}}
+                </md-option>
+              </md-select>
+              <md-select placeholder="验车状态" formControlName="surveyStatus">
+                <md-option *ngFor="let op of surveyStatusOptions" [value]="op.value">
+                  {{op.viewValue}}
+                </md-option>
+              </md-select>
+              <md-select placeholder="拆解状态" formControlName="dismantlingStatus">
+                <md-option *ngFor="let op of dismantlingStatusOptions" [value]="op.value">
+                  {{op.viewValue}}
+                </md-option>
+              </md-select>
 
-            <span>
-              <md-checkbox color="primary" formControlName="firstSurvey">
-                一次验车
-              </md-checkbox>
-              <span class="vertical-center-icon-span">
-                <i class="material-icons">cancel</i></span>
-            </span>
-            <span>
-              <md-checkbox color="primary" formControlName="secondSurvey">
-                二次验车
-              </md-checkbox>
-              <span class="vertical-center-icon-span">
-                <i class="material-icons">cancel</i></span>
-            </span>
-            <span>
-              <md-checkbox color="primary" formControlName="dismantled">
-                彻底拆解
-              </md-checkbox>
-              <span class="vertical-center-icon-span">
-                <i class="material-icons">cancel</i></span>
-            </span>
-            <span>
-              <md-checkbox color="primary" formControlName="dismantling">
-                拆解中
-              </md-checkbox>
-              <span class="vertical-center-icon-span">
-                <i class="material-icons">cancel</i></span>
-            </span>
             </small>
-
+            <button type="submit" md-button color="primary" [disabled]="!vList">筛选</button>
           </form>
         </md-list-item>
       </md-list>
     </md-card-content>
   </md-card>
+
+<app-loading-or-error [httpJsonData]="vList">
+  <ng-container *ngIf="vList && !vList.error">
+
+
   <md-list class="vehicle-list">
     <md-list-item *ngFor="let vehicle of vList" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
       <i class="material-icons" md-list-icon>drive_eta</i>
       <h3 md-line>{{vehicle.vin}} / {{vehicle.vehicle.plateNo || '号牌暂无'}} / <small>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</small></h3>
-      <small md-line>
+      <!--<small md-line>
         <md-checkbox color="primary" [checked]="vehicle.status.mofcomCertReady.done" disabled>
           打印回收证明
         </md-checkbox>
@@ -81,7 +65,7 @@
         <md-checkbox color="primary" [checked]="vehicle.dismantling" disabled>
           拆解中
         </md-checkbox>
-      </small>
+      </small>-->
     </md-list-item>
   </md-list>
 

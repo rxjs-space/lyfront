@@ -114,6 +114,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       const matchObj = types.find(t => t.name === name) || null;
       return matchObj ? (matchObj.id || matchObj._id) : '';
     };
+
     vehicleToSubmit.source = nameToId(vehicleToSubmit.source, this.types.sources);
     vehicleToSubmit.facility = nameToId(vehicleToSubmit.facility, this.types.facilities);
     vehicleToSubmit.mofcomRegisterType = nameToId(vehicleToSubmit.mofcomRegisterType, this.types.mofcomRegisterTypes);
@@ -134,7 +135,6 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     vehicleToSubmit.owner.idType = nameToId(vehicleToSubmit.owner.idType, this.types.idTypes);
     vehicleToSubmit.vehicle.brand = nameToId(vehicleToSubmit.vehicle.brand, this.brands);
     delete vehicleToSubmit.vinConfirm;
-
 
 
     return vehicleToSubmit;
@@ -165,7 +165,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           vehicle: v,
           patches: jsonpatch.compare(this.vehicle, v)
         };
-        // console.log(data.patches);
+        console.log(data.patches);
         this.save.emit({
           isNew: this.isNew,
           data
@@ -208,7 +208,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
   disableIfDone(done) {
     return {
       value: done,
-      disabled: done ? true : false
+      disabled: done ? false : false
     };
   }
 
@@ -355,7 +355,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           date: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.date],
         }),
         firstSurvey: this.fb.group({
-          done: [{value: this.vehicle.status.firstSurvey.done, disabled: true}],
+          done: [{value: this.vehicle.status.firstSurvey.done, disabled: false}],
           date: [this.vehicle.status.firstSurvey.date],
         }),
         secondSurvey: this.fb.group({
@@ -449,13 +449,13 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     /* disable the control if status.done */
     const statusObj = this.vehicle.status;
 
-    Object.keys(statusObj).forEach(k => {
-      if (statusObj[k].done) {
-        const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
-        // console.log(ctrl.value);
-        ctrl.disable();
-      }
-    });
+    // Object.keys(statusObj).forEach(k => {
+    //   if (statusObj[k].done) {
+    //     const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
+    //     // console.log(ctrl.value);
+    //     ctrl.disable();
+    //   }
+    // });
 
 
     // setTimeout(() => {

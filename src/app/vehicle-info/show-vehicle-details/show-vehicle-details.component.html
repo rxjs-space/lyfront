@@ -1,5 +1,4 @@
 <form [formGroup]="vehicleForm" 
-  (ngSubmit)="prepareSubmit(vehicleForm)" 
   novalidate class="main-form"
   *ngIf="types">
 
@@ -69,7 +68,8 @@
       *ngIf="(vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value)"
     >数据验证</button>
     <button md-raised-button color="primary"
-      type="submit"
+      type="button"
+      (click)="prepareSubmit(vehicleForm)"
       [disabled]="vehicleForm.pristine || !vehicleForm.valid || vehicleForm.get('metadata.isDeleted').value || !(formValueChangedRxx | async)"
     >
       保存更改
