@@ -355,7 +355,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           date: [this.vehicle.status.mofcomCertCollectedByOwnerAndSigned.date],
         }),
         firstSurvey: this.fb.group({
-          done: [{value: this.vehicle.status.firstSurvey.done, disabled: false}],
+          done: [{value: this.vehicle.status.firstSurvey.done, disabled: true}],
           date: [this.vehicle.status.firstSurvey.date],
         }),
         secondSurvey: this.fb.group({
@@ -449,13 +449,13 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
     /* disable the control if status.done */
     const statusObj = this.vehicle.status;
 
-    // Object.keys(statusObj).forEach(k => {
-    //   if (statusObj[k].done) {
-    //     const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
-    //     // console.log(ctrl.value);
-    //     ctrl.disable();
-    //   }
-    // });
+    Object.keys(statusObj).forEach(k => {
+      if (statusObj[k].done) {
+        const ctrl = (this.vehicleForm.get(`status.${k}.done`) as FormControl);
+        // console.log(ctrl.value);
+        ctrl.disable();
+      }
+    });
 
 
     // setTimeout(() => {

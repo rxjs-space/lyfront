@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DataService } from '../../data/data.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/zip';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -14,6 +17,7 @@ export class ListComponent implements OnInit {
   vList: any;
   toShowFilters = true;
   filtersForm: FormGroup;
+  zipData: any;
 
   mofcomCertStatusOptions = [
     {value: 1, viewValue: '忽略'},
@@ -39,7 +43,7 @@ export class ListComponent implements OnInit {
     private data: DataService) { }
 
   ngOnInit() {
-    this.getVehicles();
+    this.getVehiclesAndBtity();
 
     // this.vList = [];
 
@@ -52,17 +56,31 @@ export class ListComponent implements OnInit {
 
   }
 
-  getVehicles(searchParams = {}) {
-    this.vList = null;
-    this.data.getVehicles(searchParams)
+  getVehiclesAndBtity(searchParams = {}) {
+    this.zipData = null;
+    const getVehiclesRx = this.data.getVehicles(searchParams);
+    const getBtityRx = this.data.btityRxx
+      .filter(v => v)
+      .first();
+    Observable.zip(getVehiclesRx, getBtityRx, (vehicles, btity) => ({
+      vehicles, brands: btity.brands, titles: btity.titles, types: btity.types
+    }))
       .catch(error => Observable.of({
-        ok: false,
-        error
+        ok: false, error
       }))
+      .first()
       .subscribe(data => {
-        // console.log(data);
-      this.vList = data;
-    });
+        const vehicles = data['vehicles'];
+        const types = data['types'];
+        vehicles.forEach(v => {
+          const vTypeId = v.vehicle.vehicleType;
+          const vTypeObj = types['vehicleTypes'].find(vt => vt.id === vTypeId);
+          v.vehicle.vehicleType = vTypeObj && vTypeObj['name'] ? vTypeObj['name'] : '';
+        })
+        // console.log(data['vehicles']);
+        this.zipData = data;
+      });
+
   }
 
   onFiltersFormSubmit() {
@@ -110,8 +128,8 @@ export class ListComponent implements OnInit {
         searchParams['status.dismantled.done'] = true;
         break;
     }
-    console.log(searchParams);
-    this.getVehicles(searchParams);
+    // console.log(searchParams);
+    this.getVehiclesAndBtity(searchParams);
 
 
   }

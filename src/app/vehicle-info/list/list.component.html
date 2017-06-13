@@ -34,21 +34,29 @@
               </md-select>
 
             </small>
-            <button type="submit" md-button color="primary" [disabled]="!vList">筛选</button>
+            <button type="submit" md-button color="primary" [disabled]="!zipData || !zipData.vehicles">筛选</button>
           </form>
         </md-list-item>
       </md-list>
     </md-card-content>
   </md-card>
 
-<app-loading-or-error [httpJsonData]="vList">
-  <ng-container *ngIf="vList && !vList.error">
+<app-loading-or-error [httpJsonData]="zipData">
+  <ng-container *ngIf="zipData && !zipData.error">
 
 
   <md-list class="vehicle-list">
-    <md-list-item *ngFor="let vehicle of vList" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
+    <md-list-item *ngFor="let vehicle of zipData.vehicles" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
       <i class="material-icons" md-list-icon>drive_eta</i>
-      <h3 md-line>{{vehicle.vin}} / {{vehicle.vehicle.plateNo || '号牌暂无'}} / <small>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</small></h3>
+      <div md-line>
+        <span>{{vehicle.vin}}</span><span> / </span>
+        <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
+        <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
+        <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
+      </div>
+      <small md-line>
+        <app-list-status [vehicle]="vehicle"></app-list-status>
+      </small>
       <!--<small md-line>
         <md-checkbox color="primary" [checked]="vehicle.status.mofcomCertReady.done" disabled>
           打印回收证明

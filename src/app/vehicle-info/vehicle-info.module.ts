@@ -20,6 +20,7 @@ import { DialogBrandComponent } from './dialog-brand/dialog-brand.component';
 import { DetailsVehicleCostsComponent } from './details-vehicle-costs/details-vehicle-costs.component';
 import { DialogVehicleCostsComponent } from './dialog-vehicle-costs/dialog-vehicle-costs.component';
 import { DetailsMetadataComponent } from './details-metadata/details-metadata.component';
+import { ListStatusComponent } from './list-status/list-status.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { DetailsMetadataComponent } from './details-metadata/details-metadata.co
     DialogBrandComponent,
     DetailsVehicleCostsComponent,
     DialogVehicleCostsComponent,
-    DetailsMetadataComponent
+    DetailsMetadataComponent,
+    ListStatusComponent
   ],
   entryComponents: [
     DialogFdComponent,
