@@ -1,5 +1,5 @@
 
-  <div md-dialog-title>拆解计划 - 车辆 VIN: {{dataFromTrigger.vin}}</div>
+  <div md-dialog-title>拆解计划 - <small>车辆识别代号: {{dataFromTrigger.vin}} / 车辆类型: {{dataFromTrigger.vehicleType}}</small></div>
   <md-card>
     <ng-container *ngIf="dataFromTrigger.canCreateNew">
       <md-card-header>

@@ -26,6 +26,7 @@ import { FormUtilsService } from './form-utils/form-utils.service';
 import { DialogDismantlingOrderComponent } from './dialog-dismantling-order/dialog-dismantling-order.component';
 import { LoadingOrError2Component } from './loading-or-error-2/loading-or-error-2.component';
 import { ExistingDismantlingOrdersComponent } from './dialog-dismantling-order/existing-dismantling-orders.component';
+import { TriggerDismantlingOrderComponent } from './dialog-dismantling-order/trigger-dismantling-order.component';
 
 
 const mdModules = [
@@ -54,7 +55,16 @@ const mdModules = [
     ...mdModules,
     ReactiveFormsModule
   ],
-  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent, DialogYesOrNoComponent, DialogDismantlingOrderComponent, LoadingOrError2Component, ExistingDismantlingOrdersComponent],
+  declarations: [
+    NotFoundComponent,
+    LoadingOrErrorComponent,
+    AutocompleteComboComponent,
+    DialogYesOrNoComponent,
+    DialogDismantlingOrderComponent,
+    LoadingOrError2Component,
+    ExistingDismantlingOrdersComponent,
+    TriggerDismantlingOrderComponent
+  ],
   exports: [
     CommonModule,
     HttpModule,
@@ -62,7 +72,8 @@ const mdModules = [
     NotFoundComponent,
     ReactiveFormsModule,
     LoadingOrErrorComponent,
-    AutocompleteComboComponent
+    AutocompleteComboComponent,
+    TriggerDismantlingOrderComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,

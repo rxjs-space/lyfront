@@ -75,12 +75,17 @@
             </div>
           </md-grid-tile>
           <md-grid-tile colspan="3">
-              <button type="button" md-button color="primary"
+            <app-trigger-dismantling-order
+              [titles]="zipData.titles"
+              [types]="zipData.types"
+              [vehicle]="vehicle"
+            ></app-trigger-dismantling-order>
+              <!--<button type="button" md-button color="primary"
                 (click)="openDialogDO(vehicle)"
                 [color]="(vehicle.dismantling || vehicle.status.dismantled.done) ? '' : 'primary'"
               >
                 {{(vehicle.dismantling || vehicle.status.dismantled.done) ? '查看拆解计划' : '新建拆解计划'}}
-              </button>
+              </button>-->
           </md-grid-tile>
         </md-grid-list>
 

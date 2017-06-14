@@ -70,6 +70,7 @@ export class ListComponent implements OnInit {
         types: this.zipData.types,
         titles: this.zipData.titles,
         vin: vehicleBrief.vin,
+        vehicleType: vehicleBrief.vehicle.vehicleType,
         canCreateNew: !vehicleBrief.dismantling && !vehicleBrief.status.dismantled.done
       },
     });

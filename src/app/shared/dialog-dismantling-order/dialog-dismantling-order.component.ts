@@ -6,6 +6,7 @@ import jsonpatch from 'fast-json-patch';
 
 
 import { DataService } from '../../data/data.service';
+import { DismantlingOrder } from '../../data/dismantling-order';
 import { SharedValidatorsService } from '../validators/shared-validators.service';
 
 
@@ -15,14 +16,7 @@ import { SharedValidatorsService } from '../validators/shared-validators.service
   styleUrls: ['./dialog-dismantling-order.component.scss']
 })
 export class DialogDismantlingOrderComponent implements OnInit {
-  dismantlingOrderEmpty = {
-    orderDate: '',
-    isAdHoc: false,
-    correspondingSalesOrder: '',
-    dismantlingPIC: '',
-    startedAt: '',
-    completedAt: ''
-  };
+  dismantlingOrderEmpty = new DismantlingOrder();
 
   doForm: FormGroup;
   constructor(
@@ -47,7 +41,8 @@ export class DialogDismantlingOrderComponent implements OnInit {
       orderDate: [{value: (new Date()).toISOString().slice(0, 10), disabled: true}],
       isAdHoc: [false, [this.sv.shouldBeBoolean()]],
       correspondingSalesOrder: '',
-      dismantlingPIC: ['', [Validators.required]]
+      dismantlingPIC: ['', [Validators.required]],
+      vehicleType: [this.dataFromTrigger.vehicleType]
     });
     // this.doForm.valueChanges.subscribe(console.log);
   }
@@ -56,6 +51,7 @@ export class DialogDismantlingOrderComponent implements OnInit {
   onDOFormSubmit() {
     console.log('submitting form');
     const dismantlingOrder = Object.assign({}, this.dismantlingOrderEmpty, this.doForm.getRawValue());
+    dismantlingOrder.vehicleType = (this.dataFromTrigger.types['vehicleTypes'].find(vt => vt.name === dismantlingOrder.vehicleType)).id;
     const patches = jsonpatch.compare(this.dismantlingOrderEmpty, dismantlingOrder);
     this.data.insertDismantlingOrder({
       dismantlingOrder, patches
