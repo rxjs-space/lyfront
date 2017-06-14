@@ -94,13 +94,22 @@
           </md-checkbox>
         </div>
       </md-grid-tile>
-      <md-grid-tile [colspan]="2">
+      <md-grid-tile>
         <div formGroupName="dismantled">
           <md-checkbox color="primary" formControlName="done">
             {{titles.vehicles.status.dismantled}}
           </md-checkbox>
-          <button md-button type="button" color="primary" class="not-for-print">查看/新建拆解计划</button>
         </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <app-trigger-dismantling-order
+          [titles]="titles"
+          [types]="types"
+          [vehicle]="vehicle"
+        ></app-trigger-dismantling-order>
+
+        <!--<button md-button type="button" color="primary" class="not-for-print">查看/新建拆解计划</button>-->
+
       </md-grid-tile>
 
     </md-grid-list>

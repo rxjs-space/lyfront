@@ -10,6 +10,7 @@ export class DetailsStatusComponent implements OnInit {
   @Input() titles;
   @Input() types;
   @Input() formGroupInput: FormGroup;
+  @Input() vehicle: any;
   toShowDetails = true;
   constructor() { }
 
