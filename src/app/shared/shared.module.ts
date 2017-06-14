@@ -25,6 +25,7 @@ import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { FormUtilsService } from './form-utils/form-utils.service';
 import { DialogDismantlingOrderComponent } from './dialog-dismantling-order/dialog-dismantling-order.component';
 import { LoadingOrError2Component } from './loading-or-error-2/loading-or-error-2.component';
+import { ExistingDismantlingOrdersComponent } from './dialog-dismantling-order/existing-dismantling-orders.component';
 
 
 const mdModules = [
@@ -53,7 +54,7 @@ const mdModules = [
     ...mdModules,
     ReactiveFormsModule
   ],
-  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent, DialogYesOrNoComponent, DialogDismantlingOrderComponent, LoadingOrError2Component],
+  declarations: [NotFoundComponent, LoadingOrErrorComponent, AutocompleteComboComponent, DialogYesOrNoComponent, DialogDismantlingOrderComponent, LoadingOrError2Component, ExistingDismantlingOrdersComponent],
   exports: [
     CommonModule,
     HttpModule,

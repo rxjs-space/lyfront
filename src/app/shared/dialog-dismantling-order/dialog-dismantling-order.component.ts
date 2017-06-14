@@ -1,9 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/first';
 import jsonpatch from 'fast-json-patch';
 
@@ -23,16 +20,11 @@ export class DialogDismantlingOrderComponent implements OnInit {
     isAdHoc: false,
     correspondingSalesOrder: '',
     dismantlingPIC: '',
-    completed: false,
+    startedAt: '',
+    completedAt: ''
   };
-  trueFalseCombo = [
-    {value: false, title: '否'},
-    {value: true, title: '是'}
-  ]
-  vehicle: any;
-  dismantlingOrders: any;
+
   doForm: FormGroup;
-  pendingTaskCountRxx = new BehaviorSubject(0);
   constructor(
     private sv: SharedValidatorsService,
     private fb: FormBuilder,
@@ -43,86 +35,22 @@ export class DialogDismantlingOrderComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.dataFromTrigger);
-    this.refreshVehicle(this.dataFromTrigger.vin);
-    this.refreshDismantlingOrders(this.dataFromTrigger.vin);
-    this.pendingTaskCountRxx
-      .filter(v => v === 0)
-      .first()
-      .subscribe(() => this.rebuildForm());
+    this.rebuildForm();
   }
 
-  refreshVehicle(vin) {
-    this.pendingTaskCountRxx.next(this.pendingTaskCountRxx.getValue() + 1);
-    this.data.getVehicleByVIN(vin)
-      .first()
-      .catch(error => Observable.of({
-        ok: false,
-        error
-      }))
-      .subscribe(v => {
-        this.vehicle = v;
-        this.pendingTaskCountRxx.next(this.pendingTaskCountRxx.getValue() - 1);
-      });
-  }
 
-  refreshDismantlingOrders(vin) {
-    this.pendingTaskCountRxx.next(this.pendingTaskCountRxx.getValue() + 1);
-    this.data.getDismantlingOrders({vin})
-      .first()
-      .catch(error => Observable.of({
-        ok: false,
-        error
-      }))
-      .subscribe(dismantlingOrders => {
-        console.log(dismantlingOrders);
-        this.dismantlingOrders = dismantlingOrders;
-        this.pendingTaskCountRxx.next(this.pendingTaskCountRxx.getValue() - 1);
-      });
-  }
 
   rebuildForm() {
     console.log('building form');
     this.doForm = this.fb.group({
-      vin: this.vehicle.vin,
+      vin: this.dataFromTrigger.vin,
       orderDate: [{value: (new Date()).toISOString().slice(0, 10), disabled: true}],
       isAdHoc: [false, [this.sv.shouldBeBoolean()]],
       correspondingSalesOrder: '',
       dismantlingPIC: ['', [Validators.required]]
     });
-    this.doForm.valueChanges.subscribe(console.log);
+    // this.doForm.valueChanges.subscribe(console.log);
   }
-
-    /*
-
-    completed
-    :
-    false
-    correspondingSalesOrder
-    :
-    ""
-    createdAt
-    :
-    "2017-06-13T13:14:23.018Z"
-    createdBy
-    :
-    "59251ad024ac463e20bee3a7"
-    dismantlingPIC
-    :
-    "asdf"
-    isAdHoc
-    :
-    false
-    orderDate
-    :
-    "2017-06-13"
-    vin
-    :
-    "qwer"
-    _id
-    :
-    "593fe52f74879a38686dc48b"
-
-    */
 
 
   onDOFormSubmit() {

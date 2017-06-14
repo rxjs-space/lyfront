@@ -11,7 +11,7 @@ export class DoHomeComponent implements OnInit {
   constructor(public data: DataService) { }
 
   ngOnInit() {
-    this.data.getVehicles({dismantling: 0}).subscribe(console.log);
+    // this.data.getVehicles({dismantling: true}).subscribe(console.log);
   }
 
 }

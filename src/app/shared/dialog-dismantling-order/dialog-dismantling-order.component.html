@@ -1,44 +1,40 @@
-<app-loading-or-error-2 [data]="vehicle">
-  <md-card *ngIf="vehicle && !vehicle.error">
-    <md-card-header>
-      <md-card-title>拆解计划 - 车辆 VIN: {{vehicle.vin}}</md-card-title>
-    </md-card-header>
-    <md-card-content>
-      <form [formGroup]="doForm" (ngSubmit)="onDOFormSubmit()">
-          <md-input-container class="m-size-input">
-            <input mdInput type="date" [placeholder]="'计划下达日期'" formControlName="orderDate">
-          </md-input-container>
-          <app-autocomplete-combo
-            [isTrueOrFalse]="true"
-            [placeholderInput]="'是否为临时计划'"
-            [formControlInput]="doForm.get('isAdHoc')"
-            sizeClass='m-size-input'
-          >
-          </app-autocomplete-combo> 
 
-          <!-- todo: correspondingSalesOrder input -->
-          <md-input-container class="m-size-input">
-            <input mdInput [placeholder]="'拆解负责人'" formControlName="dismantlingPIC">
-          </md-input-container>
+  <div md-dialog-title>拆解计划 - 车辆 VIN: {{dataFromTrigger.vin}}</div>
+  <md-card>
+    <ng-container *ngIf="dataFromTrigger.canCreateNew">
+      <md-card-header>
+        <md-card-title>新建拆解计划</md-card-title>
+      </md-card-header>
+      <md-card-content>
+        <form [formGroup]="doForm" (ngSubmit)="onDOFormSubmit()">
+            <md-input-container class="m-size-input">
+              <input mdInput type="date" [placeholder]="dataFromTrigger.titles.dismantlingOrders.orderDate" formControlName="orderDate">
+            </md-input-container>
+            <md-input-container class="m-size-input">
+              <input mdInput [placeholder]="dataFromTrigger.titles.dismantlingOrders.dismantlingPIC" formControlName="dismantlingPIC">
+            </md-input-container>
 
+            <app-autocomplete-combo
+              [isTrueOrFalse]="true"
+              [placeholderInput]="dataFromTrigger.titles.dismantlingOrders.isAdHoc"
+              [formControlInput]="doForm.get('isAdHoc')"
+              sizeClass='m-size-input'
+            >
+            </app-autocomplete-combo> 
+            <md-input-container class="l-size-input" *ngIf="this.doForm.get('isAdHoc').value">
+              <input mdInput [placeholder]="dataFromTrigger.titles.dismantlingOrders.correspondingSalesOrder" [disabled]="true" [value]="'tba'">
+            </md-input-container>
+            <!-- todo: correspondingSalesOrder input -->
+          <div>
+            <button type="submit" md-raised-button color="primary"
+              [disabled]="doForm.invalid"
+            >保存</button>
+          </div>
+        </form>
+      </md-card-content>
+    </ng-container>
 
-          <!--<md-select placeholder="计划类别" formControlName="isAdHoc">
-            <md-option *ngFor="let type of trueFalseCombo" [value]="type.value">
-              {{type.title}}
-            </md-option>
-          </md-select>-->
- 
-
-
-        <div>
-          <button type="submit" md-raised-button color="primary"
-            [disabled]="doForm.invalid"
-          >保存</button>
-        </div>
-      </form>
-    </md-card-content>
-    <md-card-content>
-      现有拆解计划
-    </md-card-content>
+    <app-existing-dismantling-orders
+      [titles]="dataFromTrigger.titles"
+      [vin]="dataFromTrigger.vin"></app-existing-dismantling-orders>
   </md-card>
-</app-loading-or-error-2>

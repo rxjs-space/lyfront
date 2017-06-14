@@ -306,7 +306,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
         this.sv.notListedButCanBeEmpty(this.types.mofcomRegisterTypes.map(t => t.name))
       ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
-      entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10)],
+      entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10), [Validators.required]],
       facility: [{
         value: this.idToName('facility', null, this.types.facilities),
         disabled: this.vehicle.facility ? true : false
@@ -370,6 +370,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
         vehicleType: [this.idToName('vehicleType', this.vehicle.vehicle.vehicleType), [
+          Validators.required,
           this.sv.notListedButCanBeEmpty(this.types.vehicleTypes.map(type => type.name))
         ]],
         useCharacter: [this.idToName('useCharacter', this.vehicle.vehicle.useCharacter), [

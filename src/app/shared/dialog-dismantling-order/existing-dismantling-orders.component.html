@@ -1,0 +1,83 @@
+
+  <md-card-header>
+    <md-card-title>
+      <span>现有拆解计划</span>
+      <md-spinner class="mini-spinner" *ngIf="!(dataLoadedRxx | async)"></md-spinner>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content class="small-content" md-dialog-content>
+    <div *ngIf="(dataLoadedRxx | async) && (dataLoadedRxx | async).error">
+      Something went wrong: {{ (dataLoadedRxx | async).error }}
+    </div>
+    <div *ngIf="dismantlingOrders && dismantlingOrders.length === 0">暂无</div>
+
+    <md-grid-list *ngIf="dismantlingOrders && dismantlingOrders.length > 0" cols="7" rowHeight="2.5em">
+        <!--<i class="material-icons" md-list-icon >drive_eta</i>-->
+      <md-grid-tile>
+        {{titles.dismantlingOrders.orderDate}}
+      </md-grid-tile>
+      <md-grid-tile>
+        {{titles.dismantlingOrders.dismantlingPIC}}
+      </md-grid-tile>
+      <md-grid-tile>
+        {{titles.dismantlingOrders.isAdHoc}}
+      </md-grid-tile>
+      <md-grid-tile>
+        {{titles.dismantlingOrders.startedAt}}
+      </md-grid-tile>
+      <md-grid-tile>
+        {{titles.dismantlingOrders.completedAt}}
+      </md-grid-tile>
+      <md-grid-tile colspan="2">
+        操作
+      </md-grid-tile>
+    </md-grid-list>
+    <md-grid-list *ngIf="dismantlingOrders && dismantlingOrders.length > 0" cols="7" rowHeight="1.5em">
+      <ng-container *ngFor="let dismantlingOrder of dismantlingOrders">
+        <md-grid-tile>
+          {{dismantlingOrder.orderDate | date}}
+        </md-grid-tile>
+        <md-grid-tile>
+          {{dismantlingOrder.dismantlingPIC}}
+        </md-grid-tile>
+        <md-grid-tile>
+          {{dismantlingOrder.isAdHoc ? '是' : '否'}}
+        </md-grid-tile>
+        <md-grid-tile>
+          {{dismantlingOrder.startedAt | date}}
+        </md-grid-tile>
+        <md-grid-tile>
+          {{dismantlingOrder.completedAt | date}}
+        </md-grid-tile>
+        <md-grid-tile colspan="2">
+          <button style="font-size: 1em" type="button" md-button color="primary">详情</button>
+          <button style="font-size: 1em" type="button" md-button color="accent">打印</button>
+        </md-grid-tile>
+      </ng-container>
+        <!--<i class="material-icons" md-list-icon >drive_eta</i>-->
+
+    </md-grid-list>
+
+    <!--<form [formGroup]="dismantlingOrdersForm"
+      *ngIf="(dataLoadedRxx | async) && !(dataLoadedRxx | async).error && dismantlingOrdersForm">
+
+
+    <ng-container  
+      *ngIf="dismantlingOrdersForm.get('dismantlingOrders').controls.length!==0"
+      formArrayName="dismantlingOrders"
+    >
+      <div 
+        *ngFor="let dOrderControl of dismantlingOrdersForm.get('dismantlingOrders').controls; let i=index" 
+        [formGroupName]="i"
+      >
+        <md-input-container class="m-size-input">
+          <input mdInput type="date" [placeholder]="'计划下达日期'" formControlName="orderDate">
+        </md-input-container>
+
+      </div>
+    </ng-container>
+
+
+
+    </form>-->
+  </md-card-content>

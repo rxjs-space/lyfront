@@ -62,9 +62,16 @@ export class ListComponent implements OnInit {
     });
   }
 
-  openDialogDO(vin) {
+  openDialogDO(vehicleBrief) {
+    console.log(vehicleBrief);
     const dialogRef = this.dialog.open(DialogDismantlingOrderComponent, {
-      data: {types: this.zipData.types, titles: this.zipData.titles, vin},
+      width: '650px',
+      data: {
+        types: this.zipData.types,
+        titles: this.zipData.titles,
+        vin: vehicleBrief.vin,
+        canCreateNew: !vehicleBrief.dismantling && !vehicleBrief.status.dismantled.done
+      },
     });
 
     // dialogRef.afterClosed().subscribe((newRemarkForm: FormGroup) => {
