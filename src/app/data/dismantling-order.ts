@@ -3,7 +3,7 @@ export class DismantlingOrder {
   isAdHoc: boolean = false;
   correspondingSalesOrder: any = '';
   dismantlingPIC: any = '';
-  completed: boolean = false;
+  startedAt: string = '';
   completedAt: string = '';
   vin: string = '';
   vehicleType: string = '';

@@ -18,12 +18,13 @@ export class TriggerDismantlingOrderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // console.log(this.vehicle);
+    this.canCreateNew = !this.vehicle.dismantling && !this.vehicle.status.dismantled.done;
+    // console.log(this.canCreateNew);
   }
 
   openDialogDO(vehicle) {
-    console.log(vehicle);
-    this.canCreateNew = !vehicle.dismantling && !vehicle.status.dismantled.done;
-    console.log(this.canCreateNew);
+
     const dialogRef = this.dialog.open(DialogDismantlingOrderComponent, {
       width: '650px',
       data: {

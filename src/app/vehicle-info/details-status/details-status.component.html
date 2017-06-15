@@ -111,6 +111,13 @@
         <!--<button md-button type="button" color="primary" class="not-for-print">查看/新建拆解计划</button>-->
 
       </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="sold">
+          <md-checkbox color="primary" formControlName="done">
+            {{titles.vehicles.status.sold}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
 
     </md-grid-list>
 

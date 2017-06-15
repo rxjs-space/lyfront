@@ -9,6 +9,7 @@ export class Vehicle {
   entranceDate = '';
   facility = '';
   dismantling = false;
+  auctioning = false;
   remarks = [];
   metadata = {
     isDeleted: false,
@@ -125,6 +126,10 @@ export class Vehicle {
       date: ''
     },
     dismantled: {
+      done: false,
+      date: ''
+    },
+    sold: {
       done: false,
       date: ''
     }

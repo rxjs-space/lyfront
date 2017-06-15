@@ -32,3 +32,6 @@ show conditionOnEntrance on dismantlingOrder print
 ## 20170606
 isLoggedInRxx isAdminRxx not pushing properly
 need to find out the reason (is it the Guard or the life cycle)
+
+## 20170615
+entrance checklist (battery removal, lighter removal)

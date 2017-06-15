@@ -366,6 +366,10 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           done: [{value: this.vehicle.status.dismantled.done, disabled: true}],
           date: [this.vehicle.status.dismantled.date],
         }),
+        sold: this.fb.group({
+          done: [{value: this.vehicle.status.sold.done, disabled: true}],
+          date: [this.vehicle.status.sold.date],
+        }),
       }),
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/)]],
