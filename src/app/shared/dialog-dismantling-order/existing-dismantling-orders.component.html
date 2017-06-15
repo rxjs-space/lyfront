@@ -51,7 +51,9 @@
         </md-grid-tile>
         <md-grid-tile colspan="2">
           <button style="font-size: 1em" type="button" md-button color="primary">详情</button>
-          <button style="font-size: 1em" type="button" md-button color="accent">打印</button>
+          <button style="font-size: 1em" type="button" md-button color="accent"
+            (click)="openDialogPrint()"
+          >打印</button>
         </md-grid-tile>
       </ng-container>
         <!--<i class="material-icons" md-list-icon >drive_eta</i>-->

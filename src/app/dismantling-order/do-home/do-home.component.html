@@ -1,6 +1,11 @@
-  <app-do-waiting>
-  </app-do-waiting>
-  <app-do-progressing>
-  </app-do-progressing>
-  <app-do-done>
-  </app-do-done>
+<app-loading-or-error-2 [data]="reports">
+  <ng-container *ngIf="reports && !reports.error">
+    <app-do-waiting [data]="reports.waiting">
+    </app-do-waiting>
+    <app-do-dismantling>
+    </app-do-dismantling>
+    <app-do-done>
+    </app-do-done>
+  </ng-container>
+
+</app-loading-or-error-2>

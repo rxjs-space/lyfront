@@ -27,6 +27,8 @@ import { DialogDismantlingOrderComponent } from './dialog-dismantling-order/dial
 import { LoadingOrError2Component } from './loading-or-error-2/loading-or-error-2.component';
 import { ExistingDismantlingOrdersComponent } from './dialog-dismantling-order/existing-dismantling-orders.component';
 import { TriggerDismantlingOrderComponent } from './dialog-dismantling-order/trigger-dismantling-order.component';
+import { SharedFilterComponent } from './shared-filter/shared-filter.component';
+import { DialogDismantlingOrderPrintComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print.component';
 
 
 const mdModules = [
@@ -63,7 +65,9 @@ const mdModules = [
     DialogDismantlingOrderComponent,
     LoadingOrError2Component,
     ExistingDismantlingOrdersComponent,
-    TriggerDismantlingOrderComponent
+    TriggerDismantlingOrderComponent,
+    SharedFilterComponent,
+    DialogDismantlingOrderPrintComponent
   ],
   exports: [
     CommonModule,
@@ -72,12 +76,15 @@ const mdModules = [
     NotFoundComponent,
     ReactiveFormsModule,
     LoadingOrErrorComponent,
+    LoadingOrError2Component,
     AutocompleteComboComponent,
-    TriggerDismantlingOrderComponent
+    TriggerDismantlingOrderComponent,
+    SharedFilterComponent,
   ],
   entryComponents: [
     DialogYesOrNoComponent,
-    DialogDismantlingOrderComponent
+    DialogDismantlingOrderComponent,
+    DialogDismantlingOrderPrintComponent
   ]
 })
 export class SharedModule {

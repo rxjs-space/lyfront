@@ -2,7 +2,24 @@
   <md-card-header>
     <md-card-title class="vertical-center-container">
       <i class="material-icons">chevron_right</i>
-      <span>待拆车辆</span></md-card-title>
+      <span>待拆车辆</span>
+      <span style="width: 2em"></span>
+      <app-shared-filter
+        [optionsArr]="optionsArr"
+        (valueChanges)="filterValueChanges.next($event)"
+      >
+      </app-shared-filter>
+      <!--<form [formGroup]="filtersForm" (ngSubmit)="onFiltersFormSubmit()">
+        <small>
+          <md-select placeholder="验车状态" formControlName="surveyStatus">
+            <md-option *ngFor="let op of surveyStatusOptions" [value]="op.value">
+              {{op.viewValue}}
+            </md-option>
+          </md-select>
+      </form>-->
+
+
+    </md-card-title>
   </md-card-header>
   <md-card-content>
 
@@ -32,13 +49,13 @@
             本周
           </md-grid-tile>
           <md-grid-tile>
-            10
+            {{filteredData[2].thisWeek || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            5
+            {{filteredData[3].thisWeek || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            15
+            {{(filteredData[2].thisWeek || 0) + (filteredData[3].thisWeek || 0)}}
           </md-grid-tile>
         </md-grid-list>
       </md-list-item>
@@ -49,13 +66,13 @@
             上周
           </md-grid-tile>
           <md-grid-tile>
-            10
+            {{filteredData[2].lastWeek || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            5
+            {{filteredData[3].lastWeek || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            15
+            {{(filteredData[2].lastWeek || 0) + (filteredData[3].lastWeek || 0)}}
           </md-grid-tile>
         </md-grid-list>
       </md-list-item>
@@ -66,13 +83,13 @@
             更早
           </md-grid-tile>
           <md-grid-tile>
-            10
+            {{filteredData[2].evenEarlier || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            5
+            {{filteredData[3].evenEarlier || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            15
+            {{(filteredData[2].evenEarlier || 0) + (filteredData[3].evenEarlier || 0)}}
           </md-grid-tile>
         </md-grid-list>
       </md-list-item>
@@ -84,13 +101,13 @@
             合计
           </md-grid-tile>
           <md-grid-tile>
-            30
+            {{filteredData[2].total || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            15
+            {{filteredData[3].total || 0}}
           </md-grid-tile>
           <md-grid-tile>
-            45
+            {{(filteredData[2].total || 0) + (filteredData[3].total || 0)}}
           </md-grid-tile>
         </md-grid-list>
       </md-list-item>

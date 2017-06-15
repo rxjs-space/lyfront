@@ -4,8 +4,12 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/first';
+import { MdDialog } from '@angular/material';
+
 
 import { DataService } from '../../data/data.service';
+import { DialogDismantlingOrderPrintComponent } from '../dialog-dismantling-order-print/dialog-dismantling-order-print.component';
+
 
 @Component({
   selector: 'app-existing-dismantling-orders',
@@ -23,6 +27,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
 
 
   constructor(
+    public dialog: MdDialog,
     private data: DataService,
     private fb: FormBuilder) { }
 
@@ -32,6 +37,10 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
     this.refreshVehicle(this.vin);
     this.rebuildForm();
 
+  }
+
+  openDialogPrint() {
+    const dialogRef = this.dialog.open(DialogDismantlingOrderPrintComponent);
   }
 
   rebuildForm() {

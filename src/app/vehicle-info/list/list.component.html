@@ -21,6 +21,10 @@
                 <md-option *ngFor="let op of mofcomCertStatusOptions" [value]="op.value">
                   {{op.viewValue}}
                 </md-option>
+              </md-select>              <md-select placeholder="回收证明状态" formControlName="mofcomCertStatus">
+                <md-option *ngFor="let op of mofcomCertStatusOptions" [value]="op.value">
+                  {{op.viewValue}}
+                </md-option>
               </md-select>
               <md-select placeholder="验车状态" formControlName="surveyStatus">
                 <md-option *ngFor="let op of surveyStatusOptions" [value]="op.value">

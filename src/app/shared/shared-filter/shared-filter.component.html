@@ -1,0 +1,11 @@
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <small>
+    <ng-container *ngFor="let item of optionsArr">
+      <md-select [placeholder]="item.placeholder" [formControlName]="item.title">
+        <md-option *ngFor="let op of item.options" [value]="op.value">
+          {{op.viewValue}}
+        </md-option>
+      </md-select>
+    </ng-container>
+  </small>
+</form>

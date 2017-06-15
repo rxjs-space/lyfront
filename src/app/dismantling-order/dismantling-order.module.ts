@@ -5,8 +5,8 @@ import { SharedModule } from '../shared/shared.module';
 import { DismantlingOrderRoutingModule } from './dismantling-order-routing.module';
 import { DoHomeComponent } from './do-home/do-home.component';
 import { DoWaitingComponent } from './do-waiting/do-waiting.component';
-import { DoProgressingComponent } from './do-progressing/do-progressing.component';
 import { DoDoneComponent } from './do-done/do-done.component';
+import { DoDismantlingComponent } from './do-dismantling/do-dismantling.component';
 
 @NgModule({
   imports: [
@@ -14,6 +14,6 @@ import { DoDoneComponent } from './do-done/do-done.component';
     SharedModule,
     DismantlingOrderRoutingModule
   ],
-  declarations: [DoHomeComponent, DoWaitingComponent, DoProgressingComponent, DoDoneComponent]
+  declarations: [DoHomeComponent, DoWaitingComponent, DoDoneComponent, DoDismantlingComponent]
 })
 export class DismantlingOrderModule { }
