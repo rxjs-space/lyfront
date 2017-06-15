@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class DoWaitingComponent implements OnInit {
   @Input() data;
   filteredData;
-  filterValueChanges = new BehaviorSubject({surveyStatus: 1});
+  filterValueChangesRxx = new BehaviorSubject({surveyStatus: 1});
 
   optionsArr = [
     {
@@ -24,24 +24,72 @@ export class DoWaitingComponent implements OnInit {
     }
   ];
 
+  dataProps = [
+    {title: '本周', name: 'thisWeek'},
+    {title: '上周', name: 'lastWeek'},
+    {title: '更早', name: 'evenEarlier'},
+    {title: '合计', name: 'total'},
+  ];
+
+  basedOnSurveyStatus = {
+    '1': {
+      sumPredicate: curr => {return true; },
+    },
+    '2': {
+      sumPredicate: curr => {return !curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']; },
+      firstSurvey: false, secondSurvey: false
+    },
+    '3': {
+      sumPredicate: curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+      firstSurvey: true, secondSurvey: false
+    },
+    '4': {
+      sumPredicate: curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+      firstSurvey: true, secondSurvey: true
+    },
+  };
+
   constructor() { }
 
-  ngOnInit() {
-    this.filterValueChanges.subscribe(v => {
-      switch (v.surveyStatus) {
-        case 1:
-          this.filteredData = this.data.reduce((acc, curr) => {
-            acc[curr['vehicle.vehicleType']] = {
-              thisWeek: acc[curr['vehicle.vehicleType']] || 0 + curr['thisWeek'],
-              lastWeek: acc[curr['vehicle.vehicleType']] || 0 + curr['lastWeek'],
-              evenEarlier: acc[curr['vehicle.vehicleType']] || 0 + curr['evenEarlier'],
-              total: acc[curr['vehicle.vehicleType']] || 0 + curr['total'],
-            };
-            return acc;
-          }, {});
-          break;
+  queryList(entranceWeek, vehicleType?) {
+    const surveyStatus = (this.filterValueChangesRxx.getValue()).surveyStatus;
+    const searchQuery = {entranceWeek};
+    if (surveyStatus > 1) {
+      searchQuery['status.firstSurvey.done'] = this.basedOnSurveyStatus[surveyStatus].firstSurvey;
+      searchQuery['status.secondSurvey.done'] = this.basedOnSurveyStatus[surveyStatus].secondSurvey;
+    }
+    if (vehicleType) {
+      searchQuery['vehicle.vehicleType'] = vehicleType;
+    }
+    console.log(searchQuery);
+  }
+
+  calculateFilteredData(surveyStatus) {
+    const predicates = {
+      '1': curr => {return true; },
+      '2': curr => {return !curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+      '3': curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+      '4': curr => {return curr['status.secondSurvey.done']},
+    };
+    return this.data.reduce((acc, curr) => {
+      const currType = curr['vehicle.vehicleType'];
+      const obj = {};
+      for (const item of this.dataProps) {
+        const name = item.name;
+        // if (predicates[caseValue](curr)) {
+        if (this.basedOnSurveyStatus[surveyStatus].sumPredicate(curr)) {
+          obj[name] = (acc[currType] ? (acc[currType][name] ? acc[currType][name] : 0) : 0) + curr[name];
+        }
       }
-      console.log(this.filteredData);
+      acc[curr['vehicle.vehicleType']] = Object.assign({}, obj);
+      return acc;
+    }, {});
+  }
+
+  ngOnInit() {
+    this.filterValueChangesRxx.subscribe(v => {
+      this.filteredData = this.calculateFilteredData(v.surveyStatus);
+      // console.log(this.filteredData);
     });
     // console.log(this.data);
   }

@@ -6,7 +6,7 @@
       <span style="width: 2em"></span>
       <app-shared-filter
         [optionsArr]="optionsArr"
-        (valueChanges)="filterValueChanges.next($event)"
+        (valueChanges)="filterValueChangesRxx.next($event)"
       >
       </app-shared-filter>
       <!--<form [formGroup]="filtersForm" (ngSubmit)="onFiltersFormSubmit()">
@@ -42,76 +42,31 @@
         </md-grid-list>        
       </md-list-item>
       <md-divider></md-divider>
-      <md-list-item>
-        <md-grid-list cols="4" rowHeight="2em" md-line>
-          <!-- this week data row -->
-          <md-grid-tile>
-            本周
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[2].thisWeek || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[3].thisWeek || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{(filteredData[2].thisWeek || 0) + (filteredData[3].thisWeek || 0)}}
-          </md-grid-tile>
-        </md-grid-list>
-      </md-list-item>
-      <md-list-item>
-        <md-grid-list cols="4" rowHeight="2em" md-line>
-          <!-- last week data row -->
-          <md-grid-tile>
-            上周
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[2].lastWeek || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[3].lastWeek || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{(filteredData[2].lastWeek || 0) + (filteredData[3].lastWeek || 0)}}
-          </md-grid-tile>
-        </md-grid-list>
-      </md-list-item>
-      <md-list-item>
-        <md-grid-list cols="4" rowHeight="2em" md-line>
-          <!-- even-earlier data row -->
-          <md-grid-tile>
-            更早
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[2].evenEarlier || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[3].evenEarlier || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{(filteredData[2].evenEarlier || 0) + (filteredData[3].evenEarlier || 0)}}
-          </md-grid-tile>
-        </md-grid-list>
-      </md-list-item>
-      <md-divider></md-divider>
-      <md-list-item>
-        <md-grid-list cols="4" rowHeight="2em" md-line>
-          <!-- sum data row -->
-          <md-grid-tile>
-            合计
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[2].total || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{filteredData[3].total || 0}}
-          </md-grid-tile>
-          <md-grid-tile>
-            {{(filteredData[2].total || 0) + (filteredData[3].total || 0)}}
-          </md-grid-tile>
-        </md-grid-list>
-      </md-list-item>
-
+      <ng-container *ngFor="let item of dataProps; last as isLast">
+        <md-list-item>
+          <md-grid-list cols="4" rowHeight="2em" md-line>
+            <md-divider *ngIf="isLast"></md-divider>
+            <md-grid-tile>
+              {{item.title}}
+            </md-grid-tile>
+            <md-grid-tile>
+              <button md-button color="primary" [disabled]="!filteredData[2][item.name]" (click)="queryList(item.name, '2')">
+                {{filteredData[2][item.name] || 0}}
+              </button>
+            </md-grid-tile>
+            <md-grid-tile>
+              <button md-button color="primary" [disabled]="!filteredData[3][item.name]" (click)="queryList(item.name, '3')">
+                {{filteredData[3][item.name] || 0}}
+              </button>
+            </md-grid-tile>
+            <md-grid-tile>
+              <button md-button color="primary" [disabled]="!filteredData[2][item.name] && !filteredData[3][item.name]" (click)="queryList(item.name)">
+                {{(filteredData[2][item.name] || 0) + (filteredData[3][item.name] || 0)}}
+              </button>
+            </md-grid-tile>
+          </md-grid-list>
+        </md-list-item>
+      </ng-container>
     </md-list>
 
   </md-card-content>
