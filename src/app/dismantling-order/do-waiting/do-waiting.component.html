@@ -4,7 +4,7 @@
       <i class="material-icons">chevron_right</i>
       <span>待拆车辆</span>
       <span style="width: 2em"></span>
-      <app-shared-filter
+      <app-shared-filter class="scale-down"
         [optionsArr]="optionsArr"
         (valueChanges)="filterValueChangesRxx.next($event)"
       >
@@ -50,17 +50,20 @@
               {{item.title}}
             </md-grid-tile>
             <md-grid-tile>
-              <button md-button color="primary" [disabled]="!filteredData[2][item.name]" (click)="queryList(item.name, '2')">
+              <button md-button color="primary" [disabled]="!filteredData[2][item.name]" 
+                (click)="queryList(item.name, '2')">
                 {{filteredData[2][item.name] || 0}}
               </button>
             </md-grid-tile>
             <md-grid-tile>
-              <button md-button color="primary" [disabled]="!filteredData[3][item.name]" (click)="queryList(item.name, '3')">
+              <button md-button color="primary" [disabled]="!filteredData[3][item.name]" 
+              (click)="queryList(item.name, '3')">
                 {{filteredData[3][item.name] || 0}}
               </button>
             </md-grid-tile>
             <md-grid-tile>
-              <button md-button color="primary" [disabled]="!filteredData[2][item.name] && !filteredData[3][item.name]" (click)="queryList(item.name)">
+              <button md-button color="primary" [disabled]="!filteredData[2][item.name] && !filteredData[3][item.name]" 
+              (click)="queryList(item.name)">
                 {{(filteredData[2][item.name] || 0) + (filteredData[3][item.name] || 0)}}
               </button>
             </md-grid-tile>

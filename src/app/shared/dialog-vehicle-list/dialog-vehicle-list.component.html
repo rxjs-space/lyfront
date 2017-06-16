@@ -1,0 +1,11 @@
+<div md-dialog-title>
+  <div>车辆列表 - <small>{{dataFromTrigger.source}}</small></div>
+  <div><small>
+      验车状态：{{dataFromTrigger.surveyStatus}} / 
+      入场日期：{{dataFromTrigger.entranceWeek}} / 
+      车辆类型：{{dataFromTrigger.vehicleType}}
+    </small></div>
+</div>
+<md-dialog-content>
+  <app-vehicle-list [searchQuery]="dataFromTrigger.searchQuery"></app-vehicle-list>
+</md-dialog-content>

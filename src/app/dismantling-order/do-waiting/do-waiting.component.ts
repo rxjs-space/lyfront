@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MdDialog } from '@angular/material';
+
+import { DialogVehicleListComponent } from '../../shared/dialog-vehicle-list/dialog-vehicle-list.component';
 
 @Component({
   selector: 'app-do-waiting',
@@ -49,19 +52,42 @@ export class DoWaitingComponent implements OnInit {
     },
   };
 
-  constructor() { }
+  constructor(
+    public dialog: MdDialog,
+  ) { }
 
   queryList(entranceWeek, vehicleType?) {
     const surveyStatus = (this.filterValueChangesRxx.getValue()).surveyStatus;
     const searchQuery = {entranceWeek};
+    searchQuery['dismantling'] = false;
+    searchQuery['status.dismantled.done'] = false;
     if (surveyStatus > 1) {
       searchQuery['status.firstSurvey.done'] = this.basedOnSurveyStatus[surveyStatus].firstSurvey;
       searchQuery['status.secondSurvey.done'] = this.basedOnSurveyStatus[surveyStatus].secondSurvey;
     }
     if (vehicleType) {
       searchQuery['vehicle.vehicleType'] = vehicleType;
+    } else {
+      vehicleType = '全部' // this '全部' has no corresponding serachQuery
     }
-    console.log(searchQuery);
+    // console.log(searchQuery);
+    const dialogRef = this.dialog.open(DialogVehicleListComponent, {
+      width: '650px',
+      data: {
+        searchQuery,
+        source: '待拆车辆',
+        surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)).viewValue,
+        entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
+        vehicleType
+
+        // types: this.zipData.types,
+        // titles: this.zipData.titles,
+        // vin: vehicleBrief.vin,
+        // vehicleType: vehicleBrief.vehicle.vehicleType,
+        // canCreateNew: !vehicleBrief.dismantling && !vehicleBrief.status.dismantled.done
+      },
+    });
+
   }
 
   calculateFilteredData(surveyStatus) {

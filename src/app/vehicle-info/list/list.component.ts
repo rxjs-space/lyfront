@@ -63,7 +63,7 @@ export class ListComponent implements OnInit {
   }
 
   openDialogDO(vehicleBrief) {
-    console.log(vehicleBrief);
+    // console.log(vehicleBrief);
     const dialogRef = this.dialog.open(DialogDismantlingOrderComponent, {
       width: '650px',
       data: {

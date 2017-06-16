@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -6,6 +6,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/first';
 import { MdDialog } from '@angular/material';
 
+import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
 
 import { DataService } from '../../data/data.service';
 import { DialogDismantlingOrderPrintComponent } from '../dialog-dismantling-order-print/dialog-dismantling-order-print.component';
@@ -16,17 +17,20 @@ import { DialogDismantlingOrderPrintComponent } from '../dialog-dismantling-orde
   templateUrl: './existing-dismantling-orders.component.html',
   styleUrls: ['./existing-dismantling-orders.component.scss']
 })
-export class ExistingDismantlingOrdersComponent implements OnInit {
+export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
   @Input() vin: any;
   @Input() titles: any;
   dismantlingOrdersForm: FormGroup;
   dismantlingOrders: any;
   vehicle: any;
-  pendingTaskCountRxx = new BehaviorSubject(0);
-  dataLoadedRxx = new BehaviorSubject(null);
+  pendingTaskCountRxx = new BehaviorSubject(0); // will be deleted
+  dataLoadedRxx = new BehaviorSubject(null); // will be deleted?
+  asyncDataLoaderSource = 'existingDismantlingOrders' + Math.random();
+  dataItemList = ['vehicle', 'dismantlingOrders'];
 
 
   constructor(
+    public asyncDataLoader: AsyncDataLoaderService,
     public dialog: MdDialog,
     private data: DataService,
     private fb: FormBuilder) { }
@@ -60,8 +64,10 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
         modifiedBy: ObjectID;
       }
     */
-    this.pendingTaskCountRxx
-      .filter(v => v === 0)
+
+
+    this.asyncDataLoader.isLoadedRxxFac(this.asyncDataLoaderSource, this.dataItemList)
+      .filter(v => v)
       .first()
       .subscribe(() => {
         this.dismantlingOrdersForm = this.fb.group({
@@ -77,6 +83,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
 
 
   refreshVehicle(vin) {
+    this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[0], null);
     this.pendingTaskCountRxx.next(this.pendingTaskCountRxx.getValue() + 1);
     this.data.getVehicleByVIN(vin)
       .first()
@@ -85,6 +92,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
         error
       }))
       .subscribe(v => {
+        this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[0], v);
         // update dataLoadedRxx
         if (v.error) {return this.dataLoadedRxx.next(v); };
         if (this.dismantlingOrders && !this.dismantlingOrders.error) {
@@ -96,6 +104,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
   }
 
   refreshDismantlingOrders(vin) {
+    this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[1], null);
     this.pendingTaskCountRxx.next(this.pendingTaskCountRxx.getValue() + 1);
     this.data.getDismantlingOrders({vin})
       .first()
@@ -104,6 +113,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
         error
       }))
       .subscribe(dismantlingOrders => {
+        this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[1], dismantlingOrders);
         // console.log(dismantlingOrders);
         // update dataLoadedRxx
         if (dismantlingOrders.error) {return this.dataLoadedRxx.next(dismantlingOrders); };
@@ -115,7 +125,9 @@ export class ExistingDismantlingOrdersComponent implements OnInit {
       });
   }
 
-
+  ngOnDestroy() {
+    this.asyncDataLoader.destroy(this.asyncDataLoaderSource);
+  }
 
 }
 

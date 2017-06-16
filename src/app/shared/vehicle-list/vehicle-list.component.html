@@ -1,0 +1,94 @@
+
+<!--{{(asyncDataLoader.getDataRxxFac(asyncDataLoaderSource, dataItemList) | async).vehicleList |json }}-->
+<md-list class="vehicle-list"
+  *ngIf="(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async) && !(asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)"
+>
+  <ng-container *ngFor="let vehicle of vehicleList; last as isLast">
+
+  <md-list-item>
+    <div md-line>
+      <md-grid-list cols="9" rowHeight="3em">
+        <md-grid-tile class="clickable" [routerLink]="['/vehicles/'+vehicle.vin]">
+        <!--<md-grid-tile class="clickable">-->
+          <i class="material-icons" md-list-icon >drive_eta</i>
+        </md-grid-tile>
+        <md-grid-tile class="left-aligned-tile clickable" colspan="5" [routerLink]="['/vehicles/'+vehicle.vin]">
+        <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5">-->
+          <div>
+            <div>
+              <span>{{vehicle.vin}}</span><span> / </span>
+              <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
+              <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
+              <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
+            </div>
+            <div>
+              <small>
+                <app-vehicle-list-status [vehicle]="vehicle"></app-vehicle-list-status>
+              </small>
+            </div>
+          </div>
+        </md-grid-tile>
+        <md-grid-tile colspan="3">
+          <app-trigger-dismantling-order
+            [titles]="btity.titles"
+            [types]="btity.types"
+            [vehicle]="vehicle"
+          ></app-trigger-dismantling-order>
+        </md-grid-tile>
+      </md-grid-list>
+
+    </div>
+  </md-list-item>
+
+
+
+
+    <md-divider *ngIf="!isLast"></md-divider>
+  </ng-container>
+</md-list>
+<md-spinner
+  *ngIf="!(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async)"
+></md-spinner>
+<md-card *ngIf="asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async">
+  <md-card-content>
+    Something broke.
+  </md-card-content>
+</md-card>
+
+<!--<md-list class="vehicle-list">
+  <ng-container *ngFor="let vehicle of zipData.vehicles">
+  <md-list-item>
+    <div md-line>
+      <md-grid-list cols="9" rowHeight="3em">
+        <md-grid-tile class="clickable" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
+          <i class="material-icons" md-list-icon >drive_eta</i>
+        </md-grid-tile>
+        <md-grid-tile class="left-aligned-tile clickable" colspan="5" [routerLink]="['../'+vehicle.vin, {isFromList: true}]">
+          <div>
+            <div>
+              <span>{{vehicle.vin}}</span><span> / </span>
+              <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
+              <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
+              <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
+            </div>
+            <div>
+              <small>
+                <app-list-status [vehicle]="vehicle"></app-list-status>
+              </small>
+            </div>
+          </div>
+        </md-grid-tile>
+        <md-grid-tile colspan="3">
+          <app-trigger-dismantling-order
+            [titles]="zipData.titles"
+            [types]="zipData.types"
+            [vehicle]="vehicle"
+          ></app-trigger-dismantling-order>
+        </md-grid-tile>
+      </md-grid-list>
+
+    </div>
+  </md-list-item>
+  <md-divider></md-divider>
+  </ng-container>
+</md-list>-->

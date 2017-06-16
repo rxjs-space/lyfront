@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { /*BaseRequestOptions,*/ HttpModule } from '@angular/http';
 // import { MockBackend } from '@angular/http/testing';
+import { RouterModule } from '@angular/router';
 
 
 import {
@@ -21,7 +22,6 @@ import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.com
 import { DisplayFunctionsService } from './display-functions/display-functions.service';
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
 import { DialogYesOrNoComponent } from './dialog-yes-or-no/dialog-yes-or-no.component';
-import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { FormUtilsService } from './form-utils/form-utils.service';
 import { DialogDismantlingOrderComponent } from './dialog-dismantling-order/dialog-dismantling-order.component';
 import { LoadingOrError2Component } from './loading-or-error-2/loading-or-error-2.component';
@@ -29,6 +29,11 @@ import { ExistingDismantlingOrdersComponent } from './dialog-dismantling-order/e
 import { TriggerDismantlingOrderComponent } from './dialog-dismantling-order/trigger-dismantling-order.component';
 import { SharedFilterComponent } from './shared-filter/shared-filter.component';
 import { DialogDismantlingOrderPrintComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print.component';
+import { DialogVehicleListComponent } from './dialog-vehicle-list/dialog-vehicle-list.component';
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { AsyncDataLoaderService } from './async-data-loader/async-data-loader.service';
+import { AsyncMonitorService } from './async-monitor/async-monitor.service';
+import { VehicleListStatusComponent } from './vehicle-list/vehicle-list-status.component';
 
 
 const mdModules = [
@@ -55,7 +60,8 @@ const mdModules = [
     CommonModule,
     HttpModule,
     ...mdModules,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   declarations: [
     NotFoundComponent,
@@ -67,7 +73,10 @@ const mdModules = [
     ExistingDismantlingOrdersComponent,
     TriggerDismantlingOrderComponent,
     SharedFilterComponent,
-    DialogDismantlingOrderPrintComponent
+    DialogDismantlingOrderPrintComponent,
+    DialogVehicleListComponent,
+    VehicleListComponent,
+    VehicleListStatusComponent
   ],
   exports: [
     CommonModule,
@@ -80,11 +89,13 @@ const mdModules = [
     AutocompleteComboComponent,
     TriggerDismantlingOrderComponent,
     SharedFilterComponent,
+    VehicleListComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,
     DialogDismantlingOrderComponent,
-    DialogDismantlingOrderPrintComponent
+    DialogDismantlingOrderPrintComponent,
+    DialogVehicleListComponent
   ]
 })
 export class SharedModule {
@@ -94,8 +105,9 @@ export class SharedModule {
       providers: [
         SharedValidatorsService,
         DisplayFunctionsService,
-        AsyncMonitorService,
-        FormUtilsService
+        FormUtilsService,
+        AsyncDataLoaderService,
+        AsyncMonitorService
       ]
     };
   }
