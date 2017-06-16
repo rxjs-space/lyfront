@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { MdDialog } from '@angular/material';
 
 import { DataService } from '../../data/data.service';
 import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
+import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
+
 
 @Component({
   selector: 'app-vehicle-list',
@@ -21,6 +24,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    public dialog: MdDialog,
     public asyncDataLoader: AsyncDataLoaderService,
     private data: DataService
   ) { }
@@ -32,8 +36,22 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     }
   }
 
+  openDialogVehicle(vin) {
+    this.dialog.open(DialogVehicleComponent, {
+      width: '100%',
+      height: '100%',
+      // panelClass: '',
+      // disableClose: true,
+      data: {
+        types: this.btity.types,
+        titles: this.btity.titles,
+        vin
+      }
+    })
+  }
+
   ngOnInit() {
-    console.log(this.searchQuery);
+    // console.log(this.searchQuery);
     this.refreshBtity();
     this.refreshVehicleList();
     const sub0_ = this.asyncDataLoader.getDataRxxFac(this.asyncDataLoaderSource, this.dataItemList)

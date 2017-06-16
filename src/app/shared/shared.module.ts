@@ -34,6 +34,7 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { AsyncDataLoaderService } from './async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { VehicleListStatusComponent } from './vehicle-list/vehicle-list-status.component';
+import { DialogVehicleComponent } from './dialog-vehicle/dialog-vehicle.component';
 
 
 const mdModules = [
@@ -76,7 +77,8 @@ const mdModules = [
     DialogDismantlingOrderPrintComponent,
     DialogVehicleListComponent,
     VehicleListComponent,
-    VehicleListStatusComponent
+    VehicleListStatusComponent,
+    DialogVehicleComponent
   ],
   exports: [
     CommonModule,
@@ -95,7 +97,8 @@ const mdModules = [
     DialogYesOrNoComponent,
     DialogDismantlingOrderComponent,
     DialogDismantlingOrderPrintComponent,
-    DialogVehicleListComponent
+    DialogVehicleListComponent,
+    DialogVehicleComponent
   ]
 })
 export class SharedModule {
