@@ -1,6 +1,6 @@
 <app-loading-or-error-2 [data]="reports">
   <ng-container *ngIf="reports && !reports.error">
-    <app-do-waiting [data]="reports.waiting">
+    <app-do-waiting [data]="reports.waiting" (needUpdate)="onNeedUpdate($event)">
     </app-do-waiting>
     <app-do-dismantling>
     </app-do-dismantling>

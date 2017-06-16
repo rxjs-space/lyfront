@@ -1,11 +1,16 @@
 <div md-dialog-title>
   <div>车辆列表 - <small>{{dataFromTrigger.source}}</small></div>
+  <button md-button type="button" class="close-button" 
+    (click)="dialogRef.close(vehicleListComponent.isListRefreshed)">
+    <i class="material-icons">close</i>
+  </button>  
+
   <div><small>
-      验车状态：{{dataFromTrigger.surveyStatus}} / 
-      入场日期：{{dataFromTrigger.entranceWeek}} / 
-      车辆类型：{{dataFromTrigger.vehicleType}}
+      <span *ngIf="dataFromTrigger.surveyStatus">验车状态：{{dataFromTrigger.surveyStatus}} / </span>
+      <span *ngIf="dataFromTrigger.entranceWeek">入场日期：{{dataFromTrigger.entranceWeek}} / </span>
+      <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType}}</span>
     </small></div>
 </div>
 <md-dialog-content>
-  <app-vehicle-list [searchQuery]="dataFromTrigger.searchQuery"></app-vehicle-list>
+  <app-vehicle-list [searchQuery]="dataFromTrigger.searchQuery" #vehicleListComponent></app-vehicle-list>
 </md-dialog-content>

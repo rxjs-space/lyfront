@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MdDialog } from '@angular/material';
 
@@ -13,7 +13,7 @@ export class DoWaitingComponent implements OnInit {
   @Input() data;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({surveyStatus: 1});
-
+  @Output() needUpdate = new EventEmitter();
   optionsArr = [
     {
       title: 'surveyStatus',
@@ -67,12 +67,14 @@ export class DoWaitingComponent implements OnInit {
     }
     if (vehicleType) {
       searchQuery['vehicle.vehicleType'] = vehicleType;
+      // vehicleType here could be '2' or 'z', backend will deal with 'z'
     } else {
       vehicleType = '全部' // this '全部' has no corresponding serachQuery
     }
     // console.log(searchQuery);
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {
       width: '650px',
+      disableClose: true,
       data: {
         searchQuery,
         source: '待拆车辆',
@@ -88,6 +90,11 @@ export class DoWaitingComponent implements OnInit {
       },
     });
 
+    dialogRef.afterClosed().subscribe(v => {
+      // if (v) {this.needUpdate.emit(true); }
+      this.needUpdate.emit(v);
+    });
+
   }
 
   calculateFilteredData(surveyStatus) {
@@ -98,7 +105,7 @@ export class DoWaitingComponent implements OnInit {
       '4': curr => {return curr['status.secondSurvey.done']},
     };
     return this.data.reduce((acc, curr) => {
-      const currType = curr['vehicle.vehicleType'];
+      const currType = curr['vehicle.vehicleType'] * 1 === 2 ? '摩托车' : '非摩托车';
       const obj = {};
       for (const item of this.dataProps) {
         const name = item.name;
@@ -107,7 +114,7 @@ export class DoWaitingComponent implements OnInit {
           obj[name] = (acc[currType] ? (acc[currType][name] ? acc[currType][name] : 0) : 0) + curr[name];
         }
       }
-      acc[curr['vehicle.vehicleType']] = Object.assign({}, obj);
+      acc[currType] = Object.assign({}, obj);
       return acc;
     }, {});
   }

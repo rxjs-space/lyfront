@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 
 import { DialogDismantlingOrderComponent } from '../../shared/dialog-dismantling-order/dialog-dismantling-order.component';
@@ -12,6 +12,7 @@ export class TriggerDismantlingOrderComponent implements OnInit {
   @Input() types;
   @Input() titles;
   @Input() vehicle;
+  @Output() createdNew = new EventEmitter();
   canCreateNew = false;
   constructor(
     public dialog: MdDialog,
@@ -27,6 +28,7 @@ export class TriggerDismantlingOrderComponent implements OnInit {
 
     const dialogRef = this.dialog.open(DialogDismantlingOrderComponent, {
       width: '650px',
+      disableClose: true,
       data: {
         types: this.types,
         titles: this.titles,
@@ -35,6 +37,8 @@ export class TriggerDismantlingOrderComponent implements OnInit {
         canCreateNew: this.canCreateNew
       },
     });
+
+    dialogRef.afterClosed().subscribe(result => this.createdNew.emit(result));
   }
 
 

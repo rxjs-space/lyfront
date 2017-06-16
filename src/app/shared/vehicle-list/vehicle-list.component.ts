@@ -17,13 +17,20 @@ export class VehicleListComponent implements OnInit, OnDestroy {
   btity: any;
   vehicleList: any;
   subscriptions: Subscription[] = [];
-
+  isListRefreshed = false;
 
 
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
     private data: DataService
   ) { }
+
+  onCreatedNew(event) {
+    if (event) {
+      this.refreshVehicleList();
+      this.isListRefreshed = true;
+    }
+  }
 
   ngOnInit() {
     console.log(this.searchQuery);

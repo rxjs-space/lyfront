@@ -1,6 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/first';
 import jsonpatch from 'fast-json-patch';
 
@@ -19,6 +22,10 @@ export class DialogDismantlingOrderComponent implements OnInit {
   dismantlingOrderEmpty = new DismantlingOrder();
 
   doForm: FormGroup;
+  @Output() createdNew = new EventEmitter();
+  createdNewRxx = new BehaviorSubject(null);
+  creatingNewRxx = new BehaviorSubject(false);
+  dismantlingListLoaded: boolean;
   constructor(
     private sv: SharedValidatorsService,
     private fb: FormBuilder,
@@ -30,6 +37,14 @@ export class DialogDismantlingOrderComponent implements OnInit {
   ngOnInit() {
     // console.log(this.dataFromTrigger);
     this.rebuildForm();
+
+    const enableForm = () => {
+      this.doForm.enable();
+      this.doForm.get('orderDate').disable();
+    }
+    this.creatingNewRxx.subscribe(v => {
+      v ? this.doForm.disable() : enableForm()
+    });
   }
 
 
@@ -50,14 +65,25 @@ export class DialogDismantlingOrderComponent implements OnInit {
 
   onDOFormSubmit() {
     console.log('submitting form');
+    this.creatingNewRxx.next(true);
     const dismantlingOrder = Object.assign({}, this.dismantlingOrderEmpty, this.doForm.getRawValue());
-    dismantlingOrder.vehicleType = (this.dataFromTrigger.types['vehicleTypes'].find(vt => vt.name === dismantlingOrder.vehicleType)).id;
+    // dismantlingOrder.vehicleType = (this.dataFromTrigger.types['vehicleTypes'].find(vt => vt.name === dismantlingOrder.vehicleType)).id;
     const patches = jsonpatch.compare(this.dismantlingOrderEmpty, dismantlingOrder);
     this.data.insertDismantlingOrder({
       dismantlingOrder, patches
     })
     .first()
-    .subscribe(res => console.log(res));
+    .catch(error => {
+      return Observable.of({
+        ok: false,
+        error
+      });
+    })
+    .subscribe(res => {
+      this.createdNew.emit(res);
+      this.createdNewRxx.next(res);
+      this.creatingNewRxx.next(false);
+    });
     // save the form.value
     // update doList
     // update vehicle.dismantling

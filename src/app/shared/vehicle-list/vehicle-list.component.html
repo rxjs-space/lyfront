@@ -3,6 +3,9 @@
 <md-list class="vehicle-list"
   *ngIf="(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async) && !(asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)"
 >
+  <md-list-item *ngIf="!vehicleList.length">
+    无
+  </md-list-item>
   <ng-container *ngFor="let vehicle of vehicleList; last as isLast">
 
   <md-list-item>
@@ -19,6 +22,7 @@
               <span>{{vehicle.vin}}</span><span> / </span>
               <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
               <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
+              <span>{{vehicle.vehicle.brand || '品牌暂无'}}</span><span> / </span>
               <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
             </div>
             <div>
@@ -33,6 +37,7 @@
             [titles]="btity.titles"
             [types]="btity.types"
             [vehicle]="vehicle"
+            (createdNew)="onCreatedNew($event)"
           ></app-trigger-dismantling-order>
         </md-grid-tile>
       </md-grid-list>
@@ -47,7 +52,7 @@
   </ng-container>
 </md-list>
 <md-spinner
-  *ngIf="!(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async)"
+  *ngIf="!(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async) || (asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)"
 ></md-spinner>
 <md-card *ngIf="asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async">
   <md-card-content>

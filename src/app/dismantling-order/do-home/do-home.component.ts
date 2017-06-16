@@ -29,4 +29,11 @@ export class DoHomeComponent implements OnInit {
       .subscribe(res => this.reports = res);
   }
 
+  onNeedUpdate(event) {
+    // console.log(event);
+    if (event) {
+      this.getReports();
+    }
+  }
+
 }

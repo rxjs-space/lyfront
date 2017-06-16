@@ -1,7 +1,13 @@
 
-  <div md-dialog-title>拆解计划 - <small>车辆识别代号: {{dataFromTrigger.vin}} / 车辆类型: {{dataFromTrigger.vehicleType}}</small></div>
+  <div md-dialog-title>
+    <span>拆解计划 - </span>
+    <small>车辆识别代号: {{dataFromTrigger.vin}} / 车辆类型: {{dataFromTrigger.vehicleType}}</small>
+    <button md-button type="button" class="close-button" (click)="dialogRef.close(createdNewRxx.getValue())">
+      <i class="material-icons">close</i>
+    </button>  
+  </div>
   <md-card>
-    <ng-container *ngIf="dataFromTrigger.canCreateNew">
+    <ng-container *ngIf="dataFromTrigger.canCreateNew && !(createdNewRxx | async)">
       <md-card-header>
         <md-card-title>新建拆解计划</md-card-title>
       </md-card-header>
@@ -27,8 +33,9 @@
             <!-- todo: correspondingSalesOrder input -->
           <div>
             <button type="submit" md-raised-button color="primary"
-              [disabled]="doForm.invalid"
+              [disabled]="doForm.invalid || (creatingNewRxx | async)"
             >保存</button>
+            <span><md-spinner class="mini-spinner" *ngIf="creatingNewRxx | async"></md-spinner></span>
           </div>
         </form>
       </md-card-content>
@@ -36,5 +43,7 @@
 
     <app-existing-dismantling-orders
       [titles]="dataFromTrigger.titles"
-      [vin]="dataFromTrigger.vin"></app-existing-dismantling-orders>
+      [vin]="dataFromTrigger.vin"
+      [createdNewRxx]="createdNewRxx"
+    ></app-existing-dismantling-orders>
   </md-card>

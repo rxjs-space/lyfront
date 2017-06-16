@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/first';
 import { MdDialog } from '@angular/material';
@@ -27,8 +28,9 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
   dataLoadedRxx = new BehaviorSubject(null); // will be deleted?
   asyncDataLoaderSource = 'existingDismantlingOrders' + Math.random();
   dataItemList = ['vehicle', 'dismantlingOrders'];
-
-
+  @Input() createdNewRxx: BehaviorSubject<any>;
+  subscriptions: Subscription[] = [];
+  
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
     public dialog: MdDialog,
@@ -40,6 +42,14 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
     this.refreshDismantlingOrders(this.vin);
     this.refreshVehicle(this.vin);
     this.rebuildForm();
+    const sub0_ = this.createdNewRxx.subscribe(newOne => {
+      if (newOne) {
+        this.refreshDismantlingOrders(this.vin);
+        this.refreshVehicle(this.vin);
+        this.rebuildForm();
+      }
+    });
+    this.subscriptions.push(sub0_);
 
   }
 
@@ -127,6 +137,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.asyncDataLoader.destroy(this.asyncDataLoaderSource);
+    this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
 }
