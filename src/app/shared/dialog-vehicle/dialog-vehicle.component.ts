@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewEncapsulation, HostBinding, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
@@ -8,7 +8,8 @@ import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.s
 @Component({
   selector: 'app-dialog-vehicle',
   templateUrl: './dialog-vehicle.component.html',
-  styleUrls: ['./dialog-vehicle.component.scss']
+  styleUrls: ['./dialog-vehicle.component.scss'],
+  // encapsulation: ViewEncapsulation.None
 })
 export class DialogVehicleComponent implements OnInit, OnDestroy {
 
@@ -46,11 +47,34 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     this.holder.refreshByTitle('vehicle');
   }
 
+  /**
+   * 1) set <dialog-container>'s overflow to visible, visibility to visible
+   * 2) set <html>'s position to initial, visibility to hidden
+   * 3) set <overlay-container>'s position to initial
+   */
   preparePrint() {
     console.log('preparing to print');
+    const htmlElement = document.querySelector('html');
+    htmlElement.classList.add('prepare-print-html');
+    const dialogVehicleElement = document.querySelector('app-dialog-vehicle');
+    const dialogContainerElement = dialogVehicleElement.parentElement;
+    dialogContainerElement.classList.add('prepare-print-dialog-container')
+    const overlayContainerElement = document.querySelector('.cdk-overlay-container');
+    overlayContainerElement.classList.add('prepare-print-overlay-container')
+  }
+
+  rollbackPreparePrint() {
+    const htmlElement = document.querySelector('html');
+    htmlElement.classList.remove('prepare-print-html');
+    const dialogVehicleElement = document.querySelector('app-dialog-vehicle');
+    const dialogContainerElement = dialogVehicleElement.parentElement;
+    dialogContainerElement.classList.remove('prepare-print-dialog-container')
+    const overlayContainerElement = document.querySelector('.cdk-overlay-container');
+    overlayContainerElement.classList.remove('prepare-print-overlay-container')
   }
 
   ngOnDestroy() {
+    this.rollbackPreparePrint();
     this.asyncDataLoader.destroy(this.asyncDataId);
   }
 

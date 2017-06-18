@@ -35,6 +35,7 @@ import { AsyncDataLoaderService } from './async-data-loader/async-data-loader.se
 import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { VehicleListStatusComponent } from './vehicle-list/vehicle-list-status.component';
 import { DialogVehicleComponent } from './dialog-vehicle/dialog-vehicle.component';
+import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 
 
 const mdModules = [
@@ -78,7 +79,8 @@ const mdModules = [
     DialogVehicleListComponent,
     VehicleListComponent,
     VehicleListStatusComponent,
-    DialogVehicleComponent
+    DialogVehicleComponent,
+    VehicleDetailsComponent
   ],
   exports: [
     CommonModule,
@@ -91,7 +93,8 @@ const mdModules = [
     AutocompleteComboComponent,
     TriggerDismantlingOrderComponent,
     SharedFilterComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    VehicleDetailsComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,

@@ -77,3 +77,31 @@ div.mat-card-header-text {
 }
 /* material icons ends */
 
+
+
+// md-dialog-container.mat-dialog-container {
+//   overflow: visible;
+// }
+
+// styles for printing dialog contents - start
+html.cdk-global-scrollblock.prepare-print-html {
+  position: initial;
+  visibility: hidden;
+}
+
+
+.cdk-overlay-container.prepare-print-overlay-container {
+  position: initial;
+}
+
+md-dialog-container.mat-dialog-container.prepare-print-dialog-container {
+  overflow: visible;
+  visibility: visible;
+  left: 0;
+  max-width: none;
+  width: 100%;
+  position: absolute;
+}
+
+
+// styles for printing dialog contents - end
