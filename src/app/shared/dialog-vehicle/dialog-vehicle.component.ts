@@ -12,13 +12,10 @@ import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.s
 })
 export class DialogVehicleComponent implements OnInit, OnDestroy {
 
-  vehicle: any;
-  btity: any;
+  vehicleRxx: any;
+  btityRxx: any;
   asyncDataId = 'dialogVehicleComponent' + Math.random();
-  dataItems = ['btity', 'vehicle'];
-  isLoadedRxx: any;
-  hasErrorRxx: any;
-  
+
   itemRxHash = {
     btity: this.data.btityRxx,
     vehicle: this.data.getVehicleByVIN(this.dataFromTrigger.vin)
@@ -35,45 +32,18 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log(this.dataFromTrigger);
-    this.isLoadedRxx = this.asyncDataLoader.isLoadedRxxFac(this.asyncDataId, this.dataItems);
-    this.hasErrorRxx = this.asyncDataLoader.hasErrorRxxFac(this.asyncDataId, this.dataItems);
-    this.refreshBtity();
-    this.refreshVehicle();
+    // console.log(this.dataFromTrigger);
 
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     this.isLoadedWithoutErrorRxx = this.holder.isLoadedWithoutErrorRxx;
     this.isWithErrorRxx = this.holder.isWithErrorRxx;
+    this.vehicleRxx = this.holder.latestResultRxxHash['vehicle'];
+    this.btityRxx = this.holder.latestResultRxxHash['btity'];
     this.holder.refreshAll();
   }
 
-  refreshBtity() {
-    this.asyncDataLoader.feed(this.asyncDataId, this.dataItems[0], null);
-    this.data.btityRxx
-      .catch(error => {
-        return Observable.of({
-          ok: false, error
-        });
-      })
-      .subscribe(btity => {
-        this.asyncDataLoader.feed(this.asyncDataId, this.dataItems[0], btity);
-        this.btity = btity;
-      });
-  }
-
-  refreshVehicle() {
-    this.asyncDataLoader.feed(this.asyncDataId, this.dataItems[1], null);
-    this.data.getVehicleByVIN(this.dataFromTrigger.vin)
-      .catch(error => {
-        return Observable.of({
-          ok: false,
-          error
-        });
-      })
-      .subscribe(v => {
-        this.asyncDataLoader.feed(this.asyncDataId, this.dataItems[1], v);
-        this.vehicle = v;
-      });
+  refV() {
+    this.holder.refreshByTitle('vehicle');
   }
 
   preparePrint() {

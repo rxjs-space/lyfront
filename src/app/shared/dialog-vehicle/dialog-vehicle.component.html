@@ -1,11 +1,11 @@
 <div class="printable">
 <button md-button type="button" (click)="preparePrint()">print</button>
+<button md-button type="button" (click)="refV()">refV</button>
 
-<app-loading-or-error-2 [data]="vehicle">
-  <ng-container *ngIf="vehicle && !vehicle.error">
-{{ vehicle | json}}
-
-  </ng-container>
-</app-loading-or-error-2>
+  <md-spinner *ngIf="!((isLoadedWithoutErrorRxx | async) || (isWithErrorRxx | async))"></md-spinner>
+  <p *ngIf="isWithErrorRxx | async">Something broke.</p>
+  <div *ngIf="isLoadedWithoutErrorRxx | async">
+    {{ vehicleRxx | async | json }}
+  </div>
 </div>
 

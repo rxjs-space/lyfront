@@ -24,21 +24,27 @@ export class AsyncDataLoaderService {
     for (const k of keys) {
       latestResultRxxHash[k] = new BehaviorSubject(null);
       itemRxHash[k] = itemRxHash[k]
-        .do(() => latestResultRxxHash[k].next(null))
         .first()
         .catch(error => Observable.of({
           ok: false,
           error
         }))
-        .map(r => latestResultRxxHash[k].next(r));
+        .do(r => latestResultRxxHash[k].next(r))
+        .startWith('loading')
+        .do(r => {
+          if (r === 'loading') {
+            latestResultRxxHash[k].next(null);
+          }
+        })
     }
 
     const latestResultRxxArray = keys.map(k => latestResultRxxHash[k]);
     Observable.combineLatest(latestResultRxxArray)
       .subscribe(resultArray => {
+        console.log(resultArray);
         let isWithError = false;
         for (const result of resultArray) {
-          if (result.error) {
+          if (result && result.error) {
             isWithError = true;
             break;
           }
@@ -47,7 +53,7 @@ export class AsyncDataLoaderService {
 
         let isLoadedWithOutError = true;
         for (const result of resultArray) {
-          if (!result) {
+          if (!result || result.error) {
             isLoadedWithOutError = false;
             break;
           }
