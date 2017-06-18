@@ -76,8 +76,6 @@ export class AsyncDataLoaderService {
     }
 
     this.holder[source] = {
-      keys,
-      itemRxHash,
       latestResultRxxHash,
       isLoadedWithoutErrorRxx,
       isWithErrorRxx,
