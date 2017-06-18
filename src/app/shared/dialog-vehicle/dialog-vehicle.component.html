@@ -1,3 +1,11 @@
-<p>
-  dialog-vehicle works!
-</p>
+<div class="printable">
+<button md-button type="button" (click)="preparePrint()">print</button>
+
+<app-loading-or-error-2 [data]="vehicle">
+  <ng-container *ngIf="vehicle && !vehicle.error">
+{{ vehicle | json}}
+
+  </ng-container>
+</app-loading-or-error-2>
+</div>
+

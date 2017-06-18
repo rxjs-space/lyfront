@@ -38,8 +38,9 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
   openDialogVehicle(vin) {
     this.dialog.open(DialogVehicleComponent, {
-      width: '100%',
+      width: '80%',
       height: '100%',
+
       // panelClass: '',
       // disableClose: true,
       data: {

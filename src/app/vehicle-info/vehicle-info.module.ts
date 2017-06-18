@@ -53,6 +53,9 @@ import { ListStatusComponent } from './list-status/list-status.component';
     DialogRemarkComponent,
     DialogVehicleCostsComponent,
     DialogBrandComponent
+  ],
+  exports: [
+    ShowVehicleDetailsComponent,
   ]
 })
 export class VehicleInfoModule { }

@@ -13,7 +13,7 @@
       Something went wrong: {{ (dataLoadedRxx | async).error }}
     </div>
     <ng-container 
-      *ngIf="(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async) && !(asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)"
+      *ngIf="(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async)"
     >
       <div *ngIf="dismantlingOrders && dismantlingOrders.length === 0">暂无</div>
 
