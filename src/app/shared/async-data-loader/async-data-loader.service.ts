@@ -24,6 +24,7 @@ export class AsyncDataLoaderService {
     for (const k of keys) {
       latestResultRxxHash[k] = new BehaviorSubject(null);
       itemRxHash[k] = itemRxHash[k]
+        .filter(v => v!== null)
         .first()
         .catch(error => Observable.of({
           ok: false,
@@ -75,13 +76,19 @@ export class AsyncDataLoaderService {
       itemRxHash[title].subscribe();
     }
 
+    const self = this;
+    const destroy = () => {
+      self.holder[source] = null;
+    };
+
     this.holder[source] = {
       latestResultRxxHash,
       isLoadedWithoutErrorRxx,
       isWithErrorRxx,
       refreshAll,
-      refreshByTitle
-    }
+      refreshByTitle,
+      destroy
+    };
 
     return this.holder[source];
   }

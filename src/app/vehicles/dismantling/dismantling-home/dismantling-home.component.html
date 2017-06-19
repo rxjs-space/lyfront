@@ -1,0 +1,5 @@
+<md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
+<p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
+<div *ngIf="holder.isLoadedWithoutErrorRxx | async">
+  <app-dismantling-idle [data]="(holder.latestResultRxxHash['reports'] | async)['idle']"></app-dismantling-idle>
+</div>

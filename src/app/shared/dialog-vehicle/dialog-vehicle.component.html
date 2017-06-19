@@ -1,50 +1,24 @@
-<div class="printable">
-<button md-button type="button" (click)="preparePrint()">print</button>
-<button md-button type="button" (click)="refV()">refV</button>
+<div md-dialog-title>
+  <span *ngIf="!this.dataFromTrigger.vin">新建车辆</span>
+  <span *ngIf="this.dataFromTrigger.vin">车辆详情</span>
+  <small>
+    <!--<span>车辆识别代号：{{dataFromTrigger.vin}}；</span>
+    <span>号牌号码：{{dataFromTrigger.vehicle.vehicle.plateNo}}</span>-->
+  </small>
+</div>
+
 
   <md-spinner *ngIf="!((isLoadedWithoutErrorRxx | async) || (isWithErrorRxx | async))"></md-spinner>
   <p *ngIf="isWithErrorRxx | async">Something broke.</p>
-  <div *ngIf="isLoadedWithoutErrorRxx | async">
-    <!--<app-vehicle-details [vehicle]="vehicleRxx | async"></app-vehicle-details>-->
+  <div *ngIf="isLoadedWithoutErrorRxx | async" md-dialog-content>
+    <app-vehicle-details 
+      [vehicle]="vehicleRxx | async"
+      [btity]="btityRxx | async"
+    ></app-vehicle-details>
+    <!--<form></form>-->
+  
   </div>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>ohokoh</p>
-  <p>end</p>
+<div md-dialog-actions>
+  <button md-button type="button" (click)="preparePrint()">print</button>
 </div>
 

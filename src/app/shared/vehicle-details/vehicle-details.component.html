@@ -1,3 +1,5 @@
-<p>
-  vehicle-details works!
-</p>
+<app-vehicle-details-general [btity]="btity" [vehicle]="vehicle" [isNew]="isNew">
+
+</app-vehicle-details-general>
+
+{{(dGeneral.fform && dGeneral.fform.getRawValue()) | json}}

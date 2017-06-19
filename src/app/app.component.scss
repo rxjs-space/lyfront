@@ -79,6 +79,11 @@
 
 /deep/ .info-card {
   margin-bottom: 5px;
+
+  /deep/ .vertical-center-container {
+    display: flex;
+    align-items: center;
+  }
 }
 
 /deep/ .checkbox-array div {
@@ -116,13 +121,13 @@
   right: 3em;
 }
 
-/deep/ .vertical-center-container {
-  display: flex;
-  align-items: center;
-}
+
 
 /deep/ .flex-container {
   display: flex;
+  md-input-container {
+    margin-right: 0.2em;
+  }
 }
 
 /deep/ .separator-in-flex-container {

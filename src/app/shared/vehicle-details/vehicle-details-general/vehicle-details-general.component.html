@@ -1,0 +1,107 @@
+<form [formGroup]="fform">
+  <div class="flex-container">
+    <ng-container *ngIf="isNew">
+      <md-input-container>
+        <input mdInput [placeholder]="btity.titles.vehicles.vin" formControlName="vin">
+      </md-input-container>
+
+      <md-input-container>
+        <input mdInput [placeholder]="btity.titles.vehicles.vinConfirm" formControlName="vinConfirm">
+      </md-input-container>
+      <!--<span class="errorMessage vertical-middle-span"
+        *ngIf="fform.get('vinConfirm').errors && fform.get('vinConfirm').errors.duplicateVIN"
+      >VIN 已存在</span>-->
+      <!--<span class="vertical-middle-span"
+        *ngIf="asyncMon.progressing.validatorDuplicateVIN"
+      ><md-spinner class="inline-spinner"></md-spinner></span>-->
+
+    </ng-container>
+    <span class="space-filler"></span>
+
+    <ng-container *ngIf="!isNew">
+      <md-input-container class="xl-size-input">
+        <small>
+          <input mdInput [placeholder]="btity.titles.vehicles.mofcomRegisterRef" 
+            formControlName="mofcomRegisterRef">
+        </small>
+      </md-input-container>   
+    </ng-container>
+  </div>
+
+  <!-- show this div after vehicle is deleted -->
+  <div class="flex-container" *ngIf="vehicle.metadata.isDeleted">
+    <app-autocomplete-combo
+      [isTrueOrFalse]="true"
+      [placeholderInput]="btity.titles.metadata.isDeleted"
+      [formControlInput]="fform.get('metadata.isDeleted')"
+      sizeClass='s-size-input'
+    >
+    </app-autocomplete-combo>   
+
+    <!--<span class="space-filler"></span>-->
+
+    <md-input-container class="xxl-size-input">
+      <input mdInput 
+        [placeholder]="btity.titles.metadata.deletedFor" 
+        [formControl]="fform.get('metadata.deletedFor')">
+    </md-input-container>
+  </div>
+
+
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <i class="material-icons">chevron_right</i>
+        <span>{{btity.titles.vehicles.title}}</span>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
+
+        <!-- 收车单位 -->
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.facility"
+          [formControlInput]="fform.get('facility')"
+          [objList]="btity.types.facilities"
+          [toSort]="false"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+        <md-input-container class="l-size-input">
+          <input type="date" mdInput [placeholder]="btity.titles.vehicles.entranceDate" 
+            [formControl]="fform.get('entranceDate')">
+        </md-input-container>
+
+        <!-- 车辆来源 -->
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.source"
+          [formControlInput]="fform.get('source')"
+          [objList]="btity.types.sources"
+          [toSort]="false"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+        <md-input-container class="xl-size-input" *ngIf="fform.get('source').value === '交警'">
+          <small>
+            <input mdInput [placeholder]="btity.titles.vehicles.batchId" 
+              [formControl]="fform.get('batchId')">
+          </small>
+        </md-input-container>
+
+        <!-- 商务部登记类别 -->
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.mofcomRegisterType"
+          [formControlInput]="fform.get('mofcomRegisterType')"
+          [objList]="btity.types.mofcomRegisterTypes"
+          [toSort]="false"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+    </md-card-content>
+  </md-card>
+
+
+
+</form>

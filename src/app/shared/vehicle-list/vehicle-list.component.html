@@ -12,7 +12,7 @@
     <div md-line>
       <md-grid-list cols="9" rowHeight="3em">
         <!--<md-grid-tile class="clickable" [routerLink]="['/vehicles/'+vehicle.vin]">-->
-        <md-grid-tile class="clickable" (click)="openDialogVehicle(vehicle.vin)">
+        <md-grid-tile class="clickable" (click)="openDialogVehicle(vehicle.vin, vehicle)">
         <!--<md-grid-tile class="clickable">-->
           <i class="material-icons" md-list-icon >drive_eta</i>
         </md-grid-tile>

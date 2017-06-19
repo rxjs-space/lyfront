@@ -3,6 +3,7 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { DataService } from '../../data/data.service';
+import { Vehicle } from '../../data/vehicle';
 import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
 
 @Component({
@@ -12,18 +13,20 @@ import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.s
   // encapsulation: ViewEncapsulation.None
 })
 export class DialogVehicleComponent implements OnInit, OnDestroy {
-
+  isInPrintMode = false;
   vehicleRxx: any;
   btityRxx: any;
   asyncDataId = 'dialogVehicleComponent' + Math.random();
 
   itemRxHash = {
     btity: this.data.btityRxx,
-    vehicle: this.data.getVehicleByVIN(this.dataFromTrigger.vin)
+    vehicle: this.dataFromTrigger.vin ? this.data.getVehicleByVIN(this.dataFromTrigger.vin) : Observable.of(new Vehicle())
   }
   isLoadedWithoutErrorRxx: any;
   isWithErrorRxx: any;
   holder: any;
+
+  elementHash = {};
 
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
@@ -43,9 +46,6 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     this.holder.refreshAll();
   }
 
-  refV() {
-    this.holder.refreshByTitle('vehicle');
-  }
 
   /**
    * 1) set <dialog-container>'s overflow to visible, visibility to visible
@@ -54,23 +54,26 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
    */
   preparePrint() {
     console.log('preparing to print');
-    const htmlElement = document.querySelector('html');
-    htmlElement.classList.add('prepare-print-html');
-    const dialogVehicleElement = document.querySelector('app-dialog-vehicle');
-    const dialogContainerElement = dialogVehicleElement.parentElement;
-    dialogContainerElement.classList.add('prepare-print-dialog-container')
-    const overlayContainerElement = document.querySelector('.cdk-overlay-container');
-    overlayContainerElement.classList.add('prepare-print-overlay-container')
+    this.elementHash['htmlElement'] = document.querySelector('html');
+    this.elementHash['htmlElement'].classList.add('prepare-print-html');
+    this.elementHash['dialogVehicleElement'] = document.querySelector('app-dialog-vehicle');
+    this.elementHash['dialogContainerElement'] = this.elementHash['dialogVehicleElement'].parentElement;
+    this.elementHash['dialogContainerElement'].classList.add('prepare-print-dialog-container')
+    this.elementHash['overlayContainerElement'] = document.querySelector('.cdk-overlay-container');
+    this.elementHash['overlayContainerElement'].classList.add('prepare-print-overlay-container')
+    this.elementHash['dialogContentElement'] = document.querySelector('[md-dialog-content]');
+    this.elementHash['dialogContentElement'].classList.add('prepare-print-dialog-content');
+    this.isInPrintMode = true;
   }
 
   rollbackPreparePrint() {
-    const htmlElement = document.querySelector('html');
-    htmlElement.classList.remove('prepare-print-html');
-    const dialogVehicleElement = document.querySelector('app-dialog-vehicle');
-    const dialogContainerElement = dialogVehicleElement.parentElement;
-    dialogContainerElement.classList.remove('prepare-print-dialog-container')
-    const overlayContainerElement = document.querySelector('.cdk-overlay-container');
-    overlayContainerElement.classList.remove('prepare-print-overlay-container')
+    if (this.isInPrintMode) {
+      this.elementHash['htmlElement'].classList.remove('prepare-print-html');
+      this.elementHash['dialogContainerElement'].classList.remove('prepare-print-dialog-container')
+      this.elementHash['overlayContainerElement'].classList.remove('prepare-print-overlay-container');
+      this.elementHash['dialogContentElement'].classList.remove('prepare-print-dialog-content');
+      this.isInPrintMode = false;
+    }
   }
 
   ngOnDestroy() {

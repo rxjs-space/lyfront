@@ -481,7 +481,7 @@ export class ShowVehicleDetailsComponent implements OnInit, OnChanges, OnDestroy
           Validators.required,
           this.sv.notMatchingOtherControl(this.vehicleForm.get('vin'))
         ],
-        [this.sv.duplicateVINAsync(this.formId)]
+        [this.sv.duplicateVINAsync(/*this.formId*/)]
       );
       this.vehicleForm.addControl('vinConfirm', vinConfirmCtrl);
     } else {

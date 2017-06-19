@@ -36,6 +36,9 @@ import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { VehicleListStatusComponent } from './vehicle-list/vehicle-list-status.component';
 import { DialogVehicleComponent } from './dialog-vehicle/dialog-vehicle.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { DialogVehicleTriggerComponent } from './dialog-vehicle/dialog-vehicle-trigger.component';
+import { VehicleDetailsGeneralComponent } from './vehicle-details/vehicle-details-general/vehicle-details-general.component';
+import { VehicleDetailsStatusComponent } from './vehicle-details/vehicle-details-status/vehicle-details-status.component';
 
 
 const mdModules = [
@@ -80,7 +83,10 @@ const mdModules = [
     VehicleListComponent,
     VehicleListStatusComponent,
     DialogVehicleComponent,
-    VehicleDetailsComponent
+    VehicleDetailsComponent,
+    DialogVehicleTriggerComponent,
+    VehicleDetailsGeneralComponent,
+    VehicleDetailsStatusComponent
   ],
   exports: [
     CommonModule,
@@ -94,7 +100,8 @@ const mdModules = [
     TriggerDismantlingOrderComponent,
     SharedFilterComponent,
     VehicleListComponent,
-    VehicleDetailsComponent
+    VehicleDetailsComponent,
+    DialogVehicleTriggerComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,

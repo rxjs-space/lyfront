@@ -72,7 +72,7 @@ export class SharedValidatorsService {
     }
   }
 
-  duplicateVINAsync(formId: string): AsyncValidatorFn {
+  duplicateVINAsync(/*formId: string*/): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       const vin = control.value;
       const errorKey = 'duplicateVIN';

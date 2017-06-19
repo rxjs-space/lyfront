@@ -98,10 +98,19 @@ md-dialog-container.mat-dialog-container.prepare-print-dialog-container {
   overflow: visible;
   visibility: visible;
   left: 0;
+  top: 0;
   max-width: none;
   width: 100%;
   position: absolute;
 }
 
+[md-dialog-content].mat-dialog-content.prepare-print-dialog-content {
+  max-height: none;
+}
+
 
 // styles for printing dialog contents - end
+
+[md-dialog-content].mat-dialog-content {
+  max-height: 650px;
+}
