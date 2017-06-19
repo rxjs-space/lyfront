@@ -1,23 +1,27 @@
-import { Component, ViewEncapsulation, HostBinding, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, HostBinding, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { DataService } from '../../data/data.service';
 import { Vehicle } from '../../data/vehicle';
 import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
+import { VehicleDetailsComponent } from '../vehicle-details/vehicle-details.component';
+
 
 @Component({
   selector: 'app-dialog-vehicle',
   templateUrl: './dialog-vehicle.component.html',
   styleUrls: ['./dialog-vehicle.component.scss'],
-  // encapsulation: ViewEncapsulation.None
 })
 export class DialogVehicleComponent implements OnInit, OnDestroy {
   isInPrintMode = false;
   vehicleRxx: any;
   btityRxx: any;
   asyncDataId = 'dialogVehicleComponent' + Math.random();
-
+  saveRxx = new Subject();
+  @ViewChild(VehicleDetailsComponent) vDetails;
+  isValidAndChanged = false;
   itemRxHash = {
     btity: this.data.btityRxx,
     vehicle: this.dataFromTrigger.vin ? this.data.getVehicleByVIN(this.dataFromTrigger.vin) : Observable.of(new Vehicle())
@@ -46,6 +50,16 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     this.holder.refreshAll();
   }
 
+  onIsChangedAndValid(event) {
+    this.isValidAndChanged = event;
+  }
+
+  onSaved(event) {
+    if (event.vin) {
+      this.itemRxHash.vehicle = this.data.getVehicleByVIN(event.vin);
+    }
+    this.holder.refreshByTitle('vehicle');
+  }
 
   /**
    * 1) set <dialog-container>'s overflow to visible, visibility to visible

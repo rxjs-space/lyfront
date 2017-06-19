@@ -42,7 +42,7 @@ export class AsyncDataLoaderService {
     const latestResultRxxArray = keys.map(k => latestResultRxxHash[k]);
     Observable.combineLatest(latestResultRxxArray)
       .subscribe(resultArray => {
-        console.log(resultArray);
+        // console.log(resultArray);
         let isWithError = false;
         for (const result of resultArray) {
           if (result && result.error) {

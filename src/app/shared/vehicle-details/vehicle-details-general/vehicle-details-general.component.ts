@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-vehicle-details-general',
@@ -9,6 +10,7 @@ import { FormUtilsService } from '../../form-utils/form-utils.service';
   styleUrls: ['./vehicle-details-general.component.scss']
 })
 export class VehicleDetailsGeneralComponent implements OnInit {
+  valueChangesRx: Observable<any>;
   fform: FormGroup;
   @Input() vehicle: any;
   @Input() btity: any;
@@ -55,6 +57,16 @@ export class VehicleDetailsGeneralComponent implements OnInit {
     } else {
       this.fform.get('vin').disable();
     }
+
+    this.valueChangesRx = this.fform.valueChanges
+      .startWith(null)
+      .map(v => {
+        const allV = this.fform.getRawValue();
+        allV.source = this.fu.nameToId(allV.source, this.btity.types['sources']);
+        allV.mofcomRegisterType = this.fu.nameToId(allV.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']);
+        allV.facility = this.fu.nameToId(allV.facility, this.btity.types['facilities']);
+        return allV;
+      });
 
 
   }

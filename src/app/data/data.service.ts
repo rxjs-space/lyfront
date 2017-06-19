@@ -116,6 +116,9 @@ export class DataService {
   //     .catch(error => this.handleError(error));
   // }
 
+  /**
+   * param 'body' will have properties 'vehicle' and 'patches'
+   */
   insertVehicle(body) {
     const options = this.setupOptions(true);
     return this.http.post(this.vehiclesApiUrl1, body, options)
@@ -123,6 +126,9 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
+  /**
+   * param 'body' will have property 'patches'
+   */
   updateVehicle(vin, body) {
     return this.http.patch(`${this.vehiclesApiUrl1}/one?vin=${vin}`, body, this.setupOptions(true))
       .map(res => res.json())

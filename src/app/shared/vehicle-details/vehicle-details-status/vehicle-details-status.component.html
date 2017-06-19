@@ -1,3 +1,113 @@
-<p>
-  vehicle-details-status works!
-</p>
+<form [formGroup]="fform.get('status')">
+
+<md-card class="info-card" [class.not-for-print]="isCollapsed">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{btity.titles.vehicles.status.title}}</span>
+      <span><button type="button" md-button color="primary" (click)="isCollapsed = false"
+        *ngIf="isCollapsed"
+      >展开</button></span>
+      <span><button type="button" md-button color="primary" (click)="isCollapsed = true"
+        *ngIf="!isCollapsed"
+      >收起</button></span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content *ngIf="!isCollapsed">
+    <md-grid-list cols="4" rowHeight="2em" class="checkbox-array">
+      <md-grid-tile>
+        <div formGroupName="ownerDocsReady">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.ownerDocsReady}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="platesCollectedByOwner">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.platesCollectedByOwner}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile [colspan]="2">
+        <div formGroupName="mofcomCertCollectedByOwnerAndSigned">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.mofcomCertCollectedByOwnerAndSigned}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <div formGroupName="policeSiteEntry">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.policeSiteEntry}}
+          </md-checkbox>   
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="mofcomEntry">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.mofcomEntry.title}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile [colspan]="2">
+        <div formGroupName="mofcomCertReady">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.mofcomCertReady}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <div formGroupName="firstSurvey">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.firstSurvey}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="secondSurvey">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.secondSurvey}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+      <md-grid-tile>
+        <div formGroupName="dismantled">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.dismantled}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+
+      <md-grid-tile>
+        <div formGroupName="sold">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.sold}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile>
+
+    </md-grid-list>
+
+  </md-card-content>
+
+
+</md-card>
+
+      <!-- trigger for dialog-dismantling-order -->
+      <!--<md-grid-tile>
+        <app-trigger-dismantling-order
+          [titles]="titles"
+          [types]="types"
+          [vehicle]="vehicle"
+        ></app-trigger-dismantling-order>
+
+      </md-grid-tile>-->
+
+
+
+</form>

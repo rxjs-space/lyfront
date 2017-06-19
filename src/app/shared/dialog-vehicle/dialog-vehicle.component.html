@@ -14,11 +14,21 @@
     <app-vehicle-details 
       [vehicle]="vehicleRxx | async"
       [btity]="btityRxx | async"
+      [saveTriggerRxx]="saveRxx"
+      (saved)="onSaved($event)"
+      (isChangedAndValid)="onIsChangedAndValid($event)"
     ></app-vehicle-details>
     <!--<form></form>-->
   
   </div>
-<div md-dialog-actions>
-  <button md-button type="button" (click)="preparePrint()">print</button>
+<div md-dialog-actions class="flex-container not-for-print">
+  <button md-button type="button" (click)="preparePrint()" color="primary" 
+  *ngIf="!isInPrintMode">准备打印</button>
+  <button md-button type="button" (click)="rollbackPreparePrint()" color="primary" *ngIf="isInPrintMode">取消打印</button>
+  <button md-button type="button" color="primary">数据验证</button>
+  <span class="space-filler"></span>
+  <button md-raised-button type="button" color="primary" 
+    [disabled]="!isValidAndChanged"
+    (click)="saveRxx.next(true)">保存</button>
+  <button md-button type="button" color="warn">删除</button>
 </div>
-

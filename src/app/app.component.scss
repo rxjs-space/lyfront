@@ -125,7 +125,7 @@
 
 /deep/ .flex-container {
   display: flex;
-  md-input-container {
+  md-input-container, button {
     margin-right: 0.2em;
   }
 }

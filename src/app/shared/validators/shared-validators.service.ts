@@ -77,16 +77,32 @@ export class SharedValidatorsService {
       const vin = control.value;
       const errorKey = 'duplicateVIN';
       this.asyncMon.progressing.validatorDuplicateVIN = true;
+      const asyncMon = this.asyncMon.init('validatorDuplicateVIN');
+      asyncMon.next({
+        done: false,
+        value: null
+      })
       return this.data.getVehicleByVIN(vin, true)
         .map(r => {
           this.asyncMon.progressing.validatorDuplicateVIN = false;
           const _id = r ? r._id : null;
+          asyncMon.next({
+            done: true,
+            value: false
+          });
           return _id ? {[errorKey]: _id} : null;
         }).catch(err => {
             // if 404, that vin does not exist
             // if other http err, will handle at other places
             this.asyncMon.progressing.validatorDuplicateVIN = false;
-            return Observable.of(null);
+
+            return Observable.of(null)
+              .do(() => {
+                asyncMon.next({
+                  done: true,
+                  value: true
+                });
+              });
         })
     };
   }

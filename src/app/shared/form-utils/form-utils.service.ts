@@ -26,4 +26,19 @@ export class FormUtilsService {
     return matchObj['name'];
   }
 
+  nameToId(name: string, idToNameHashArray: any) {
+    if (!name) {return ''; }
+    const matchObj = idToNameHashArray.find(item => item.name === name);
+    if (!matchObj) {throw new Error(`no obj with a name as ${name}`); }
+    return matchObj['id'] || matchObj['_id'];
+  }
+
+  disableIfDone(done) {
+    return {
+      value: done,
+      disabled: done ? false : false
+    };
+  }
+
+
 }
