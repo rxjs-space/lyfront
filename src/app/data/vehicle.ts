@@ -54,7 +54,8 @@ export class Vehicle {
     color: '',
     aquisitionType: '',
     aquisitionOtherTypeDetail: '',
-    displacementL: '',
+    displacementL: 0,
+    displacementML: 0,
     fuelType: '',
     seats: 0,
     isNEV: false

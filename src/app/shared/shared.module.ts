@@ -39,6 +39,7 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
 import { DialogVehicleTriggerComponent } from './dialog-vehicle/dialog-vehicle-trigger.component';
 import { VehicleDetailsGeneralComponent } from './vehicle-details/vehicle-details-general/vehicle-details-general.component';
 import { VehicleDetailsStatusComponent } from './vehicle-details/vehicle-details-status/vehicle-details-status.component';
+import { VehicleDetailsVehicleComponent } from './vehicle-details/vehicle-details-vehicle/vehicle-details-vehicle.component';
 
 
 const mdModules = [
@@ -86,7 +87,8 @@ const mdModules = [
     VehicleDetailsComponent,
     DialogVehicleTriggerComponent,
     VehicleDetailsGeneralComponent,
-    VehicleDetailsStatusComponent
+    VehicleDetailsStatusComponent,
+    VehicleDetailsVehicleComponent
   ],
   exports: [
     CommonModule,
