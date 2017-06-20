@@ -32,7 +32,9 @@ export class VehicleDetailsVehicleComponent implements OnInit {
         useCharacter: [this.fu.idToName(this.vehicle.vehicle.useCharacter, this.btity.types['useCharacters']), [
           this.sv.notListedButCanBeEmpty(this.btity.types.useCharacters.map(type => type.name))
         ]],
-        brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands)],
+        brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands), [
+          this.sv.notListedButCanBeEmpty(this.btity.brands.map(brand => brand.name))
+        ]],
         model: [this.vehicle.vehicle.model],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance],
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],
@@ -46,6 +48,7 @@ export class VehicleDetailsVehicleComponent implements OnInit {
         ]],
         aquisitionOtherTypeDetail: [this.vehicle.vehicle.aquisitionOtherTypeDetail],
         displacementML: [this.vehicle.vehicle.displacementML, Validators.pattern(/^[0-9]+$/)],
+        displacementL: [this.vehicle.vehicle.displacementL], // todo: delete this line once ver1 show-vehicle-details is gone
         fuelType: [this.fu.idToName(this.vehicle.vehicle.fuelType, this.btity.types['fuelTypes']), [
           this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))
         ]],
@@ -57,13 +60,15 @@ export class VehicleDetailsVehicleComponent implements OnInit {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        const allV = this.fform.getRawValue();
-        allV['vehicle']['vehicleType'] = this.fu.nameToId(allV['vehicle']['vehicleType'], this.btity.types['vehicleTypes']);
-        allV['vehicle']['useCharacter'] = this.fu.nameToId(allV['vehicle']['useCharacter'], this.btity.types['useCharacters']);
-        allV['vehicle']['brand'] = this.fu.nameToId(allV['vehicle']['brand'], this.btity.brands);
-        allV['vehicle']['aquisitionType'] = this.fu.nameToId(allV['vehicle']['aquisitionType'], this.btity.types['aquisitionTypes']);
-        allV['vehicle']['fuelType'] = this.fu.nameToId(allV['vehicle']['fuelType'], this.btity.types['fuelTypes']);
-        return allV;
+        if (this.fform.valid) {
+          const allV = this.fform.getRawValue();
+          allV['vehicle']['vehicleType'] = this.fu.nameToId(allV['vehicle']['vehicleType'], this.btity.types['vehicleTypes']);
+          allV['vehicle']['useCharacter'] = this.fu.nameToId(allV['vehicle']['useCharacter'], this.btity.types['useCharacters']);
+          allV['vehicle']['brand'] = this.fu.nameToId(allV['vehicle']['brand'], this.btity.brands);
+          allV['vehicle']['aquisitionType'] = this.fu.nameToId(allV['vehicle']['aquisitionType'], this.btity.types['aquisitionTypes']);
+          allV['vehicle']['fuelType'] = this.fu.nameToId(allV['vehicle']['fuelType'], this.btity.types['fuelTypes']);
+          return allV;
+        }
       });
 
   }

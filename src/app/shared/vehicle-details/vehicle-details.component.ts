@@ -100,7 +100,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   checkIfChanged(dataThatMayHaveChangedArray) {
-    console.log(dataThatMayHaveChangedArray);
+    // console.log(dataThatMayHaveChangedArray);
     this.patches = [];
     this.newVehicle = Object.assign({}, this.vehicle, ...dataThatMayHaveChangedArray);
     // console.log(this.newVehicle);
