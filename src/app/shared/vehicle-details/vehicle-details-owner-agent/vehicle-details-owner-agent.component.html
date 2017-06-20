@@ -1,19 +1,22 @@
-{{fform.valid}}
+<!--{{fform.valid}}-->
 <form [formGroup]="fform">
   <md-card class="info-card">
-    <md-card-header>
+    <md-card-header class="inline-md-card-header">
       <md-card-title class="vertical-center-container">
         <i class="material-icons">chevron_right</i>
         <span>{{btity.titles.vehicles.owner.title}} / {{btity.titles.vehicles.agent.title}}</span>
+        <md-input-container class="xxl-size-input in-title-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.owner.name" [formControl]="fform.get('owner.name')">
+        </md-input-container>
       </md-card-title>
     </md-card-header>
     <md-card-content>
       
-      <div class="flex-container" formGroupName="owner">
+      <!--<div class="flex-container" formGroupName="owner">
         <md-input-container class="xxl-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.owner.name" formControlName="name">
         </md-input-container>
-      </div>
+      </div>-->
 
 
       <div formGroupName="owner">
@@ -22,7 +25,7 @@
           [isTrueOrFalse]="true"
           [placeholderInput]="btity.titles.vehicles.owner.isPerson"
           [formControlInput]="fform.get('owner.isPerson')"
-          sizeClass='m-size-input'
+          sizeClass='s-size-input'
         >
         </app-autocomplete-combo>  
 
@@ -67,6 +70,10 @@
           <input mdInput [placeholder]="btity.titles.vehicles.owner.zipCode" formControlName="zipCode">
         </md-input-container>
 
+
+      </div>
+
+      <div>
         <app-autocomplete-combo
           [isTrueOrFalse]="true"
           [placeholderInput]="btity.titles.vehicles.owner.isByAgent"
@@ -74,9 +81,8 @@
           sizeClass='s-size-input'
         >
         </app-autocomplete-combo>  
-      </div>
 
-      <div formGroupName="agent" *ngIf="fform.get('owner.isByAgent').value">
+        <ng-container formGroupName="agent" *ngIf="fform.get('owner.isByAgent').value">
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.agent.name" formControlName="name">
         </md-input-container>    
@@ -84,7 +90,7 @@
           [placeholderInput]="btity.titles.vehicles.agent.idType"
           [formControlInput]="fform.get('agent.idType')"
           [objList]="pTypes"
-          sizeClass='l-size-input'
+          sizeClass='m-size-input'
           [toSort]="false"
         >
         </app-autocomplete-combo>
@@ -99,7 +105,7 @@
         <md-input-container class="l-size-input">
           <input type="tel" mdInput [placeholder]="btity.titles.vehicles.agent.tel" formControlName="tel">
         </md-input-container>
-
+        </ng-container>
       </div>
 
     </md-card-content>

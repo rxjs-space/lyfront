@@ -47,6 +47,8 @@ import { DialogYesOrNoTriggerComponent } from './dialog-yes-or-no/dialog-yes-or-
 import { DialogNewFdComponent } from './vehicle-details/vehicle-details-fees-and-deductions/dialog-new-fd.component';
 import { VehicleDetailsNotesComponent } from './vehicle-details/vehicle-details-notes/vehicle-details-notes.component';
 import { DialogNewVehicleNoteComponent } from './vehicle-details/vehicle-details-notes/dialog-new-vehicle-note.component';
+import { VehicleDetailsCostsComponent } from './vehicle-details/vehicle-details-costs/vehicle-details-costs.component';
+import { DialogNewVehicleCostComponent } from './vehicle-details/vehicle-details-costs/dialog-new-vehicle-cost.component';
 
 
 const mdModules = [
@@ -102,7 +104,9 @@ const mdModules = [
     DialogYesOrNoTriggerComponent,
     DialogNewFdComponent,
     VehicleDetailsNotesComponent,
-    DialogNewVehicleNoteComponent
+    DialogNewVehicleNoteComponent,
+    VehicleDetailsCostsComponent,
+    DialogNewVehicleCostComponent
   ],
   exports: [
     CommonModule,
@@ -128,7 +132,8 @@ const mdModules = [
     DialogVehicleListComponent,
     DialogVehicleComponent,
     DialogNewFdComponent,
-    DialogNewVehicleNoteComponent
+    DialogNewVehicleNoteComponent,
+    DialogNewVehicleCostComponent
   ]
 })
 export class SharedModule {

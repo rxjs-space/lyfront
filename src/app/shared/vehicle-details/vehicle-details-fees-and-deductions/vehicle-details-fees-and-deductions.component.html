@@ -1,4 +1,4 @@
-{{fform.valid}}
+<!--{{fform.valid}}-->
 <md-card class="info-card">
   <md-card-header>
     <md-card-title class="vertical-center-container">
@@ -24,7 +24,7 @@
     </form>
 
     <!-- fees and deductions form part -->
-    <div *ngIf="!fdFormArray.length">
+    <div *ngIf="!fdFormArray.length" class="not-for-print">
       暂无费抵项目
     </div>
     <form [formGroup]="fform" *ngIf="fdFormArray.length">

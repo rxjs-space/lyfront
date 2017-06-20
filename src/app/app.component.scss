@@ -44,6 +44,18 @@
 }
 
 
+/deep/ .in-title-input {
+  margin-left: 2em;
+  // margin-right: 2em;
+  & >  .mat-input-wrapper {
+    padding-bottom: 0;
+  }
+}
+
+/deep/ md-card-header.inline-md-card-header {
+  display: inline;
+}
+
 
 /deep/ .s-size-input {
   width: 4em;

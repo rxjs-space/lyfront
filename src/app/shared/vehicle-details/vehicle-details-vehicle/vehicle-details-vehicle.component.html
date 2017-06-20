@@ -1,28 +1,32 @@
-{{fform.valid}}
+<!--{{fform.valid}}-->
 <form [formGroup]="fform.get('vehicle')">
   <md-card class="info-card">
     <md-card-header>
       <md-card-title class="vertical-center-container">
         <i class="material-icons">chevron_right</i>
         <span>{{btity.titles.vehicles.vehicle.title}}</span>
+        <span>
+        <!-- 车牌号码 -->
+        <md-input-container class="m-size-input in-title-input">
+          <input mdInput 
+            [placeholder]="btity.titles.vehicles.vehicle.plateNo"
+            formControlName="plateNo">
+        </md-input-container>
+
+        </span>
       </md-card-title>
     </md-card-header>
     <md-card-content>
       <div>
 
-        <!-- 车牌号码 -->
-        <md-input-container class="m-size-input">
-          <input mdInput 
-            [placeholder]="btity.titles.vehicles.vehicle.plateNo"
-            formControlName="plateNo">
-        </md-input-container>
+
 
         <!-- 车辆类型 -->
         <app-autocomplete-combo
           [placeholderInput]="btity.titles.vehicles.vehicle.vehicleType"
           [formControlInput]="fform.get('vehicle.vehicleType')"
           [objList]="btity.types.vehicleTypes"
-          sizeClass='l-size-input'
+          sizeClass='m-size-input'
           [toFilterList]="false"
         >
         </app-autocomplete-combo>
@@ -32,7 +36,7 @@
           [placeholderInput]="btity.titles.vehicles.vehicle.useCharacter"
           [formControlInput]="fform.get('vehicle.useCharacter')"
           [objList]="btity.types.useCharacters"
-          sizeClass='m-size-input'
+          sizeClass='s-size-input'
         >
         </app-autocomplete-combo>
 
@@ -69,11 +73,11 @@
           <input type="number" mdInput [placeholder]="btity.titles.vehicles.vehicle.lengthOverallMM" formControlName="lengthOverallMM">
         </md-input-container>
 
-        <md-input-container class="m-size-input">
+        <md-input-container class="s-size-input">
           <input type="number" mdInput [placeholder]="btity.titles.vehicles.vehicle.seats" formControlName="seats">
         </md-input-container>
 
-        <md-input-container class="m-size-input">
+        <md-input-container class="s-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.vehicle.color" formControlName="color">
         </md-input-container>
 
@@ -109,7 +113,7 @@
           [isTrueOrFalse]="true"
           [placeholderInput]="btity.titles.vehicles.vehicle.isNEV"
           [formControlInput]="fform.get('vehicle.isNEV')"
-          sizeClass='m-size-input'
+          sizeClass='s-size-input'
         >
         </app-autocomplete-combo>        
 

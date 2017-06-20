@@ -1,0 +1,58 @@
+<form [formGroup]="fform">
+  <md-card class="info-card" [class.not-for-print]="isCollapsed">
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <i class="material-icons">chevron_right</i>
+        <span>{{btity.titles.vehicles.vehicleCosts.title}}</span>
+        <span><button type="button" md-button color="primary" (click)="!isCollapsed = false"
+          *ngIf="isCollapsed" class="not-for-print"
+        >展开</button></span>
+        <span><button type="button" md-button color="primary" (click)="!isCollapsed = true"
+          *ngIf="!isCollapsed" class="not-for-print"
+        >收起</button></span>
+        <span>
+          <button type="button" md-button color="primary" (click)="openDialogNewVehicleCosts()"
+            *ngIf="!isCollapsed" class="not-for-print"
+          >
+            添加成本项目
+          </button>
+        </span>
+        </md-card-title>
+    </md-card-header>
+    <md-card-content *ngIf="!isCollapsed" formArrayName="vehicleCosts">
+      <div *ngIf="fform.get('vehicleCosts').controls.length===0">暂无</div>
+      <ng-container  *ngIf="fform.get('vehicleCosts').controls.length!==0">
+        <div class="flex-container" *ngFor="let vCostCtrl of fform.get('vehicleCosts').controls; let i=index" [formGroupName]="i">
+          <md-input-container class="s-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.vehicleCosts.id" [value]="i+1" disabled>
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+          <md-input-container class="l-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.vehicleCosts.type" formControlName="type">
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+          <md-input-container class="s-size-input">
+            <input mdInput type="number" [placeholder]="btity.titles.vehicles.vehicleCosts.amount" formControlName="amount">
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+          <md-input-container class="xxl-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.vehicleCosts.details" formControlName="details">
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+          <app-dialog-yes-or-no-trigger [index]="i" (close)="onYesNoClose($event, i)"></app-dialog-yes-or-no-trigger>  
+        </div>
+      </ng-container>
+      
+
+      <!--<div>
+        {{btity.titles.vehicles.vehicle.costSum}}：
+        <md-input-container class="s-size-input">
+          <input mdInput [value]="costSum" disabled>
+        </md-input-container>
+        <span *ngIf="hasTBD">有待定（金额为 0）项目</span>
+      </div>-->
+
+    </md-card-content>
+  
+  </md-card>
+</form>
