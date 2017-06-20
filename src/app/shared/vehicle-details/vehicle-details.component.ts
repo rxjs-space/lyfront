@@ -109,9 +109,10 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   checkIfChanged(dataThatMayHaveChangedArray) {
     // console.log(dataThatMayHaveChangedArray);
     this.patches = [];
-    this.newVehicle = Object.assign({}, this.vehicle, ...dataThatMayHaveChangedArray);
+    const oldVehicle = JSON.parse(JSON.stringify(this.vehicle)); // is this necessary?
+    this.newVehicle = Object.assign({}, oldVehicle, ...dataThatMayHaveChangedArray);
     // console.log(this.newVehicle);
-    this.patches = jsonpatch.compare(this.vehicle, this.newVehicle);
+    this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
     // this.isValidIsChangedCombo.isChanged = !!this.patches.length;
     this.isChangedAndValid.emit(!!this.patches[length]);
   }
