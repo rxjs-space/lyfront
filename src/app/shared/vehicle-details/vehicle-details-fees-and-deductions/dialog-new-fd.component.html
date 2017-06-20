@@ -1,0 +1,41 @@
+<div md-dialog-title>
+  <span>添加费用或抵扣项目</span>
+</div>
+<div md-dialog-content>
+  <form [formGroup]="fdForm">
+    <app-autocomplete-combo
+      [placeholderInput]="data.btity.titles.vehicles.feesAndDeductions.type"
+      [formControlInput]="fdForm.get('type')"
+      [objList]="data.btity.types.feesAndDeductionsTypes"
+      sizeClass="m-size-input"
+      [toSort]="false"
+    >
+    </app-autocomplete-combo>
+
+    <md-input-container class="m-size-input">
+      <input mdInput type="number" [placeholder]="data.btity.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+    </md-input-container>  
+    <app-autocomplete-combo
+      *ngIf="fdForm.get('type').value==='零件遗失'"
+      [placeholderInput]="data.btity.titles.vehicles.feesAndDeductions.partName"
+      [formControlInput]="fdForm.get('part')"
+      [objList]="data.btity.types.parts"
+      [toHideInitList]="true"
+      [toFilterList]="true"
+      [toSort]="false"
+      sizeClass='xl-size-input'
+    >
+    </app-autocomplete-combo>
+
+    <md-input-container class="xl-size-input" *ngIf="fdForm.get('type').value!=='零件遗失'">
+      <input mdInput [placeholder]="data.btity.titles.vehicles.feesAndDeductions.details" formControlName="details">
+    </md-input-container>
+  </form>
+
+</div>
+<div md-dialog-actions>
+  <button md-button type="button" color="primary" [disabled]="!fdForm.valid" (click)="onSubmit()">添加（未保存）</button>
+  <button md-button type="button" (click)="dialogRef.close(null)">取消</button>
+</div>   
+
+

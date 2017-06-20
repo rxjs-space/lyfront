@@ -1,10 +1,12 @@
-
-
 <md-card class="info-card">
   <md-card-header>
     <md-card-title class="vertical-center-container">
       <i class="material-icons">chevron_right</i>
-      <span>车辆状况 / 残值 / 费用及抵扣</span></md-card-title>
+      <span>车辆状况 / 残值 / 费用及抵扣</span>
+      <span>
+        <button type="button" class="not-for-print" md-button (click)="openDialogNewFD()" color="primary">添加费抵项目</button>
+      </span>
+    </md-card-title>
   </md-card-header>
   <md-card-content>
     <!-- vehicle form part -->
@@ -27,44 +29,51 @@
     <form [formGroup]="fform" *ngIf="fdFormArray.length">
 
       <div formArrayName="feesAndDeductions">
-        <div class="flex-container" *ngFor="let fd of fdFormArray.controls; let i=index" [formGroupName]="i">
-          <md-input-container class="s-size-input">
-            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
-          </md-input-container>
-          <span class="separator-in-flex-container"></span>
+        <div *ngFor="let fd of fdFormArray.controls; let i=index" [formGroupName]="i">
 
-          <md-input-container class="l-size-input">
-            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.type" formControlName="type">
-          </md-input-container>
-
-          <span class="separator-in-flex-container"></span>
-
-          <md-input-container class="m-size-input">
-            <input mdInput type="number" [placeholder]="btity.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
-          </md-input-container>
-          <span class="separator-in-flex-container"></span>
-          <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']==='零件遗失'">
-            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.partName" formControlName="part">
-          </md-input-container>
-          <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']!=='零件遗失'">
-            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.details" formControlName="details">
-          </md-input-container>
-          <span class="separator-in-flex-container"></span>
-          <!--<button type="button" md-button (click)="openDialogDeleteFD(i)"><i class="material-icons">delete_forever</i></button>-->
+          <md-grid-list cols="8" rowHeight="3.5em" class="checkbox-array">
+            <md-grid-tile>
+              <md-input-container class="s-size-input">
+                <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
+              </md-input-container>
+            </md-grid-tile>
+            <md-grid-tile>
+              <md-input-container class="s-size-input">
+                <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.type" formControlName="type">
+              </md-input-container>
+            </md-grid-tile>
+            <md-grid-tile>
+              <md-input-container class="s-size-input">
+                <input mdInput type="number" [placeholder]="btity.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+              </md-input-container>
+            </md-grid-tile>
+            <md-grid-tile [colspan]="4">
+              <div class="flex-container">
+                  <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']==='零件遗失'">
+                    <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.partName" formControlName="part">
+                  </md-input-container>
+                  <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']!=='零件遗失'">
+                    <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.details" formControlName="details">
+                  </md-input-container>
+              </div>
+            </md-grid-tile>
+            <md-grid-tile>
+              <app-dialog-yes-or-no-trigger [index]="i" (close)="onYesNoClose($event, i)"></app-dialog-yes-or-no-trigger>            
+            </md-grid-tile>
+          </md-grid-list>
 
         </div>
           
       </div>
 
     </form>
-      <!--<button type="button" md-button (click)="openDialogNewFD()" color="primary">添加费抵项目</button>-->
 
-    <!--<div class="form-control">
-      {{titles.vehicles.vehicle.residualValueAfterFD}}：
+    <div>
+      {{btity.titles.vehicles.vehicle.residualValueAfterFD}}：
       <md-input-container class="s-size-input">
         <input mdInput [value]="rvAfterFD" disabled>
       </md-input-container>
-    </div>-->
+    </div>
 
   </md-card-content>
 </md-card>

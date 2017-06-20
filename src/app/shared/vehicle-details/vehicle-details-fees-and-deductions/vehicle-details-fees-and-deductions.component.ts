@@ -1,34 +1,63 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { MdDialog } from '@angular/material';
+import 'rxjs/add/observable/combineLatest';
+
+import { DialogNewFdComponent } from './dialog-new-fd.component';
 
 @Component({
   selector: 'app-vehicle-details-fees-and-deductions',
   templateUrl: './vehicle-details-fees-and-deductions.component.html',
   styleUrls: ['./vehicle-details-fees-and-deductions.component.scss']
 })
-export class VehicleDetailsFeesAndDeductionsComponent implements OnInit {
+export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestroy {
   valueChangesRx: Observable<any>;
   fform: FormGroup;
+  fformRxx = new BehaviorSubject(null);
   @Input() vehicle: any;
   @Input() btity: any;
   @Input() vdvFormRxx: BehaviorSubject<FormGroup>;
   vdvForm: FormGroup;
   fdFormArray: FormArray;
+  rvAfterFD: number;
+  subscriptions: Subscription[] = [];
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
-    private fu: FormUtilsService
+    private fu: FormUtilsService,
+    public dialog: MdDialog
   ) { }
   ngOnInit() {
-    this.vdvFormRxx
-      .filter(vdvForm => !!vdvForm)
+    Observable.combineLatest(this.vdvFormRxx, this.fformRxx)
+      .filter(combo => combo[0] && combo[1])
       .first()
-      .subscribe(vdvForm => this.vdvForm = vdvForm)
+      .subscribe(combo => {
+        const vdvForm = combo[0];
+        const fform = combo[1];
+        this.vdvForm = vdvForm;
+
+        /* set rvAfterFD */
+        const rvCal_ = Observable.merge(
+          this.vdvForm.get('vehicle.residualValueBeforeFD').valueChanges,
+          this.fform.get('feesAndDeductions').valueChanges)
+          .startWith(null)
+          .subscribe(() => {
+            const residualValueBeforeFD = this.vdvForm.get('vehicle.residualValueBeforeFD').value;
+            let feesAndDeductions = 0;
+            (this.fform.get('feesAndDeductions') as FormArray).controls.forEach(ctrl => {
+              feesAndDeductions += ctrl.get('amount').value;
+            });
+            this.rvAfterFD = residualValueBeforeFD - feesAndDeductions;
+          });
+        this.subscriptions.push(rvCal_);
+      });
+
+
 
     const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
       type: [{value: this.fu.idToName(fd.type, this.btity.types.feesAndDeductionsTypes), disabled: true}],
@@ -46,20 +75,36 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit {
       feesAndDeductions: this.fdFormArray,
     });
 
+    this.fformRxx.next(this.fform);
+
+  }
+
+  openDialogNewFD() {
+    const dialogRef = this.dialog.open(DialogNewFdComponent, {
+      data: {btity: this.btity},
+    });
+    dialogRef.afterClosed().subscribe((newFDForm: FormGroup) => {
+      // console.log(newFDForm);
+      if (newFDForm) {
+        (this.fform.get('feesAndDeductions') as FormArray).push(newFDForm);
+        this.fform.markAsTouched();
+        this.fform.markAsDirty();
+      }
+    });
+
+  }
+
+  onYesNoClose(event, index) {
+    if (event) {
+      (this.fform.get('feesAndDeductions') as FormArray).removeAt(index);
+      this.fform.markAsTouched();
+      this.fform.markAsDirty();
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
 }
 
-    // /* set rvAfterFD */
-    // const rvCal_ = Observable.merge(
-    //   this.vehicleForm.get('vehicle.residualValueBeforeFD').valueChanges, 
-    //   this.vehicleForm.get('feesAndDeductions').valueChanges)
-    //   .startWith(null)
-    //   .subscribe(() => {
-    //     const residualValueBeforeFD = this.vehicleForm.get('vehicle.residualValueBeforeFD').value;
-    //     let feesAndDeductions = 0;
-    //     (this.vehicleForm.get('feesAndDeductions') as FormArray).controls.forEach(ctrl => {
-    //       feesAndDeductions += ctrl.get('amount').value;
-    //     });
-    //     this.rvAfterFDRxx.next(residualValueBeforeFD - feesAndDeductions);
-    //   });

@@ -43,6 +43,8 @@ import { VehicleDetailsVehicleComponent } from './vehicle-details/vehicle-detail
 import { VehicleDetailsOwnerAgentComponent } from './vehicle-details/vehicle-details-owner-agent/vehicle-details-owner-agent.component';
 import { VehicleDetailsDocsProvidedComponent } from './vehicle-details/vehicle-details-docs-provided/vehicle-details-docs-provided.component';
 import { VehicleDetailsFeesAndDeductionsComponent } from './vehicle-details/vehicle-details-fees-and-deductions/vehicle-details-fees-and-deductions.component';
+import { DialogYesOrNoTriggerComponent } from './dialog-yes-or-no/dialog-yes-or-no-trigger.component';
+import { DialogNewFdComponent } from './vehicle-details/vehicle-details-fees-and-deductions/dialog-new-fd.component';
 
 
 const mdModules = [
@@ -94,7 +96,9 @@ const mdModules = [
     VehicleDetailsVehicleComponent,
     VehicleDetailsOwnerAgentComponent,
     VehicleDetailsDocsProvidedComponent,
-    VehicleDetailsFeesAndDeductionsComponent
+    VehicleDetailsFeesAndDeductionsComponent,
+    DialogYesOrNoTriggerComponent,
+    DialogNewFdComponent
   ],
   exports: [
     CommonModule,
@@ -109,14 +113,17 @@ const mdModules = [
     SharedFilterComponent,
     VehicleListComponent,
     VehicleDetailsComponent,
-    DialogVehicleTriggerComponent
+    DialogVehicleTriggerComponent,
+    DialogYesOrNoTriggerComponent
+
   ],
   entryComponents: [
     DialogYesOrNoComponent,
     DialogDismantlingOrderComponent,
     DialogDismantlingOrderPrintComponent,
     DialogVehicleListComponent,
-    DialogVehicleComponent
+    DialogVehicleComponent,
+    DialogNewFdComponent
   ]
 })
 export class SharedModule {
