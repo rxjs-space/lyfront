@@ -22,6 +22,7 @@ import { VehicleDetailsStatusComponent } from './vehicle-details-status/vehicle-
 import { VehicleDetailsVehicleComponent } from './vehicle-details-vehicle/vehicle-details-vehicle.component';
 import { VehicleDetailsOwnerAgentComponent } from './vehicle-details-owner-agent/vehicle-details-owner-agent.component';
 import { VehicleDetailsDocsProvidedComponent } from './vehicle-details-docs-provided/vehicle-details-docs-provided.component';
+import { VehicleDetailsFeesAndDeductionsComponent } from './vehicle-details-fees-and-deductions/vehicle-details-fees-and-deductions.component';
 
 
 @Component({
@@ -44,8 +45,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(VehicleDetailsVehicleComponent) dVehicle: any;
   @ViewChild(VehicleDetailsOwnerAgentComponent) dOwnerAgent: any;
   @ViewChild(VehicleDetailsDocsProvidedComponent) dDocsProvided: any;
+  @ViewChild(VehicleDetailsFeesAndDeductionsComponent) dFND: any;
   partialFormContainers = [
-    'dGeneral', 'dStatus', 'dVehicle', 'dOwnerAgent', 'dDocsProvided'];
+    'dGeneral', 'dStatus', 'dVehicle', 'dOwnerAgent', 'dDocsProvided', 'dFND'];
   patches = [];
   newVehicle = {};
   subscriptions: Subscription[] = [];

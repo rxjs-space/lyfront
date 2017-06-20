@@ -60,13 +60,14 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
 
 
     const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
-      type: [{value: this.fu.idToName(fd.type, this.btity.types.feesAndDeductionsTypes), disabled: true}],
+      fooBar: '', // when all the ctrls are disabled, the form.valid is always false
+      type: [{value: this.fu.idToName(fd.type, this.btity.types['feesAndDeductionsTypes']), disabled: true}],
       part: [
-        {value: this.fu.idToName(fd.part, this.btity.types.parts), disabled: true},
-        [this.sv.notListedButCanBeEmpty(this.btity.types.parts.map(p => p.name))]
+        {value: this.fu.idToName(fd.part, this.btity.types['parts']), disabled: true},
+        [this.sv.notListedButCanBeEmpty(this.btity.types['parts'].map(p => p.name))]
       ],
       details: [{value: fd.details, disabled: true}],
-      amount: [{value: fd.amount, disabled: true}, [Validators.pattern(/^[0-9]+$/), Validators.required]]
+      amount: [{value: fd.amount, disabled: true}, [Validators.required]]
     }));
 
     this.fdFormArray = this.fb.array(fds);
@@ -76,6 +77,19 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
     });
 
     this.fformRxx.next(this.fform);
+    this.valueChangesRx = this.fform.valueChanges
+      .startWith(null)
+      .map(v => {
+        if (this.fform.valid) {
+          const allV = this.fform.getRawValue();
+          allV['feesAndDeductions'].forEach(item => {
+            delete item.fooBar;
+            item.type = this.fu.nameToId(item.type, this.btity.types['feesAndDeductionsTypes']);
+            item.part = this.fu.nameToId(item.part, this.btity.types['parts']);
+          });
+          return allV;
+        }
+      });
 
   }
 
