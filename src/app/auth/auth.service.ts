@@ -72,6 +72,10 @@ export class AuthService {
     return JSON.parse(atob(parts[1]));
   }
 
+  getUserId() {
+    return this.getJwtPayload(localStorage.getItem('currentUser'))['sub']['_id'];
+  }
+
   redirectAfterSuccess() {
     const url = this.attemptedUrl || '/dashboard';
     this.router.navigate([url]);

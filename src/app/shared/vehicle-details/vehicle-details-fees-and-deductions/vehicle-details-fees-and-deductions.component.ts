@@ -59,7 +59,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
 
 
 
-    const fds = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
+    const fdCtrlArray = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
       fooBar: '', // when all the ctrls are disabled, the form.valid is always false
       type: [{value: this.fu.idToName(fd.type, this.btity.types['feesAndDeductionsTypes']), disabled: true}],
       part: [
@@ -70,7 +70,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
       amount: [{value: fd.amount, disabled: true}, [Validators.required]]
     }));
 
-    this.fdFormArray = this.fb.array(fds);
+    this.fdFormArray = this.fb.array(fdCtrlArray);
 
     this.fform = this.fb.group({
       feesAndDeductions: this.fdFormArray,
