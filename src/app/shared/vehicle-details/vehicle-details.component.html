@@ -13,13 +13,13 @@
 <app-vehicle-details-docs-provided [btity]="btity" [vehicle]="vehicle" [isPersonRxx]="vdoa.isPersonRxx">
 </app-vehicle-details-docs-provided>
 
-<app-vehicle-details-fees-and-deductions [btity]="btity" [vehicle]="vehicle" [vdvFormRxx]="vdv.fformRxx">
+<app-vehicle-details-fees-and-deductions [btity]="btity" [vehicle]="vehicle" [vdvFormRxx]="vdv.fformRxx" #vdfd>
 </app-vehicle-details-fees-and-deductions>
 
 <app-vehicle-details-notes [btity]="btity" [vehicle]="vehicle">
 </app-vehicle-details-notes>
 
-<app-vehicle-details-costs [btity]="btity" [vehicle]="vehicle">
+<app-vehicle-details-costs [btity]="btity" [vehicle]="vehicle" [rvAfterFD]="vdfd.rvAfterFD">
 </app-vehicle-details-costs>
 
 <!--{{(dGeneral.fform && dGeneral.fform.getRawValue()) | json}}

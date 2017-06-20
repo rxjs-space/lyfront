@@ -1,3 +1,32 @@
-<p>
-  dialog-new-vehicle-cost works!
-</p>
+<form [formGroup]="vcForm" (ngSubmit)="onSubmit()">
+
+  <div md-dialog-title>
+    <span>添加成本项目</span>
+  </div>
+  <div md-dialog-content class="flex-container">
+
+    <app-autocomplete-combo
+      [placeholderInput]="data.btity.titles.vehicles.vehicleCosts.type"
+      [formControlInput]="vcForm.get('type')"
+      [objList]="data.btity.types.vehicleCostTypes"
+      sizeClass="l-size-input"
+      [toSort]="false"
+    >
+    </app-autocomplete-combo>
+
+    <md-input-container class="m-size-input">
+      <input mdInput type="number" [placeholder]="data.btity.titles.vehicles.vehicleCosts.amount" formControlName="amount">
+    </md-input-container>      
+    <md-input-container class="xl-size-input">
+      <input mdInput [placeholder]="data.btity.titles.vehicles.vehicleCosts.details" formControlName="details">
+    </md-input-container>
+
+  </div>
+
+  <div md-dialog-actions>
+    <button md-button type="submit" color="primary" [disabled]="!vcForm.valid">添加（未保存）</button>
+    <button md-button type="button" (click)="dialogRef.close(null)">取消</button>
+  </div>  
+
+
+</form>
