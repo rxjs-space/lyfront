@@ -112,7 +112,8 @@
 /deep/ .inline-block-label {
   display: inline-block;
   .vertical-middle-span {
-    vertical-align: middle;
+    line-height: 2em;
+    // vertical-align: middle;
   }
 }
 

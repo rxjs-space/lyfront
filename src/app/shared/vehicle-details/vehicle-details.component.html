@@ -7,8 +7,11 @@
 <app-vehicle-details-vehicle [btity]="btity" [vehicle]="vehicle">
 </app-vehicle-details-vehicle>
 
-<app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle">
+<app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle" #vdoa>
 </app-vehicle-details-owner-agent>
+
+<app-vehicle-details-docs-provided [btity]="btity" [vehicle]="vehicle" [isPersonRxx]="vdoa.isPersonRxx">
+</app-vehicle-details-docs-provided>
 
 <!--{{(dGeneral.fform && dGeneral.fform.getRawValue()) | json}}
 {{(dStatus.fform && dStatus.fform.getRawValue()) | json}}-->

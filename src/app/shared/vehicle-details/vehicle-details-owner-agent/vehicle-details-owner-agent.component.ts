@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -20,6 +21,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
   pTypes: any;
   oTypes: any;
   subscriptions: Subscription[] = [];
+  isPersonRxx = new BehaviorSubject(false);
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -27,7 +29,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-
+    this.isPersonRxx.next(this.vehicle.owner.isPerson);
     this.pTypes = this.btity.types.idTypes.filter(t => t.id.indexOf('o') === -1);
     this.oTypes = this.btity.types.idTypes.filter(t => t.id.indexOf('p') === -1);
 
@@ -68,6 +70,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
         } else {
           this.fform.get('owner.isByAgent').enable();
         }
+        this.isPersonRxx.next(value);
       });
     this.subscriptions.push(isPersonChange_);
 

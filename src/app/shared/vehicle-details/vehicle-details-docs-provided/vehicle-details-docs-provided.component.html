@@ -1,0 +1,148 @@
+{{fform.valid}}
+<form [formGroup]="fform.get('docsProvided')">
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <i class="material-icons">chevron_right</i>
+        <span>{{btity.titles.vehicles.docsProvided.title}}</span></md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <small>
+        <md-grid-list cols="4" rowHeight="2em" class="checkbox-array">
+          <md-grid-tile>
+            <div>
+              <md-checkbox color="primary" formControlName="vRegistrationCert">
+                {{btity.titles.vehicles.docsProvided.vRegistrationCert}}
+              </md-checkbox>  
+            </div>
+          </md-grid-tile>
+          <md-grid-tile>
+            <div>
+              <md-checkbox color="primary" formControlName="vLicenseA">
+                {{btity.titles.vehicles.docsProvided.vLicenseA}}
+              </md-checkbox>
+            </div>
+          </md-grid-tile>
+
+          <md-grid-tile>
+            <div>
+              <md-checkbox color="primary" formControlName="vLicenseB">
+                {{btity.titles.vehicles.docsProvided.vLicenseB}}
+              </md-checkbox>
+            </div>
+          </md-grid-tile>
+          <md-grid-tile>
+            <div>
+              <label class="inline-block-label">
+                <span class="vertical-middle-span">
+                {{btity.titles.vehicles.docsProvided.plateCount}}：
+                <md-input-container class="s-size-input same-line-height-input">
+                  <input type="number" mdInput formControlName="plateCount">
+                </md-input-container>
+                </span>
+              </label> 
+            </div>
+          </md-grid-tile>
+          <md-grid-tile [colspan]="2">
+            <div>
+              <md-checkbox color="primary" formControlName="infoQueryForm">
+                {{btity.titles.vehicles.docsProvided.infoQueryForm}}
+              </md-checkbox>
+            </div>
+          </md-grid-tile>
+          <md-grid-tile [colspan]="2">
+            <div>
+          <md-checkbox color="primary" formControlName="registrationTransferDeregistrationApplication">
+            {{btity.titles.vehicles.docsProvided.registrationTransferDeregistrationApplication}}
+          </md-checkbox>   
+            </div>
+          </md-grid-tile>
+          <md-grid-tile *ngIf="isPersonRxx | async" [colspan]="2">
+            <div>
+              <md-checkbox color="primary" formControlName="ownerPIdCopy">
+                {{btity.titles.vehicles.docsProvided.ownerPIdCopy}}
+              </md-checkbox>
+            </div>
+          </md-grid-tile>
+          <md-grid-tile [colspan]="2">
+            <div>
+              <md-checkbox color="primary" formControlName="agentIdCopy">
+                {{btity.titles.vehicles.docsProvided.agentIdCopy}}
+              </md-checkbox>
+            </div>
+          </md-grid-tile>
+          <md-grid-tile [colspan]="2">
+            <div>
+              <md-checkbox color="primary" formControlName="powerOfAttorney">
+                {{btity.titles.vehicles.docsProvided.powerOfAttorney}}
+              </md-checkbox> 
+            </div>
+          </md-grid-tile>      
+          <md-grid-tile>
+            <div>
+              <md-checkbox color="primary" formControlName="surveyRecords">
+                {{btity.titles.vehicles.docsProvided.surveyRecords}}
+              </md-checkbox> 
+            </div>
+          </md-grid-tile>      
+          <md-grid-tile [colspan]="3">
+            <div>
+              <md-checkbox color="primary" formControlName="statementOfLossOnNewspaper">
+                {{btity.titles.vehicles.docsProvided.statementOfLossOnNewspaper}}
+              </md-checkbox>  
+            </div>
+          </md-grid-tile>
+
+          <ng-container *ngIf="!(isPersonRxx | async)">
+            <md-grid-tile [colspan]="2">
+              <div>
+                <md-checkbox color="primary" formControlName="orgDeregistrationFormCopy">
+                  {{btity.titles.vehicles.docsProvided.orgDeregistrationFormCopy}}
+                </md-checkbox>
+              </div>
+            </md-grid-tile>      
+            <md-grid-tile [colspan]="2">
+              <div>
+                <md-checkbox color="primary" formControlName="orgRenamingDoc">
+                  {{btity.titles.vehicles.docsProvided.orgRenamingDoc}}
+                </md-checkbox>   
+              </div>
+            </md-grid-tile>   
+          
+          </ng-container>  
+
+          <md-grid-tile>
+            <div>
+              <md-checkbox color="primary" formControlName="ownershipCert">
+                {{btity.titles.vehicles.docsProvided.ownershipCert}}
+              </md-checkbox>   
+            </div>
+          </md-grid-tile> 
+          <md-grid-tile>
+            <div>
+              <md-checkbox color="primary" formControlName="affiliationAgreement">
+                {{btity.titles.vehicles.docsProvided.affiliationAgreement}}
+              </md-checkbox> 
+            </div>
+          </md-grid-tile> 
+          <md-grid-tile [colspan]="2">
+            <div>
+              <label class="inline-block-label">
+                <span class="vertical-middle-span">
+                  <span>{{btity.titles.vehicles.docsProvided.others}}：</span>
+                  <md-input-container class="xl-size-input same-line-height-input">
+                    <input mdInput formControlName="others">
+                  </md-input-container>
+                </span>
+              </label>
+            </div>
+          </md-grid-tile> 
+
+        </md-grid-list>
+
+      </small>
+    </md-card-content>
+  </md-card>
+
+
+</form>

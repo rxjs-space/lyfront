@@ -41,6 +41,7 @@ import { VehicleDetailsGeneralComponent } from './vehicle-details/vehicle-detail
 import { VehicleDetailsStatusComponent } from './vehicle-details/vehicle-details-status/vehicle-details-status.component';
 import { VehicleDetailsVehicleComponent } from './vehicle-details/vehicle-details-vehicle/vehicle-details-vehicle.component';
 import { VehicleDetailsOwnerAgentComponent } from './vehicle-details/vehicle-details-owner-agent/vehicle-details-owner-agent.component';
+import { VehicleDetailsDocsProvidedComponent } from './vehicle-details/vehicle-details-docs-provided/vehicle-details-docs-provided.component';
 
 
 const mdModules = [
@@ -90,7 +91,8 @@ const mdModules = [
     VehicleDetailsGeneralComponent,
     VehicleDetailsStatusComponent,
     VehicleDetailsVehicleComponent,
-    VehicleDetailsOwnerAgentComponent
+    VehicleDetailsOwnerAgentComponent,
+    VehicleDetailsDocsProvidedComponent
   ],
   exports: [
     CommonModule,

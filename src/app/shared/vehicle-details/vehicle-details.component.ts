@@ -21,6 +21,7 @@ import { VehicleDetailsGeneralComponent } from './vehicle-details-general/vehicl
 import { VehicleDetailsStatusComponent } from './vehicle-details-status/vehicle-details-status.component';
 import { VehicleDetailsVehicleComponent } from './vehicle-details-vehicle/vehicle-details-vehicle.component';
 import { VehicleDetailsOwnerAgentComponent } from './vehicle-details-owner-agent/vehicle-details-owner-agent.component';
+import { VehicleDetailsDocsProvidedComponent } from './vehicle-details-docs-provided/vehicle-details-docs-provided.component';
 
 
 @Component({
@@ -42,8 +43,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(VehicleDetailsStatusComponent) dStatus: any;
   @ViewChild(VehicleDetailsVehicleComponent) dVehicle: any;
   @ViewChild(VehicleDetailsOwnerAgentComponent) dOwnerAgent: any;
+  @ViewChild(VehicleDetailsDocsProvidedComponent) dDocsProvided: any;
   partialFormContainers = [
-    'dGeneral', 'dStatus', 'dVehicle', 'dOwnerAgent'];
+    'dGeneral', 'dStatus', 'dVehicle', 'dOwnerAgent', 'dDocsProvided'];
   patches = [];
   newVehicle = {};
   subscriptions: Subscription[] = [];
@@ -67,7 +69,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
       .filter(v => {// emit value only when some partial form is dirty
         let someDirty = false;
         for (const name of this.partialFormContainers) {
-          if (this[name].fform.dirty) {someDirty = true; break;}
+          if (this[name].fform.dirty) {someDirty = true; break; }
         }
         console.log('someDirty', someDirty);
         return someDirty;
@@ -107,7 +109,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   checkIfChanged(dataThatMayHaveChangedArray) {
-    // console.log(dataThatMayHaveChangedArray);
+    console.log(dataThatMayHaveChangedArray);
     this.patches = [];
     const oldVehicle = JSON.parse(JSON.stringify(this.vehicle)); // is this necessary?
     this.newVehicle = Object.assign({}, oldVehicle, ...dataThatMayHaveChangedArray);
