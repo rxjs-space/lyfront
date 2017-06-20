@@ -1,0 +1,107 @@
+<form [formGroup]="fform">
+  <md-card class="info-card">
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <i class="material-icons">chevron_right</i>
+        <span>{{btity.titles.vehicles.owner.title}} / {{btity.titles.vehicles.agent.title}}</span>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
+      
+      <div class="flex-container" formGroupName="owner">
+        <md-input-container class="xxl-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.owner.name" formControlName="name">
+        </md-input-container>
+      </div>
+
+
+      <div formGroupName="owner">
+        <!-- 是否私家车 -->
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.owner.isPerson"
+          [formControlInput]="fform.get('owner.isPerson')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>  
+
+        <!-- 证件类别-个人 -->
+        <ng-container *ngIf="fform.get('owner.isPerson').value">
+          <app-autocomplete-combo
+            [placeholderInput]="btity.titles.vehicles.owner.idType"
+            [formControlInput]="fform.get('owner.idType')"
+            [objList]="pTypes"
+            sizeClass='l-size-input'
+            [toSort]="false"
+          >
+          </app-autocomplete-combo>
+        </ng-container>
+
+        <!-- 证件类别-组织 -->
+        <ng-container *ngIf="!fform.get('owner.isPerson').value">
+          <app-autocomplete-combo
+            [placeholderInput]="btity.titles.vehicles.owner.idType"
+            [formControlInput]="fform.get('owner.idType')"
+            [objList]="oTypes"
+            sizeClass='l-size-input'
+            [toSort]="false"
+          >
+          </app-autocomplete-combo>
+        </ng-container>
+
+        <md-input-container class="m-size-input" *ngIf="(fform.get('owner.idType').value === '其他')">
+          <input mdInput [placeholder]="btity.titles.vehicles.owner.idOtherTypeName" formControlName="idOtherTypeName">
+        </md-input-container>
+
+        <md-input-container class="xl-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.owner.idNo" formControlName="idNo">
+        </md-input-container>
+        <md-input-container class="l-size-input">
+          <input type="tel" mdInput [placeholder]="btity.titles.vehicles.owner.tel" formControlName="tel">
+        </md-input-container>
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.owner.address" formControlName="address">
+        </md-input-container>
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.owner.zipCode" formControlName="zipCode">
+        </md-input-container>
+
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.owner.isByAgent"
+          [formControlInput]="fform.get('owner.isByAgent')"
+          sizeClass='s-size-input'
+        >
+        </app-autocomplete-combo>  
+      </div>
+
+      <div formGroupName="agent" *ngIf="fform.get('owner.isByAgent').value">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.agent.name" formControlName="name">
+        </md-input-container>    
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.agent.idType"
+          [formControlInput]="fform.get('agent.idType')"
+          [objList]="pTypes"
+          sizeClass='l-size-input'
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+
+        <md-input-container class="m-size-input" *ngIf="(fform.get('agent.idType').value === '其他')">
+          <input mdInput [placeholder]="btity.titles.vehicles.agent.idOtherTypeName" formControlName="idOtherTypeName">
+        </md-input-container>
+
+        <md-input-container class="xl-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.agent.idNo" formControlName="idNo">
+        </md-input-container>
+        <md-input-container class="l-size-input">
+          <input type="tel" mdInput [placeholder]="btity.titles.vehicles.agent.tel" formControlName="tel">
+        </md-input-container>
+
+      </div>
+
+    </md-card-content>
+
+  </md-card>
+</form>

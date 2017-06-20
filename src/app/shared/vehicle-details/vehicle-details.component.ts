@@ -20,6 +20,7 @@ import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 import { VehicleDetailsGeneralComponent } from './vehicle-details-general/vehicle-details-general.component';
 import { VehicleDetailsStatusComponent } from './vehicle-details-status/vehicle-details-status.component';
 import { VehicleDetailsVehicleComponent } from './vehicle-details-vehicle/vehicle-details-vehicle.component';
+import { VehicleDetailsOwnerAgentComponent } from './vehicle-details-owner-agent/vehicle-details-owner-agent.component';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   @Output() saved = new EventEmitter();
   @Output() isChangedAndValid = new EventEmitter();
   @Input() saveTriggerRxx: any;
+  @Input() checkValidityTriggerRxx: any;
   vehicleForm: FormGroup;
   isNew = false;
   @Input() vehicle: any;
@@ -39,7 +41,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(VehicleDetailsGeneralComponent) dGeneral: any;
   @ViewChild(VehicleDetailsStatusComponent) dStatus: any;
   @ViewChild(VehicleDetailsVehicleComponent) dVehicle: any;
-  partialFormContainers = ['dGeneral', 'dStatus', 'dVehicle'];
+  @ViewChild(VehicleDetailsOwnerAgentComponent) dOwnerAgent: any;
+  partialFormContainers = [
+    'dGeneral', 'dStatus', 'dVehicle', 'dOwnerAgent'];
   patches = [];
   newVehicle = {};
   subscriptions: Subscription[] = [];
@@ -95,6 +99,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
       this.save();
     });
     this.subscriptions.push(sub1_);
+    const sub2_ = this.checkValidityTriggerRxx.subscribe(() => {
+      this.checkValidity();
+    })
 
     // this.isValidIsChangedCombo.isValid = this.dGeneral.fform.valid && this.dStatus.fform.valid;
   }
@@ -109,6 +116,23 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.isChangedAndValid.emit(!!this.patches[length]);
   }
 
+  checkValidity() {
+    const markAllAsTouched = (control: AbstractControl) => {
+      if (control.hasOwnProperty('controls')) {
+        control.markAsTouched(true); // mark group
+        const ctrl = <any>control;
+        for (const innerId in ctrl.controls) {
+          markAllAsTouched(ctrl.controls[innerId] as AbstractControl);
+        }
+      } else {
+        (<FormControl>(control)).markAsTouched(true);  // mark single control
+      }
+    };
+
+    this.partialFormContainers.forEach(name => {
+      markAllAsTouched(this[name].fform);
+    });
+  }
   save() {
     console.log('saving...');
     console.log(this.patches);

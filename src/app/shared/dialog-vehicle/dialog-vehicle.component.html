@@ -17,6 +17,7 @@
       [saveTriggerRxx]="saveRxx"
       (saved)="onSaved($event)"
       (isChangedAndValid)="onIsChangedAndValid($event)"
+      [checkValidityTriggerRxx]="checkValidityTriggerRxx"
     ></app-vehicle-details>
     <!--<form></form>-->
   
@@ -25,7 +26,9 @@
   <button md-button type="button" (click)="preparePrint()" color="primary" 
   *ngIf="!isInPrintMode">准备打印</button>
   <button md-button type="button" (click)="rollbackPreparePrint()" color="primary" *ngIf="isInPrintMode">取消打印</button>
-  <button md-button type="button" color="primary">数据验证</button>
+  <button md-button type="button" color="primary"
+    (click)="checkValidityTriggerRxx.next(true)"
+  >数据验证</button>
   <span class="space-filler"></span>
   <button md-raised-button type="button" color="primary" 
     [disabled]="!isValidAndChanged"

@@ -20,6 +20,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   btityRxx: any;
   asyncDataId = 'dialogVehicleComponent' + Math.random();
   saveRxx = new Subject();
+  checkValidityTriggerRxx = new Subject();
   @ViewChild(VehicleDetailsComponent) vDetails;
   isValidAndChanged = false;
   itemRxHash = {

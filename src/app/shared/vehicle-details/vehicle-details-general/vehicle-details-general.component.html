@@ -1,31 +1,33 @@
 <form [formGroup]="fform">
-  <div class="flex-container">
+  <div class="in-the-header">
+    <div class="flex-container">
 
-      <md-input-container>
-        <input mdInput [placeholder]="btity.titles.vehicles.vin" formControlName="vin">
-      </md-input-container>
-    <ng-container *ngIf="isNew">
-      <md-input-container>
-        <input mdInput [placeholder]="btity.titles.vehicles.vinConfirm" formControlName="vinConfirm">
-      </md-input-container>
-      <!--<span class="errorMessage vertical-middle-span"
-        *ngIf="fform.get('vinConfirm').errors && fform.get('vinConfirm').errors.duplicateVIN"
-      >VIN 已存在</span>-->
-      <!--<span class="vertical-middle-span"
-        *ngIf="asyncMon.progressing.validatorDuplicateVIN"
-      ><md-spinner class="inline-spinner"></md-spinner></span>-->
+        <md-input-container>
+          <input mdInput [placeholder]="btity.titles.vehicles.vin" formControlName="vin">
+        </md-input-container>
+      <ng-container *ngIf="isNew">
+        <md-input-container>
+          <input mdInput [placeholder]="btity.titles.vehicles.vinConfirm" formControlName="vinConfirm">
+        </md-input-container>
+        <!--<span class="errorMessage vertical-middle-span"
+          *ngIf="fform.get('vinConfirm').errors && fform.get('vinConfirm').errors.duplicateVIN"
+        >VIN 已存在</span>-->
+        <!--<span class="vertical-middle-span"
+          *ngIf="asyncMon.progressing.validatorDuplicateVIN"
+        ><md-spinner class="inline-spinner"></md-spinner></span>-->
 
-    </ng-container>
-    <span class="space-filler"></span>
+      </ng-container>
+      <span class="space-filler"></span>
 
-    <ng-container *ngIf="!isNew">
-      <md-input-container class="xl-size-input">
-        <small>
-          <input mdInput [placeholder]="btity.titles.vehicles.mofcomRegisterRef" 
-            formControlName="mofcomRegisterRef">
-        </small>
-      </md-input-container>   
-    </ng-container>
+      <ng-container *ngIf="!isNew">
+        <md-input-container class="xl-size-input">
+          <small>
+            <input mdInput [placeholder]="btity.titles.vehicles.mofcomRegisterRef" 
+              formControlName="mofcomRegisterRef">
+          </small>
+        </md-input-container>   
+      </ng-container>
+    </div>
   </div>
 
   <!-- show this div after vehicle is deleted -->

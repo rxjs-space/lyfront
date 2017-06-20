@@ -109,8 +109,10 @@ export class VehicleDetailsStatusComponent implements OnInit {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        const allV = this.fform.getRawValue();
-        return allV;
+        if (this.fform.valid) {
+          const allV = this.fform.getRawValue();
+          return allV;
+        }
       });
   }
 
