@@ -1,0 +1,36 @@
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <!--<span>{{titles.vehicles.remarks.title}}</span>-->
+      <span>文档信息</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div class="flex-container center-aligned">
+      此文档由
+      <md-input-container class="m-size-input">
+        <input mdInput [value]="createdBy.username" disabled>
+      </md-input-container>
+      创建于
+      <md-input-container class="xxl-size-input">
+        <input mdInput [value]="createdAt" disabled>
+      </md-input-container>
+      。
+    </div>
+    <div *ngIf="modifiedBy" class="flex-container center-aligned">
+      此文档最近被
+      <md-input-container class="m-size-input">
+        <input mdInput [value]="modifiedBy.username" disabled>
+      </md-input-container>
+      于
+      <md-input-container class="xxl-size-input">
+        <input mdInput [value]="modifiedAt" disabled>
+      </md-input-container>
+      修改过。
+
+    </div>
+    
+  </md-card-content>
+ 
+</md-card>

@@ -49,6 +49,7 @@ import { VehicleDetailsNotesComponent } from './vehicle-details/vehicle-details-
 import { DialogNewVehicleNoteComponent } from './vehicle-details/vehicle-details-notes/dialog-new-vehicle-note.component';
 import { VehicleDetailsCostsComponent } from './vehicle-details/vehicle-details-costs/vehicle-details-costs.component';
 import { DialogNewVehicleCostComponent } from './vehicle-details/vehicle-details-costs/dialog-new-vehicle-cost.component';
+import { VehicleDetailsMetadataComponent } from './vehicle-details/vehicle-details-metadata/vehicle-details-metadata.component';
 
 
 const mdModules = [
@@ -106,7 +107,8 @@ const mdModules = [
     VehicleDetailsNotesComponent,
     DialogNewVehicleNoteComponent,
     VehicleDetailsCostsComponent,
-    DialogNewVehicleCostComponent
+    DialogNewVehicleCostComponent,
+    VehicleDetailsMetadataComponent
   ],
   exports: [
     CommonModule,

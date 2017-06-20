@@ -66,7 +66,6 @@ export class VehicleDetailsCostsComponent implements OnInit, OnDestroy {
         const VCs = v.vehicleCosts;
         if (VCs) {
           VCs.forEach(vc => {
-            console.log(vc);
             const amount = vc['amount'];
             sumWithoutRV += +amount;
             prodWithoutRV *= +amount;
