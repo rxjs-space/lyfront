@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
@@ -12,6 +13,7 @@ import { FormUtilsService } from '../../form-utils/form-utils.service';
 })
 export class VehicleDetailsVehicleComponent implements OnInit {
   fform: FormGroup;
+  fformRxx = new BehaviorSubject(null);
   valueChangesRx: Observable<any>;
   @Input() vehicle: any;
   @Input() btity: any;
@@ -57,6 +59,7 @@ export class VehicleDetailsVehicleComponent implements OnInit {
       }),
     });
 
+    this.fformRxx.next(this.fform);
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {

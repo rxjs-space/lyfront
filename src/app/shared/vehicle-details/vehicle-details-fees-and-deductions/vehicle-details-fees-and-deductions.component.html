@@ -1,0 +1,70 @@
+
+
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>车辆状况 / 残值 / 费用及抵扣</span></md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <!-- vehicle form part -->
+    <form [formGroup]="vdvForm.get('vehicle')" *ngIf="vdvForm">
+      <div class="flex-container">
+        <md-input-container class="xxl-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.vehicle.conditionOnEntrance" formControlName="conditionOnEntrance">
+        </md-input-container>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="m-size-input">
+          <input mdInput type="number" [placeholder]="btity.titles.vehicles.vehicle.residualValueBeforeFD" formControlName="residualValueBeforeFD">
+        </md-input-container>
+      </div>
+    </form>
+
+    <!-- fees and deductions form part -->
+    <div *ngIf="!fdFormArray.length">
+      暂无费抵项目
+    </div>
+    <form [formGroup]="fform" *ngIf="fdFormArray.length">
+
+      <div formArrayName="feesAndDeductions">
+        <div class="flex-container" *ngFor="let fd of fdFormArray.controls; let i=index" [formGroupName]="i">
+          <md-input-container class="s-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.id" [value]="i+1" disabled>
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+
+          <md-input-container class="l-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.type" formControlName="type">
+          </md-input-container>
+
+          <span class="separator-in-flex-container"></span>
+
+          <md-input-container class="m-size-input">
+            <input mdInput type="number" [placeholder]="btity.titles.vehicles.feesAndDeductions.amount" formControlName="amount">
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+          <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']==='零件遗失'">
+            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.partName" formControlName="part">
+          </md-input-container>
+          <md-input-container class="xxl-size-input" *ngIf="fd.getRawValue()['type']!=='零件遗失'">
+            <input mdInput [placeholder]="btity.titles.vehicles.feesAndDeductions.details" formControlName="details">
+          </md-input-container>
+          <span class="separator-in-flex-container"></span>
+          <!--<button type="button" md-button (click)="openDialogDeleteFD(i)"><i class="material-icons">delete_forever</i></button>-->
+
+        </div>
+          
+      </div>
+
+    </form>
+      <!--<button type="button" md-button (click)="openDialogNewFD()" color="primary">添加费抵项目</button>-->
+
+    <!--<div class="form-control">
+      {{titles.vehicles.vehicle.residualValueAfterFD}}：
+      <md-input-container class="s-size-input">
+        <input mdInput [value]="rvAfterFD" disabled>
+      </md-input-container>
+    </div>-->
+
+  </md-card-content>
+</md-card>
