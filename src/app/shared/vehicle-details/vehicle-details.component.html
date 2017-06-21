@@ -22,7 +22,7 @@
 <app-vehicle-details-costs [btity]="btity" [vehicle]="vehicle" [rvAfterFD]="vdfd.rvAfterFD">
 </app-vehicle-details-costs>
 
-<app-vehicle-details-metadata [vehicle]="vehicle" >
+<app-vehicle-details-metadata [vehicle]="vehicle" *ngIf="!isNew">
 </app-vehicle-details-metadata>
 
 <!--{{(dGeneral.fform && dGeneral.fform.getRawValue()) | json}}

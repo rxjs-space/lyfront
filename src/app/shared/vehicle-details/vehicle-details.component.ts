@@ -147,40 +147,40 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   save() {
     console.log('saving...');
     console.log(this.patches);
-    // switch (this.isNew) {
-    //   case true:
-    //     this.data.insertVehicle({
-    //       vehicle: this.newVehicle,
-    //       patches: this.patches
-    //     }).first()
-    //       .catch(error => Observable.of({
-    //         ok: false, error
-    //       }))
-    //       .subscribe(r => {
-    //         if (r.error) {
-    //           console.log(r.error);
-    //         } else {
-    //           console.log('inserted new', r.insertedIds[0]);
-    //           this.saved.emit({vin: this.newVehicle['vin']});
-    //         }
-    //       });
-    //     break;
-    //   case false:
-    //     this.data.updateVehicle(this.vehicle.vin, {patches: this.patches})
-    //       .first()
-    //       .catch(error => Observable.of({
-    //         ok: false, error
-    //       }))
-    //       .subscribe(r => {
-    //         if (r.error) {
-    //           console.log(r.error);
-    //         } else {
-    //           console.log('updated');
-    //           this.saved.emit(r);
-    //         }
-    //       });
-    //     break;
-    // }
+    switch (this.isNew) {
+      case true:
+        this.data.insertVehicle({
+          vehicle: this.newVehicle,
+          patches: this.patches
+        }).first()
+          .catch(error => Observable.of({
+            ok: false, error
+          }))
+          .subscribe(r => {
+            if (r.error) {
+              console.log(r.error);
+            } else {
+              console.log('inserted new', r.insertedIds[0]);
+              this.saved.emit({vin: this.newVehicle['vin']});
+            }
+          });
+        break;
+      case false:
+        this.data.updateVehicle(this.vehicle.vin, {patches: this.patches})
+          .first()
+          .catch(error => Observable.of({
+            ok: false, error
+          }))
+          .subscribe(r => {
+            if (r.error) {
+              console.log(r.error);
+            } else {
+              console.log('updated');
+              this.saved.emit(r);
+            }
+          });
+        break;
+    }
 
 
   }

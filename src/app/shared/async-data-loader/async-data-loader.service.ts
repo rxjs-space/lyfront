@@ -24,6 +24,7 @@ export class AsyncDataLoaderService {
     for (const k of keys) {
       latestResultRxxHash[k] = new BehaviorSubject(null);
       itemRxHash[k] = itemRxHash[k]
+        .do((v) => console.log(k, 'is', v))
         .filter(v => v!== null)
         .first()
         .catch(error => Observable.of({
@@ -31,18 +32,19 @@ export class AsyncDataLoaderService {
           error
         }))
         .do(r => latestResultRxxHash[k].next(r))
-        .startWith('loading')
-        .do(r => {
-          if (r === 'loading') {
-            latestResultRxxHash[k].next(null);
-          }
-        })
+        // .startWith('loading')
+        // .do(r => {
+        //   console.log('loading', k);
+        //   if (r === 'loading') {
+        //     latestResultRxxHash[k].next(null);
+        //   }
+        // })
     }
 
     const latestResultRxxArray = keys.map(k => latestResultRxxHash[k]);
     Observable.combineLatest(latestResultRxxArray)
       .subscribe(resultArray => {
-        // console.log(resultArray);
+        console.log(resultArray);
         let isWithError = false;
         for (const result of resultArray) {
           if (result && result.error) {
@@ -65,7 +67,7 @@ export class AsyncDataLoaderService {
     const refreshAll = () => {
       if (!itemRxHash) {throw new Error(`no itemRxHash for ${source}`); }
       for (const k of keys) {
-        itemRxHash[k].subscribe();
+        itemRxHash[k].subscribe(() => console.log(k, 'is being subscribed'));
       }
     }
 

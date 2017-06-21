@@ -42,7 +42,11 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // console.log(this.dataFromTrigger);
+    this.refresh();
 
+  }
+
+  refresh() {
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     this.isLoadedWithoutErrorRxx = this.holder.isLoadedWithoutErrorRxx;
     this.isWithErrorRxx = this.holder.isWithErrorRxx;
@@ -57,9 +61,13 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
 
   onSaved(event) {
     if (event.vin) {
+      console.log(event.vin);
+      this.dataFromTrigger.vin = event.vin;
       this.itemRxHash.vehicle = this.data.getVehicleByVIN(event.vin);
+      this.refresh();
+    } else {
+      this.holder.refreshByTitle('vehicle');
     }
-    this.holder.refreshByTitle('vehicle');
   }
 
   /**
