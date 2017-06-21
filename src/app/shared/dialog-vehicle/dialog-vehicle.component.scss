@@ -1,0 +1,15 @@
+.print-overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000
+}
+
+.cancel-print {
+  position: absolute;
+  top: 1.5em;
+  left: 10em;
+  z-index: 1001;
+}
