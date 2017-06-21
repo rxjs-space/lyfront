@@ -35,6 +35,9 @@ import { VehicleDetailsCostsComponent } from './vehicle-details-costs/vehicle-de
 export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   valueChangesRx: Observable<any>;
   @Output() saved = new EventEmitter();
+  isSavingRxx = new BehaviorSubject(false);
+  isChangedRxx = new BehaviorSubject(false);
+  isValidRxx = new BehaviorSubject(false);
   @Output() isChangedAndValid = new EventEmitter();
   @Input() saveTriggerRxx: any;
   @Input() checkValidityTriggerRxx: any;
@@ -67,6 +70,15 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.isNew = !this.vehicle.vin;
+    Observable.combineLatest(this.isChangedRxx, this.isValidRxx)
+      .subscribe(combo => {
+        // console.log(combo);
+        if (combo[0] && combo[1]) {
+          this.isChangedAndValid.emit(true);
+        } else {
+          this.isChangedAndValid.emit(false);
+        }
+      })
   }
 
   ngAfterViewInit() {
@@ -79,31 +91,57 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         for (const name of this.partialFormContainers) {
           if (this[name].fform.dirty) {someDirty = true; break; }
         }
-        console.log('someDirty', someDirty);
+        // console.log('someDirty', someDirty);
         return someDirty;
       });
-    const sub0_ = Observable.combineLatest(this.valueChangesRx, this.asyncMon.init('validatorDuplicateVIN'))
-      .filter(combo => { // check if asyncValidator is working
-        console.log('combo1done', combo[1]['done']);
-        if (!combo[1]['done']) {this.isChangedAndValid.emit(false); }
-        return combo[1]['done'];
-      })
-      .delay(0) // after async validator is done, wait for one cycle and continue
-      .filter(v => { // check if all partial forms are valid
-        let allValid = true;
-        for (const name of this.partialFormContainers) {
-          if (!this[name].fform.valid) {allValid = false; break; }
+
+
+    /**
+     * monitor the async validator and set the this.isValidRxx
+     */
+    const sub10_ = this.asyncMon.init('validatorDuplicateVIN')
+      .delay(0)
+      .subscribe(result => {
+        if (result.done) {
+          if (!result.value) {
+            this.isValidRxx.next(false);
+          } else { // if async validator finishes with true, check others
+            this.checkValidity.bind(this)();
+          }
+        } else {
+          this.isValidRxx.next(false);
         }
-        if (!allValid) {
-          this.isChangedAndValid.emit(false); // if invalid, mark
-        }
-        console.log('allValid', allValid);
-        return allValid;
-      })
-      .map(combo => combo[0]) // remove the asyncValidator status
+      });
+
+    this.subscriptions.push(sub10_);
+
+    const sub11_ = this.valueChangesRx
       .subscribe(this.checkIfChanged.bind(this));
 
-    this.subscriptions.push(sub0_);
+    this.subscriptions.push(sub11_);
+
+    // const sub0_ = Observable.combineLatest(this.valueChangesRx, this.asyncMon.init('validatorDuplicateVIN'))
+    //   .filter(combo => { // check if asyncValidator is working
+    //     console.log('combo1done', combo[1]['done']);
+    //     if (!combo[1]['done']) {this.isChangedAndValid.emit(false); }
+    //     return combo[1]['done'];
+    //   })
+    //   .delay(0) // after async validator is done, wait for one cycle and continue
+    //   .filter(v => { // check if all partial forms are valid
+    //     let allValid = true;
+    //     for (const name of this.partialFormContainers) {
+    //       if (!this[name].fform.valid) {allValid = false; break; }
+    //     }
+    //     if (!allValid) {
+    //       this.isChangedAndValid.emit(false); // if invalid, mark
+    //     }
+    //     console.log('allValid', allValid);
+    //     return allValid;
+    //   })
+    //   .map(combo => combo[0]) // remove the asyncValidator status
+    //   .subscribe(this.checkIfChanged.bind(this));
+
+    // this.subscriptions.push(sub0_);
 
     const sub1_ = this.saveTriggerRxx.subscribe(() => {
       this.save();
@@ -117,14 +155,14 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   checkIfChanged(dataThatMayHaveChangedArray) {
-    // console.log(dataThatMayHaveChangedArray);
     this.patches = [];
     const oldVehicle = JSON.parse(JSON.stringify(this.vehicle)); // is this necessary?
     this.newVehicle = Object.assign({}, oldVehicle, ...dataThatMayHaveChangedArray);
-    // console.log(this.newVehicle);
     this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
-    // this.isValidIsChangedCombo.isChanged = !!this.patches.length;
-    this.isChangedAndValid.emit(!!this.patches[length]);
+    // this.isChangedAndValid.emit(!!this.patches[length]);
+    // console.log(this.patches);
+    this.isChangedRxx.next(!!this.patches[length]);
+    this.checkValidity.bind(this)();
   }
 
   checkValidity() {
@@ -143,8 +181,16 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.partialFormContainers.forEach(name => {
       markAllAsTouched(this[name].fform);
     });
+
+    let allValid = true;
+    for (const name of this.partialFormContainers) {
+      if (!this[name].fform.valid) {allValid = false; break; }
+    }
+    this.isValidRxx.next(allValid);
+
   }
   save() {
+    this.isSavingRxx.next(true);
     console.log('saving...');
     console.log(this.patches);
     switch (this.isNew) {
@@ -157,6 +203,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             ok: false, error
           }))
           .subscribe(r => {
+            this.isSavingRxx.next(false);
             if (r.error) {
               console.log(r.error);
             } else {
@@ -172,6 +219,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             ok: false, error
           }))
           .subscribe(r => {
+            this.isSavingRxx.next(false);
             if (r.error) {
               console.log(r.error);
             } else {

@@ -10,13 +10,13 @@ export class AsyncMonitorService {
   };
   constructor() { }
 
-  init(key) {
+  init(key): BehaviorSubject<any> {
     if (this.holder[key]) {return this.holder[key]; }
     this.holder[key] = new BehaviorSubject({
       done: true,
       value: null
     });
-    return this.holder[key]
+    return this.holder[key];
   }
 
   gget(key) {
@@ -25,3 +25,6 @@ export class AsyncMonitorService {
   }
 
 }
+
+
+  // asyncMonitorId = 'dialogDismantlingOrder';

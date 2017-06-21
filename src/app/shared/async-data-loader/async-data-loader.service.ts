@@ -44,7 +44,7 @@ export class AsyncDataLoaderService {
     const latestResultRxxArray = keys.map(k => latestResultRxxHash[k]);
     Observable.combineLatest(latestResultRxxArray)
       .subscribe(resultArray => {
-        console.log(resultArray);
+        // console.log(resultArray);
         let isWithError = false;
         for (const result of resultArray) {
           if (result && result.error) {
@@ -67,7 +67,8 @@ export class AsyncDataLoaderService {
     const refreshAll = () => {
       if (!itemRxHash) {throw new Error(`no itemRxHash for ${source}`); }
       for (const k of keys) {
-        itemRxHash[k].subscribe(() => console.log(k, 'is being subscribed'));
+        latestResultRxxHash[k].next(null);
+        itemRxHash[k].subscribe();
       }
     }
 
@@ -75,6 +76,7 @@ export class AsyncDataLoaderService {
       if (!title) {throw new Error('no title param provided'); }
       if (!itemRxHash) {throw new Error(`no itemRxHash for ${source}`); }
       if (!itemRxHash[title]) {throw new Error(`no itemRx with title as ${title}`); }
+      latestResultRxxHash[title].next(null);
       itemRxHash[title].subscribe();
     }
 

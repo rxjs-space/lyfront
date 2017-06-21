@@ -11,6 +11,7 @@ import jsonpatch from 'fast-json-patch';
 import { DataService } from '../../data/data.service';
 import { DismantlingOrder } from '../../data/dismantling-order';
 import { SharedValidatorsService } from '../validators/shared-validators.service';
+import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 
 
 @Component({
@@ -26,12 +27,15 @@ export class DialogDismantlingOrderComponent implements OnInit {
   createdNewRxx = new BehaviorSubject(null);
   creatingNewRxx = new BehaviorSubject(false);
   dismantlingListLoaded: boolean;
+  asyncMonitorId = 'dialogDismantlingOrder';
+  asyncMonitorHolder: any;
   constructor(
     private sv: SharedValidatorsService,
     private fb: FormBuilder,
     public dialogRef: MdDialogRef<DialogDismantlingOrderComponent>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
-    public data: DataService
+    public data: DataService,
+    private asyncMonitor: AsyncMonitorService
   ) { }
 
   ngOnInit() {
@@ -41,10 +45,12 @@ export class DialogDismantlingOrderComponent implements OnInit {
     const enableForm = () => {
       this.doForm.enable();
       this.doForm.get('orderDate').disable();
-    }
+    };
     this.creatingNewRxx.subscribe(v => {
       v ? this.doForm.disable() : enableForm()
     });
+
+    this.asyncMonitorHolder = this.asyncMonitor.init(this.asyncMonitorId);
   }
 
 
@@ -66,6 +72,10 @@ export class DialogDismantlingOrderComponent implements OnInit {
   onDOFormSubmit() {
     console.log('submitting form');
     this.creatingNewRxx.next(true);
+    this.asyncMonitorHolder.next({
+      done: false,
+      value: null
+    });
     const dismantlingOrder = Object.assign({}, this.dismantlingOrderEmpty, this.doForm.getRawValue());
     // dismantlingOrder.vehicleType = (this.dataFromTrigger.types['vehicleTypes'].find(vt => vt.name === dismantlingOrder.vehicleType)).id;
     const patches = jsonpatch.compare(this.dismantlingOrderEmpty, dismantlingOrder);
@@ -79,10 +89,16 @@ export class DialogDismantlingOrderComponent implements OnInit {
         error
       });
     })
-    .subscribe(res => {
-      this.createdNew.emit(res);
-      this.createdNewRxx.next(res);
+    .subscribe(result => {
+      this.createdNew.emit(result);
+      this.createdNewRxx.next(result);
       this.creatingNewRxx.next(false);
+
+      this.asyncMonitorHolder.next({
+        done: true,
+        value: result
+      });
+
     });
     // save the form.value
     // update doList

@@ -18,11 +18,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { SharedValidatorsService } from './validators/shared-validators.service';
-import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { DisplayFunctionsService } from './display-functions/display-functions.service';
+import { AsyncDataLoaderService } from './async-data-loader/async-data-loader.service';
+import { AsyncMonitorService } from './async-monitor/async-monitor.service';
+import { FormUtilsService } from './form-utils/form-utils.service';
+import { DialogDataService } from './dialog-data/dialog-data.service';
+
+
+import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
 import { DialogYesOrNoComponent } from './dialog-yes-or-no/dialog-yes-or-no.component';
-import { FormUtilsService } from './form-utils/form-utils.service';
 import { DialogDismantlingOrderComponent } from './dialog-dismantling-order/dialog-dismantling-order.component';
 import { LoadingOrError2Component } from './loading-or-error-2/loading-or-error-2.component';
 import { ExistingDismantlingOrdersComponent } from './dialog-dismantling-order/existing-dismantling-orders.component';
@@ -31,8 +36,6 @@ import { SharedFilterComponent } from './shared-filter/shared-filter.component';
 import { DialogDismantlingOrderPrintComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print.component';
 import { DialogVehicleListComponent } from './dialog-vehicle-list/dialog-vehicle-list.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
-import { AsyncDataLoaderService } from './async-data-loader/async-data-loader.service';
-import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { VehicleListStatusComponent } from './vehicle-list/vehicle-list-status.component';
 import { DialogVehicleComponent } from './dialog-vehicle/dialog-vehicle.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
@@ -147,7 +150,8 @@ export class SharedModule {
         DisplayFunctionsService,
         FormUtilsService,
         AsyncDataLoaderService,
-        AsyncMonitorService
+        AsyncMonitorService,
+        DialogDataService
       ]
     };
   }

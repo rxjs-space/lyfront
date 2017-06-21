@@ -1,18 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle-list-status',
   templateUrl: './vehicle-list-status.component.html',
   styleUrls: ['./vehicle-list-status.component.scss']
 })
-export class VehicleListStatusComponent implements OnInit {
+export class VehicleListStatusComponent implements OnInit, OnChanges {
   @Input() vehicle: any;
   mofcomCertStatus: any;
   surveyStatus: any;
   dismantlingStatus: any;
+  @Input() dismantled: boolean;
+  @Input() dismantling: boolean;
   constructor() { }
 
   ngOnInit() {
+    this.updateStatus();
+  }
+
+  ngOnChanges() {
+    this.updateStatus();
+  }
+  updateStatus() {
     switch (true) {
       case this.vehicle.status.mofcomCertReady.done:
         this.mofcomCertStatus = '已打印'; break;
@@ -32,13 +41,21 @@ export class VehicleListStatusComponent implements OnInit {
     }
 
     switch(true) {
-      case this.vehicle.status.dismantled.done:
+      case this.dismantled:
         this.dismantlingStatus = '彻底拆解'; break;
-      case this.vehicle.dismantling:
+      case this.dismantling:
         this.dismantlingStatus = '拆解中'; break;
       default:
         this.dismantlingStatus = '待拆解';
     }
+    // switch(true) {
+    //   case this.vehicle.status.dismantled.done:
+    //     this.dismantlingStatus = '彻底拆解'; break;
+    //   case this.vehicle.dismantling:
+    //     this.dismantlingStatus = '拆解中'; break;
+    //   default:
+    //     this.dismantlingStatus = '待拆解';
+    // }
   }
 
 }

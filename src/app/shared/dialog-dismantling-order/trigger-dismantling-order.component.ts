@@ -12,15 +12,15 @@ export class TriggerDismantlingOrderComponent implements OnInit {
   @Input() types;
   @Input() titles;
   @Input() vehicle;
-  @Output() createdNew = new EventEmitter();
-  canCreateNew = false;
+  // @Output() createdNew = new EventEmitter();
+  @Input() canCreateNew;
   constructor(
     public dialog: MdDialog,
   ) { }
 
   ngOnInit() {
     // console.log(this.vehicle);
-    this.canCreateNew = !this.vehicle.dismantling && !this.vehicle.status.dismantled.done;
+    // this.canCreateNew = !this.vehicle.dismantling && !this.vehicle.status.dismantled.done;
     // console.log(this.canCreateNew);
   }
 
@@ -38,7 +38,7 @@ export class TriggerDismantlingOrderComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(result => this.createdNew.emit(result));
+    // dialogRef.afterClosed().subscribe(result => this.createdNew.emit(result));
   }
 
 

@@ -6,6 +6,7 @@ import { MdDialog } from '@angular/material';
 import { DataService } from '../../data/data.service';
 import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
 import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
+import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 
 
 @Component({
@@ -21,20 +22,15 @@ export class VehicleListComponent implements OnInit, OnDestroy {
   vehicleList: any;
   subscriptions: Subscription[] = [];
   isListRefreshed = false;
-
+  dialogDismantlingOrderAsyncMonitorHolder: any;
 
   constructor(
     public dialog: MdDialog,
     public asyncDataLoader: AsyncDataLoaderService,
-    private data: DataService
+    private data: DataService,
+    private asyncMonitor: AsyncMonitorService
   ) { }
 
-  onCreatedNew(event) {
-    if (event) {
-      this.refreshVehicleList();
-      this.isListRefreshed = true;
-    }
-  }
 
   openDialogVehicle(vin, vehicle?) {
     this.dialog.open(DialogVehicleComponent, {
@@ -52,6 +48,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // console.log(this.searchQuery);
+
     this.refreshBtity();
     this.refreshVehicleList();
     const sub0_ = this.asyncDataLoader.getDataRxxFac(this.asyncDataLoaderSource, this.dataItemList)
@@ -64,6 +61,23 @@ export class VehicleListComponent implements OnInit, OnDestroy {
         }
         this.btity = data['btity'] || null;
         this.vehicleList = data['vehicleList'] || null;
+
+        /**
+         * after new dismantlingOrder is created, change the dismantling property of that vehicle
+         */
+        if (this.vehicleList) {
+          this.dialogDismantlingOrderAsyncMonitorHolder = this.asyncMonitor.init('dialogDismantlingOrder');
+          const sub1_ = this.dialogDismantlingOrderAsyncMonitorHolder.subscribe(result => {
+            if (result.value && result.value.result.ok) {
+              const vinDismantling = result.value.ops[0].vin;
+              const vehicleDismantling = this.vehicleList.find(vehicle => vehicle.vin === vinDismantling);
+              vehicleDismantling.dismantling = true;
+            }
+          });
+          this.subscriptions.push(sub1_);
+        }
+
+
       });
     this.subscriptions.push(sub0_);
   }

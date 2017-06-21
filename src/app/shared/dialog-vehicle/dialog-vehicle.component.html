@@ -19,6 +19,7 @@
       (saved)="onSaved($event)"
       (isChangedAndValid)="onIsChangedAndValid($event)"
       [checkValidityTriggerRxx]="checkValidityTriggerRxx"
+      #vd
     ></app-vehicle-details>
     <!--<form></form>-->
 
@@ -35,7 +36,7 @@
     >数据验证</button>
     <span class="space-filler"></span>
     <button md-raised-button type="button" color="primary" *ngIf="!isInPrintMode"
-      [disabled]="!isValidAndChanged"
+      [disabled]="!isValidAndChanged || (vd.isSavingRxx | async)"
       (click)="saveRxx.next(true)">保存</button>
     <button md-button type="button" color="warn" *ngIf="!isInPrintMode">删除</button>
   </div>

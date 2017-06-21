@@ -16,7 +16,7 @@
         <!--<md-grid-tile class="clickable">-->
           <i class="material-icons" md-list-icon >drive_eta</i>
         </md-grid-tile>
-        <md-grid-tile class="left-aligned-tile clickable" colspan="5" [routerLink]="['/vehicles/'+vehicle.vin]">
+        <md-grid-tile class="left-aligned-tile clickable" colspan="5"  (click)="openDialogVehicle(vehicle.vin, vehicle)">
         <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5">-->
           <div>
             <div>
@@ -28,7 +28,11 @@
             </div>
             <div>
               <small>
-                <app-vehicle-list-status [vehicle]="vehicle"></app-vehicle-list-status>
+                <app-vehicle-list-status 
+                  [vehicle]="vehicle"
+                  [dismantling]="vehicle.dismantling" [dismantled]="vehicle.status.dismantled.done"
+                >
+                </app-vehicle-list-status>
               </small>
             </div>
           </div>
@@ -38,7 +42,7 @@
             [titles]="btity.titles"
             [types]="btity.types"
             [vehicle]="vehicle"
-            (createdNew)="onCreatedNew($event)"
+            [canCreateNew]="!vehicle.dismantling && !vehicle.status.dismantled.done"
           ></app-trigger-dismantling-order>
         </md-grid-tile>
       </md-grid-list>
