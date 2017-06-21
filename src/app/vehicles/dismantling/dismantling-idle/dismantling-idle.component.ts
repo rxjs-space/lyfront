@@ -74,7 +74,7 @@ export class DismantlingIdleComponent implements OnInit {
     // console.log(searchQuery);
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {
       width: '650px',
-      disableClose: true,
+      // disableClose: true,
       data: {
         searchQuery,
         source: '待拆车辆',

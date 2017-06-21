@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
+// import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
 import { BACK_END_URL } from './app-config';
 import { environment } from './../environments/environment';
 
@@ -29,7 +29,7 @@ import { dataServices } from './data';
     SharedModule.forRoot(),
     AuthModule,
     DashboardModule,
-    VehicleInfoModule
+    // VehicleInfoModule
   ],
   providers: [
     ...dataServices,

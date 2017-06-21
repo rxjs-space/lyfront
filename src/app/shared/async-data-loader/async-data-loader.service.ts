@@ -24,7 +24,7 @@ export class AsyncDataLoaderService {
     for (const k of keys) {
       latestResultRxxHash[k] = new BehaviorSubject(null);
       itemRxHash[k] = itemRxHash[k]
-        .do((v) => console.log(k, 'is', v))
+        // .do((v) => console.log(k, 'is', v))
         .filter(v => v!== null)
         .first()
         .catch(error => Observable.of({

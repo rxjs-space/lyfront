@@ -34,7 +34,7 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
     const sub0_ = this.dialogDismantlingOrderAsyncMonitorHolder
       .subscribe(result => {
         if (result.value && result.value.result.ok) {
-          console.log('ready to refresh reports');
+          // console.log('ready to refresh reports');
           this.holder.refreshByTitle('reports');
         }
       });
