@@ -7,12 +7,15 @@
   <p>（完成拆解时间以点击确定时间为准）</p>
 </div>
 <div md-dialog-actions class="flex-container">
-  <button type="button" md-raised-button color="primary"
+  <button type="button" md-raised-button 
+    [color]="dataFromTrigger.markTarget === 'startedAt' ? 'primary' : 'accent'"
+    (click)="mark(dataFromTrigger.markTarget)" [disabled]="updating">确定</button>
+  <!--<button type="button" md-raised-button color="primary"
     *ngIf="dataFromTrigger.markTarget === 'startedAt'"
-    (click)="markStarted()" [disabled]="updating">确定</button>
-  <button type="button" md-raised-button color="accent"
+    (click)="mark(dataFromTrigger.markTarget)" [disabled]="updating">确定</button>-->
+  <!--<button type="button" md-raised-button color="accent"
     *ngIf="dataFromTrigger.markTarget === 'completedAt'"
-    (click)="markCompleted()"[disabled]="updating">确定</button>
+    (click)="mark(dataFromTrigger.markTarget)"[disabled]="updating">确定</button>-->
   <md-spinner  class="mini-spinner-1p" *ngIf="updating"></md-spinner>
   <span class="space-filler"></span>
   <button type="button" md-button

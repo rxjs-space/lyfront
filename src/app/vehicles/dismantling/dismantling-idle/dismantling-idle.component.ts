@@ -11,21 +11,11 @@ import { DialogVehicleListComponent } from '../../../shared/dialog-vehicle-list/
 })
 export class DismantlingIdleComponent implements OnInit {
   @Input() data;
+  @Input() filterCache;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({surveyStatus: 1});
   // @Output() needUpdate = new EventEmitter();
-  optionsArr = [
-    {
-      title: 'surveyStatus',
-      placeholder: '验车状态',
-      options: [
-        {value: 1, viewValue: '全部'},
-        {value: 2, viewValue: '未验车'},
-        {value: 3, viewValue: '一次验车完成未二次验车'},
-        {value: 4, viewValue: '二次验车完成'}
-      ]
-    }
-  ];
+  optionsArr = [];
 
   dataProps = [
     {title: '本周', name: 'thisWeek'},
@@ -118,11 +108,42 @@ export class DismantlingIdleComponent implements OnInit {
   }
 
   ngOnInit() {
+    const filterCache = this.filterCache['DismantlingIdleComponent'];
+    if (filterCache && filterCache['surveyStatus']) {
+      this.filterValueChangesRxx.next({surveyStatus: filterCache['surveyStatus']});
+    }
+
     this.filterValueChangesRxx.subscribe(v => {
       this.filteredData = this.calculateFilteredData(v.surveyStatus);
+      filterCache ?
+        filterCache['dismantlingStarted'] = v.surveyStatus :
+        this.filterCache['DismantlingIdleComponent'] = {surveyStatus: v.surveyStatus}
+
       // console.log(this.filteredData);
     });
-    // console.log(this.data);
+
+
+
+
+
+    this.optionsArr = [
+      {
+        title: 'surveyStatus',
+        placeholder: '验车状态',
+        initValue: filterCache ? 
+          (filterCache['surveyStatus'] ? filterCache['surveyStatus'] : 1)
+          : 1,
+        options: [
+          {value: 1, viewValue: '全部'},
+          {value: 2, viewValue: '未验车'},
+          {value: 3, viewValue: '一次验车完成未二次验车'},
+          {value: 4, viewValue: '二次验车完成'}
+        ]
+      }
+    ];
+
+
+
   }
 
 

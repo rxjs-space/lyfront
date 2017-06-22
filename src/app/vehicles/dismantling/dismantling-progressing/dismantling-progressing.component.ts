@@ -11,19 +11,10 @@ import { DialogDismantlingOrderListComponent } from '../../../shared/dialog-dism
 })
 export class DismantlingProgressingComponent implements OnInit {
   @Input() data;
+  @Input() filterCache;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({dismantlingStarted: 1});
-  optionsArr = [
-    {
-      title: 'dismantlingStarted',
-      placeholder: '拆解已开始',
-      options: [
-        {value: 1, viewValue: '全部'},
-        {value: 2, viewValue: '是'},
-        {value: 3, viewValue: '否'},
-      ]
-    }
-  ];
+  optionsArr = [];
 
   dataProps = [ // dismantlingOrderWeek
     {title: '本周', name: 'thisWeek'},
@@ -49,10 +40,32 @@ export class DismantlingProgressingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const filterCache = this.filterCache['DismantlingProgressingComponent'];
+    if (filterCache && filterCache['dismantlingStarted']) {
+      this.filterValueChangesRxx.next({dismantlingStarted: filterCache['dismantlingStarted']});
+    }
     this.filterValueChangesRxx.subscribe(v => {
       this.filteredData = this.calculateFilteredData(v.dismantlingStarted);
+      filterCache ?
+        filterCache['dismantlingStarted'] = v.dismantlingStarted :
+        this.filterCache['DismantlingProgressingComponent'] = {dismantlingStarted: v.dismantlingStarted}
       // console.log(this.filteredData);
     });
+
+    this.optionsArr = [
+      {
+        title: 'dismantlingStarted',
+        placeholder: '拆解已开始',
+        initValue: filterCache ? 
+          (filterCache['dismantlingStarted'] ? filterCache['dismantlingStarted'] : 1)
+          : 1,
+        options: [
+          {value: 1, viewValue: '全部'},
+          {value: 2, viewValue: '是'},
+          {value: 3, viewValue: '否'},
+        ]
+      }
+    ];
   }
 
   calculateFilteredData(dismantlingStarted) {
@@ -74,7 +87,7 @@ export class DismantlingProgressingComponent implements OnInit {
 
   queryList(dismantlingOrderWeek, vehicleType?) {
     const dismantlingStarted = (this.filterValueChangesRxx.getValue()).dismantlingStarted;
-    const searchQuery = {};
+    const searchQuery = {completed: false};
     if (dismantlingStarted > 1) {
       searchQuery['dismantlingStarted'] = dismantlingStarted === 2 ? true : false;
     }

@@ -26,7 +26,7 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
     'dialogDismantlingOrderMark'
   ];
   subscriptions: Subscription[] = [];
-
+  filterCache = {}; // caching the filter value of child components
   constructor(
     private data: DataService,
     private asyncDataLoader: AsyncDataLoaderService,
@@ -42,7 +42,7 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
     const asyncMonitorRx = Observable.merge(...asyncMonitorHolders);
     const sub0_ = asyncMonitorRx
       .subscribe(result => {
-        if (result.value && !result.error) {
+        if (result.value && !result.value.error) {
           // console.log('ready to refresh reports');
           this.holder.refreshByTitle('reports');
         }

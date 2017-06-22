@@ -1,6 +1,16 @@
 <md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
 <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
 <div *ngIf="holder.isLoadedWithoutErrorRxx | async">
-  <app-dismantling-idle [data]="(holder.latestResultRxxHash['reports'] | async)['idle']"></app-dismantling-idle>
-  <app-dismantling-progressing [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"></app-dismantling-progressing>
+  <app-dismantling-idle 
+    [data]="(holder.latestResultRxxHash['reports'] | async)['idle']"
+    [filterCache]="filterCache"
+  >
+
+  </app-dismantling-idle>
+  <app-dismantling-progressing 
+    [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"
+    [filterCache]="filterCache"
+  >
+
+  </app-dismantling-progressing>
 </div>

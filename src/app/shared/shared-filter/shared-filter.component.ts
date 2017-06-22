@@ -16,7 +16,7 @@ export class SharedFilterComponent implements OnInit {
   ngOnInit() {
     // console.log(this.optionsArr);
     const formGroupObj = this.optionsArr.reduce((acc, curr) => {
-      acc[curr.title] = 1;
+      acc[curr.title] = curr.initValue ? curr.initValue : 1;
       return acc;
     }, {});
     this.filterForm = this.fb.group(formGroupObj);
