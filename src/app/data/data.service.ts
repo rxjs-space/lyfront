@@ -246,6 +246,14 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
+  updateDismantlingOrder(dismantlingOrderId, patches) {
+    return this.http.patch(this.dismantlingOrderApiUrl1 + '/one', {
+      dismantlingOrderId, patches
+    }, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   dismantlingOrderReports() {
     return this.http.get(this.dismantlingOrderApiUrl1 + '/reports', this.setupOptions(true))
       .map(res => {

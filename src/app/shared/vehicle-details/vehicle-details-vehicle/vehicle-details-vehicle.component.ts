@@ -63,7 +63,7 @@ export class VehicleDetailsVehicleComponent implements OnInit {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        if (this.fform.valid) {
+        // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
           allV['vehicle']['vehicleType'] = this.fu.nameToId(allV['vehicle']['vehicleType'], this.btity.types['vehicleTypes']);
           allV['vehicle']['useCharacter'] = this.fu.nameToId(allV['vehicle']['useCharacter'], this.btity.types['useCharacters']);
@@ -71,7 +71,7 @@ export class VehicleDetailsVehicleComponent implements OnInit {
           allV['vehicle']['aquisitionType'] = this.fu.nameToId(allV['vehicle']['aquisitionType'], this.btity.types['aquisitionTypes']);
           allV['vehicle']['fuelType'] = this.fu.nameToId(allV['vehicle']['fuelType'], this.btity.types['fuelTypes']);
           return allV;
-        }
+        // }
       });
 
   }

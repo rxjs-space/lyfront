@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/merge';
 
 import { DataService } from '../../../data/data.service';
 import { AsyncDataLoaderService } from '../../../shared/async-data-loader/async-data-loader.service';
@@ -18,7 +21,10 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
     reports: this.data.dismantlingOrderReports()
   };
   holder: any;
-  dialogDismantlingOrderAsyncMonitorHolder: any;
+  asyncMonitorIdsToWatch = [
+    'dialogDismantlingOrder',
+    'dialogDismantlingOrderMark'
+  ];
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -30,10 +36,13 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     this.holder.refreshAll();
-    this.dialogDismantlingOrderAsyncMonitorHolder = this.asyncMonitor.init('dialogDismantlingOrder');
-    const sub0_ = this.dialogDismantlingOrderAsyncMonitorHolder
+    const asyncMonitorHolders: BehaviorSubject<any>[] = this.asyncMonitorIdsToWatch.map(id => {
+      return this.asyncMonitor.init(id);
+    });
+    const asyncMonitorRx = Observable.merge(...asyncMonitorHolders);
+    const sub0_ = asyncMonitorRx
       .subscribe(result => {
-        if (result.value && result.value.result.ok) {
+        if (result.value && !result.error) {
           // console.log('ready to refresh reports');
           this.holder.refreshByTitle('reports');
         }

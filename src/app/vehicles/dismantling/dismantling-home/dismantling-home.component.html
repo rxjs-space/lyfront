@@ -2,4 +2,5 @@
 <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
 <div *ngIf="holder.isLoadedWithoutErrorRxx | async">
   <app-dismantling-idle [data]="(holder.latestResultRxxHash['reports'] | async)['idle']"></app-dismantling-idle>
+  <app-dismantling-progressing [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"></app-dismantling-progressing>
 </div>

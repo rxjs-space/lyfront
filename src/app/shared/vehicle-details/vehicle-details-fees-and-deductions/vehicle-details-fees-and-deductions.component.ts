@@ -80,7 +80,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        if (this.fform.valid) {
+        // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
           allV['feesAndDeductions'].forEach(item => {
             delete item.fooBar;
@@ -88,7 +88,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
             item.part = this.fu.nameToId(item.part, this.btity.types['parts']);
           });
           return allV;
-        }
+        // }
       });
 
   }

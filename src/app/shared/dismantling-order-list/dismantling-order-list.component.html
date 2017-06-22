@@ -1,0 +1,70 @@
+<md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
+<p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
+<md-list *ngIf="holder.isLoadedWithoutErrorRxx | async">
+  <md-list-item *ngIf="(holder.latestResultRxxHash['dismantlingOrders'] | async).length === 0 ">无</md-list-item>
+  <ng-container *ngFor="let dismantlingOrder of dismantlingOrders; last as isLast">
+    <!--{{dismantlingOrder | json}}-->
+    <md-list-item>
+
+      <div md-line>
+          <md-grid-list cols="9" rowHeight="5em">
+            <!--<md-grid-tile class="clickable" (click)="openDialogVehicle(vehicle.vin, vehicle)">-->
+            <md-grid-tile class="clickable">
+              <i class="material-icons" md-list-icon >build</i>
+            </md-grid-tile>
+            <md-grid-tile class="left-aligned-tile clickable" colspan="5">
+            <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5"  (click)="openDialogVehicle(vehicle.vin, vehicle)">-->
+              <div>
+                <div>
+                  <span>{{dismantlingOrder.vin}}</span><span> / </span>
+                  <small>
+                    <span>{{dismantlingOrder.vehicleType || '车型暂无'}}</span><span> / </span>
+                    <span>{{dismantlingOrder.isAdHoc ? '临时计划' : '正常计划'}}</span><span> / </span>
+                    <ng-container *ngIf="dismantlingOrder.isAdHoc">
+                      <span>对应订单</span><span> / </span>
+                      <!-- dialog to correspondingSalesOrder -->
+                    </ng-container>
+                    <span>{{(dismantlingOrder.orderDate | date)}}下达</span>
+                  </small>
+                </div>
+                <div>
+                  <small>
+                    <span>{{dismantlingOrder.dismantlingPIC}}</span><span> / </span>
+                    <span>{{dismantlingOrder.startedAt ? (dismantlingOrder.startedAt | date) : '未'}}开始</span><span> / </span>
+                    <span>{{dismantlingOrder.completedAt ? (dismantlingOrder.completedAt | date): '未'}}完成</span>
+                    <!--<app-vehicle-list-status 
+                      [vehicle]="vehicle"
+                      [dismantling]="vehicle.dismantling" [dismantled]="vehicle.status.dismantled.done"
+                    >
+                    </app-vehicle-list-status>-->
+                  </small>
+                </div>
+              </div>
+            </md-grid-tile>
+            <md-grid-tile colspan="3">
+              <button md-button type="button" color="primary" 
+                *ngIf="!dismantlingOrder.startedAt" 
+                (click)="openDialogMark('startedAt', dismantlingOrder)">开始拆解</button>
+              <button md-button type="button" color="accent" 
+                *ngIf="dismantlingOrder.startedAt && !dismantlingOrder.completedAt" 
+                (click)="openDialogMark('completedAt', dismantlingOrder)">完成拆解</button>
+              <button md-button type="button">打印计划表</button>
+              <!--<app-trigger-dismantling-order
+                [titles]="btity.titles"
+                [types]="btity.types"
+                [vehicle]="vehicle"
+                [canCreateNew]="!vehicle.dismantling && !vehicle.status.dismantled.done"
+              ></app-trigger-dismantling-order>-->
+            </md-grid-tile>
+          </md-grid-list>
+
+        </div>
+
+
+    </md-list-item>
+    <md-divider *ngIf="!isLast"></md-divider>
+  </ng-container>
+
+</md-list>
+
+

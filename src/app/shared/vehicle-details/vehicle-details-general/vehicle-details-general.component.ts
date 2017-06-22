@@ -61,13 +61,13 @@ export class VehicleDetailsGeneralComponent implements OnInit {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        if (this.fform.valid) {
+        // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
           allV.source = this.fu.nameToId(allV.source, this.btity.types['sources']);
           allV.mofcomRegisterType = this.fu.nameToId(allV.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']);
           allV.facility = this.fu.nameToId(allV.facility, this.btity.types['facilities']);
           return allV;
-        }
+        // }
 
       });
 

@@ -78,12 +78,12 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        if (this.fform.valid) {
+        // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
           allV['owner']['idType'] = this.fu.nameToId(allV['owner']['idType'], this.btity.types['idTypes']);
           allV['agent']['idType'] = this.fu.nameToId(allV['agent']['idType'], this.btity.types['idTypes']);
           return allV;
-        }
+        // }
       });
   }
 

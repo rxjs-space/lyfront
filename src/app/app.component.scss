@@ -169,3 +169,8 @@
 /deep/ .left-aligned-tile.mat-grid-tile .mat-figure{
   justify-content: flex-start;
 }
+
+/deep/ .scale-down-filter {
+  transform: scale(0.8, 0.8);
+}
+

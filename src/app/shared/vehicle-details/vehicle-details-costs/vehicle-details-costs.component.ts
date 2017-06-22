@@ -47,14 +47,14 @@ export class VehicleDetailsCostsComponent implements OnInit, OnDestroy {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        if (this.fform.valid) {
+        // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
           allV.vehicleCosts.forEach(vC => {
             delete vC.fooBar;
             vC.type = this.fu.nameToId(vC.type, this.btity.types['vehicleCostTypes']);
           });
           return allV;
-        }
+        // }
       });
 
 

@@ -3,6 +3,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/combineLatest';
 
+export interface SubHolder {
+  latestResultRxxHash: {[key: string]: BehaviorSubject<any>};
+  isLoadedWithoutErrorRxx: BehaviorSubject<boolean>;
+  isWithErrorRxx: BehaviorSubject<boolean>;
+  refreshAll: () => {};
+  refreshByTitle: () => {};
+  destroy: () => {};
+}
+
 /**
  * in refreshData method of the consumer component,
  * feed null to adlService first
@@ -15,7 +24,7 @@ export class AsyncDataLoaderService {
   holder = {};
   constructor() { }
 
-  init(source: string, itemRxHash: {[key: string]: Observable<any>}) {
+  init(source: string, itemRxHash: {[key: string]: Observable<any>}): SubHolder {
     const keys = Object.keys(itemRxHash);
     const latestResultRxxHash = {};
     const isLoadedWithoutErrorRxx = new BehaviorSubject(false);

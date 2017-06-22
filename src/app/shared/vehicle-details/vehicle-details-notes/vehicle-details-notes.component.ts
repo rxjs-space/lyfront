@@ -46,13 +46,13 @@ export class VehicleDetailsNotesComponent implements OnInit {
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
-        if (this.fform.valid) {
+        // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
           allV['remarks'].forEach(item => {
             delete item.fooBar;
           });
           return allV;
-        }
+        // }
       });
 
   }

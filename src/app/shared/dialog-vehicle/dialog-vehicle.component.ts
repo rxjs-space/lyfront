@@ -26,7 +26,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   itemRxHash = {
     btity: this.data.btityRxx,
     vehicle: this.dataFromTrigger.vin ? this.data.getVehicleByVIN(this.dataFromTrigger.vin) : Observable.of(new Vehicle())
-  }
+  };
   isLoadedWithoutErrorRxx: any;
   isWithErrorRxx: any;
   holder: any;

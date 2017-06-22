@@ -1,0 +1,20 @@
+<div md-dialog-content *ngIf="dataFromTrigger.markTarget === 'startedAt'">
+  <p>开始拆解识别代号为 {{dataFromTrigger.dismantlingOrder.vin}} 的车辆？</p>
+  <p>（开始拆解时间以点击确定时间为准）</p>
+</div>
+<div md-dialog-content *ngIf="dataFromTrigger.markTarget === 'completedAt'">
+  <p>已完成识别代号为 {{dataFromTrigger.dismantlingOrder.vin}} 车辆的拆解？</p>
+  <p>（完成拆解时间以点击确定时间为准）</p>
+</div>
+<div md-dialog-actions class="flex-container">
+  <button type="button" md-raised-button color="primary"
+    *ngIf="dataFromTrigger.markTarget === 'startedAt'"
+    (click)="markStarted()" [disabled]="updating">确定</button>
+  <button type="button" md-raised-button color="accent"
+    *ngIf="dataFromTrigger.markTarget === 'completedAt'"
+    (click)="markCompleted()"[disabled]="updating">确定</button>
+  <md-spinner  class="mini-spinner-1p" *ngIf="updating"></md-spinner>
+  <span class="space-filler"></span>
+  <button type="button" md-button
+    (click)="dialogRef.close(null)">取消</button>
+</div>

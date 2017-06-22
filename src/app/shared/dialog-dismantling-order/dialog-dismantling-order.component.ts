@@ -56,7 +56,7 @@ export class DialogDismantlingOrderComponent implements OnInit {
 
 
   rebuildForm() {
-    console.log('building form');
+    // console.log('building form');
     this.doForm = this.fb.group({
       vin: this.dataFromTrigger.vin,
       orderDate: [{value: (new Date()).toISOString().slice(0, 10), disabled: true}],

@@ -53,6 +53,9 @@ import { DialogNewVehicleNoteComponent } from './vehicle-details/vehicle-details
 import { VehicleDetailsCostsComponent } from './vehicle-details/vehicle-details-costs/vehicle-details-costs.component';
 import { DialogNewVehicleCostComponent } from './vehicle-details/vehicle-details-costs/dialog-new-vehicle-cost.component';
 import { VehicleDetailsMetadataComponent } from './vehicle-details/vehicle-details-metadata/vehicle-details-metadata.component';
+import { DialogDismantlingOrderListComponent } from './dialog-dismantling-order-list/dialog-dismantling-order-list.component';
+import { DismantlingOrderListComponent } from './dismantling-order-list/dismantling-order-list.component';
+import { DialogMarkComponent } from './dismantling-order-list/dialog-mark.component';
 
 
 const mdModules = [
@@ -111,7 +114,10 @@ const mdModules = [
     DialogNewVehicleNoteComponent,
     VehicleDetailsCostsComponent,
     DialogNewVehicleCostComponent,
-    VehicleDetailsMetadataComponent
+    VehicleDetailsMetadataComponent,
+    DialogDismantlingOrderListComponent,
+    DismantlingOrderListComponent,
+    DialogMarkComponent
   ],
   exports: [
     CommonModule,
@@ -138,7 +144,9 @@ const mdModules = [
     DialogVehicleComponent,
     DialogNewFdComponent,
     DialogNewVehicleNoteComponent,
-    DialogNewVehicleCostComponent
+    DialogNewVehicleCostComponent,
+    DialogDismantlingOrderListComponent,
+    DialogMarkComponent
   ]
 })
 export class SharedModule {

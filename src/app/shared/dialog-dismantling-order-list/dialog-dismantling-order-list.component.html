@@ -1,0 +1,10 @@
+<div md-dialog-title>
+  <div>拆解计划列表 - <small>{{dataFromTrigger.source}}</small></div>
+  <div><small>
+      <span *ngIf="dataFromTrigger.dismantlingOrderWeek">计划下达日期：{{dataFromTrigger.dismantlingOrderWeek}} / </span>
+      <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType}}</span>
+    </small></div>
+</div>
+<md-dialog-content>
+  <app-dismantling-order-list [searchQuery]="dataFromTrigger.searchQuery"></app-dismantling-order-list>
+</md-dialog-content>

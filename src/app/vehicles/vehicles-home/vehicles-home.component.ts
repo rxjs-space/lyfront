@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehiclesHomeComponent implements OnInit {
   navLinks = [
-    {route: 'entrance', label: '入场管理'},
+    {route: 'entrance', label: '进场管理'},
     {route: 'dismantling', label: '拆解管理'},
     {route: 'survey', label: '验车管理'},
   ];

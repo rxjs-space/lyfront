@@ -13,7 +13,7 @@ export class DismantlingIdleComponent implements OnInit {
   @Input() data;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({surveyStatus: 1});
-  @Output() needUpdate = new EventEmitter();
+  // @Output() needUpdate = new EventEmitter();
   optionsArr = [
     {
       title: 'surveyStatus',
@@ -21,8 +21,8 @@ export class DismantlingIdleComponent implements OnInit {
       options: [
         {value: 1, viewValue: '全部'},
         {value: 2, viewValue: '未验车'},
-        {value: 3, viewValue: '一次验车未二次验车'},
-        {value: 4, viewValue: '二次验车'}
+        {value: 3, viewValue: '一次验车完成未二次验车'},
+        {value: 4, viewValue: '二次验车完成'}
       ]
     }
   ];
@@ -68,12 +68,10 @@ export class DismantlingIdleComponent implements OnInit {
     if (vehicleType) {
       searchQuery['vehicle.vehicleType'] = vehicleType;
       // vehicleType here could be '2' or 'z', backend will deal with 'z'
-    } else {
-      vehicleType = '全部' // this '全部' has no corresponding serachQuery
     }
     // console.log(searchQuery);
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {
-      width: '650px',
+      width: '80%',
       // disableClose: true,
       data: {
         searchQuery,
@@ -92,23 +90,23 @@ export class DismantlingIdleComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(v => {
       // if (v) {this.needUpdate.emit(true); }
-      this.needUpdate.emit(v);
+      // this.needUpdate.emit(v);
     });
 
   }
 
   calculateFilteredData(surveyStatus) {
-    const predicates = {
-      '1': curr => {return true; },
-      '2': curr => {return !curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
-      '3': curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
-      '4': curr => {return curr['status.secondSurvey.done']},
-    };
+    // const predicates = {
+    //   '1': curr => {return true; },
+    //   '2': curr => {return !curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+    //   '3': curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+    //   '4': curr => {return curr['status.secondSurvey.done']},
+    // };
     return this.data.reduce((acc, curr) => {
       const currType = curr['vehicle.vehicleType'] * 1 === 2 ? '摩托车' : '非摩托车';
-      const obj = {};
+      const obj = Object.assign({}, acc[currType]);
       for (const item of this.dataProps) {
-        const name = item.name;
+        const name = item.name; // week
         // if (predicates[caseValue](curr)) {
         if (this.basedOnSurveyStatus[surveyStatus].sumPredicate(curr)) {
           obj[name] = (acc[currType] ? (acc[currType][name] ? acc[currType][name] : 0) : 0) + curr[name];

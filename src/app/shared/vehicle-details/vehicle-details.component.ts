@@ -234,6 +234,10 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnDestroy() {
+    for (const name of this.partialFormContainers) {
+      this[name].fform.reset();
+    }
+
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 

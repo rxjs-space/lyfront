@@ -115,3 +115,17 @@ md-dialog-container.mat-dialog-container.prepare-print-dialog-container {
 [md-dialog-content].mat-dialog-content {
   max-height: 650px;
 }
+
+md-spinner.mini-spinner-1 {
+  height: 1em;
+  width: 1em;
+  display: inline-block;
+  margin-left: 1em;
+}
+
+md-spinner.mini-spinner-1p {
+  height: 1.5em;
+  width: 1.5em;
+  display: inline-block;
+  margin: auto auto auto 1em;
+}
