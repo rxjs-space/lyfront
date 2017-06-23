@@ -49,7 +49,7 @@
 
             <md-grid-tile>
               <button md-button color="primary" [disabled]="!(filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0)" 
-                (click)="queryList(item.name, '2')">
+                (click)="queryList(item.name, '3')">
                 {{filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0}}
               </button>
             </md-grid-tile>

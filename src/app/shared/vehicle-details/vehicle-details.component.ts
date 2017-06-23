@@ -60,6 +60,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   patches = [];
   newVehicle = {};
   subscriptions: Subscription[] = [];
+  asyncMonitorId_InsertUpdateVehicle = 'insertUpdateVehicle';
+  asyncMonitorHolder_InsertUpdateVehicle: any;
+
   constructor(
     private data: DataService,
     private fb: FormBuilder,
@@ -78,7 +81,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         } else {
           this.isChangedAndValid.emit(false);
         }
-      })
+      });
+
+    this.asyncMonitorHolder_InsertUpdateVehicle = this.asyncMon.init(this.asyncMonitorId_InsertUpdateVehicle);
   }
 
   ngAfterViewInit() {
@@ -193,8 +198,13 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.isSavingRxx.next(true);
     console.log('saving...');
     console.log(this.patches);
+    this.asyncMonitorHolder_InsertUpdateVehicle.next({
+      done: false, value: null
+    });
+
     switch (this.isNew) {
       case true:
+
         this.data.insertVehicle({
           vehicle: this.newVehicle,
           patches: this.patches
@@ -204,6 +214,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
           }))
           .subscribe(r => {
             this.isSavingRxx.next(false);
+            this.asyncMonitorHolder_InsertUpdateVehicle.next({
+              done: true, value: r, error: r.error
+            });
             if (r.error) {
               console.log(r.error);
             } else {
@@ -220,6 +233,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
           }))
           .subscribe(r => {
             this.isSavingRxx.next(false);
+            this.asyncMonitorHolder_InsertUpdateVehicle.next({
+              done: true, value: r, error: r.error
+            });
             if (r.error) {
               console.log(r.error);
             } else {

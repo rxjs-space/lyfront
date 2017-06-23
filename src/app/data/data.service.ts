@@ -265,6 +265,17 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
+  vehiclesReports() {
+    return this.http.get(this.vehiclesApiUrl1 + '/reports', this.setupOptions(true))
+      .map(res => {
+        const resJSON = res.json();
+        const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
+        if (hasMongoError) {throw resJSON; }
+        return res.json();
+      })
+      .catch(error => this.handleError(error));
+
+  }
 
   private handleError(error: any) {
     console.log('Lyfront caught an error', error); // for demo purposes only

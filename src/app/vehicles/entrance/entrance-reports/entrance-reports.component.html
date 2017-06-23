@@ -1,0 +1,71 @@
+
+    <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
+
+    <md-grid-list cols="50">
+      <md-grid-tile colspan="10"></md-grid-tile>
+      <md-grid-tile colspan="5">非摩托车</md-grid-tile>
+      <md-grid-tile colspan="20"></md-grid-tile>
+      <md-grid-tile colspan="5">摩托车</md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
+
+    <md-grid-list cols="50" rowHeight="1:10">
+
+      <md-grid-tile colspan="2"></md-grid-tile>
+      <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
+      <ng-container *ngFor="let report of reports['非摩托车']; index as i">
+        <md-grid-tile></md-grid-tile>
+        <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / reports.max)*100"></div></md-grid-tile>
+      </ng-container>
+
+      <md-grid-tile colspan="4"></md-grid-tile>
+      <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
+      <ng-container *ngFor="let report of reports['摩托车']; index as i">
+        <md-grid-tile></md-grid-tile>
+        <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / reports.max)*100"></div></md-grid-tile>
+      </ng-container>
+
+    </md-grid-list>
+
+    <md-grid-list cols="50">
+      <md-grid-tile colspan="3"></md-grid-tile>
+      <md-grid-tile class="top-bordered-tile" colspan="21"></md-grid-tile>
+      <md-grid-tile colspan="4"></md-grid-tile>
+      <md-grid-tile class="top-bordered-tile" colspan="21"></md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list cols="50" rowHeight="1:1" class="underlying-data">
+      <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
+      <ng-container *ngFor="let report of reports['非摩托车']; index as i">
+        <md-grid-tile><span>{{(report.date).slice(8,10)}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
+      <md-grid-tile></md-grid-tile>
+      <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
+      <ng-container *ngFor="let report of reports['摩托车']; index as i">
+        <md-grid-tile><span>{{(report.date).slice(8,10)}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
+
+      <md-grid-tile></md-grid-tile>
+
+      <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
+      <ng-container *ngFor="let report of reports['非摩托车']; index as i">
+        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
+      <md-grid-tile></md-grid-tile>
+      <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
+      <ng-container *ngFor="let report of reports['摩托车']; index as i">
+        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
+      <md-grid-tile></md-grid-tile>
+
+    </md-grid-list>
+<!--{{reports |json }}-->

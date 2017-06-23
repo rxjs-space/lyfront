@@ -8,7 +8,7 @@ export interface SubHolder {
   isLoadedWithoutErrorRxx: BehaviorSubject<boolean>;
   isWithErrorRxx: BehaviorSubject<boolean>;
   refreshAll: () => {};
-  refreshByTitle: () => {};
+  refreshByTitle: (title: string) => {};
   destroy: () => {};
 }
 

@@ -14,7 +14,8 @@ export class AsyncMonitorService {
     if (this.holder[key]) {return this.holder[key]; }
     this.holder[key] = new BehaviorSubject({
       done: true,
-      value: null
+      value: null,
+      error: null // not all holders having this property, need revise
     });
     return this.holder[key];
   }
@@ -23,5 +24,13 @@ export class AsyncMonitorService {
 }
 
 
-  // asyncMonitorId = 'dialogDismantlingOrder';
-  // asyncMonitorId = 'dialogDismantlingOrderMark';
+
+
+/*
+
+'validatorDuplicateVIN'
+'dialogDismantlingOrder'
+'dialogDismantlingOrderMark'
+'insertUpdateVehicle'
+
+*/
