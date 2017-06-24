@@ -6,170 +6,80 @@
     </md-card-title>
   </md-card-header>
   <md-card-content>
-    <!-- empty grid list taking up some space -->
-    <md-grid-list cols="52"><md-grid-tile></md-grid-tile></md-grid-list>
-    <md-grid-list cols="52">
-      <md-grid-tile colspan="11"></md-grid-tile>
+
+
+    <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
+
+    <md-grid-list cols="50">
+      <md-grid-tile colspan="10"></md-grid-tile>
       <md-grid-tile colspan="5">非摩托车</md-grid-tile>
-      <md-grid-tile colspan="21"></md-grid-tile>
+      <md-grid-tile colspan="20"></md-grid-tile>
       <md-grid-tile colspan="5">摩托车</md-grid-tile>
     </md-grid-list>
-    <md-grid-list cols="52"><md-grid-tile></md-grid-tile></md-grid-list>
 
-    <md-grid-list cols="52" rowHeight="1:10">
+    <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
 
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
+    <md-grid-list cols="50" rowHeight="1:10">
+
+      <md-grid-tile colspan="2"></md-grid-tile>
       <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="80"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="50"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="60"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="30"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="100"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="20"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="1"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="70"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="66.6"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="33.3"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
+      <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
+        <md-grid-tile></md-grid-tile>
+        <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / filteredData.max)*100"></div></md-grid-tile>
+      </ng-container>
+
+      <md-grid-tile colspan="4"></md-grid-tile>
       <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="80"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="50"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="60"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="30"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="100"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="20"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="1"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="70"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="66.6"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><div class="chart-column" [style.height.%]="33.3"></div></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
+      <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
+        <md-grid-tile></md-grid-tile>
+        <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / filteredData.max)*100"></div></md-grid-tile>
+      </ng-container>
 
     </md-grid-list>
-    <md-grid-list cols="52">
+
+    <md-grid-list cols="50">
+      <md-grid-tile colspan="3"></md-grid-tile>
+      <md-grid-tile class="top-bordered-tile" colspan="21"></md-grid-tile>
       <md-grid-tile colspan="4"></md-grid-tile>
       <md-grid-tile class="top-bordered-tile" colspan="21"></md-grid-tile>
-      <md-grid-tile colspan="5"></md-grid-tile>
-      <md-grid-tile class="top-bordered-tile" colspan="21"></md-grid-tile>
     </md-grid-list>
-    <md-grid-list cols="52" rowHeight="1:1" class="underlying-data">
-      <md-grid-tile colspan="5"><span>拆解完成日期</span></md-grid-tile>
-      <md-grid-tile><span>13</span></md-grid-tile>
+
+    <md-grid-list cols="50" rowHeight="1:1" class="underlying-data">
+      <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
+      <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
+        <md-grid-tile><span>{{(report.completedDate).slice(8,10)}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
       <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>14</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>15</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>16</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>17</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>18</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>19</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>20</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>21</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>22</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile colspan="5"><span>拆解完成日期</span></md-grid-tile>
-      <md-grid-tile><span>13</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>14</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>15</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>16</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>17</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>18</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>19</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>20</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>21</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>22</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
+      <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
+      <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
+        <md-grid-tile><span>{{(report.completedDate).slice(8,10)}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
+
       <md-grid-tile></md-grid-tile>
 
-      <md-grid-tile colspan="5"><span>拆解数量</span></md-grid-tile>
-      <md-grid-tile><span>13</span></md-grid-tile>
+      <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
+      <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
+        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
       <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>14</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>15</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>16</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>17</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>18</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>19</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>20</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>21</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>22</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile colspan="5"><span>拆解数量</span></md-grid-tile>
-      <md-grid-tile><span>13</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>14</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>15</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>16</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>17</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>18</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>19</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>20</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>21</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
-      <md-grid-tile><span>22</span></md-grid-tile>
-      <md-grid-tile></md-grid-tile>
+      <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
+      <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
+        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile></md-grid-tile>
+      </ng-container>
+
       <md-grid-tile></md-grid-tile>
 
     </md-grid-list>
-    <div>
-    </div>
+<!--{{filteredData |json }}-->
+
+
+
   </md-card-content>
 </md-card>

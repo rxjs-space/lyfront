@@ -4,17 +4,15 @@
   <app-dismantling-idle 
     [data]="(holder.latestResultRxxHash['reports'] | async)['idle']"
     [filterCache]="filterCache"
-  >
+  ></app-dismantling-idle>
 
-  </app-dismantling-idle>
   <app-dismantling-progressing 
     [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"
     [filterCache]="filterCache"
-  >
+  ></app-dismantling-progressing>
 
-  </app-dismantling-progressing>
-
-  <app-dismantling-completed>
-    
-  </app-dismantling-completed>
+  <app-dismantling-completed
+    [data]="(holder.latestResultRxxHash['reports'] | async)['completed']"
+    [filterCache]="filterCache"
+  ></app-dismantling-completed>
 </div>

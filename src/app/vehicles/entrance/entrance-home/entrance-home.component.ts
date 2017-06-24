@@ -50,11 +50,6 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           const itemToReplace = acc[key].find(item => item.date === curr.entranceDate);
           itemToReplace.total = curr.total + itemToReplace.total;
           if (curr.total > acc.max) {acc.max = curr.total; }
-          if (curr.entranceDate === '2017-06-23') {
-            // console.log(curr);
-            // console.log(itemToReplace);
-          }
-
           return acc;
         }, reportsPrepared);
         // console.log(reportsPrepared);
