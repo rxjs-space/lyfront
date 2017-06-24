@@ -42,7 +42,7 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
             date: curr, total: 0
           });
           return acc;
-        }, {'非摩托车': [], '摩托车': [], 'max': 0});
+        }, {'非摩托车': [], '摩托车': [], 'max': 10});
 
         reports.reduce((acc, curr) => {
           const key = curr['vehicle.vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';

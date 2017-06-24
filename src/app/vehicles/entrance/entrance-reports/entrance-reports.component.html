@@ -54,14 +54,20 @@
 
       <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
       <ng-container *ngFor="let report of reports['非摩托车']; index as i">
-        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile><button type="button" md-button color="primary"
+          [disabled]="!report.total"
+        >{{report.total}}</button></md-grid-tile>
+        <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
       <md-grid-tile></md-grid-tile>
       <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
       <ng-container *ngFor="let report of reports['摩托车']; index as i">
-        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile><button type="button" md-button color="primary"
+          [disabled]="!report.total"
+        >{{report.total}}</button></md-grid-tile>
+        <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
       </ng-container>
 

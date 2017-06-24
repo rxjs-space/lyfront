@@ -27,11 +27,11 @@ export class DismantlingCompletedComponent implements OnInit {
     this.optionsArr = [
       {
         title: 'isAdHoc',
-        placeholder: '拆解计划类别',
+        placeholder: '计划类别',
         // initValue - if no record in cache, use 2, that is non-adHoc orders
         initValue: filterCache ? 
           (filterCache['isAdHoc'] ? filterCache['isAdHoc'] : 2)
-          : 3,
+          : 2,
         options: [
           {value: 1, viewValue: '全部'},
           {value: 2, viewValue: '正常计划'},
@@ -75,7 +75,7 @@ export class DismantlingCompletedComponent implements OnInit {
         completedDate: curr, total: 0
       });
       return acc;
-    }, {'非摩托车': [], '摩托车': [], 'max': 0});
+    }, {'非摩托车': [], '摩托车': [], 'max': 10});
 
     this.data.reduce((acc, curr) => {
       const key = curr['vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
@@ -91,12 +91,10 @@ export class DismantlingCompletedComponent implements OnInit {
         default:
           totalToAdd = curr.total;
       }
-      // console.log(itemToReplace);
       itemToReplace.total += totalToAdd;
       if (curr.total > acc.max) {acc.max = curr.total; }
       return acc;
     }, reportsPrepared);
-    console.log(reportsPrepared);
     return reportsPrepared;
 
   }

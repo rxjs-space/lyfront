@@ -21,7 +21,10 @@ export class SharedFilterComponent implements OnInit {
     }, {});
     this.filterForm = this.fb.group(formGroupObj);
     this.filterForm.valueChanges
-      .subscribe(v => this.valueChanges.emit(v));
+      .subscribe(v => {
+        // console.log(v);
+        this.valueChanges.emit(v);
+      });
   }
 
   onSubmit() {

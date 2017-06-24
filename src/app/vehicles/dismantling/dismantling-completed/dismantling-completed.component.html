@@ -3,6 +3,13 @@
     <md-card-title class="vertical-center-container">
       <i class="material-icons">chevron_right</i>
       <span>拆解统计</span>
+      <span style="width: 2em"></span>
+      <app-shared-filter class="scale-down-filter"
+        [optionsArr]="optionsArr"
+        (valueChanges)="filterValueChangesRxx.next($event)"
+      >
+      </app-shared-filter>
+
     </md-card-title>
   </md-card-header>
   <md-card-content>
@@ -63,14 +70,20 @@
 
       <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
       <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
-        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile><button type="button" md-button color="primary"
+          [disabled]="!report.total"
+        >{{report.total}}</button></md-grid-tile>
+        <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
       <md-grid-tile></md-grid-tile>
       <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
       <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
-        <md-grid-tile><span>{{report.total}}</span></md-grid-tile>
+        <md-grid-tile><button type="button" md-button color="primary"
+          [disabled]="!report.total"
+        >{{report.total}}</button></md-grid-tile>
+        <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
