@@ -9,6 +9,7 @@
       <span *ngIf="dataFromTrigger.surveyStatus">验车状态：{{dataFromTrigger.surveyStatus}} / </span>
       <span *ngIf="dataFromTrigger.entranceWeek">入场日期：{{dataFromTrigger.entranceWeek}} / </span>
       <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType}}</span>
+      <span *ngIf="dataFromTrigger.entranceDate">入场日期：{{dataFromTrigger.entranceDate | date}}</span>
     </small></div>
 </div>
 <md-dialog-content>
