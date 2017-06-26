@@ -9,14 +9,14 @@
       <div md-line>
           <md-grid-list cols="9" rowHeight="5em">
             <!--<md-grid-tile class="clickable" (click)="openDialogVehicle(vehicle.vin, vehicle)">-->
-            <md-grid-tile class="clickable">
+            <md-grid-tile>
               <i class="material-icons" md-list-icon >build</i>
             </md-grid-tile>
-            <md-grid-tile class="left-aligned-tile clickable" colspan="5">
+            <md-grid-tile class="left-aligned-tile" colspan="5">
             <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5"  (click)="openDialogVehicle(vehicle.vin, vehicle)">-->
               <div>
                 <div>
-                  <span>{{dismantlingOrder.vin}}</span><span> / </span>
+                  <span mdTooltip="查看车辆详情" class="clickable primary-text" (click)="openDialogVehicle(dismantlingOrder.vin)">{{dismantlingOrder.vin}}</span><span> / </span>
                   <small>
                     <span>{{dismantlingOrder.vehicleType || '车型暂无'}}</span><span> / </span>
                     <span>{{dismantlingOrder.isAdHoc ? '临时计划' : '正常计划'}}</span><span> / </span>

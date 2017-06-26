@@ -8,6 +8,7 @@ import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.s
 import { SubHolder } from '../async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 import { DialogMarkComponent } from './dialog-mark.component';
+import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
 
 @Component({
   selector: 'app-dismantling-order-list',
@@ -58,6 +59,19 @@ export class DismantlingOrderListComponent implements OnInit, OnDestroy {
       });
     this.subscriptions.push(sub0_);
 
+  }
+
+  openDialogVehicle(vin) {
+    this.dialog.open(DialogVehicleComponent, {
+      width: '80%',
+      // panelClass: '',
+      // disableClose: true,
+      data: {
+        types: this.holder.latestResultRxxHash['btity'].getValue()['types'],
+        titles: this.holder.latestResultRxxHash['btity'].getValue()['titles'],
+        vin,
+      }
+    })
   }
 
   openDialogMark(markTarget, dismantlingOrder) {

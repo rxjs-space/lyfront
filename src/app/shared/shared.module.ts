@@ -10,6 +10,7 @@ import {
   MdSidenavModule, MdDialogModule, MdToolbarModule, MdIconModule,
   MdCardModule, MdMenuModule, MdGridListModule, MdListModule,
   MdTabsModule, MdSelectModule, MdProgressSpinnerModule, MdRadioModule,
+  MdTooltipModule
 } from '@angular/material';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -74,7 +75,8 @@ const mdModules = [
     MdTabsModule,
     MdSelectModule,
     MdProgressSpinnerModule,
-    MdRadioModule
+    MdRadioModule,
+    MdTooltipModule
 ];
 
 @NgModule({
