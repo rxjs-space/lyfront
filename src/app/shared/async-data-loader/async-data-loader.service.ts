@@ -40,7 +40,8 @@ export class AsyncDataLoaderService {
           ok: false,
           error
         }))
-        .do(r => latestResultRxxHash[k].next(r))
+        .do(r => r.error ? console.log(r) : '')
+        .do(r => latestResultRxxHash[k].next(r));
         // .startWith('loading')
         // .do(r => {
         //   console.log('loading', k);

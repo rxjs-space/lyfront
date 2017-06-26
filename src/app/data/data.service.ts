@@ -26,7 +26,7 @@ export class DataService {
   // dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
   // typesApiUrl = this.host + '/types';
   // titlesApiUrl = this.host + '/titles';
-  private cache: {[key: string]: any} = {};
+  // private cache: {[key: string]: any} = {};
   btityRxx = new BehaviorSubject(null);
   constructor(
     @Inject(BACK_END_URL) private host1,
@@ -139,6 +139,13 @@ export class DataService {
     return Observable.of(new Vehicle());
   }
 
+  insertBrands(brands) {
+    // brands can be either an array of brands or an object of a brand, backend will handle
+    return this.http.post(this.brandsApiUrl1, brands, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(error => this.handleError(error));
+  }
+
   updateBrands(brands) {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     const options = new RequestOptions({ headers: headers });
@@ -156,21 +163,21 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
-  get typesRx() {
-    if (this.cache && this.cache.types) {
-      return Observable.of(this.cache.types);
-    } else {
-      const options = this.setupOptions(true);
-      // return this.http.get(this.typesApiUrl)
-      return this.http.get(this.typesApiUrl1, options)
-        .map(res => {
-          const data = res.json();
-          this.cache.types = data;
-          return data;
-        })
-        .catch(error => this.handleError(error));
-    }
-  }
+  // get typesRx() {
+  //   if (this.cache && this.cache.types) {
+  //     return Observable.of(this.cache.types);
+  //   } else {
+  //     const options = this.setupOptions(true);
+  //     // return this.http.get(this.typesApiUrl)
+  //     return this.http.get(this.typesApiUrl1, options)
+  //       .map(res => {
+  //         const data = res.json();
+  //         this.cache.types = data;
+  //         return data;
+  //       })
+  //       .catch(error => this.handleError(error));
+  //   }
+  // }
 
   /* work with typesRxx */
   get typesOnceRx() {
@@ -180,20 +187,20 @@ export class DataService {
       .catch(error => this.handleError(error))
   }
 
-  get brandsRx() {
-    if (this.cache && this.cache.brands) {
-      return Observable.of(this.cache.brands);
-    } else {
-      const options = this.setupOptions(true);
-      return this.http.get(this.brandsApiUrl1, options)
-        .map(res => {
-          const data = res.json();
-          this.cache.brands = data;
-          return data;
-        })
-        .catch(error => this.handleError(error));
-    }
-  }
+  // get brandsRx() {
+  //   if (this.cache && this.cache.brands) {
+  //     return Observable.of(this.cache.brands);
+  //   } else {
+  //     const options = this.setupOptions(true);
+  //     return this.http.get(this.brandsApiUrl1, options)
+  //       .map(res => {
+  //         const data = res.json();
+  //         this.cache.brands = data;
+  //         return data;
+  //       })
+  //       .catch(error => this.handleError(error));
+  //   }
+  // }
 
   get brandsOnceRx() {
     return this.http.get(this.brandsApiUrl1, this.setupOptions(true))
@@ -202,22 +209,22 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
-  get titlesRx() {
-    if (this.cache && this.cache.titles) {
-      return Observable.of(this.cache.titles);
-    } else {
-      const options = this.setupOptions(true);
-      // return this.http.get(this.titlesApiUrl)
-      return this.http.get(this.titlesApiUrl1, options)
-        .map(res => {
-          const data = res.json();
-          this.cache.titles = res.json();
-          return res.json();
-        })
-        .catch(error => this.handleError(error));
-    }
+  // get titlesRx() {
+  //   if (this.cache && this.cache.titles) {
+  //     return Observable.of(this.cache.titles);
+  //   } else {
+  //     const options = this.setupOptions(true);
+  //     // return this.http.get(this.titlesApiUrl)
+  //     return this.http.get(this.titlesApiUrl1, options)
+  //       .map(res => {
+  //         const data = res.json();
+  //         this.cache.titles = res.json();
+  //         return res.json();
+  //       })
+  //       .catch(error => this.handleError(error));
+  //   }
 
-  }
+  // }
 
   get titlesOnceRx() {
     return this.http.get(this.titlesApiUrl1, this.setupOptions(true))

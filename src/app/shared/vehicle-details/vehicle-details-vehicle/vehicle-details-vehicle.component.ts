@@ -23,6 +23,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   @Input() vehicle: any;
   @Input() btity: any;
   subscriptions: Subscription[] = [];
+  insertingNewBrand = false;
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -105,12 +106,27 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   }
 
   createNewBrand(brandName) {
-    console.log(brandName);
-    // insert brand
-
-    this.data.brandsOnceRx.subscribe();
-    // update brandRxx
-    // update btityRxx
+    // insert brand, update this.btity, update data.btityRxx, reset validator
+    this.insertingNewBrand = true;
+    this.data.insertBrands({name: brandName})
+      .catch(error => Observable.of({
+        ok: false, error
+      }))
+      .subscribe(result => {
+        if (result.error) {
+          console.log('something went wrong while inserting brand');
+        }
+        const newBrands = this.btity.brands.concat(...result.ops);
+        this.btity.brands = newBrands;
+        this.data.btityRxx.next(Object.assign({}, this.btity, {
+          brands: newBrands
+        }));
+        this.fform.get('vehicle.brand').setValidators([
+          this.sv.notListedButCanBeEmpty(this.btity.brands.map(brand => brand.name))
+        ]);
+        this.fform.get('vehicle.brand').updateValueAndValidity();
+        this.insertingNewBrand = false;
+      });
   }
 
   ngOnDestroy() {
@@ -118,3 +134,8 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   }
 
 }
+
+
+        // brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands), [
+        //   this.sv.notListedButCanBeEmpty(this.btity.brands.map(brand => brand.name))
+        // ]],
