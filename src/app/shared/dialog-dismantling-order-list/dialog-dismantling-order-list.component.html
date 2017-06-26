@@ -1,8 +1,12 @@
 <div md-dialog-title>
   <div>拆解计划列表 - <small>{{dataFromTrigger.source}}</small></div>
   <div><small>
-      <span *ngIf="dataFromTrigger.dismantlingOrderWeek">计划下达日期：{{dataFromTrigger.dismantlingOrderWeek}} / </span>
+      <span *ngIf="dataFromTrigger.dismantlingOrderWeek">计划下达日期：{{dataFromTrigger.dismantlingOrderWeek}}</span>
+      <span *ngIf="dataFromTrigger.dismantlingOrderWeek && dataFromTrigger.vehicleType"> / </span>
       <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType}}</span>
+      <span *ngIf="(dataFromTrigger.vehicleType && dataFromTrigger.completedDate) ||
+        (dataFromTrigger.dismantlingOrderWeek && dataFromTrigger.completedDate)"> / </span>
+      <span *ngIf="dataFromTrigger.completedDate">拆解完成日期：{{dataFromTrigger.completedDate | date}}</span>
     </small></div>
 </div>
 <md-dialog-content>

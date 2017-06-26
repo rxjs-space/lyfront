@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MdDialog } from '@angular/material';
+import { DialogDismantlingOrderListComponent } from '../../../shared/dialog-dismantling-order-list/dialog-dismantling-order-list.component';
 
 @Component({
   selector: 'app-dismantling-completed',
@@ -96,6 +97,21 @@ export class DismantlingCompletedComponent implements OnInit {
       return acc;
     }, reportsPrepared);
     return reportsPrepared;
+
+  }
+
+  queryList(vehicleType, completedDate) {
+    const searchQuery = {vehicleType, completedDate};
+
+    const dialogRef = this.dialog.open(DialogDismantlingOrderListComponent, {
+      width: '80%',
+      data: {
+        searchQuery,
+        source: '已完成拆解计划',
+        completedDate,
+        vehicleType
+      }
+    });
 
   }
 
