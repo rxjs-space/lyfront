@@ -48,11 +48,13 @@
           [toHideInitList]="true"
           sizeClass='m-size-input'
           [toFilterList]="true"
-          (blur)="onBrandBlur($event)"
         >
         </app-autocomplete-combo>
-
-
+        <button type="button" md-button color="primary"
+          *ngIf="fform.get('vehicle.brand').errors && fform.get('vehicle.brand').errors['notListed']"
+          (click)="createNewBrand(fform.get('vehicle.brand').value)"
+        >新建品牌</button>
+          <!--(blur)="onBrandBlur($event)"-->
         <md-input-container class="l-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.vehicle.model" formControlName="model">
         </md-input-container>

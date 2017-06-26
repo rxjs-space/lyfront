@@ -22,14 +22,16 @@ export class FormUtilsService {
   idToName(id: string, idToNameHashArray: any) {
     if (!id) {return ''; }
     const matchObj = idToNameHashArray.find(item => item.id === id) || idToNameHashArray.find(item => item._id === id)
-    if (!matchObj) {throw new Error(`no obj with an id as ${id}`); }
+    if (!matchObj) {console.error(`no obj with an id as ${id}`); return; }
+    // if (!matchObj) {throw new Error(`no obj with an id as ${id}`); }
     return matchObj['name'];
   }
 
   nameToId(name: string, idToNameHashArray: any) {
     if (!name) {return ''; }
     const matchObj = idToNameHashArray.find(item => item.name === name);
-    if (!matchObj) {throw new Error(`no obj with a name as ${name}`); }
+    if (!matchObj) {console.error(`no obj with a name as ${name}`); return; }
+    // if (!matchObj) {throw new Error(`no obj with a name as ${name}`); }
     return matchObj['id'] || matchObj['_id'];
   }
 

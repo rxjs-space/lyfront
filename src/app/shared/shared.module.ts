@@ -23,7 +23,7 @@ import { AsyncDataLoaderService } from './async-data-loader/async-data-loader.se
 import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { FormUtilsService } from './form-utils/form-utils.service';
 import { DialogDataService } from './dialog-data/dialog-data.service';
-
+import { FormErrorsService } from './form-errors/form-errors.service';
 
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
@@ -159,7 +159,8 @@ export class SharedModule {
         FormUtilsService,
         AsyncDataLoaderService,
         AsyncMonitorService,
-        DialogDataService
+        DialogDataService,
+        FormErrorsService
       ]
     };
   }

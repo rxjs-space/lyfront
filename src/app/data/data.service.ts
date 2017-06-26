@@ -199,7 +199,7 @@ export class DataService {
     return this.http.get(this.brandsApiUrl1, this.setupOptions(true))
       .first()
       .map(res => res.json())
-      .catch(error => this.handleError(error))
+      .catch(error => this.handleError(error));
   }
 
   get titlesRx() {

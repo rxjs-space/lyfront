@@ -1,26 +1,34 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
+import { FormErrorsService } from '../../form-errors/form-errors.service';
+import { DataService } from '../../../data/data.service';
 
 @Component({
   selector: 'app-vehicle-details-vehicle',
   templateUrl: './vehicle-details-vehicle.component.html',
   styleUrls: ['./vehicle-details-vehicle.component.scss']
 })
-export class VehicleDetailsVehicleComponent implements OnInit {
+export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   fform: FormGroup;
   fformRxx = new BehaviorSubject(null);
   valueChangesRx: Observable<any>;
+  formErrorsFormName = 'vehicleDetailsVehicle';
+  formErrorsRxxHolder;
   @Input() vehicle: any;
   @Input() btity: any;
+  subscriptions: Subscription[] = [];
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
-    private fu: FormUtilsService
+    private fu: FormUtilsService,
+    private fe: FormErrorsService,
+    private data: DataService
   ) { }
 
   ngOnInit() {
@@ -74,10 +82,39 @@ export class VehicleDetailsVehicleComponent implements OnInit {
         // }
       });
 
+    // // send errors to formErrorsService
+    // this.formErrorsRxxHolder = this.fe.ini(this.formErrorsFormName);
+    // const sub0_ = this.fform.valueChanges
+    //   .subscribe(() => {
+    //     const allErrors = {};
+    //     const brandErrors = this.fform.get('vehicle.brand').errors;
+    //     if (brandErrors) {
+    //       this.formErrorsRxxHolder.next(Object.assign(allErrors, {
+    //         brand: brandErrors
+    //       }));
+    //     }
+    //     console.log(allErrors);
+    //     this.formErrorsRxxHolder.next(allErrors);
+    //   });
+
+    // this.subscriptions.push(sub0_);
   }
 
   onBrandBlur(event) {
     console.log(event);
+  }
+
+  createNewBrand(brandName) {
+    console.log(brandName);
+    // insert brand
+
+    this.data.brandsOnceRx.subscribe();
+    // update brandRxx
+    // update btityRxx
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
 }

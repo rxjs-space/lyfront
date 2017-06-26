@@ -33,7 +33,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
     public dialog: MdDialog
   ) { }
   ngOnInit() {
-    Observable.combineLatest(this.vdvFormRxx, this.fformRxx)
+    const sub0_ = Observable.combineLatest(this.vdvFormRxx, this.fformRxx)
       .filter(combo => combo[0] && combo[1])
       .first()
       .subscribe(combo => {
@@ -41,7 +41,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
         const fform = combo[1];
         this.vdvForm = vdvForm;
 
-        /* set rvAfterFD */
+        /* calculate rvAfterFD */
         const rvCal_ = Observable.merge(
           this.vdvForm.get('vehicle.residualValueBeforeFD').valueChanges,
           this.fform.get('feesAndDeductions').valueChanges)
@@ -57,7 +57,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
         this.subscriptions.push(rvCal_);
       });
 
-
+    this.subscriptions.push(sub0_);
 
     const fdCtrlArray = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
       fooBar: '', // when all the ctrls are disabled, the form.valid is always false
