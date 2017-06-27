@@ -4,22 +4,22 @@ import { MdDialog } from '@angular/material';
 import { DialogVehicleListComponent } from '../../../shared/dialog-vehicle-list/dialog-vehicle-list.component';
 
 @Component({
-  selector: 'app-entrance-reports',
-  templateUrl: './entrance-reports.component.html',
-  styleUrls: ['./entrance-reports.component.scss']
+  selector: 'app-entrance-reports-last-five-weeks',
+  templateUrl: './entrance-reports-last-five-weeks.component.html',
+  styleUrls: ['./entrance-reports-last-five-weeks.component.scss']
 })
-export class EntranceReportsComponent implements OnInit {
+export class EntranceReportsLastFiveWeeksComponent implements OnInit {
   @Input() reports;
-
-  constructor(
-    public dialog: MdDialog,
-  ) { }
+  constructor(private dialog: MdDialog) { }
 
   ngOnInit() {
   }
 
   queryVehicles(vehicleType, entranceDate) {
-    const searchQuery = {'vehicle.vehicleType': vehicleType, 'entranceDate': entranceDate}
+    const searchQuery = {
+      'vehicle.vehicleType': vehicleType,
+      'entranceMonday': entranceDate,
+    };
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {
       width: '80%',
       // disableClose: true,
@@ -28,11 +28,6 @@ export class EntranceReportsComponent implements OnInit {
         source: '车辆入场',
         vehicleType,
         entranceDate
-        // types: this.zipData.types,
-        // titles: this.zipData.titles,
-        // vin: vehicleBrief.vin,
-        // vehicleType: vehicleBrief.vehicle.vehicleType,
-        // canCreateNew: !vehicleBrief.dismantling && !vehicleBrief.status.dismantled.done
       },
     });
 
@@ -43,6 +38,7 @@ export class EntranceReportsComponent implements OnInit {
 
 
   }
+
 
 
 }

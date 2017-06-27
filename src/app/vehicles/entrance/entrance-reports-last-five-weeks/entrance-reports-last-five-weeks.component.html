@@ -38,14 +38,18 @@
     <md-grid-list cols="50" rowHeight="1:1" class="underlying-data">
       <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
       <ng-container *ngFor="let report of reports['非摩托车']; index as i">
-        <md-grid-tile><span>{{(report.date).slice(8,10)}}</span></md-grid-tile>
+        <md-grid-tile><span>{{
+          report.entranceDate === 0 ? 0 : (report.entranceDate).slice(8,10)
+        }}</span></md-grid-tile>
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
       <md-grid-tile></md-grid-tile>
       <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
       <ng-container *ngFor="let report of reports['摩托车']; index as i">
-        <md-grid-tile><span>{{(report.date).slice(8,10)}}</span></md-grid-tile>
+        <md-grid-tile><span>{{
+          report.entranceDate === 0 ? 0 : (report.entranceDate).slice(8,10)
+        }}</span></md-grid-tile>
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
@@ -56,9 +60,8 @@
       <ng-container *ngFor="let report of reports['非摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
-          (click)="queryVehicles('z', report.date)"
+          (click)="queryVehicles('z', report.entranceDate)"
         >{{report.total}}</button></md-grid-tile>
-        <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
@@ -67,9 +70,8 @@
       <ng-container *ngFor="let report of reports['摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
-          (click)="queryVehicles(3, report.date)"
+          (click)="queryVehicles(3, report.entranceDate)"
         >{{report.total}}</button></md-grid-tile>
-        <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
@@ -78,4 +80,3 @@
     </md-grid-list>
     <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
 
-<!--{{reports |json }}-->

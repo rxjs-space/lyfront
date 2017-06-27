@@ -133,3 +133,8 @@ md-spinner.mini-spinner-1p {
 .clickable {
   cursor: pointer;
 }
+
+md-list.normal-font-size-list.mat-list .mat-list-item .mat-list-item-content, .mat-nav-list .mat-list-item .mat-list-item-content {
+  font-size: 1em;
+  height: 2em;
+}

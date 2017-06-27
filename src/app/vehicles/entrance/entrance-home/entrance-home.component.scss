@@ -1,0 +1,24 @@
+/deep/ .chart-column {
+  width: 100%;
+  // height: 100%;
+  opacity: 1;
+  background-color: #3f51b5;
+  position: absolute;
+  bottom: 0;
+}
+
+/deep/ .vertical-text {
+  font-size: 0.8em;
+}
+
+/deep/ .y-axis {
+  border-right: black solid 1px;
+}
+
+/deep/ .underlying-data md-grid-tile span {
+  font-size: 0.8em;
+}
+
+/deep/ .top-bordered-tile {
+  border-top: black solid 1px;
+}

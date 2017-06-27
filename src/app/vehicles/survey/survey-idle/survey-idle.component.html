@@ -1,0 +1,73 @@
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>待验车辆</span>
+      <span style="width: 2em"></span>
+      <app-shared-filter class="scale-down-filter"
+        [optionsArr]="optionsArr"
+        (valueChanges)="filterValueChangesRxx.next($event)"
+      >
+      </app-shared-filter>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+    <md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
+    <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
+
+
+    <md-list class="normal-font-size-list" *ngIf="holder.isLoadedWithoutErrorRxx | async">
+      <md-list-item>
+        <md-grid-list cols="4" rowHeight="2em" md-line>
+          <md-grid-tile>
+            车辆进场日期 \ 车型
+          </md-grid-tile>
+          <md-grid-tile>
+            非摩托车
+          </md-grid-tile>
+          <md-grid-tile>
+            摩托车
+          </md-grid-tile>
+          <md-grid-tile>
+            合计
+          </md-grid-tile>
+        </md-grid-list>        
+      </md-list-item>
+      <md-divider></md-divider>
+      <ng-container *ngFor="let item of dataProps; last as isLast">
+        <md-divider *ngIf="isLast"></md-divider>
+        <md-list-item>
+          <md-grid-list cols="4" rowHeight="2em" md-line>
+            <md-grid-tile>
+              {{item.title}}
+            </md-grid-tile>
+            <md-grid-tile>
+              <button md-button color="primary" [disabled]="!(filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0)" 
+              (click)="queryList(item.name, 'z')">
+                {{filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0}}
+              </button>
+            </md-grid-tile>
+
+            <md-grid-tile>
+              <button md-button color="primary" [disabled]="!(filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0)" 
+                (click)="queryList(item.name, '3')">
+                {{filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0}}
+              </button>
+            </md-grid-tile>
+
+            <md-grid-tile>
+              <button md-button color="primary" [disabled]="!((filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0) + (filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0))" 
+              (click)="queryList(item.name)">
+                {{(filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0) + (filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0)}}
+              </button>
+            </md-grid-tile>
+          </md-grid-list>
+        </md-list-item>
+      </ng-container>
+    </md-list>
+
+
+  </md-card-content>
+</md-card>
+

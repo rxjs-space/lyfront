@@ -272,8 +272,8 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
-  vehiclesReports() {
-    return this.http.get(this.vehiclesApiUrl1 + '/reports', this.setupOptions(true))
+  vehiclesReports(title) {
+    return this.http.get(this.vehiclesApiUrl1 + `/reports?title=${title}`, this.setupOptions(true))
       .map(res => {
         const resJSON = res.json();
         const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;

@@ -57,7 +57,7 @@ export class DismantlingIdleComponent implements OnInit {
     }
     if (vehicleType) {
       searchQuery['vehicle.vehicleType'] = vehicleType;
-      // vehicleType here could be '2' or 'z', backend will deal with 'z'
+      // vehicleType here could be '3' or 'z', backend will deal with 'z'
     }
     // console.log(searchQuery);
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {

@@ -8,19 +8,36 @@
   </md-card-content>
 </md-card>
 <md-card class="info-card">
-  <md-card-header>
-    <md-card-title class="vertical-center-container">
-      <i class="material-icons">chevron_right</i>
-      <span>进场统计</span>
-      <span style="width: 2em"></span>
-      <span><button md-raised-button>筛选</button></span>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
-    <md-spinner *ngIf="!(asyncDataHolder.isLoadedWithoutErrorRxx | async) && !(asyncDataHolder.isWithErrorRxx | async)"></md-spinner>
-    <p *ngIf="asyncDataHolder.isWithErrorRxx | async">Something went wrong.</p>
-    <app-entrance-reports [reports]="reports"
-      *ngIf="asyncDataHolder.isLoadedWithoutErrorRxx | async">
-    </app-entrance-reports>
-  </md-card-content>
+  <md-spinner *ngIf="!(asyncDataHolder.isLoadedWithoutErrorRxx | async) && !(asyncDataHolder.isWithErrorRxx | async)"></md-spinner>
+  <p *ngIf="asyncDataHolder.isWithErrorRxx | async">Something went wrong.</p>
+
+  <ng-container *ngIf="asyncDataHolder.isLoadedWithoutErrorRxx | async">
+
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <i class="material-icons">chevron_right</i>
+        <span>进场统计（最近10天）</span>
+        <span style="width: 2em"></span>
+        <!--<span><button md-raised-button>筛选</button></span>-->
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <app-entrance-reports [reports]="reports['lastTenDays']"></app-entrance-reports>
+    </md-card-content>
+
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <i class="material-icons">chevron_right</i>
+        <span>进场统计（最近5周）</span>
+        <span style="width: 2em"></span>
+        <!--<span><button md-raised-button>筛选</button></span>-->
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <app-entrance-reports-last-five-weeks [reports]="reports['lastFiveWeeks']"></app-entrance-reports-last-five-weeks>
+    </md-card-content>
+
+  </ng-container>
+
+
 </md-card>
