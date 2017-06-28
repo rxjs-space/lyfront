@@ -284,6 +284,15 @@ export class DataService {
 
   }
 
+  vehiclesSurveyStatus(surveyType: string, vehicleList: string[]) {
+    return this.http.patch(this.vehiclesApiUrl1 + '/survey', {
+      surveyType,
+      vehicleList
+    }, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError)
+  }
+
   private handleError(error: any) {
     console.log('Lyfront caught an error', error); // for demo purposes only
     return Observable.throw(error);

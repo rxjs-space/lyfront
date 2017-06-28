@@ -15,10 +15,10 @@ export class EntranceReportsLastFiveWeeksComponent implements OnInit {
   ngOnInit() {
   }
 
-  queryVehicles(vehicleType, entranceDate) {
+  queryVehicles(vehicleType, entranceMonday) {
     const searchQuery = {
       'vehicle.vehicleType': vehicleType,
-      'entranceMonday': entranceDate,
+      entranceMonday,
     };
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {
       width: '80%',
@@ -27,7 +27,7 @@ export class EntranceReportsLastFiveWeeksComponent implements OnInit {
         searchQuery,
         source: '车辆入场',
         vehicleType,
-        entranceDate
+        entranceMonday
       },
     });
 

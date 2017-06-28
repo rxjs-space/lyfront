@@ -1,3 +1,110 @@
-<p>
-  survey-completed works!
-</p>
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>验车统计（最近5周）</span>
+      <button type="button" md-button color="primary" *ngIf="isCollapsedRxx.getValue()" (click)="isCollapsedRxx.next(false)">展开</button>
+      <button type="button" md-button color="primary" *ngIf="!isCollapsedRxx.getValue()" (click)="isCollapsedRxx.next(true)">收起</button>
+      <!--<span style="width: 2em"></span>
+      <app-shared-filter class="scale-down-filter"
+        [optionsArr]="optionsArr"
+        (valueChanges)="filterValueChangesRxx.next($event)"
+      >
+      </app-shared-filter>-->
+
+    </md-card-title>
+  </md-card-header>
+  <md-card-content *ngIf="!isCollapsedRxx.getValue()">
+    <md-spinner *ngIf="!(asyncDataHolder.isLoadedWithoutErrorRxx | async) && !(asyncDataHolder.isWithErrorRxx | async)"></md-spinner>
+    <p *ngIf="asyncDataHolder.isWithErrorRxx | async">Something went wrong.</p>
+    <div *ngIf="asyncDataHolder.isLoadedWithoutErrorRxx | async">
+      <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
+      <md-grid-list cols="50">
+        <md-grid-tile colspan="4"></md-grid-tile>
+        <md-grid-tile colspan="8">非摩托车-首次验车</md-grid-tile>
+        <md-grid-tile colspan="10"></md-grid-tile>
+        <md-grid-tile colspan="8">非摩托车-二次验车</md-grid-tile>
+        <md-grid-tile colspan="8"></md-grid-tile>
+        <md-grid-tile colspan="8">摩托车</md-grid-tile>
+      </md-grid-list>
+      <md-grid-list cols="50"><md-grid-tile></md-grid-tile></md-grid-list>
+
+      <md-grid-list cols="50" rowHeight="1:10">
+
+        <md-grid-tile colspan="2"></md-grid-tile>
+        <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleTypezOnlyFirstDone'].reverse(); index as i">
+          <md-grid-tile></md-grid-tile>
+          <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / max)*100"></div></md-grid-tile>
+        </ng-container>
+
+        <md-grid-tile colspan="6"></md-grid-tile>
+        <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleTypezSecondDone'].reverse(); index as i">
+          <md-grid-tile></md-grid-tile>
+          <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / max)*100"></div></md-grid-tile>
+        </ng-container>
+
+        <md-grid-tile colspan="6"></md-grid-tile>
+        <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleType3'].reverse(); index as i">
+          <md-grid-tile></md-grid-tile>
+          <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / max)*100"></div></md-grid-tile>
+        </ng-container>
+
+      </md-grid-list>
+
+      <md-grid-list cols="50">
+        <md-grid-tile colspan="3"></md-grid-tile>
+        <md-grid-tile class="top-bordered-tile" colspan="11"></md-grid-tile>
+        <md-grid-tile colspan="6"></md-grid-tile>
+        <md-grid-tile class="top-bordered-tile" colspan="11"></md-grid-tile>
+        <md-grid-tile colspan="6"></md-grid-tile>
+        <md-grid-tile class="top-bordered-tile" colspan="11"></md-grid-tile>
+      </md-grid-list>
+
+      <md-grid-list cols="50" class="underlying-data">
+        <md-grid-tile colspan="4"><span>验车周一</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleTypezOnlyFirstDone'].reverse(); index as i">
+          <md-grid-tile><span>{{(report.date).slice(8, 10)}}</span></md-grid-tile>
+          <md-grid-tile></md-grid-tile>
+        </ng-container>
+        <md-grid-tile colspan="3"></md-grid-tile>
+        <md-grid-tile colspan="4"><span>验车周一</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleTypezSecondDone'].reverse(); index as i">
+          <md-grid-tile><span>{{(report.date).slice(8, 10)}}</span></md-grid-tile>
+          <md-grid-tile></md-grid-tile>
+        </ng-container>
+        <md-grid-tile colspan="3"></md-grid-tile>
+        <md-grid-tile colspan="4"><span>验车周一</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleType3'].reverse(); index as i">
+          <md-grid-tile><span>{{(report.date).slice(8, 10)}}</span></md-grid-tile>
+          <md-grid-tile></md-grid-tile>
+        </ng-container>
+      </md-grid-list>
+
+      <md-grid-list cols="50" class="underlying-data">
+        <md-grid-tile colspan="4"><span>验车数量</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleTypezOnlyFirstDone'].reverse(); index as i">
+          <md-grid-tile><button md-button color="primary" [disabled]="!report.total">{{report.total}}</button></md-grid-tile>
+          <md-grid-tile></md-grid-tile>
+        </ng-container>
+        <md-grid-tile colspan="3"></md-grid-tile>
+        <md-grid-tile colspan="4"><span>验车数量</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleTypezSecondDone'].reverse(); index as i">
+          <md-grid-tile><button md-button color="primary" [disabled]="!report.total">{{report.total}}</button></md-grid-tile>
+          <md-grid-tile></md-grid-tile>
+        </ng-container>
+        <md-grid-tile colspan="3"></md-grid-tile>
+        <md-grid-tile colspan="4"><span>验车数量</span></md-grid-tile>
+        <ng-container *ngFor="let report of reports['resultVehicleType3'].reverse(); index as i">
+          <md-grid-tile><button md-button color="primary" [disabled]="!report.total">{{report.total}}</button></md-grid-tile>
+          <md-grid-tile></md-grid-tile>
+        </ng-container>
+      </md-grid-list>
+
+
+    </div>
+
+  </md-card-content>
+</md-card>

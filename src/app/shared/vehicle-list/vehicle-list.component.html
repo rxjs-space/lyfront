@@ -1,22 +1,32 @@
+<md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
+<p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
 
-<!--{{(asyncDataLoader.getDataRxxFac(asyncDataLoaderSource, dataItemList) | async).vehicleList |json }}-->
 <md-list class="vehicle-list"
-  *ngIf="(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async) && !(asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)"
+  *ngIf="holder.isLoadedWithoutErrorRxx | async"
 >
-  <md-list-item *ngIf="!vehicleList.length">
+  <md-list-item *ngIf="vehicleList1 && !vehicleList1.length">
     无
   </md-list-item>
-  <ng-container *ngFor="let vehicle of vehicleList; last as isLast">
+  <ng-container *ngFor="let vehicle of vehicleList1; index as i; last as isLast">
 
   <md-list-item>
     <div md-line>
       <md-grid-list cols="9" rowHeight="3em">
-        <!--<md-grid-tile class="clickable" [routerLink]="['/vehicles/'+vehicle.vin]">-->
-        <md-grid-tile class="clickable" (click)="openDialogVehicle(vehicle.vin)">
-        <!--<md-grid-tile class="clickable">-->
-          <i class="material-icons" md-list-icon >drive_eta</i>
-        </md-grid-tile>
-        <md-grid-tile class="left-aligned-tile clickable" colspan="5"  (click)="openDialogVehicle(vehicle.vin)">
+
+        <ng-container>
+          <md-grid-tile 
+            *ngIf="dataFromTrigger.source === '待验车辆' && dataFromTrigger.surveyStatus.value > 1; else elseBlock"
+          >
+            <md-checkbox [formControl]="formSelectedVehicleList.get(['vehicleList', i, 'selected'])" color="primary"></md-checkbox>
+          </md-grid-tile>
+          <ng-template #elseBlock>
+            <md-grid-tile class="clickable" (click)="openDialogVehicle(vehicle.vin)">
+              <i class="material-icons" md-list-icon >drive_eta</i>
+            </md-grid-tile>
+          </ng-template>
+        </ng-container>
+
+        <md-grid-tile class="left-aligned-tile clickable" [colspan]="dataFromTrigger.source === '待验车辆' ? 8 : 5"  (click)="openDialogVehicle(vehicle.vin)">
         <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5">-->
           <div>
             <div>
@@ -24,11 +34,12 @@
               <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
               <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
               <span>{{vehicle.vehicle.brand || '品牌暂无'}}</span><span> / </span>
-              <span>{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
+              <span *ngIf="!(isInPrintMode && dataFromTrigger.source === '待验车辆')">{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
             </div>
             <div>
               <small>
-                <app-vehicle-list-status 
+                <app-vehicle-list-status
+                  *ngIf="!(isInPrintMode && dataFromTrigger.source === '待验车辆')"
                   [vehicle]="vehicle"
                   [dismantling]="vehicle.dismantling" [dismantled]="vehicle.status.dismantled.done"
                 >
@@ -37,10 +48,10 @@
             </div>
           </div>
         </md-grid-tile>
-        <md-grid-tile colspan="3">
+        <md-grid-tile colspan="3" *ngIf="dataFromTrigger.source !== '待验车辆'">
           <app-trigger-dismantling-order
-            [titles]="btity.titles"
-            [types]="btity.types"
+            [titles]="btity1.titles"
+            [types]="btity1.types"
             [vehicle]="vehicle"
             [canCreateNew]="!vehicle.dismantling && !vehicle.status.dismantled.done"
           ></app-trigger-dismantling-order>
@@ -56,14 +67,7 @@
     <md-divider *ngIf="!isLast"></md-divider>
   </ng-container>
 </md-list>
-<md-spinner
-  *ngIf="!(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async) || (asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)"
-></md-spinner>
-<md-card *ngIf="asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async">
-  <md-card-content>
-    Something broke.
-  </md-card-content>
-</md-card>
+
 
 <!--<md-list class="vehicle-list">
   <ng-container *ngFor="let vehicle of zipData.vehicles">

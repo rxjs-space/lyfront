@@ -8,7 +8,7 @@ import { MdDialog } from '@angular/material';
 import { DialogVehicleListComponent } from '../../../shared/dialog-vehicle-list/dialog-vehicle-list.component';
 import { DataService } from '../../../data/data.service';
 import { AsyncDataLoaderService, SubHolder } from '../../../shared/async-data-loader/async-data-loader.service';
-
+import { AsyncMonitorService } from '../../../shared/async-monitor/async-monitor.service';
 @Component({
   selector: 'app-survey-idle',
   templateUrl: './survey-idle.component.html',
@@ -21,21 +21,36 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
     reports: this.data.vehiclesReports('surveyIdle')
   };
   holder: SubHolder;
-  filterValueChangesRxx = new BehaviorSubject({surveyStatus: 1});
-  optionsArr = [];
+  filterValueChangesRxx: BehaviorSubject<any>;
+  optionsArr = [
+    {
+      title: 'surveyStatus',
+      placeholder: '验车状态',
+      initValue: 2,
+      options: [
+        {value: 1, viewValue: '全部',
+          sumPredicate: curr => {return true; }},
+        {value: 2, viewValue: '未验车', 'status.firstSurvey.done': false, 'status.secondSurvey.done': false,
+          sumPredicate: curr => {return !curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']; }},
+        {value: 3, viewValue: '首次验车完成未二次验车', 'status.firstSurvey.done': true, 'status.secondSurvey.done': false,
+          sumPredicate: curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']}},
+      ]
+    }
+  ];
+
   filterCache = {};
   filteredData = null;
   subscriptions: Subscription[] = [];
-
   dataProps = [
     {title: '本周', name: 'thisWeek'},
     {title: '上周', name: 'lastWeek'},
     {title: '更早', name: 'evenEarlier'},
     {title: '合计', name: 'total'},
   ];
-
+  asyncMonitorToWatch: any;
 
   constructor(
+    private asyncMonitor: AsyncMonitorService,
     public dialog: MdDialog,
     private data: DataService,
     public asyncDataLoader: AsyncDataLoaderService
@@ -62,6 +77,9 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
 
 
   ngOnInit() {
+    this.asyncMonitorToWatch = this.asyncMonitor.init('dialogVehicleList');
+    this.filterValueChangesRxx = new BehaviorSubject({surveyStatus: this.optionsArr[0].initValue});
+
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     this.holder.refreshAll();
     const sub0_ = Observable.combineLatest(
@@ -76,23 +94,14 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
 
     this.subscriptions.push(sub0_);
 
-
-    this.optionsArr = [
-      {
-        title: 'surveyStatus',
-        placeholder: '验车状态',
-        initValue: 1,
-        options: [
-          {value: 1, viewValue: '全部',
-            sumPredicate: curr => {return true; }},
-          {value: 2, viewValue: '未验车', 'status.firstSurvey.done': false, 'status.secondSurvey.done': false,
-            sumPredicate: curr => {return !curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']; }},
-          {value: 3, viewValue: '一次验车完成未二次验车', 'status.firstSurvey.done': true, 'status.secondSurvey.done': false,
-            sumPredicate: curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']}},
-        ]
-      }
-    ];
-
+    const sub1_ = this.asyncMonitorToWatch
+      .filter(r => r.done)
+      .subscribe(r => {
+        if (!r.error) {
+          this.holder.refreshByTitle('reports');
+        }
+      });
+    this.subscriptions.push(sub1_);
   }
 
   ngOnDestroy() {
@@ -119,7 +128,7 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
       data: {
         searchQuery,
         source: '待验车辆',
-        surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)).viewValue,
+        surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)),
         entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
         vehicleType
       },

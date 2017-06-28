@@ -52,14 +52,14 @@
     </md-grid-list>
 
     <md-grid-list cols="50" rowHeight="1:1" class="underlying-data">
-      <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
+      <md-grid-tile colspan="4"><span>完成日期</span></md-grid-tile>
       <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
         <md-grid-tile><span>{{(report.completedDate).slice(8,10)}}</span></md-grid-tile>
         <md-grid-tile></md-grid-tile>
       </ng-container>
 
       <md-grid-tile></md-grid-tile>
-      <md-grid-tile colspan="4"><span>进场日期</span></md-grid-tile>
+      <md-grid-tile colspan="4"><span>完成日期</span></md-grid-tile>
       <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
         <md-grid-tile><span>{{(report.completedDate).slice(8,10)}}</span></md-grid-tile>
         <md-grid-tile></md-grid-tile>
@@ -68,7 +68,7 @@
 
       <md-grid-tile></md-grid-tile>
 
-      <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
+      <md-grid-tile colspan="4"><span>拆解数量</span></md-grid-tile>
       <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
@@ -79,7 +79,7 @@
       </ng-container>
 
       <md-grid-tile></md-grid-tile>
-      <md-grid-tile colspan="4"><span>进场数量</span></md-grid-tile>
+      <md-grid-tile colspan="4"><span>拆解数量</span></md-grid-tile>
       <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"

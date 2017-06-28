@@ -66,7 +66,7 @@ export class DismantlingIdleComponent implements OnInit {
       data: {
         searchQuery,
         source: '待拆车辆',
-        surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)).viewValue,
+        surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)),
         entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
         vehicleType
 
@@ -131,12 +131,12 @@ export class DismantlingIdleComponent implements OnInit {
         title: 'surveyStatus',
         placeholder: '验车状态',
         initValue: filterCache ? 
-          (filterCache['surveyStatus'] ? filterCache['surveyStatus'] : 1)
-          : 1,
+          (filterCache['surveyStatus'] ? filterCache['surveyStatus'] : 4)
+          : 4,
         options: [
           {value: 1, viewValue: '全部'},
           {value: 2, viewValue: '未验车'},
-          {value: 3, viewValue: '一次验车完成未二次验车'},
+          {value: 3, viewValue: '首次验车完成未二次验车'},
           {value: 4, viewValue: '二次验车完成'}
         ]
       }

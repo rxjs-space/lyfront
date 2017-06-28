@@ -57,6 +57,8 @@ import { VehicleDetailsMetadataComponent } from './vehicle-details/vehicle-detai
 import { DialogDismantlingOrderListComponent } from './dialog-dismantling-order-list/dialog-dismantling-order-list.component';
 import { DismantlingOrderListComponent } from './dismantling-order-list/dismantling-order-list.component';
 import { DialogMarkComponent } from './dismantling-order-list/dialog-mark.component';
+import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confirmation.component';
+import { DialogConfirmationTriggerDirective } from './dialog-confirmation/dialog-confirmation-trigger.directive';
 
 
 const mdModules = [
@@ -119,7 +121,9 @@ const mdModules = [
     VehicleDetailsMetadataComponent,
     DialogDismantlingOrderListComponent,
     DismantlingOrderListComponent,
-    DialogMarkComponent
+    DialogMarkComponent,
+    DialogConfirmationComponent,
+    DialogConfirmationTriggerDirective,
   ],
   exports: [
     CommonModule,
@@ -135,8 +139,8 @@ const mdModules = [
     VehicleListComponent,
     VehicleDetailsComponent,
     DialogVehicleTriggerComponent,
-    DialogYesOrNoTriggerComponent
-
+    DialogYesOrNoTriggerComponent,
+    DialogConfirmationTriggerDirective,
   ],
   entryComponents: [
     DialogYesOrNoComponent,
@@ -148,7 +152,8 @@ const mdModules = [
     DialogNewVehicleNoteComponent,
     DialogNewVehicleCostComponent,
     DialogDismantlingOrderListComponent,
-    DialogMarkComponent
+    DialogMarkComponent,
+    DialogConfirmationComponent
   ]
 })
 export class SharedModule {

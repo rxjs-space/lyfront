@@ -1,0 +1,8 @@
+<div md-dialog-title>{{data.dialogTitle}}</div>
+<div md-dialog-content>{{data.dialogContent}}</div>
+<div md-dialog-actions class="flex-container">
+  <span class="space-filler"></span>
+  <button md-button type="button" [disabled]="isUpdating" (click)="dialogRef.close(false)">取消</button>
+  <button md-button type="button" [disabled]="isUpdating" color="primary" (click)="onConfirm()">确认</button>
+  <md-spinner class="mini-spinner-1" [style.visibility]="isUpdating ? 'visible' : 'hidden'"></md-spinner>
+</div>

@@ -32,5 +32,5 @@ export class AsyncMonitorService {
 'dialogDismantlingOrder'
 'dialogDismantlingOrderMark'
 'insertUpdateVehicle'
-
+'dialogVehicleList'
 */

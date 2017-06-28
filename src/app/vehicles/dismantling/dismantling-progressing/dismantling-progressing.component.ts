@@ -113,7 +113,7 @@ export class DismantlingProgressingComponent implements OnInit {
     //   data: {
     //     searchQuery,
     //     source: '待拆车辆',
-    //     surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)).viewValue,
+    //     surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)),
     //     entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
     //     vehicleType
     //   },

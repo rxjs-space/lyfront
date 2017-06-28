@@ -98,7 +98,7 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           }
           return acc;
         }, {'非摩托车': [], '摩托车': [], 'max': 10});
-        console.log(reportsPreparedLastFiveWeeks);
+        // console.log(reportsPreparedLastFiveWeeks);
 
 
         this.reports = {

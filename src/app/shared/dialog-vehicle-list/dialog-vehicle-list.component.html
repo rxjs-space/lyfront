@@ -6,12 +6,62 @@
   </button>  -->
 
   <div><small>
-      <span *ngIf="dataFromTrigger.surveyStatus">验车状态：{{dataFromTrigger.surveyStatus}} / </span>
+      <span *ngIf="dataFromTrigger.surveyStatus">验车状态：{{dataFromTrigger.surveyStatus.viewValue}} / </span>
       <span *ngIf="dataFromTrigger.entranceWeek">入场日期：{{dataFromTrigger.entranceWeek}} / </span>
-      <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType}}</span>
+      <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType === 'z' ? '非摩托车' : '摩托车'}} / </span>
       <span *ngIf="dataFromTrigger.entranceDate">入场日期：{{dataFromTrigger.entranceDate | date}}</span>
+      <span *ngIf="dataFromTrigger.entranceMonday">入场周一：{{dataFromTrigger.entranceMonday | date}}</span>
     </small></div>
 </div>
-<md-dialog-content>
-  <app-vehicle-list [searchQuery]="dataFromTrigger.searchQuery" #vehicleListComponent></app-vehicle-list>
-</md-dialog-content>
+<div md-dialog-content>
+  <app-vehicle-list [dataFromTrigger]="dataFromTrigger" #vehicleListComponent
+    [selectAllRxx]="selectAllRxx" [isInPrintMode]="isInPrintMode"></app-vehicle-list>
+</div>
+<div md-dialog-actions class="flex-container">
+  <ng-container *ngIf="dataFromTrigger.source === '待验车辆' && dataFromTrigger.surveyStatus.value > 1">
+      <button type="button" md-button color="primary" 
+        [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
+        *ngIf="!isInPrintMode" (click)="preparePrint()"
+      >准备打印</button>
+      <button type="button" md-raised-button color="accent" class="cancel-print-right not-for-print"
+        [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
+        *ngIf="isInPrintMode" (click)="rollbackPreparePrint()"
+      >取消打印</button>
+
+      <span class="space-filler"></span>
+      <md-checkbox 
+        *ngIf="dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode" 
+        [formControl]="formUIStatus.get('canCheckFirstSurvey')"
+        [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
+      >已完成二次验车确认</md-checkbox>
+      <button type="button" md-button color="primary" 
+        *ngIf="!selectAllRxx.getValue() && !isInPrintMode" (click)="selectAllRxx.next(itemsToExclude)"
+         [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
+      >全选</button>
+      <button type="button" md-button color="accent" *ngIf="selectAllRxx.getValue()" (click)="selectAllRxx.next(null)">全不选</button>
+      <button 
+        appDialogConfirmationTrigger dialogTitle="将选中车辆的首次验车状态标记为“完成”？" dialogContent="（验车完成日期以点击确定日期为准。）"
+        [actionTriggerRxx]="actionTriggerRxx" [actionParams]="['firstSurvey']"
+        [actionResultRxx]="actionResultRxx"
+        [disabled]="!formUIStatus.get('canCheckFirstSurvey').value || 
+          !(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async) || 
+          !hasSelected || isUpdating"
+        *ngIf="dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode"
+        type="button" md-raised-button color="primary"
+      >首次验车完成</button>
+      <button
+        appDialogConfirmationTrigger dialogTitle="将选中车辆的二次验车状态标记为“完成”？" dialogContent="（验车完成日期以点击确定日期为准。）"
+        [actionTriggerRxx]="actionTriggerRxx" [actionParams]="['secondSurvey']"
+        [actionResultRxx]="actionResultRxx"
+        [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async) || !hasSelected || isUpdating"
+        *ngIf="dataFromTrigger.surveyStatus.value === 3 && !isInPrintMode"
+        type="button" md-raised-button color="accent"
+      >二次验车完成</button>
+
+  </ng-container>
+</div>
+<div *ngIf="isInPrintMode" class="print-overlay"></div>
+        <!--(click)="handleVehiclesSurveyStatus('firstSurvey', selectedVehicleList)"-->
+        <!--(click)="handleVehiclesSurveyStatus('secondSurvey', selectedVehicleList)"-->
+
+

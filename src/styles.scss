@@ -84,7 +84,7 @@ div.mat-card-header-text {
 // }
 
 // styles for printing dialog contents - start
-html.cdk-global-scrollblock.prepare-print-html {
+html.cdk-global-scrollblock.prepare-print-html, html.prepare-print-html {
   position: initial;
   visibility: hidden;
 }
@@ -138,3 +138,53 @@ md-list.normal-font-size-list.mat-list .mat-list-item .mat-list-item-content, .m
   font-size: 1em;
   height: 2em;
 }
+
+
+.print-overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000
+}
+
+button.cancel-print {
+  position: absolute;
+  top: 1.5em;
+  left: 10em;
+  z-index: 1001;
+}
+
+button.cancel-print-right {
+  position: absolute;
+  top: 1.5em;
+  right: 3em;
+  z-index: 1001;
+}
+
+.y-axis {
+  border-right: black solid 1px;
+}
+
+.underlying-data md-grid-tile span {
+  font-size: 0.8em;
+}
+
+.top-bordered-tile {
+  border-top: black solid 1px;
+}
+
+div.chart-column {
+  width: 100%;
+  // height: 100%;
+  opacity: 1;
+  background-color: #3f51b5;
+  position: absolute;
+  bottom: 0;
+}
+
+.vertical-text {
+  font-size: 0.8em;
+}
+

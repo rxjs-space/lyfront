@@ -12,7 +12,7 @@ import { DataService } from '../../data/data.service';
 import { DismantlingOrder } from '../../data/dismantling-order';
 import { SharedValidatorsService } from '../validators/shared-validators.service';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
-
+import { FormUtilsService } from '../form-utils/form-utils.service';
 
 @Component({
   selector: 'app-dialog-dismantling-order',
@@ -30,6 +30,7 @@ export class DialogDismantlingOrderComponent implements OnInit {
   asyncMonitorId = 'dialogDismantlingOrder';
   asyncMonitorHolder: any;
   constructor(
+    private fu: FormUtilsService,
     private sv: SharedValidatorsService,
     private fb: FormBuilder,
     public dialogRef: MdDialogRef<DialogDismantlingOrderComponent>,
@@ -63,7 +64,7 @@ export class DialogDismantlingOrderComponent implements OnInit {
       isAdHoc: [false, [this.sv.shouldBeBoolean()]],
       correspondingSalesOrder: '',
       dismantlingPIC: ['', [Validators.required]],
-      vehicleType: [this.dataFromTrigger.vehicleType]
+      vehicleType: [this.fu.nameToId(this.dataFromTrigger.vehicleType, this.data.btityRxx.getValue()['types']['vehicleTypes'])]
     });
     // this.doForm.valueChanges.subscribe(console.log);
   }

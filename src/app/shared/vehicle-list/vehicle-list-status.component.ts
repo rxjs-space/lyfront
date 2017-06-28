@@ -33,9 +33,9 @@ export class VehicleListStatusComponent implements OnInit, OnChanges {
 
     switch (true) {
       case this.vehicle.status.secondSurvey.done:
-        this.surveyStatus = '二次验车'; break;
+        this.surveyStatus = '二次验车完成'; break;
       case this.vehicle.status.firstSurvey.done:
-        this.surveyStatus = '一次验车未二次验车'; break;
+        this.surveyStatus = '首次验车完成未二次验车'; break;
       default:
         this.surveyStatus = '未验车';
     }

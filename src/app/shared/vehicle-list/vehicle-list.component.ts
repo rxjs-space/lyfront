@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { MdDialog } from '@angular/material';
 
 import { DataService } from '../../data/data.service';
-import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
+import { AsyncDataLoaderService, SubHolder } from '../async-data-loader/async-data-loader.service';
 import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 
@@ -15,16 +17,25 @@ import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit, OnDestroy {
-  @Input() searchQuery: any;
+  @Input() dataFromTrigger: any;
+  @Input() selectAllRxx: BehaviorSubject<any>;
+  @Input() isInPrintMode: boolean;
   asyncDataLoaderSource = 'vehicleList' + Math.random();
-  dataItemList = ['btity', 'vehicleList'];
-  btity: any;
-  vehicleList: any;
+
+  btity1: any;
+  vehicleList1: any;
   subscriptions: Subscription[] = [];
   isListRefreshed = false;
   dialogDismantlingOrderAsyncMonitorHolder: any;
 
+  itemRxHash = {};
+  holder: SubHolder;
+  asyncDataId = 'VehicleListComponent' + Math.random();
+
+  formSelectedVehicleList: FormGroup;
+  formSelectedVehicleListValueChangesRxx = new BehaviorSubject(null);
   constructor(
+    private fb: FormBuilder,
     public dialog: MdDialog,
     public asyncDataLoader: AsyncDataLoaderService,
     private data: DataService,
@@ -38,80 +49,95 @@ export class VehicleListComponent implements OnInit, OnDestroy {
       // panelClass: '',
       // disableClose: true,
       data: {
-        types: this.btity.types,
-        titles: this.btity.titles,
+        types: this.btity1.types,
+        titles: this.btity1.titles,
         vin,
         vehicle
       }
-    })
+    });
   }
 
   ngOnInit() {
-    // console.log(this.searchQuery);
+    this.itemRxHash = {
+      btity: this.data.btityRxx,
+      vehicleList: this.data.getVehicles(this.dataFromTrigger.searchQuery)
+    };
+    this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
+    this.holder.refreshAll();
 
-    this.refreshBtity();
-    this.refreshVehicleList();
-    const sub0_ = this.asyncDataLoader.getDataRxxFac(this.asyncDataLoaderSource, this.dataItemList)
-      .subscribe(data => {
-        // console.log(data);
-        if (!data) {
-          this.btity = null;
-          this.vehicleList = null;
-          return;
-        }
-        this.btity = data['btity'] || null;
-        this.vehicleList = data['vehicleList'] || null;
+    const sub9_ = this.holder.isLoadedWithoutErrorRxx
+      .filter(() => this.holder.latestResultRxxHash['btity'].getValue() && this.holder.latestResultRxxHash['vehicleList'].getValue())
+      .subscribe(() => {
+        this.btity1 = this.holder.latestResultRxxHash['btity'].getValue();
+        this.vehicleList1 = this.holder.latestResultRxxHash['vehicleList'].getValue();
+        this.sortVehicleListByVehicleType();
+        this.vehicleList1 = this.vehicleList1.map(vehicle => {
+          const typeId = vehicle.vehicle.vehicleType;
+          const typeName = this.btity1.types.vehicleTypes.find(item => item.id === typeId)['name'];
+          vehicle.vehicle.vehicleType = typeName;
+          return vehicle;
+        });
+        if (this.vehicleList1 && this.vehicleList1.length) {
+          // init formSelectedVehicleList
+          if (this.dataFromTrigger.source === '待验车辆' && this.dataFromTrigger.surveyStatus.value > 1) {
+            this.formSelectedVehicleList = this.fb.group({
+              vehicleList: this.fb.array(this.vehicleList1.map(v => this.fb.group({
+                  vin: v.vin,
+                  selected: false
+                })
+              ))
+            });
 
-        /**
-         * after new dismantlingOrder is created, change the dismantling property of that vehicle
-         */
-        if (this.vehicleList) {
+            const sub7_ = this.formSelectedVehicleList.valueChanges.subscribe(
+              this.formSelectedVehicleListValueChangesRxx
+            );
+            this.subscriptions.push(sub7_);
+
+            this.selectAllRxx.subscribe((itemsToExclude: number[]) => {
+              if (itemsToExclude) {
+                (this.formSelectedVehicleList.get('vehicleList') as FormArray).controls.forEach((ctrl, index) => {
+                  if (itemsToExclude.indexOf(index) === -1) {
+                    ctrl.get('selected').setValue(true);
+                  }
+                });
+              } else {
+                (this.formSelectedVehicleList.get('vehicleList') as FormArray).controls.forEach((ctrl, index) => {
+                  ctrl.get('selected').setValue(false);
+                });
+              }
+
+            })
+            // console.log(this.formSelectedVehicleList.getRawValue());
+
+          }
+
+
+          // listening on dismantling status change
           this.dialogDismantlingOrderAsyncMonitorHolder = this.asyncMonitor.init('dialogDismantlingOrder');
-          const sub1_ = this.dialogDismantlingOrderAsyncMonitorHolder.subscribe(result => {
+          const sub8_ = this.dialogDismantlingOrderAsyncMonitorHolder.subscribe(result => {
             if (result.value && result.value.result.ok) {
               const vinDismantling = result.value.ops[0].vin;
-              const vehicleDismantling = this.vehicleList.find(vehicle => vehicle.vin === vinDismantling);
+              const vehicleDismantling = this.vehicleList1.find(vehicle => vehicle.vin === vinDismantling);
               vehicleDismantling.dismantling = true;
             }
           });
-          this.subscriptions.push(sub1_);
+          this.subscriptions.push(sub8_);
         }
-
-
       });
-    this.subscriptions.push(sub0_);
+
   }
 
-  refreshBtity() {
-    this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[0], null);
-    this.data.btityRxx
-      .first()
-      .catch(error => Observable.of({
-        ok: false,
-        error
-      }))
-      .subscribe(btity => {
-        // console.log(btity);
-        this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[0], btity);
-      });
-  }
-
-  refreshVehicleList() {
-    this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[1], null);
-    this.data.getVehicles(this.searchQuery)
-      .first()
-      .catch(error => Observable.of({
-        ok: false,
-        error
-      }))
-      .subscribe(vehicleList => {
-        this.asyncDataLoader.feed(this.asyncDataLoaderSource, this.dataItemList[1], vehicleList);
-      });
-  }
 
   ngOnDestroy() {
-    this.asyncDataLoader.destroy(this.asyncDataLoaderSource);
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
+    this.holder.destroy();
   }
+
+  sortVehicleListByVehicleType(ascending = true) {
+    this.vehicleList1.sort((a, b) => {
+      return a.vehicle.vehicleType > b.vehicle.vehicleType ? 1 : -1;
+    });
+  }
+
 
 }
