@@ -104,15 +104,15 @@ export class DialogVehicleListComponent implements OnInit, AfterViewInit, OnDest
         });
 
         if (!result.error) {
-          const vehicleListFromDB = this.vehicleList.holder.latestResultRxxHash['vehicleList'].getValue();
+          const vehicleListFromDB = this.vehicleList.vehicleList1;
           vehicleList.forEach(vin => {
             const vehicleIndex = vehicleListFromDB.map(v => v.vin).indexOf(vin);
             const vehicle = vehicleListFromDB[vehicleIndex];
             vehicle.status[surveyType].done = true;
             if (+vehicle.vehicleType === 3 && surveyType !== 'secondSurvey') {
-              vehicle.status['secondSurvey'] = true;
+              vehicle.status['secondSurvey'].done = true;
             }
-
+            // console.log(vehicle);
             // replace vehicle, so the view of vehicleListComponent will update
             vehicleListFromDB[vehicleIndex] = Object.assign({}, vehicle);
             const checkBoxCtrl = this.vehicleList.formSelectedVehicleList.get(['vehicleList', vehicleIndex, 'selected']);
