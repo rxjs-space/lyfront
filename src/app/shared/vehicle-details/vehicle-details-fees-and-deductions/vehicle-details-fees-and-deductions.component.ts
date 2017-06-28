@@ -60,7 +60,6 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
     this.subscriptions.push(sub0_);
 
     const fdCtrlArray = this.vehicle.feesAndDeductions.map(fd => this.fb.group({
-      fooBar: '', // when all the ctrls are disabled, the form.valid is always false
       type: [{value: this.fu.idToName(fd.type, this.btity.types['feesAndDeductionsTypes']), disabled: true}],
       part: [
         {value: this.fu.idToName(fd.part, this.btity.types['parts']), disabled: true},
@@ -73,6 +72,7 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
     this.fdFormArray = this.fb.array(fdCtrlArray);
 
     this.fform = this.fb.group({
+      foo: '', // when all the ctrls are disabled, the form.valid is always false
       feesAndDeductions: this.fdFormArray,
     });
 
@@ -82,8 +82,8 @@ export class VehicleDetailsFeesAndDeductionsComponent implements OnInit, OnDestr
       .map(v => {
         // if (this.fform.valid) {
           const allV = this.fform.getRawValue();
+          delete allV['foo'];
           allV['feesAndDeductions'].forEach(item => {
-            delete item.fooBar;
             item.type = this.fu.nameToId(item.type, this.btity.types['feesAndDeductionsTypes']);
             item.part = this.fu.nameToId(item.part, this.btity.types['parts']);
           });

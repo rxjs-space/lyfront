@@ -139,9 +139,11 @@ export class DialogVehicleListComponent implements OnInit, AfterViewInit, OnDest
     console.log('preparing to print');
     this.elementHash['htmlElement'] = document.querySelector('html');
     this.elementHash['htmlElement'].classList.add('prepare-print-html');
+
     this.elementHash['dialogVehicleListElement'] = document.querySelector('app-dialog-vehicle-list');
     this.elementHash['dialogContainerElement'] = this.elementHash['dialogVehicleListElement'].parentElement;
     this.elementHash['dialogContainerElement'].classList.add('prepare-print-dialog-container');
+    
     this.elementHash['overlayContainerElement'] = document.querySelector('.cdk-overlay-container');
     this.elementHash['overlayContainerElement'].classList.add('prepare-print-overlay-container');
     this.elementHash['dialogContentElement'] = document.querySelector('[md-dialog-content]') || document.querySelector('md-dialog-content');

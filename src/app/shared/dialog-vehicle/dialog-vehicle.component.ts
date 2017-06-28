@@ -79,12 +79,18 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     console.log('preparing to print');
     this.elementHash['htmlElement'] = document.querySelector('html');
     this.elementHash['htmlElement'].classList.add('prepare-print-html');
+
+
     this.elementHash['dialogVehicleElement'] = document.querySelector('app-dialog-vehicle');
     this.elementHash['dialogContainerElement'] = this.elementHash['dialogVehicleElement'].parentElement;
-    this.elementHash['dialogContainerElement'].classList.add('prepare-print-dialog-container')
+    this.elementHash['dialogContainerElement'].classList.add('prepare-print-dialog-container');
+
+    // this.elementHash['dialogContentElement'] = document.querySelector('app-dialog-vehicle .mat-dialog-content');
+    // this.elementHash['dialogContentElement'].classList.add('prepare-print-dialog-content');
+
     this.elementHash['overlayContainerElement'] = document.querySelector('.cdk-overlay-container');
-    this.elementHash['overlayContainerElement'].classList.add('prepare-print-overlay-container')
-    this.elementHash['dialogContentElement'] = document.querySelector('[md-dialog-content]');
+    this.elementHash['overlayContainerElement'].classList.add('prepare-print-overlay-container');
+    this.elementHash['dialogContentElement'] = document.querySelector('app-dialog-vehicle .mat-dialog-content');
     this.elementHash['dialogContentElement'].classList.add('prepare-print-dialog-content');
     this.isInPrintMode = true;
   }
@@ -92,7 +98,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   rollbackPreparePrint() {
     if (this.isInPrintMode) {
       this.elementHash['htmlElement'].classList.remove('prepare-print-html');
-      this.elementHash['dialogContainerElement'].classList.remove('prepare-print-dialog-container')
+      this.elementHash['dialogContainerElement'].classList.remove('prepare-print-dialog-container');
       this.elementHash['overlayContainerElement'].classList.remove('prepare-print-overlay-container');
       this.elementHash['dialogContentElement'].classList.remove('prepare-print-dialog-content');
       this.isInPrintMode = false;
