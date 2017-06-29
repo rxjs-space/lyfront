@@ -79,7 +79,8 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     console.log('preparing to print');
     this.elementHash['htmlElement'] = document.querySelector('html');
     this.elementHash['htmlElement'].classList.add('prepare-print-html');
-
+    this.elementHash['bodyElement'] = document.querySelector('body');
+    this.elementHash['bodyElement'].classList.add('prepare-print-body');
 
     this.elementHash['dialogVehicleElement'] = document.querySelector('app-dialog-vehicle');
     this.elementHash['dialogContainerElement'] = this.elementHash['dialogVehicleElement'].parentElement;
@@ -98,6 +99,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   rollbackPreparePrint() {
     if (this.isInPrintMode) {
       this.elementHash['htmlElement'].classList.remove('prepare-print-html');
+      this.elementHash['bodyElement'].classList.remove('prepare-print-body');
       this.elementHash['dialogContainerElement'].classList.remove('prepare-print-dialog-container');
       this.elementHash['overlayContainerElement'].classList.remove('prepare-print-overlay-container');
       this.elementHash['dialogContentElement'].classList.remove('prepare-print-dialog-content');

@@ -41,8 +41,8 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
         idType: [this.fu.idToName(this.vehicle.owner.idType, this.btity.types['idTypes']), [
           this.sv.notListedBasedOnOtherControlTFButCanBeEmpty('isPerson', [
-            this.btity.types.oIdTypes.map(type => type.name),
-            this.btity.types.pIdTypes.map(type => type.name),
+            this.oTypes.map(type => type.name),
+            this.pTypes.map(type => type.name),
           ])
         ]],
         idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
@@ -54,7 +54,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
       agent: this.fb.group({
         name: [this.vehicle.agent ? this.vehicle.agent.name : ''],
         idType: [this.fu.idToName(this.vehicle.agent.idType, this.btity.types['idTypes']),
-          this.sv.notListedButCanBeEmpty(this.btity.types.pIdTypes.map(type => type.name))],
+          this.sv.notListedButCanBeEmpty(this.pTypes.map(type => type.name))],
         idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
         idNo: [this.vehicle.agent.idNo],
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],

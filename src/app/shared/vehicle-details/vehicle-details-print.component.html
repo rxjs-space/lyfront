@@ -1,0 +1,172 @@
+  <md-grid-list cols="50" rowHeight="1.7em" class="print-vehicle-form">
+    <!-- empty row -->
+    <md-grid-tile class="hidden-when-print" colspan="50"></md-grid-tile>
+    <!-- section 1 -->
+    <md-grid-tile class="hidden-when-print" rowspan="3" colspan="5">机动车信息</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="7">车辆所有人</md-grid-tile>
+    <md-grid-tile colspan="12" class="form-contents">{{vehicle.owner.name}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="6">品牌型号</md-grid-tile>
+    <md-grid-tile colspan="6" class="form-contents">{{vehicle.vehicle.brand + ' ' + vehicle.vehicle.model}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="6">号牌号码</md-grid-tile>
+    <md-grid-tile colspan="6" class="form-contents">{{vehicle.vehicle.plateNo}}</md-grid-tile>
+
+    <md-grid-tile rowspan="3" colspan="2" class="hidden-when-print"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" colspan="7">车辆识别代码</md-grid-tile>
+    <md-grid-tile colspan="12" class="form-contents">{{vehicle.vin}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="6">发动机号</md-grid-tile>
+    <md-grid-tile colspan="6" class="form-contents">{{vehicle.vehicle.engineNo}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="6">车身颜色</md-grid-tile>
+    <md-grid-tile colspan="6" class="form-contents">{{vehicle.vehicle.color}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2">1、</md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.vehicle.aquisitionType == 1"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2">购买</md-grid-tile>
+    <md-grid-tile colspan="8" class="hidden-when-print"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2">2、</md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.vehicle.aquisitionType == 2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="3">其他：</md-grid-tile>
+    <md-grid-tile colspan="22" class="form-contents">{{vehicle.vehicle.aquisitionOtherTypeDetail}}</md-grid-tile>
+
+    <!-- section 2 -->
+    <md-grid-tile class="hidden-when-print" rowspan="3" colspan="5">机动车所有人信息</md-grid-tile>
+    <!-- this checkbox is always checked -->
+    <md-grid-tile colspan="2"><input type="checkbox" checked></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="6">机动车所有人</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="3"></md-grid-tile>
+    <!-- this checkbox is always unchecked -->
+    <md-grid-tile colspan="2"><input type="checkbox"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="7">机动车控制人：</md-grid-tile>
+    <!-- this content is always empty -->
+    <md-grid-tile class="form-contents" colspan="23"></md-grid-tile>
+
+    <md-grid-tile rowspan="3" colspan="2" class="hidden-when-print"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" colspan="6">固定电话：</md-grid-tile>
+    <!-- this content is always empty -->
+    <md-grid-tile class="form-contents" colspan="14"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="4">手机：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="19">{{vehicle.owner.tel}}</md-grid-tile>
+
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'o1'"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="7">组织机构代码证</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1"></md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'p1'"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="3">身份证</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2"></md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'z1'"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5">其他证件：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="3">{{vehicle.owner.idOtherTypeName}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5">证件号码：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="11">{{vehicle.owner.idNo}}</md-grid-tile>
+
+    <!-- section 3 -->
+    <md-grid-tile class="hidden-when-print" rowspan="2" colspan="5">经办人信息</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="3">姓名：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="10">{{vehicle.agent.name}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5">固定电话：</md-grid-tile>
+    <!-- this content is always empty -->
+    <md-grid-tile class="form-contents" colspan="9"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="4">手机：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="12">{{vehicle.agent.tel}}</md-grid-tile>
+
+    <md-grid-tile rowspan="2" colspan="2" class="hidden-when-print"></md-grid-tile>
+
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.agent.idType === 'p1'"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="3">身份证</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2"></md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.agent.idType === 'z1'"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5">其他证件：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="6">{{vehicle.agent.idOtherTypeName}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5">证件号码：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="18">{{vehicle.agent.idNo}}</md-grid-tile>
+
+    <!-- section 4 -->
+    <md-grid-tile class="hidden-when-print" colspan="8">申请人委托</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2">1、</md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="9">拆解、办理注销登记</md-grid-tile>
+    <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2">2、</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="10">拆解、不办理注销登记</md-grid-tile>
+    <md-grid-tile colspan="13" class="hidden-when-print"></md-grid-tile>
+    <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
+
+    <!-- section 5 -->
+    <md-grid-tile class="hidden-when-print" rowspan="8" colspan="3">申请人承诺</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="8" colspan="45"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="8" colspan="2"></md-grid-tile>
+
+    <!-- section 6 -->
+    <md-grid-tile class="hidden-when-print" rowspan="10" colspan="3">申请人需要提供的材料</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="10" colspan="45"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="10" colspan="2"></md-grid-tile>
+
+    <!-- section 7 -->
+    <md-grid-tile class="hidden-when-print" rowspan="2" colspan="5">车辆状况：</md-grid-tile>
+    <md-grid-tile class="form-contents" rowspan="2" colspan="43">{{vehicle.vehicle.conditionOnEntrance}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="2" colspan="2"></md-grid-tile>
+
+    <!-- section 8 -->
+    <md-grid-tile class="hidden-when-print" colspan="5">车辆残值：</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5"></md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="3"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">万</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="3"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">千</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="3"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">佰</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="3"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">拾</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="3"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">元</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="5"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2">￥：</md-grid-tile>
+    <md-grid-tile class="form-contents" colspan="11">{{residualValueAfterFD | number:'.2'}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="2"></md-grid-tile>
+
+    <!-- section 9 -->
+    <md-grid-tile class="hidden-when-print" colspan="7">收车单位（章）</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="10"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="8">查验人员（签字）</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="8"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="8">主管领导（签字）</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="7"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="3" colspan="2"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" colspan="17"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="16"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="15"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" colspan="5"></md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="4">{{vehicle.entranceDate.slice(0, 4)}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">年</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="2">{{vehicle.entranceDate.slice(5, 7)}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">月</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="2">{{vehicle.entranceDate.slice(8, 10)}}</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">日</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" colspan="4"></md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="4"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">年</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">月</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">日</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" colspan="3"></md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="4"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">年</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">月</md-grid-tile>
+    <md-grid-tile class="form-contents-right" colspan="2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1">日</md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="1"></md-grid-tile>
+
+
+
+  </md-grid-list>
+
+<!--{{vehicle | json}}-->
+

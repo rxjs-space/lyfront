@@ -1,0 +1,19 @@
+.print-vehicle-form md-grid-tile.mat-grid-tile {
+  border: black solid 0.5px;
+  /deep/ & > figure.mat-figure {
+    font-size: 0.8em;
+  }
+  /deep/ &.form-contents > figure.mat-figure {
+    margin-left: 0.3em;
+    justify-content: flex-start;
+  }
+  /deep/ &.form-contents-right > figure.mat-figure {
+    margin-right: 0.3em;
+    justify-content: flex-end;
+  }
+
+}
+
+md-grid-list.print-vehicle-form {
+  margin-left: 0.8em;
+}

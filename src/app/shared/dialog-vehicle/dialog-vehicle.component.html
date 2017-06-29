@@ -1,12 +1,11 @@
-<div md-dialog-title>
+<div md-dialog-title *ngIf="!isInPrintMode">
   <span *ngIf="!dataFromTrigger.vin">新建车辆</span>
   <span *ngIf="dataFromTrigger.vin">车辆详情</span>
-  <small>
-    <!--<span>车辆识别代号：{{dataFromTrigger.vin}}；</span>
-    <span>号牌号码：{{dataFromTrigger.vehicle.vehicle.plateNo}}</span>-->
-  </small>
 </div>
 
+<div md-dialog-title *ngIf="isInPrintMode" class="print-title dismantling-application-form-title hidden-when-print">
+  <span>朝阳市老旧汽车报废申请表</span>
+</div>
 
 <md-spinner *ngIf="!((isLoadedWithoutErrorRxx | async) || (isWithErrorRxx | async))"></md-spinner>
 <p *ngIf="isWithErrorRxx | async">Something broke.</p>
@@ -19,6 +18,7 @@
       (saved)="onSaved($event)"
       (isChangedAndValid)="onIsChangedAndValid($event)"
       [checkValidityTriggerRxx]="checkValidityTriggerRxx"
+      [isInPrintMode]="isInPrintMode"
       #vd
     ></app-vehicle-details>
     <!--<form></form>-->
@@ -26,15 +26,17 @@
   </div>
   <div md-dialog-actions class="flex-container not-for-print">
     <button md-button type="button" (click)="preparePrint()" color="primary"
-    *ngIf="!isInPrintMode">准备打印</button>
+      [disabled]="vd.isChangedRxx | async"
+      *ngIf="!isInPrintMode">准备打印</button>
     <button md-raised-button type="button" 
       (click)="rollbackPreparePrint()" color="accent" *ngIf="isInPrintMode"
-      class="cancel-print"
+      class="cancel-print-right"
     >取消打印</button>
-    <button md-button type="button" color="primary" *ngIf="!isInPrintMode"
+    <!--<button md-button type="button" color="primary" *ngIf="!isInPrintMode"
       (click)="checkValidityTriggerRxx.next(true)"
-    >数据验证</button>
+    >数据验证</button>-->
     <span class="space-filler"></span>
+    <md-spinner class="mini-spinner-1" *ngIf="vd.isSavingRxx | async"></md-spinner>
     <button md-raised-button type="button" color="primary" *ngIf="!isInPrintMode"
       [disabled]="!isValidAndChanged || (vd.isSavingRxx | async)"
       (click)="saveRxx.next(true)">保存</button>

@@ -33,7 +33,7 @@
         *ngIf="dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode" 
         [formControl]="formUIStatus.get('canCheckFirstSurvey')"
         [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
-      >已完成二次验车确认</md-checkbox>
+      >已完成二次验车检查</md-checkbox>
       <button type="button" md-button color="primary" 
         *ngIf="!selectAllRxx.getValue() && !isInPrintMode" (click)="selectAllRxx.next(itemsToExclude)"
          [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"

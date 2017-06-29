@@ -11,7 +11,7 @@
 
   <md-list-item>
     <div md-line>
-      <md-grid-list cols="9" rowHeight="3em">
+      <md-grid-list cols="12" rowHeight="3em">
 
         <ng-container>
           <md-grid-tile 
@@ -26,7 +26,7 @@
           </ng-template>
         </ng-container>
 
-        <md-grid-tile class="left-aligned-tile clickable" [colspan]="dataFromTrigger.source === '待验车辆' ? 8 : 5"  (click)="openDialogVehicle(vehicle.vin)">
+        <md-grid-tile class="left-aligned-tile clickable" [colspan]="dataFromTrigger.source === '待验车辆' ? 11 : 8"  (click)="openDialogVehicle(vehicle.vin)">
         <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5">-->
           <div>
             <div>

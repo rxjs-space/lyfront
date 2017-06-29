@@ -30,6 +30,9 @@ then set md-dialog-container's overflow to visible, visibility to visible; and o
   body .not-for-print {
     display: none;
   }
+  body .hidden-when-print {
+    // visibility: hidden;
+  }
 }
 
 // delete margin-left for md-card-header
@@ -89,12 +92,15 @@ html.cdk-global-scrollblock.prepare-print-html, html.prepare-print-html {
   visibility: hidden;
 }
 
+body.prepare-print-body {
+  height: 0;
+}
 
 .cdk-overlay-container.prepare-print-overlay-container {
   position: initial;
 }
 
-md-dialog-container.mat-dialog-container.prepare-print-dialog-container {
+md-dialog-container.mat-dialog-container.prepare-print-dialog-container, .prepare-print-dialog-container {
   overflow: visible;
   visibility: visible;
   left: 0;
@@ -103,12 +109,24 @@ md-dialog-container.mat-dialog-container.prepare-print-dialog-container {
   width: 100%;
   position: absolute;
   height: auto;
+  // center the dialog-container
+  // width: 900px;
+  // left: 50%;
+  // margin-left: -450px;
 }
 
-[md-dialog-content].mat-dialog-content.prepare-print-dialog-content {
+[md-dialog-content].mat-dialog-content.prepare-print-dialog-content, .mat-dialog-content.prepare-print-dialog-content {
+  overflow: visible;
   max-height: none;
+  padding: 0;
 }
 
+.print-title {
+  text-align: center;
+  &.dismantling-application-form-title {
+    font-size: 1.3em;
+  }
+}
 
 // styles for printing dialog contents - end
 
@@ -121,6 +139,7 @@ md-spinner.mini-spinner-1 {
   width: 1em;
   display: inline-block;
   margin-left: 1em;
+  margin-right: 1em;
 }
 
 md-spinner.mini-spinner-1p {

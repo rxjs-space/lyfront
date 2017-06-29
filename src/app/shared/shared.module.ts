@@ -59,6 +59,7 @@ import { DismantlingOrderListComponent } from './dismantling-order-list/dismantl
 import { DialogMarkComponent } from './dismantling-order-list/dialog-mark.component';
 import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confirmation.component';
 import { DialogConfirmationTriggerDirective } from './dialog-confirmation/dialog-confirmation-trigger.directive';
+import { VehicleDetailsPrintComponent } from './vehicle-details/vehicle-details-print.component';
 
 
 const mdModules = [
@@ -124,6 +125,7 @@ const mdModules = [
     DialogMarkComponent,
     DialogConfirmationComponent,
     DialogConfirmationTriggerDirective,
+    VehicleDetailsPrintComponent,
   ],
   exports: [
     CommonModule,

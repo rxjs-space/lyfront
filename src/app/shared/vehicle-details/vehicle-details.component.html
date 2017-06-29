@@ -1,29 +1,35 @@
-<app-vehicle-details-general [btity]="btity" [vehicle]="vehicle" [isNew]="isNew">
-</app-vehicle-details-general>
+<div [hidden]="isInPrintMode" [style.height]="isInPrintMode ? 0 : 'auto'">
 
-<app-vehicle-details-status [btity]="btity" [vehicle]="vehicle">
-</app-vehicle-details-status>
+  <app-vehicle-details-general [btity]="btity" [vehicle]="vehicle" [isNew]="isNew">
+  </app-vehicle-details-general>
 
-<app-vehicle-details-vehicle [btity]="btity" [vehicle]="vehicle" #vdv>
-</app-vehicle-details-vehicle>
+  <app-vehicle-details-status [btity]="btity" [vehicle]="vehicle">
+  </app-vehicle-details-status>
 
-<app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle" #vdoa>
-</app-vehicle-details-owner-agent>
+  <app-vehicle-details-vehicle [btity]="btity" [vehicle]="vehicle" #vdv>
+  </app-vehicle-details-vehicle>
 
-<app-vehicle-details-docs-provided [btity]="btity" [vehicle]="vehicle" [isPersonRxx]="vdoa.isPersonRxx">
-</app-vehicle-details-docs-provided>
+  <app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle" #vdoa>
+  </app-vehicle-details-owner-agent>
 
-<app-vehicle-details-fees-and-deductions [btity]="btity" [vehicle]="vehicle" [vdvFormRxx]="vdv.fformRxx" #vdfd>
-</app-vehicle-details-fees-and-deductions>
+  <app-vehicle-details-docs-provided [btity]="btity" [vehicle]="vehicle" [isPersonRxx]="vdoa.isPersonRxx">
+  </app-vehicle-details-docs-provided>
 
-<app-vehicle-details-notes [btity]="btity" [vehicle]="vehicle">
-</app-vehicle-details-notes>
+  <app-vehicle-details-fees-and-deductions [btity]="btity" [vehicle]="vehicle" [vdvFormRxx]="vdv.fformRxx" #vdfd>
+  </app-vehicle-details-fees-and-deductions>
 
-<app-vehicle-details-costs [btity]="btity" [vehicle]="vehicle" [rvAfterFD]="vdfd.rvAfterFD">
-</app-vehicle-details-costs>
+  <app-vehicle-details-notes [btity]="btity" [vehicle]="vehicle">
+  </app-vehicle-details-notes>
 
-<app-vehicle-details-metadata [vehicle]="vehicle" *ngIf="!isNew">
-</app-vehicle-details-metadata>
+  <app-vehicle-details-costs [btity]="btity" [vehicle]="vehicle" [rvAfterFD]="vdfd.rvAfterFD">
+  </app-vehicle-details-costs>
 
-<!--{{(dGeneral.fform && dGeneral.fform.getRawValue()) | json}}
-{{(dStatus.fform && dStatus.fform.getRawValue()) | json}}-->
+  <app-vehicle-details-metadata [vehicle]="vehicle" *ngIf="!isNew">
+  </app-vehicle-details-metadata>
+  <!--{{newVehicle | json}}-->
+
+</div>
+<div [hidden]="!isInPrintMode" *ngIf="newVehicle && newVehicle.owner">
+  <app-vehicle-details-print [vehicle]="newVehicle"></app-vehicle-details-print>
+</div>
+
