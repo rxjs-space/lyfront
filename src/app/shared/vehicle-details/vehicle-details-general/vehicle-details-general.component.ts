@@ -32,6 +32,9 @@ export class VehicleDetailsGeneralComponent implements OnInit {
       mofcomRegisterType: [this.fu.idToName(this.vehicle.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']), [
         this.sv.notListedButCanBeEmpty(this.btity.types.mofcomRegisterTypes.map(t => t.name))
       ]],
+      consignmentType: [this.fu.idToName(this.vehicle.consignmentType, this.btity.types['consignmentTypes']), [
+        this.sv.notListedButCanBeEmpty(this.btity.types.consignmentTypes.map(t => t.name))
+      ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
       entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10), [Validators.required]],
       facility: [{
@@ -65,6 +68,7 @@ export class VehicleDetailsGeneralComponent implements OnInit {
           const allV = this.fform.getRawValue();
           allV.source = this.fu.nameToId(allV.source, this.btity.types['sources']);
           allV.mofcomRegisterType = this.fu.nameToId(allV.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']);
+          allV.consignmentType = this.fu.nameToId(allV.consignmentType, this.btity.types['consignmentTypes']);
           allV.facility = this.fu.nameToId(allV.facility, this.btity.types['facilities']);
           return allV;
         // }

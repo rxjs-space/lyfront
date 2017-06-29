@@ -101,6 +101,16 @@
         >
         </app-autocomplete-combo>
 
+        <!-- 申请人委托 -->
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.consignmentType"
+          [formControlInput]="fform.get('consignmentType')"
+          [objList]="btity.types.consignmentTypes"
+          [toSort]="false"
+          sizeClass='xl-size-input'
+        >
+        </app-autocomplete-combo>
+
     </md-card-content>
   </md-card>
 

@@ -1,6 +1,7 @@
 export class Vehicle {
   vin = '';
   isToDeregister = true;
+  consignmentType = '';
   batchId = '';
   source = '';
   mofcomRegisterType = '';

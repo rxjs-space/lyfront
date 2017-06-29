@@ -83,7 +83,7 @@
     <!-- section 4 -->
     <md-grid-tile class="hidden-when-print" colspan="8">申请人委托</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">1、</md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox"></md-grid-tile>
+    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.consignmentType == '1'"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="9">拆解、办理注销登记</md-grid-tile>
     <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">2、</md-grid-tile>
