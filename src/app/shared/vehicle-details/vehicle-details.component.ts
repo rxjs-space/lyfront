@@ -59,7 +59,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     'dOwnerAgent', 'dDocsProvided', 'dFND',
     'dNotes', 'dCosts'];
   patches = [];
-  newVehicle = {};
+  newVehicle: {[key: string]: any} = {};
   subscriptions: Subscription[] = [];
   asyncMonitorId_InsertUpdateVehicle = 'insertUpdateVehicle';
   asyncMonitorHolder_InsertUpdateVehicle: any;

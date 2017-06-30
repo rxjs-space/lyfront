@@ -1,0 +1,19 @@
+.vin-search-bar {
+  width: 100%;
+  input {
+    padding: 0 15px;
+  }
+}
+
+div.search-input-container {
+  position: relative;
+
+  md-spinner.is-loading-spinner {
+    position: absolute;
+    top: 3.3em;
+    left: 6em;
+    z-index: 1001;
+  }
+
+}
+

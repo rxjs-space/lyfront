@@ -1,0 +1,15 @@
+<div class="search-input-container">
+  <md-input-container class="vin-search-bar not-for-print">
+    <input mdInput 
+      placeholder="搜索 车牌号 或 车辆识别代码 或 批次号"
+      [mdAutocomplete]="auto" [formControl]="stateCtrl">
+  </md-input-container>
+
+  <md-autocomplete #auto="mdAutocomplete">
+    <md-option *ngFor="let state of listRxx | async" [value]="state">
+      {{ state }}
+    </md-option>
+  </md-autocomplete>
+
+  <md-spinner class="mini-spinner-1p is-loading-spinner" *ngIf="isLoading"></md-spinner>
+</div>

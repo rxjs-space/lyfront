@@ -290,7 +290,13 @@ export class DataService {
       vehicleList
     }, this.setupOptions(true))
       .map(res => res.json())
-      .catch(this.handleError)
+      .catch(this.handleError);
+  }
+
+  vehiclesSearch(key: string) {
+    return this.http.get(this.vehiclesApiUrl1 + `/search?key=${key}`, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
   }
 
   private handleError(error: any) {

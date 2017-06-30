@@ -60,6 +60,7 @@ import { DialogMarkComponent } from './dismantling-order-list/dialog-mark.compon
 import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confirmation.component';
 import { DialogConfirmationTriggerDirective } from './dialog-confirmation/dialog-confirmation-trigger.directive';
 import { VehicleDetailsPrintComponent } from './vehicle-details/vehicle-details-print.component';
+import { VehicleSearchComponent } from './vehicle-search/vehicle-search.component';
 
 
 const mdModules = [
@@ -126,6 +127,7 @@ const mdModules = [
     DialogConfirmationComponent,
     DialogConfirmationTriggerDirective,
     VehicleDetailsPrintComponent,
+    VehicleSearchComponent,
   ],
   exports: [
     CommonModule,
@@ -143,6 +145,7 @@ const mdModules = [
     DialogVehicleTriggerComponent,
     DialogYesOrNoTriggerComponent,
     DialogConfirmationTriggerDirective,
+    VehicleSearchComponent,
   ],
   entryComponents: [
     DialogYesOrNoComponent,
