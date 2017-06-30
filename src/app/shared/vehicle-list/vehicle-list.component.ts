@@ -9,7 +9,7 @@ import { DataService } from '../../data/data.service';
 import { AsyncDataLoaderService, SubHolder } from '../async-data-loader/async-data-loader.service';
 import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
-
+import { FormUtilsService } from '../form-utils/form-utils.service';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -35,6 +35,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
   formSelectedVehicleList: FormGroup;
   formSelectedVehicleListValueChangesRxx = new BehaviorSubject(null);
   constructor(
+    private fu: FormUtilsService,
     private fb: FormBuilder,
     public dialog: MdDialog,
     public asyncDataLoader: AsyncDataLoaderService,
@@ -72,9 +73,11 @@ export class VehicleListComponent implements OnInit, OnDestroy {
         this.vehicleList1 = this.holder.latestResultRxxHash['vehicleList'].getValue();
         this.sortVehicleListByVehicleType();
         this.vehicleList1 = this.vehicleList1.map(vehicle => {
-          const typeId = vehicle.vehicle.vehicleType;
-          const typeName = this.btity1.types.vehicleTypes.find(item => item.id === typeId)['name'];
-          vehicle.vehicle.vehicleType = typeName;
+          vehicle.vehicle.vehicleType = this.fu.idToName(vehicle.vehicle.vehicleType, this.btity1.types.vehicleTypes);
+          vehicle.vehicle.brand = this.fu.idToName(vehicle.vehicle.brand, this.btity1.brands);
+          // const typeId = vehicle.vehicle.vehicleType;
+          // const typeName = this.btity1.types.vehicleTypes.find(item => item.id === typeId)['name'];
+          // vehicle.vehicle.vehicleType = typeName;
           return vehicle;
         });
         if (this.vehicleList1 && this.vehicleList1.length) {

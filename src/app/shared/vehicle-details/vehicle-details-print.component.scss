@@ -7,6 +7,11 @@
     margin-left: 0.3em;
     justify-content: flex-start;
   }
+  /deep/ &.checkbox-label > figure.mat-figure {
+    font-size: 0.7em;
+    margin-left: 0.3em;
+    justify-content: flex-start;
+  }
   /deep/ &.form-contents-right > figure.mat-figure {
     margin-right: 0.3em;
     justify-content: flex-end;
@@ -16,4 +21,12 @@
 
 md-grid-list.print-vehicle-form {
   margin-left: 0.8em;
+}
+
+@media print {
+
+  .print-vehicle-form md-grid-tile.mat-grid-tile {
+    border: none;
+  }
+
 }

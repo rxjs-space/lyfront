@@ -19,23 +19,27 @@
     <md-grid-tile class="hidden-when-print" colspan="6">车身颜色</md-grid-tile>
     <md-grid-tile colspan="6" class="form-contents">{{vehicle.vehicle.color}}</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">1、</md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.vehicle.aquisitionType == 1"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="2">购买</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.vehicle.aquisitionType == 1" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.vehicle.aquisitionType == 1"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="2">购买</md-grid-tile>
     <md-grid-tile colspan="8" class="hidden-when-print"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">2、</md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.vehicle.aquisitionType == 2"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="3">其他：</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.vehicle.aquisitionType == 2" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.vehicle.aquisitionType == 2"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="3">其他：</md-grid-tile>
     <md-grid-tile colspan="22" class="form-contents">{{vehicle.vehicle.aquisitionOtherTypeDetail}}</md-grid-tile>
 
     <!-- section 2 -->
     <md-grid-tile class="hidden-when-print" rowspan="3" colspan="5">机动车所有人信息</md-grid-tile>
     <!-- this checkbox is always checked -->
-    <md-grid-tile colspan="2"><input type="checkbox" checked></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="6">机动车所有人</md-grid-tile>
+    <md-grid-tile colspan="2"><i class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" checked></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="6">机动车所有人</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="3"></md-grid-tile>
     <!-- this checkbox is always unchecked -->
-    <md-grid-tile colspan="2"><input type="checkbox"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="7">机动车控制人：</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="false" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="7">机动车控制人：</md-grid-tile>
     <!-- this content is always empty -->
     <md-grid-tile class="form-contents" colspan="23"></md-grid-tile>
 
@@ -47,14 +51,17 @@
     <md-grid-tile class="hidden-when-print" colspan="4">手机：</md-grid-tile>
     <md-grid-tile class="form-contents" colspan="19">{{vehicle.owner.tel}}</md-grid-tile>
 
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'o1'"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="7">组织机构代码证</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.owner.idType === 'o1'" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'o1'"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="7">组织机构代码证</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="1"></md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'p1'"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="3">身份证</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.owner.idType === 'p1'" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'p1'"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="3">身份证</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2"></md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'z1'"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="5">其他证件：</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.owner.idType === 'z1'" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.owner.idType === 'z1'"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="5">其他证件：</md-grid-tile>
     <md-grid-tile class="form-contents" colspan="3">{{vehicle.owner.idOtherTypeName}}</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="5">证件号码：</md-grid-tile>
     <md-grid-tile class="form-contents" colspan="11">{{vehicle.owner.idNo}}</md-grid-tile>
@@ -71,11 +78,13 @@
 
     <md-grid-tile rowspan="2" colspan="2" class="hidden-when-print"></md-grid-tile>
 
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.agent.idType === 'p1'"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="3">身份证</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.agent.idType === 'p1'" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.agent.idType === 'p1'"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="3">身份证</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2"></md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.agent.idType === 'z1'"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="5">其他证件：</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.agent.idType === 'z1'" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.agent.idType === 'z1'"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="5">其他证件：</md-grid-tile>
     <md-grid-tile class="form-contents" colspan="6">{{vehicle.agent.idOtherTypeName}}</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="5">证件号码：</md-grid-tile>
     <md-grid-tile class="form-contents" colspan="18">{{vehicle.agent.idNo}}</md-grid-tile>
@@ -83,24 +92,128 @@
     <!-- section 4 -->
     <md-grid-tile class="hidden-when-print" colspan="8">申请人委托</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">1、</md-grid-tile>
-    <md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.consignmentType == '1'"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" colspan="9">拆解、办理注销登记</md-grid-tile>
+    <md-grid-tile colspan="2"><i *ngIf="vehicle.consignmentType == '1'" class="material-icons">check</i></md-grid-tile>
+    <!--<md-grid-tile colspan="2"><input type="checkbox" [checked]="vehicle.consignmentType == '1'"></md-grid-tile>-->
+    <md-grid-tile class="hidden-when-print checkbox-label" colspan="9">拆解、办理注销登记</md-grid-tile>
     <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">2、</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="10">拆解、不办理注销登记</md-grid-tile>
     <md-grid-tile colspan="13" class="hidden-when-print"></md-grid-tile>
     <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
+  </md-grid-list>
+  <md-grid-list cols="50" rowHeight="1.51em" class="print-vehicle-form">
 
     <!-- section 5 -->
-    <md-grid-tile class="hidden-when-print" rowspan="8" colspan="3">申请人承诺</md-grid-tile>
-    <md-grid-tile class="hidden-when-print" rowspan="8" colspan="45"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" rowspan="8" colspan="2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="9" colspan="3">申请人承诺</md-grid-tile>
+    <!-- line 1 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="9" colspan="2"></md-grid-tile>
 
+    <!-- line 2 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 3 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 4 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 5 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 6 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 7 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 8 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+    <!-- line 9 -->
+    <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
+
+  </md-grid-list>
+  <md-grid-list cols="50" rowHeight="1.41em" class="print-vehicle-form">
     <!-- section 6 -->
-    <md-grid-tile class="hidden-when-print" rowspan="10" colspan="3">申请人需要提供的材料</md-grid-tile>
-    <md-grid-tile class="hidden-when-print" rowspan="10" colspan="45"></md-grid-tile>
-    <md-grid-tile class="hidden-when-print" rowspan="10" colspan="2"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" rowspan="12" colspan="3">申请人需要提供的材料</md-grid-tile>
 
+    <!-- line 1 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">1、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.vRegistrationCert" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="14" class="hidden-when-print checkbox-label">机动车登记证书； 机动车行驶证：</md-grid-tile>
+    <!--<md-grid-tile colspan="6" class="hidden-when-print"></md-grid-tile>-->
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.vLicenseA" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="3" class="hidden-when-print checkbox-label">正本、</md-grid-tile>
+    <md-grid-tile colspan="1" class="hidden-when-print"></md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.vLicenseB" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="3" class="hidden-when-print checkbox-label">副本；</md-grid-tile>
+    <md-grid-tile colspan="3" class="hidden-when-print">号牌：</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.plateCount === 2" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="3" class="hidden-when-print checkbox-label">双牌/</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.plateCount === 1" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="3" class="hidden-when-print checkbox-label">单牌；</md-grid-tile>
+    <md-grid-tile colspan="8" class="hidden-when-print"></md-grid-tile>
+
+    <md-grid-tile class="hidden-when-print" rowspan="12" colspan="2"></md-grid-tile>
+
+    <!-- line 2 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">2、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.ownerOIdCopy" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="22" class="hidden-when-print checkbox-label">机动车所有人（单位）的《组织机构代码证》复印件/</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.ownerPIdCopy" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="17" class="hidden-when-print checkbox-label">机动车所有人（个人）的身份证复印件；</md-grid-tile>
+    <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
+
+    <!-- line 3 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">3、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.agentIdCopy" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="21" class="hidden-when-print checkbox-label">机动车所有人（单位）提供代理人身份证复印件；</md-grid-tile>    
+    <md-grid-tile colspan="21" class="hidden-when-print"></md-grid-tile>    
+    <!-- line 4 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">4、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.registrationTransferDeregistrationApplication" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="18" class="hidden-when-print checkbox-label">机动车注册、转移、注销登记/转入申请表；</md-grid-tile>    
+    <md-grid-tile colspan="24" class="hidden-when-print"></md-grid-tile>
+    <!-- line 5 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">5、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.surveyRecords" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="9" class="hidden-when-print checkbox-label">机动车查验记录表；</md-grid-tile>    
+    <md-grid-tile colspan="33" class="hidden-when-print"></md-grid-tile>
+    <!-- line 6 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">6、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.powerOfAttorney" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="13" class="hidden-when-print checkbox-label">委托书（委托办理注销登记）；</md-grid-tile>    
+    <md-grid-tile colspan="29" class="hidden-when-print"></md-grid-tile>
+    <!-- line 7 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">7、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.orgDeregistrationFormCopy" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="19" class="hidden-when-print checkbox-label">工商核准注销通知书复印件（单位已注销）；</md-grid-tile>    
+    <md-grid-tile colspan="23" class="hidden-when-print"></md-grid-tile>
+    <!-- line 8 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">8、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.orgRenamingDoc" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="11" class="hidden-when-print checkbox-label">更名文件（单位已更名）；</md-grid-tile>    
+    <md-grid-tile colspan="31" class="hidden-when-print"></md-grid-tile>
+    <!-- line 9 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">9、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.statementOfLossOnNewspaper" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="24" class="hidden-when-print checkbox-label">登报声明（行驶证、登记证书、车牌丢失需要登报声明）；</md-grid-tile>    
+    <md-grid-tile colspan="18" class="hidden-when-print"></md-grid-tile>
+    <!-- line 10 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">10、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.agentIdCopy" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="34" class="hidden-when-print checkbox-label">车辆所有人（个人）本人不能办理，提供授权委托书和代理人身份证复印件；</md-grid-tile>    
+    <md-grid-tile colspan="8" class="hidden-when-print"></md-grid-tile>
+    <!-- line 11 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">11、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.ownershipCert" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="7" class="hidden-when-print checkbox-label">车辆权属证明；</md-grid-tile>    
+    <md-grid-tile colspan="1" class="hidden-when-print"></md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.affiliationAgreement" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="6" class="hidden-when-print checkbox-label">车辆挂靠协议；</md-grid-tile>    
+    <md-grid-tile colspan="27" class="hidden-when-print"></md-grid-tile>    
+    <!-- line 12 -->
+    <md-grid-tile colspan="2" class="hidden-when-print">12、</md-grid-tile>
+    <md-grid-tile colspan="1"><i *ngIf="vehicle.docsProvided.others" class="material-icons">check</i></md-grid-tile>
+    <md-grid-tile colspan="3" class="hidden-when-print checkbox-label">其他：</md-grid-tile>    
+    <md-grid-tile colspan="39" class="form-contents">{{vehicle.docsProvided.others}}</md-grid-tile>
+
+  </md-grid-list>
+  <md-grid-list cols="50" rowHeight="1.7em" class="print-vehicle-form">
     <!-- section 7 -->
     <md-grid-tile class="hidden-when-print" rowspan="2" colspan="5">车辆状况：</md-grid-tile>
     <md-grid-tile class="form-contents" rowspan="2" colspan="43">{{vehicle.vehicle.conditionOnEntrance}}</md-grid-tile>
