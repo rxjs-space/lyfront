@@ -33,6 +33,7 @@ export class VehicleDetailsGeneralComponent implements OnInit {
         this.sv.notListedButCanBeEmpty(this.btity.types.mofcomRegisterTypes.map(t => t.name))
       ]],
       consignmentType: [this.fu.idToName(this.vehicle.consignmentType, this.btity.types['consignmentTypes']), [
+        Validators.required,
         this.sv.notListedButCanBeEmpty(this.btity.types.consignmentTypes.map(t => t.name))
       ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],

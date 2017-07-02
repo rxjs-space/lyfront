@@ -10,6 +10,11 @@ import { DataService } from '../../data/data.service';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
+import { MdDialog } from '@angular/material';
+
+import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
+import { DialogVehicleListComponent } from '../dialog-vehicle-list/dialog-vehicle-list.component';
+
 
 @Component({
   selector: 'app-vehicle-search',
@@ -18,17 +23,19 @@ import 'rxjs/add/operator/map';
 })
 export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   stateCtrl: FormControl;
-  filteredStates: any;
   sub: Subscription;
   listRxx = new BehaviorSubject(null);
   isLoading = false;
   @ViewChild(MdAutocompleteTrigger) trigger: MdAutocompleteTrigger;
 
-  constructor(private data: DataService) {}
+  constructor(
+    private data: DataService,
+    private dialog: MdDialog
+  ) {}
 
   ngOnInit() {
     this.stateCtrl = new FormControl();
-    this.filteredStates = this.stateCtrl.valueChanges
+    this.sub = this.stateCtrl.valueChanges
         .debounceTime(500)
         .filter(key => key)
         .distinctUntilChanged()
@@ -73,8 +80,21 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
         // console.log(list);
         return this.trigger.optionSelections;
       })
-      .subscribe(() => {
-        this.stateCtrl.reset();
+      .subscribe(option => {
+        const selectedValue = option.source.value;
+        switch (true) {
+          case selectedValue.indexOf('架牌号：') === 0:
+            const slashPosition = selectedValue.indexOf(' /');
+            const vin = selectedValue.slice(4, slashPosition);
+            this.openDialogByVIN(vin);
+            this.stateCtrl.reset();
+            break;
+          case selectedValue.indexOf('批次号：') === 0:
+            const batchId = selectedValue.slice(4);
+            this.queryVehiclesByBatchId(batchId);
+            this.stateCtrl.reset();
+            break;
+        }
       });
 
   }
@@ -82,6 +102,39 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  openDialogByVIN(vin: string) {
+    this.dialog.open(DialogVehicleComponent, {
+      width: '80%',
+      data: {
+        vin
+      }
+    });
+  }
+
+  queryVehiclesByBatchId(batchId) {
+    const searchQuery = {batchId}
+    const dialogRef = this.dialog.open(DialogVehicleListComponent, {
+      width: '80%',
+      // disableClose: true,
+      data: {
+        searchQuery,
+        source: '车辆查询',
+        // types: this.zipData.types,
+        // titles: this.zipData.titles,
+        // vin: vehicleBrief.vin,
+        // vehicleType: vehicleBrief.vehicle.vehicleType,
+        // canCreateNew: !vehicleBrief.dismantling && !vehicleBrief.status.dismantled.done
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(v => {
+      // if (v) {this.needUpdate.emit(true); }
+      // this.needUpdate.emit(v);
+    });
+
+
+  }  
 
 
 }
