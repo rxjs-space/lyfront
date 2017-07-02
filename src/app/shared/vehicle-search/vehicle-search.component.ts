@@ -37,10 +37,11 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
     this.stateCtrl = new FormControl();
     this.sub = this.stateCtrl.valueChanges
         .debounceTime(500)
-        .filter(key => key)
-        .distinctUntilChanged()
+        .filter(key => key && key.length)
+        // .distinctUntilChanged()
         .do(() => this.listRxx.next(['搜索中...']))
         .switchMap(key => {
+          // console.log(key);
           this.isLoading = true;
           return this.data.vehiclesSearch(key);
         })
@@ -81,20 +82,21 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
         return this.trigger.optionSelections;
       })
       .subscribe(option => {
+        // console.log(option);
         const selectedValue = option.source.value;
         switch (true) {
-          case selectedValue.indexOf('架牌号：') === 0:
+          case selectedValue.indexOf('架牌号：') === 0 && option.isUserInput:
             const slashPosition = selectedValue.indexOf(' /');
             const vin = selectedValue.slice(4, slashPosition);
             this.openDialogByVIN(vin);
-            this.stateCtrl.reset();
             break;
-          case selectedValue.indexOf('批次号：') === 0:
+          case selectedValue.indexOf('批次号：') === 0 && option.isUserInput:
             const batchId = selectedValue.slice(4);
             this.queryVehiclesByBatchId(batchId);
-            this.stateCtrl.reset();
             break;
         }
+        this.listRxx.next(null);
+        this.stateCtrl.reset();
       });
 
   }
