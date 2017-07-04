@@ -10,7 +10,7 @@ import { DataService } from '../../data/data.service';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
-import { MdDialog } from '@angular/material';
+import { MdDialog, /*MdSnackBar, MdSnackBarRef*/ } from '@angular/material';
 
 import { DialogVehicleComponent } from '../dialog-vehicle/dialog-vehicle.component';
 import { DialogVehicleListComponent } from '../dialog-vehicle-list/dialog-vehicle-list.component';
@@ -27,8 +27,9 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
   listRxx = new BehaviorSubject(null);
   isLoading = false;
   @ViewChild(MdAutocompleteTrigger) trigger: MdAutocompleteTrigger;
-
+  // snackBarSearching: MdSnackBarRef<any>;
   constructor(
+    // private snackBar: MdSnackBar,
     private data: DataService,
     private dialog: MdDialog
   ) {}
@@ -39,10 +40,11 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
         .debounceTime(500)
         .filter(key => key && key.length)
         // .distinctUntilChanged()
-        .do(() => this.listRxx.next(['搜索中...']))
+        .do(() => this.listRxx.next(null))
         .switchMap(key => {
           // console.log(key);
           this.isLoading = true;
+          // this.openSnackBarSearching(key.length)
           return this.data.vehiclesSearch(key);
         })
         .catch(error => Observable.of({
@@ -50,6 +52,7 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
         }))
         .subscribe(result => {
           this.isLoading = false;
+          // this.closeSnackBarSearching();
           if (result.error) {
             console.error(result.error);
           } else {
@@ -115,7 +118,7 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   queryVehiclesByBatchId(batchId) {
-    const searchQuery = {batchId}
+    const searchQuery = {batchId};
     const dialogRef = this.dialog.open(DialogVehicleListComponent, {
       width: '80%',
       // disableClose: true,
@@ -136,7 +139,16 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
     });
 
 
-  }  
+  }
 
+  // openSnackBarSearching(stringLength) {
+  //   this.snackBarSearching = this.snackBar.open('搜索中...');
+  // }
+
+  // closeSnackBarSearching() {
+  //   if (this.snackBarSearching) {
+  //     this.snackBarSearching.dismiss();
+  //   }
+  // }
 
 }
