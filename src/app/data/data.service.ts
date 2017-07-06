@@ -246,6 +246,16 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
+  getDismantlingOrderById(id) {
+    return this.http.get(this.dismantlingOrderApiUrl1 + `/one?dismantlingOrderId=${id}`, this.setupOptions(true))
+      .map(res => {
+        const resJSON = res.json();
+        const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
+        if (hasMongoError) {throw resJSON; }
+        return res.json();
+      })
+      .catch(error => this.handleError(error));
+  }
 
   insertDismantlingOrder(dismantlingOrderAndPatches: any) {
     return this.http.post(this.dismantlingOrderApiUrl1, dismantlingOrderAndPatches, this.setupOptions(true))

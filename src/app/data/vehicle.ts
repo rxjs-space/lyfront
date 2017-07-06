@@ -48,6 +48,7 @@ export class Vehicle {
     residualValueBeforeFD: 0,
     engineNo: '',
     registrationDate: '',
+    curbWeightKG: 0,
     totalMassKG: 0,
     lengthOverallMM: 0,
     color: '',

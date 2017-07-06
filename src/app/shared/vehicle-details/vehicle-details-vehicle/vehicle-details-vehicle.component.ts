@@ -51,6 +51,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],
         engineNo: [this.vehicle.vehicle.engineNo],
         registrationDate: [this.vehicle.vehicle.registrationDate],
+        curbWeightKG: [this.vehicle.vehicle.curbWeightKG, Validators.pattern(/^[0-9]+$/)],
         totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
         lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
         color: [this.vehicle.vehicle.color],

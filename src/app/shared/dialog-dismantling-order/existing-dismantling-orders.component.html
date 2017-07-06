@@ -2,19 +2,20 @@
   <md-card-header>
     <md-card-title>
       <span>现有拆解计划</span>
-      <md-spinner class="mini-spinner" 
-        *ngIf="!(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async)"></md-spinner>
-      <!--<md-spinner class="mini-spinner" *ngIf="!(dataLoadedRxx | async)"></md-spinner>-->
+
+
+      <!--<md-spinner class="mini-spinner" 
+        *ngIf="!(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async)"></md-spinner>-->
     </md-card-title>
   </md-card-header>
   <md-card-content class="small-content" md-dialog-content>
-    <div 
+    <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
+    <md-spinner class="mini-spinner" *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
+    <!--<div 
       *ngIf="(asyncDataLoader.hasErrorRxxFac(asyncDataLoaderSource, dataItemList) | async)">
       Something went wrong: {{ (dataLoadedRxx | async).error }}
-    </div>
-    <ng-container 
-      *ngIf="(asyncDataLoader.isLoadedRxxFac(asyncDataLoaderSource, dataItemList) | async)"
-    >
+    </div>-->
+    <ng-container *ngIf="(holder.isLoadedWithoutErrorRxx | async)">
       <div *ngIf="dismantlingOrders && dismantlingOrders.length === 0">暂无</div>
 
       <md-grid-list *ngIf="dismantlingOrders && dismantlingOrders.length > 0" cols="7" rowHeight="2.5em">

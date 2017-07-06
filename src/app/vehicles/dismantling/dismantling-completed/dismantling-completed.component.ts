@@ -79,8 +79,10 @@ export class DismantlingCompletedComponent implements OnInit {
     }, {'非摩托车': [], '摩托车': [], 'max': 10});
 
     this.data.reduce((acc, curr) => {
+      // console.log(curr);
       const key = curr['vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
       const itemToReplace = acc[key].find(item => item.completedDate === curr.completedDate);
+      // console.log(itemToReplace);
       let totalToAdd = 0;
       switch (filterValue.isAdHoc) {
         case 2:

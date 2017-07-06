@@ -14,7 +14,7 @@
       </md-input-container>
       创建于
       <md-input-container class="xxl-size-input">
-        <input mdInput [value]="createdAt" disabled>
+        <input mdInput [value]="createdAt | date:'medium'" disabled>
       </md-input-container>
       。
     </div>
@@ -25,7 +25,7 @@
       </md-input-container>
       于
       <md-input-container class="xxl-size-input">
-        <input mdInput [value]="modifiedAt" disabled>
+        <input mdInput [value]="modifiedAt | date:'medium'" disabled>
       </md-input-container>
       修改过。
 

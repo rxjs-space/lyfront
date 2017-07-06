@@ -7,7 +7,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/first';
 import { MdDialog } from '@angular/material';
 
-import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
+import { AsyncDataLoaderService, SubHolder } from '../async-data-loader/async-data-loader.service';
 
 import { DataService } from '../../data/data.service';
 import { DialogDismantlingOrderPrintComponent } from '../dialog-dismantling-order-print/dialog-dismantling-order-print.component';
@@ -30,7 +30,11 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
   dataItemList = ['vehicle', 'dismantlingOrders'];
   @Input() createdNewRxx: BehaviorSubject<any>;
   subscriptions: Subscription[] = [];
-  
+
+  itemRxHash: any;
+  holder: SubHolder;
+
+
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
     public dialog: MdDialog,
@@ -38,18 +42,32 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
     private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.itemRxHash = {
+      dismantlingOrders: this.data.getDismantlingOrders({vin: this.vin}),
+      vehicle: this.data.getVehicleByVIN(this.vin)
+    };
 
-    this.refreshDismantlingOrders(this.vin);
-    this.refreshVehicle(this.vin);
+    this.holder = this.asyncDataLoader.init(this.asyncDataLoaderSource, this.itemRxHash);
+    this.holder.refreshAll();
+
+    const sub9_ = this.holder.latestResultRxxHash['dismantlingOrders']
+      .subscribe(d => this.dismantlingOrders = d);
+    
+    const sub8_ = this.holder.latestResultRxxHash['vehicle']
+      .subscribe(v => this.vehicle = v);
+
+    // this.refreshDismantlingOrders(this.vin);
+    // this.refreshVehicle(this.vin);
     this.rebuildForm();
     const sub0_ = this.createdNewRxx.subscribe(newOne => {
       if (newOne) {
-        this.refreshDismantlingOrders(this.vin);
-        this.refreshVehicle(this.vin);
+        this.holder.refreshAll();
+        // this.refreshDismantlingOrders(this.vin);
+        // this.refreshVehicle(this.vin);
         this.rebuildForm();
       }
     });
-    this.subscriptions.push(sub0_);
+    this.subscriptions.push(sub0_, sub9_, sub8_);
 
   }
 
@@ -75,8 +93,7 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
       }
     */
 
-
-    this.asyncDataLoader.isLoadedRxxFac(this.asyncDataLoaderSource, this.dataItemList)
+    this.holder.isLoadedWithoutErrorRxx
       .filter(v => v)
       .first()
       .subscribe(() => {
@@ -88,7 +105,20 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
           }))
         });
         this.dismantlingOrdersForm.disable();
-      })
+      });
+    // this.asyncDataLoader.isLoadedRxxFac(this.asyncDataLoaderSource, this.dataItemList)
+    //   .filter(v => v)
+    //   .first()
+    //   .subscribe(() => {
+    //     this.dismantlingOrdersForm = this.fb.group({
+    //       dismantlingOrders: this.fb.array(this.dismantlingOrders.map(dOrder => {
+    //         return this.fb.group({
+    //           orderDate: dOrder.orderDate
+    //         });
+    //       }))
+    //     });
+    //     this.dismantlingOrdersForm.disable();
+    //   })
   }
 
 
@@ -136,7 +166,8 @@ export class ExistingDismantlingOrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.asyncDataLoader.destroy(this.asyncDataLoaderSource);
+    this.holder.destroy();
+    // this.asyncDataLoader.destroy(this.asyncDataLoaderSource);
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
