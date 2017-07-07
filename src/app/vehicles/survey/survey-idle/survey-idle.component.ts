@@ -26,7 +26,7 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
     {
       title: 'surveyStatus',
       placeholder: '验车状态',
-      initValue: 2,
+      initValue: 3,
       options: [
         {value: 1, viewValue: '全部',
           sumPredicate: curr => {return true; }},

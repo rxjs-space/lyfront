@@ -63,6 +63,7 @@ import { VehicleDetailsPrintComponent } from './vehicle-details/vehicle-details-
 import { VehicleSearchComponent } from './vehicle-search/vehicle-search.component';
 import { DialogDismantlingOrderPrintTriggerComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print-trigger.component';
 import { DialogDismantlingOrderPrintDetailsComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print-details.component';
+import { LoadingOrError3Component } from './loading-or-error-3/loading-or-error-3.component';
 
 
 const mdModules = [
@@ -133,6 +134,7 @@ const mdModules = [
     VehicleSearchComponent,
     DialogDismantlingOrderPrintTriggerComponent,
     DialogDismantlingOrderPrintDetailsComponent,
+    LoadingOrError3Component,
   ],
   exports: [
     CommonModule,
@@ -151,7 +153,8 @@ const mdModules = [
     DialogYesOrNoTriggerComponent,
     DialogConfirmationTriggerDirective,
     VehicleSearchComponent,
-    DialogDismantlingOrderPrintComponent
+    DialogDismantlingOrderPrintComponent,
+    LoadingOrError3Component
   ],
   entryComponents: [
     DialogYesOrNoComponent,
