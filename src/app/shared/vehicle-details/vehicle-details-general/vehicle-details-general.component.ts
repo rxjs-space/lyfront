@@ -48,6 +48,7 @@ export class VehicleDetailsGeneralComponent implements OnInit {
         deletedBy: [this.vehicle.metadata.deletedBy],
         deletedAt: [this.vehicle.metadata.deletedAt],
       }),
+      internalSurveyor: [this.vehicle.internalSurveyor]
     });
 
     /* setting up vinConfirm based on isNew*/

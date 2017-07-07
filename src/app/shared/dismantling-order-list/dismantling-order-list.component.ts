@@ -66,7 +66,7 @@ export class DismantlingOrderListComponent implements OnInit, OnDestroy {
     this.dialog.open(DialogVehicleComponent, {
       width: '80%',
       // panelClass: '',
-      // disableClose: true,
+      disableClose: true,
       data: {
         types: this.holder.latestResultRxxHash['btity'].getValue()['types'],
         titles: this.holder.latestResultRxxHash['btity'].getValue()['titles'],

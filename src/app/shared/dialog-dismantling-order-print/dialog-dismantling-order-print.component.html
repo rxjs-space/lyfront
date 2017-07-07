@@ -1,11 +1,12 @@
-<div md-dialog-title>辽宁隆运环保科技股份有限公司 - 拆解计划表</div>
-<div md-dialog-content>
-  <md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
-  <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
-  <div *ngIf="holder.isLoadedWithoutErrorRxx | async">
-    <app-dialog-dismantling-order-print-details
-      [vehicle]="this.holder.latestResultRxxHash['vehicle'].getValue()"
-    >
-    </app-dialog-dismantling-order-print-details>
-  </div>
-</div>
+<button md-raised-button type="button" color="accent" class="close-button" (click)="dialogRef.close()">
+  取消打印
+</button>
+
+<md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
+<p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
+<app-dialog-dismantling-order-print-details *ngIf="holder.isLoadedWithoutErrorRxx | async"
+  [vehicle]="this.holder.latestResultRxxHash['vehicle'].getValue()"
+  [btity]="this.holder.latestResultRxxHash['btity'].getValue()"
+  [dismantlingOrder]="dataFromTrigger.dismantlingOrder"
+>
+</app-dialog-dismantling-order-print-details>

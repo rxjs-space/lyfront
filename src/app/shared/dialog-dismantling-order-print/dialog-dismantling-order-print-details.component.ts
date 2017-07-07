@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DialogDismantlingOrderPrintDetailsComponent implements OnInit {
   @Input() vehicle: any;
+  @Input() btity: any;
+  @Input() dismantlingOrder: any;
   constructor() { }
 
   ngOnInit() {

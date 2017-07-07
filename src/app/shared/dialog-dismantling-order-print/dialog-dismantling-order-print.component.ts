@@ -13,6 +13,7 @@ export class DialogDismantlingOrderPrintComponent implements OnInit, OnDestroy {
   itemRxHash = {
     btity: this.data.btityRxx,
     vehicle: this.data.getVehicleByVIN(this.dataFromTrigger.dismantlingOrder.vin),
+    // vehicle: this.data.getVehicleByVIN('pp')
   };
   holder: SubHolder;
   elementHash: {[key: string]: any} = {};
@@ -57,8 +58,8 @@ export class DialogDismantlingOrderPrintComponent implements OnInit, OnDestroy {
 
     this.elementHash['overlayContainerElement'] = document.querySelector('.cdk-overlay-container');
     this.elementHash['overlayContainerElement'].classList.add('prepare-print-overlay-container');
-    this.elementHash['dialogContentElement'] = document.querySelector('app-dialog-dismantling-order-print .mat-dialog-content');
-    this.elementHash['dialogContentElement'].classList.add('prepare-print-dialog-content');
+    // this.elementHash['dialogContentElement'] = document.querySelector('app-dialog-dismantling-order-print [md-dialog-content]');
+    // this.elementHash['dialogContentElement'].classList.add('prepare-print-dialog-content');
   }
 
   rollbackPreparePrint() {
@@ -66,7 +67,7 @@ export class DialogDismantlingOrderPrintComponent implements OnInit, OnDestroy {
     this.elementHash['bodyElement'].classList.remove('prepare-print-body');
     this.elementHash['dialogContainerElement'].classList.remove('prepare-print-dialog-container');
     this.elementHash['overlayContainerElement'].classList.remove('prepare-print-overlay-container');
-    this.elementHash['dialogContentElement'].classList.remove('prepare-print-dialog-content');
+    // this.elementHash['dialogContentElement'].classList.remove('prepare-print-dialog-content');
   }
 
 

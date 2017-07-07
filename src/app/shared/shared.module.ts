@@ -151,6 +151,7 @@ const mdModules = [
     DialogYesOrNoTriggerComponent,
     DialogConfirmationTriggerDirective,
     VehicleSearchComponent,
+    DialogDismantlingOrderPrintComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,

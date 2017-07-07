@@ -1,5 +1,6 @@
 .print-vehicle-form md-grid-tile.mat-grid-tile {
   border: black solid 0.5px;
+  // box-sizing: border-box;
   /deep/ & > figure.mat-figure {
     font-size: 0.8em;
   }

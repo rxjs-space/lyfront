@@ -7,6 +7,7 @@ export class Vehicle {
   mofcomRegisterRef = '';
   entranceDate = '';
   facility = '';
+  internalSurveyor = '';
   dismantling = false;
   auctioning = false;
   remarks = [];

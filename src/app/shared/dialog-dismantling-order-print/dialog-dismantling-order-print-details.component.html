@@ -1,1 +1,112 @@
-{{vehicle}}
+  <div md-dialog-title>
+    <span>辽宁隆运环保科技股份有限公司 - 拆解计划表 - </span>
+    <span><small>{{btity.titles.vehicles.vinShort}}：{{vehicle.vin}}</small></span>
+    <span> - </span>
+    <span><small>{{btity.titles.vehicles.vehicle.plateNo}}：{{vehicle.vehicle.plateNo}}</small></span>
+  </div>
+  <div md-dialog-content class="prepare-print-dialog-content">
+    <md-grid-list cols="24" rowHeight="1.5em" class="print-dismantling-order-form">
+
+      <!-- line 1 -->
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.entranceDate}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="3">{{vehicle.entranceDate | date}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.facility}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2">{{vehicle.facility}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.dismantlingOrders.orderDate.slice(0,4)}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="3">{{dismantlingOrder.orderDate | date}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.dismantlingOrders.startedAt.slice(0,4)}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="3">{{dismantlingOrder.startedAt | date}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.dismantlingOrders.completedAt.slice(0,4)}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="3">{{dismantlingOrder.completedAt | date}}</md-grid-tile>
+
+      <!-- line 2 -->
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.owner.nameShort}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="6">{{vehicle.owner.name}}</md-grid-tile>      
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.vehicle.color}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2">{{vehicle.vehicle.color}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.vehicle.brand}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2">{{vehicle.vehicle.brand}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.vehicle.model}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2">{{vehicle.vehicle.model}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">金额</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <!-- line 3 -->
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.vehicle.conditionOnEntrance}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="14">{{vehicle.vehicle.conditionOnEntrance}}</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">氟利昂剩余</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">{{btity.titles.vehicles.internalSurveyor}}</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2">{{vehicle.internalSurveyor}}</md-grid-tile>
+
+      <!-- line 5 -->
+      <md-grid-tile class="hhidden-when-print" colspan="2">拆解人</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="4">拆解计划参加人员</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+      <md-grid-tile class="hhidden-when-print" colspan="2">入库签字</md-grid-tile>
+      <md-grid-tile class="form-contents" colspan="2"></md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list cols="24" rowHeight="0.2em">
+      <md-grid-tile class="hhidden-when-print" colspan="24"></md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list cols="24" rowHeight="1.5em" class="print-dismantling-order-form">
+      <!-- header -->
+      <md-grid-tile class="hhidden-when-print form-header" colspan="3">名称</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">编号</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">计划</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">实际</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="3">名称</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">编号</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">计划</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">实际</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="3">名称</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">编号</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">计划</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">实际</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="3">名称</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">编号</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">计划</md-grid-tile>
+      <md-grid-tile class="hhidden-when-print form-header" colspan="1">实际</md-grid-tile>
+
+    </md-grid-list>
+
+    <md-grid-list cols="24" rowHeight="0.2em">
+      <md-grid-tile class="hhidden-when-print" colspan="24"></md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list cols="24" rowHeight="1.5em" class="print-dismantling-order-form">
+      <!-- parts -->
+      <ng-container *ngFor="let part of btity.types.parts">
+        <md-grid-tile class="hhidden-when-print" colspan="3">{{part.name}}</md-grid-tile>
+        <md-grid-tile class="hhidden-when-print" colspan="1">{{part.id}}</md-grid-tile>
+        <md-grid-tile class="form-contents" colspan="1"></md-grid-tile>
+        <md-grid-tile class="form-contents" colspan="1"></md-grid-tile>
+      </ng-container>
+
+    </md-grid-list>
+
+    <md-grid-list cols="24" rowHeight="0.2em">
+      <md-grid-tile class="hhidden-when-print" colspan="24"></md-grid-tile>
+    </md-grid-list>
+
+    <md-grid-list cols="24" rowHeight="1.5em" class="print-dismantling-order-form">
+      <!-- wastes -->
+      <ng-container *ngFor="let waste of btity.types.wastes">
+        <md-grid-tile class="hhidden-when-print" colspan="3">{{waste.name}}</md-grid-tile>
+        <md-grid-tile class="hhidden-when-print" colspan="1">{{waste.id}}</md-grid-tile>
+        <md-grid-tile class="form-contents" colspan="1"></md-grid-tile>
+        <md-grid-tile class="form-contents" colspan="1"></md-grid-tile>
+      </ng-container>
+
+    </md-grid-list>
+
+
+
+  </div>

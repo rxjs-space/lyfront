@@ -57,10 +57,15 @@
             {{dismantlingOrder.completedAt | date}}
           </md-grid-tile>
           <md-grid-tile colspan="2">
-            <button style="font-size: 1em" type="button" md-button color="primary">详情</button>
+              <app-dialog-dismantling-order-print-trigger
+                [buttonTitle]="'打印计划表'" [dismantlingOrder]="dismantlingOrder"
+              >
+              </app-dialog-dismantling-order-print-trigger>
+
+            <!--<button style="font-size: 1em" type="button" md-button color="primary">详情</button>
             <button style="font-size: 1em" type="button" md-button color="accent"
               (click)="openDialogPrint()"
-            >打印</button>
+            >打印</button>-->
           </md-grid-tile>
         </ng-container>
           <!--<i class="material-icons" md-list-icon >drive_eta</i>-->

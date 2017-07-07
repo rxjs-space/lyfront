@@ -85,10 +85,8 @@
         </app-autocomplete-combo>
 
         <md-input-container class="xl-size-input" *ngIf="fform.get('source').value === '交警'">
-          <small>
             <input mdInput [placeholder]="btity.titles.vehicles.batchId" 
               [formControl]="fform.get('batchId')">
-          </small>
         </md-input-container>
 
         <!-- 商务部登记类别 -->
@@ -110,6 +108,11 @@
           sizeClass='xl-size-input'
         >
         </app-autocomplete-combo>
+
+        <md-input-container class="m-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.internalSurveyor" 
+              [formControl]="fform.get('internalSurveyor')">
+        </md-input-container>
 
     </md-card-content>
   </md-card>

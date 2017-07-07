@@ -4,9 +4,11 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { NotFoundComponent } from '../../shared/not-found/not-found.component';
 
 import { DismantlingHomeComponent } from './dismantling-home/dismantling-home.component';
-
+import { DialogDismantlingOrderPrintComponent } from '../../shared/dialog-dismantling-order-print/dialog-dismantling-order-print.component';
 const routes: Routes = [{
-  path: '', canActivate: [AuthGuard], component: DismantlingHomeComponent
+  path: '', canActivate: [AuthGuard], pathMatch: 'full', component: DismantlingHomeComponent,
+}, {
+  path: 'working-in-progress', component: DialogDismantlingOrderPrintComponent
 }];
 
 @NgModule({

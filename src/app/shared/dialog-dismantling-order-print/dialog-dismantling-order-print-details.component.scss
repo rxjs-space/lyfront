@@ -1,0 +1,23 @@
+.print-dismantling-order-form {
+  margin: 0 0.1em;
+}
+
+/deep/ .print-dismantling-order-form figure.mat-figure {
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding-left: 0.2em;
+  font-size: 0.8em;
+}
+
+.print-dismantling-order-form md-grid-tile {
+  border: 0.05em black solid;
+  // box-sizing: border-box;
+}
+
+/deep/ .form-header figure.mat-figure{
+  font-weight: bold;
+}
+
+[md-dialog-title] {
+  text-align: center;
+}

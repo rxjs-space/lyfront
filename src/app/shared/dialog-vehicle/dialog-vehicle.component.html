@@ -1,7 +1,12 @@
+  <button md-button type="button" class="close-button" (click)="dialogRef.close()">
+    <i class="material-icons">close</i>
+  </button>
+
 <div md-dialog-title *ngIf="!isInPrintMode">
   <span *ngIf="!dataFromTrigger.vin">新建车辆</span>
   <span *ngIf="dataFromTrigger.vin">车辆详情</span>
 </div>
+
 
 <div md-dialog-title *ngIf="isInPrintMode" class="print-title dismantling-application-form-title hidden-when-print">
   <span>朝阳市老旧汽车报废申请表</span>
