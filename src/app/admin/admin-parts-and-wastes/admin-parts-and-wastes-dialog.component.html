@@ -1,0 +1,29 @@
+<md-card>
+    <md-card-header>
+      <md-card-title class="vertical-center-container">
+        <h3>
+          {{title}}
+        </h3>
+      </md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <form [formGroup]="fform">
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="'编号'" formControlName="id">
+        </md-input-container>
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="'名称'" formControlName="name">
+        </md-input-container>
+        <div>
+          <button md-button type="button" color="primary" [disabled]="!fform.valid"
+            (click)="onSubmit()"
+          >添加（未保存）</button>
+          <button md-button type="button" (click)="dialogRef.close(null)">取消</button>
+        </div>
+      </form>
+      <div *ngIf="fform.dirty || fform.touched">
+        <div class="errorMessage" *ngIf="fform.get('name').errors && fform.get('name').errors.required">请填写名称</div>
+        <div class="errorMessage" *ngIf="fform.get('name').errors && fform.get('name').errors.duplicateNameInObjArray">名称重复</div>
+      </div>
+     </md-card-content>
+</md-card>

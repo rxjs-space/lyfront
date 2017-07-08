@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { MdDialog } from '@angular/material';
-import { DialogPartComponent } from '../dialog-part/dialog-part.component';
+// import { DialogPartComponent } from '../dialog-part/dialog-part.component';
 import { Subscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -45,20 +45,20 @@ export class AdminTypesShowPartsComponent implements OnInit, OnDestroy {
   }
 
 
-  openDialogNewPart() {
-    const nextId = this.getNextId();
-    const dialogRef = this.dialog.open(DialogPartComponent, {
-      data: {nextId, parts: this.formGroupInput.getRawValue()},
-    });
-    const dialogSub_ = dialogRef.afterClosed().subscribe((newPart: FormGroup) => {
-      if (newPart) {
-        this.formGroupInput.push(newPart);
-        this.formGroupInput.markAsTouched();
-        this.formGroupInput.markAsDirty();
-      }
-    });
-    this.subscriptions.push(dialogSub_);
-  }
+  // openDialogNewPart() {
+  //   const nextId = this.getNextId();
+  //   const dialogRef = this.dialog.open(DialogPartComponent, {
+  //     data: {nextId, parts: this.formGroupInput.getRawValue()},
+  //   });
+  //   const dialogSub_ = dialogRef.afterClosed().subscribe((newPart: FormGroup) => {
+  //     if (newPart) {
+  //       this.formGroupInput.push(newPart);
+  //       this.formGroupInput.markAsTouched();
+  //       this.formGroupInput.markAsDirty();
+  //     }
+  //   });
+  //   this.subscriptions.push(dialogSub_);
+  // }
 
 
 }

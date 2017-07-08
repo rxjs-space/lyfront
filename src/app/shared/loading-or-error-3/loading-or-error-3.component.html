@@ -1,5 +1,5 @@
 <md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
 <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
-<!--<ng-container *ngIf="holder.isLoadedWithoutErrorRxx | async">-->
-  <ng-content *ngIf="holder.isLoadedWithoutErrorRxx | async"></ng-content>
-<!--</ng-container>-->
+<ng-container *ngIf="holder.isLoadedWithoutErrorRxx | async">
+  <ng-content></ng-content>
+</ng-container>

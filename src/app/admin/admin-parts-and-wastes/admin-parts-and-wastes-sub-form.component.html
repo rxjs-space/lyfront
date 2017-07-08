@@ -1,0 +1,27 @@
+<md-card class="info-card" [formGroup]="fform">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>{{title}}</span>
+      <button md-button type="button" class="not-for-print" color="primary" (click)="isCollapsed = !isCollapsed">
+        {{ isCollapsed ? '展开' : '收起'}}
+      </button>
+      <button md-button type="button" class="not-for-print"  color="primary" (click)="openDialogEdit()">添加</button>
+      <button md-raised-button type="button" class="not-for-print"  color="primary" 
+        (click)="submit.emit(); isSaving = true;" [disabled]="isSaving || !fform.dirty"
+      >保存</button>
+      <md-spinner class="mini-spinner-1" *ngIf="isSaving"></md-spinner>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content *ngIf="!isCollapsed">
+    <div *ngIf="fform.length===0">暂无</div>
+    <div class="inline-block-container" *ngFor="let partCtrl of fform.controls; let i=index" [formGroupName]="i">
+      <md-input-container class="s-size-input">
+        <input mdInput placeholder="编号" formControlName="id">
+      </md-input-container>
+      <md-input-container class="l-size-input">
+        <input mdInput placeholder="名称" formControlName="name">
+      </md-input-container>
+    </div>
+  </md-card-content>
+</md-card>

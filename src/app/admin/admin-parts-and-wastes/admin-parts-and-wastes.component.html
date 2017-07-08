@@ -1,8 +1,10 @@
-<!--<md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
-<p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
-<ng-container *ngIf="holder.isLoadedWithoutErrorRxx | async">
-</ng-container>-->
+<app-loading-or-error-3 [holder]="holderPub">
 
-<app-loading-or-error-3 [holder]="holder">
-  {{this.holder.latestResultRxxHash['btity'] | async | json }}
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+    <app-admin-parts-and-wastes-sub-form category="parts" [typesForm]="typesForm" (submit)="onSubmit()">
+    </app-admin-parts-and-wastes-sub-form>
+    <app-admin-parts-and-wastes-sub-form category="wastes" [typesForm]="typesForm" (submit)="onSubmit()">
+    </app-admin-parts-and-wastes-sub-form>
+  </ng-container>
+
 </app-loading-or-error-3>

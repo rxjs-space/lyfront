@@ -51,6 +51,17 @@ export class DataService {
       });
   }
 
+  refreshBtityRx(): Observable<any> {
+    return Observable.zip(
+      this.brandsOnceRx,
+      this.titlesOnceRx,
+      this.typesOnceRx,
+      (brands, titles, types) => ({brands, titles, types})
+    ).first()
+      .do(this.btityRxx)
+      .catch(this.handleError);
+  }
+
   setupOptions(withJWT: Boolean = false): RequestOptions {
     let headers;
     if (withJWT) {

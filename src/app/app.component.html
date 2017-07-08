@@ -23,31 +23,31 @@
   </md-toolbar>
 
   <ng-container *ngIf="isLoggedInRxx | async">
-    <nav md-tab-nav-bar class="not-for-print">
-      <a md-tab-link 
-        *ngFor="let link of navLinks" 
-        [routerLink]="link.route" 
-        routerLinkActive #rla="routerLinkActive"
-        [active]="rla.isActive">
-        {{link.label}}
-      </a>
-    </nav>
+      <nav md-tab-nav-bar class="not-for-print">
+        <a md-tab-link 
+          *ngFor="let link of navLinks" 
+          [routerLink]="link.route" 
+          routerLinkActive #rla="routerLinkActive"
+          [active]="rla.isActive">
+          {{link.label}}
+        </a>
+      </nav>
 
-    <!--<nav md-tab-nav-bar>
-      <a md-tab-link
-        *ngFor="let link of navLinks"
-        [routerLink]="link"
-        routerLinkActive #rla="routerLinkActive"
-        [active]="rla.isActive">
-        {{tabLink.label}}
-      </a>
-    </nav>-->
-  <app-vehicle-search></app-vehicle-search>
+      <!--<nav md-tab-nav-bar>
+        <a md-tab-link
+          *ngFor="let link of navLinks"
+          [routerLink]="link"
+          routerLinkActive #rla="routerLinkActive"
+          [active]="rla.isActive">
+          {{tabLink.label}}
+        </a>
+      </nav>-->
+    <app-vehicle-search></app-vehicle-search>
 
   </ng-container>
     
-
-  <md-card style="display:none" class="info-card">
+  <router-outlet></router-outlet>
+  <!--<md-card style="display:none" class="info-card">
     <md-card-header>
       <md-card-title>project plan</md-card-title>
     </md-card-header>
@@ -66,8 +66,8 @@
         4: part-inventory;
         4: part-sales;
     </md-card-content>
-  </md-card>
+  </md-card>-->
 
-  <router-outlet></router-outlet>
+
 
 </div>

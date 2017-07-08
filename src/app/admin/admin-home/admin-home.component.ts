@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminHomeComponent implements OnInit {
   navLinks = [
-    {route: 'types', label: '类型管理'},
     {route: 'parts-and-wastes', label: '零废目录'},
   ];
   constructor() { }

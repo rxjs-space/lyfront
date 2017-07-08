@@ -25,6 +25,7 @@ import { AsyncMonitorService } from './async-monitor/async-monitor.service';
 import { FormUtilsService } from './form-utils/form-utils.service';
 import { DialogDataService } from './dialog-data/dialog-data.service';
 import { FormErrorsService } from './form-errors/form-errors.service';
+import { CalculatePatchesService } from './calculate-patches/calculate-patches.service';
 
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
@@ -181,7 +182,8 @@ export class SharedModule {
         AsyncDataLoaderService,
         AsyncMonitorService,
         DialogDataService,
-        FormErrorsService
+        FormErrorsService,
+        CalculatePatchesService
       ]
     };
   }
