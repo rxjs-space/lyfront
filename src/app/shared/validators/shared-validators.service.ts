@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/zip';
@@ -13,7 +15,6 @@ import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
 
 @Injectable()
 export class SharedValidatorsService {
-
   constructor(private data: DataService,
     private asyncMon: AsyncMonitorService) { }
 
@@ -104,6 +105,16 @@ export class SharedValidatorsService {
                 });
               });
         })
+    };
+  }
+
+  duplicateAsync(keyName: string, backendMethod: string): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const errorKey = 'duplicateAsync';
+      const key = control.value;
+      return this.data[backendMethod](key)
+        .map(r => ({[errorKey]: key}))
+        .catch(error => Observable.of(null));
     };
   }
 

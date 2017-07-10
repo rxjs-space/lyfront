@@ -1,0 +1,17 @@
+<div md-dialog-title>{{dataFromTrigger.title}}</div>
+<div md-dialog-content>{{dataFromTrigger.content}}</div>
+<div md-dialog-actions>
+
+  <ng-container *ngIf="dataFromTrigger.raisedButton === 'yes'">
+    <button type="button" md-raised-button color="primary" (click)="onYes()">{{dataFromTrigger.yesButton}}</button>
+    <span class="space-filler"></span>
+    <button type="button" md-button (click)="onNo()">{{dataFromTrigger.noButton}}</button>
+
+  </ng-container>
+  <ng-container *ngIf="!dataFromTrigger.raisedButton || dataFromTrigger.raisedButton !== 'yes'">
+    <button type="button" md-button (click)="onYes()">{{dataFromTrigger.yesButton}}</button>
+    <span class="space-filler"></span>
+    <button type="button" md-raised-button color="primary" (click)="onNo()">{{dataFromTrigger.noButton}}</button>
+  </ng-container>
+
+</div>

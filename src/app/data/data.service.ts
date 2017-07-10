@@ -8,6 +8,7 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/of';
 
 import { Vehicle } from './vehicle';
+import { User } from './user';
 import { BACK_END_URL } from '../app-config';
 
 
@@ -15,10 +16,12 @@ import { BACK_END_URL } from '../app-config';
 @Injectable()
 export class DataService {
 
-  host = 'http://localhost:3000'; // useless
+  // host = 'http://localhost:3000'; // useless
   typesApiUrl1 = this.host1 + '/api/tt/one?name=types';
   titlesApiUrl1 = this.host1 + '/api/tt/one?name=titles';
   brandsApiUrl1 = this.host1 + '/api/brands';
+  usersApiUrl = this.host1 + '/api/users';
+  rolesApiUrl = this.host1 + '/api/roles';
   dismantlingOrderApiUrl1 = this.host1 + '/api/dismantling-orders';
   vehiclesApiUrl1 = this.host1 + '/api/vehicles';
 
@@ -91,6 +94,12 @@ export class DataService {
     return urlSearchParams;
   }
 
+  getRoles() {
+    return this.http.get(this.rolesApiUrl, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   getVehicles(searchParmas = {}) {
     // const urlSearchParams = new URLSearchParams();
     // for (const k in searchParmas) {
@@ -154,15 +163,6 @@ export class DataService {
     // brands can be either an array of brands or an object of a brand, backend will handle
     return this.http.post(this.brandsApiUrl1, brands, this.setupOptions(true))
       .map(res => res.json())
-      .catch(error => this.handleError(error));
-  }
-
-  updateBrands(brands) {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.patch(this.host + '/types', {brands}, options)
-      .map(res => res.json())
-      // .do(console.log)
       .catch(error => this.handleError(error));
   }
 
@@ -292,6 +292,32 @@ export class DataService {
       })
       .catch(error => this.handleError(error));
   }
+
+  /**
+   * if (!userId), return Observable.of(User class), ie, empty user
+   */
+  getUserById(userId) {
+    if (userId) {
+      return this.http.get(this.usersApiUrl + `/one?userId=${userId}`, this.setupOptions(true))
+        .map(res => res.json())
+        .catch(this.handleError)
+    } else {
+      return Observable.of(new User());
+    }
+  }
+
+  getUserByUserName(username) {
+    return this.http.get(this.usersApiUrl + `/one?username=${username}`, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
+  insertUser(user) {
+    return this.http.post(this.usersApiUrl, user, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
 
   vehiclesReports(title) {
     return this.http.get(this.vehiclesApiUrl1 + `/reports?title=${title}`, this.setupOptions(true))

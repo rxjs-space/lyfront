@@ -1,0 +1,11 @@
+.error-placeholder {
+  width: 10em;
+}
+
+.error-message {
+  color: red;
+}
+
+/deep/ .mat-grid-tile.left-tile .mat-figure {
+  justify-content: flex-start
+}

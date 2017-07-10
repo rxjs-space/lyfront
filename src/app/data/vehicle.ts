@@ -16,10 +16,10 @@ export class Vehicle {
     deletedFor: '',
     deletedBy: '',
     deletedAt: '',
-    createdAt: '',
-    createdBy: '',
-    lastModifiedAt: '',
-    lastModifiedBy: ''
+    // createdAt: '',
+    // createdBy: '',
+    // lastModifiedAt: '',
+    // lastModifiedBy: ''
   };
   owner = {
     name: '',

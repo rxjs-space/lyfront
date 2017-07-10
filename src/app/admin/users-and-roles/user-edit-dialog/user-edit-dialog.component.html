@@ -1,0 +1,89 @@
+<app-loading-or-error-3 [holder]="holderPub">
+
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+    <form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
+      <div md-dialog-title>
+        <span>{{this.isNew ? '新建用户' : '修改用户信息'}}</span>
+      </div>
+      <app-close-button [dialogRef]="dialogRef" [fform]="userForm"></app-close-button>
+      <div md-dialog-content>
+        <md-card class="info-card">
+          <md-card-content>
+
+          <md-list>
+            <md-list-item>
+              <div md-line>
+                <md-input-container>
+                  <input mdInput placeholder="用户名" formControlName="username">
+                </md-input-container>
+              </div>
+              <div md-line>
+                <ng-container *ngIf="userForm.get('username').touched && userForm.get('username').errors">
+                  <span class="error-message" *ngIf="userForm.get('username').errors.required">
+                    请填写用户名
+                  </span>            
+                  <span *ngIf="userForm.get('username').errors.checkingDuplicateUsername">
+                    <md-spinner class="mini-spinner-1"></md-spinner>正在检查是否存在相同用户名
+                  </span>            
+                  <span class="error-message" *ngIf="userForm.get('username').errors.duplicateUsername">
+                    已存在相同用户名
+                  </span>  
+                </ng-container>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div md-line>
+                <md-input-container>
+                  <input mdInput placeholder="密码" formControlName="password">
+                </md-input-container>
+              </div>
+              <div md-line>
+                <ng-container *ngIf="userForm.get('password').touched && userForm.get('password').errors">
+                  <span class="error-message" *ngIf="userForm.get('password').errors.required">
+                    请填写密码
+                  </span>            
+                </ng-container>
+              </div>
+            </md-list-item>
+
+            <md-list-item>
+              <div md-line>
+                <md-input-container>
+                  <input mdInput placeholder="密码确认" formControlName="passwordConfirm">
+                </md-input-container>
+              </div>
+              <div md-line>
+                <ng-container *ngIf="userForm.get('passwordConfirm').touched && userForm.get('passwordConfirm').errors">
+                  <span class="error-message" *ngIf="userForm.get('passwordConfirm').errors.required">
+                    请确认密码
+                  </span>            
+                  <span class="error-message" *ngIf="userForm.get('passwordConfirm').errors.notMatching">
+                    两次输入的密码不一致
+                  </span>            
+                </ng-container>                
+              </div>
+            </md-list-item>
+            <md-list-item></md-list-item>
+            <md-list-item>
+              <md-select placeholder="角色" formControlName="roles" [multiple]="true">
+                <md-option *ngFor="let role of holderPub.latestResultRxxHash['roles'].getValue().sort()" [value]="role">
+                  {{role}}
+                </md-option>
+              </md-select>
+            </md-list-item>
+
+          </md-list>
+
+
+          </md-card-content>
+        </md-card>
+      </div>
+
+      <div md-dialog-actions>
+        <span class="space-filler"></span>
+        <button type="submit" md-raised-button color="primary" [disabled]="userForm.invalid">保存</button>
+      </div>
+    </form>
+  </ng-container>
+
+</app-loading-or-error-3>

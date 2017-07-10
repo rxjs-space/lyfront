@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -11,10 +10,10 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminPartsAndWastesComponent } from './admin-parts-and-wastes/admin-parts-and-wastes.component';
 import { AdminPartsAndWastesSubFormComponent } from './admin-parts-and-wastes/admin-parts-and-wastes-sub-form.component';
 import { AdminPartsAndWastesDialogComponent } from './admin-parts-and-wastes/admin-parts-and-wastes-dialog.component';
+import { OtherTypesComponent } from './other-types/other-types.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     SharedModule,
     AdminRoutingModule
   ],
@@ -27,6 +26,8 @@ import { AdminPartsAndWastesDialogComponent } from './admin-parts-and-wastes/adm
     // DialogPartComponent,
     AdminPartsAndWastesComponent,
     AdminPartsAndWastesSubFormComponent,
-    AdminPartsAndWastesDialogComponent,]
+    AdminPartsAndWastesDialogComponent,
+    OtherTypesComponent,
+  ],
 })
 export class AdminModule { }

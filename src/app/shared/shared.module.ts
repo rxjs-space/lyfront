@@ -65,6 +65,8 @@ import { VehicleSearchComponent } from './vehicle-search/vehicle-search.componen
 import { DialogDismantlingOrderPrintTriggerComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print-trigger.component';
 import { DialogDismantlingOrderPrintDetailsComponent } from './dialog-dismantling-order-print/dialog-dismantling-order-print-details.component';
 import { LoadingOrError3Component } from './loading-or-error-3/loading-or-error-3.component';
+import { CloseButtonComponent } from './close-button/close-button.component';
+import { DialogYesNo2Component } from './dialog-yes-no-2/dialog-yes-no-2.component';
 
 
 const mdModules = [
@@ -136,6 +138,8 @@ const mdModules = [
     DialogDismantlingOrderPrintTriggerComponent,
     DialogDismantlingOrderPrintDetailsComponent,
     LoadingOrError3Component,
+    CloseButtonComponent,
+    DialogYesNo2Component,
   ],
   exports: [
     CommonModule,
@@ -155,7 +159,8 @@ const mdModules = [
     DialogConfirmationTriggerDirective,
     VehicleSearchComponent,
     DialogDismantlingOrderPrintComponent,
-    LoadingOrError3Component
+    LoadingOrError3Component,
+    CloseButtonComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,
@@ -168,7 +173,8 @@ const mdModules = [
     DialogNewVehicleCostComponent,
     DialogDismantlingOrderListComponent,
     DialogMarkComponent,
-    DialogConfirmationComponent
+    DialogConfirmationComponent,
+    DialogYesNo2Component
   ]
 })
 export class SharedModule {
