@@ -53,7 +53,7 @@
             [titles]="btity1.titles"
             [types]="btity1.types"
             [vehicle]="vehicle"
-            [canCreateNew]="!vehicle.dismantling && !vehicle.status.dismantled.done"
+            [canCreateNew]="!vehicle.status2.dismantling && !vehicle.status.dismantled.done"
           ></app-trigger-dismantling-order>
         </md-grid-tile>
       </md-grid-list>

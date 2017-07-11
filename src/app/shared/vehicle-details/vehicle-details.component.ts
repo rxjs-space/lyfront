@@ -166,6 +166,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.patches = [];
     const oldVehicle = JSON.parse(JSON.stringify(this.vehicle)); // is this necessary?
     this.newVehicle = Object.assign({}, oldVehicle, ...dataThatMayHaveChangedArray);
+    delete this.newVehicle.vinConfirm;
     this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
     // this.isChangedAndValid.emit(!!this.patches[length]);
     // console.log(this.patches);

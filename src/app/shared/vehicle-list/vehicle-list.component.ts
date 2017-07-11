@@ -121,7 +121,8 @@ export class VehicleListComponent implements OnInit, OnDestroy {
             if (result.value && result.value.result.ok) {
               const vinDismantling = result.value.ops[0].vin;
               const vehicleDismantling = this.vehicleList1.find(vehicle => vehicle.vin === vinDismantling);
-              vehicleDismantling.dismantling = true;
+              console.log(vehicleDismantling);
+              vehicleDismantling['status2']['dismantling'] = true;
             }
           });
           this.subscriptions.push(sub8_);

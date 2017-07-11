@@ -8,8 +8,15 @@ export class Vehicle {
   entranceDate = '';
   facility = '';
   internalSurveyor = '';
-  dismantling = false;
-  auctioning = false;
+  // dismantling = false;
+  status2 = {
+    surveyPending: false,
+    surveyPendingReason: '',
+    dismantlingPending: false,
+    dismantlingPendingReason: '',
+    auctioning: false,
+    dismantling: false
+  }
   remarks = [];
   metadata = {
     isDeleted: false,

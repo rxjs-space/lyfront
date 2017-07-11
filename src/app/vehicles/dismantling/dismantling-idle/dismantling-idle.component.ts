@@ -49,7 +49,7 @@ export class DismantlingIdleComponent implements OnInit {
   queryList(entranceWeek, vehicleType?) {
     const surveyStatus = (this.filterValueChangesRxx.getValue()).surveyStatus;
     const searchQuery = {entranceWeek};
-    searchQuery['dismantling'] = false;
+    searchQuery['status2.dismantling'] = false;
     searchQuery['status.dismantled.done'] = false;
     if (surveyStatus > 1) {
       searchQuery['status.firstSurvey.done'] = this.basedOnSurveyStatus[surveyStatus].firstSurvey;
@@ -109,22 +109,6 @@ export class DismantlingIdleComponent implements OnInit {
 
   ngOnInit() {
     const filterCache = this.filterCache['DismantlingIdleComponent'];
-    if (filterCache && filterCache['surveyStatus']) {
-      this.filterValueChangesRxx.next({surveyStatus: filterCache['surveyStatus']});
-    }
-
-    this.filterValueChangesRxx.subscribe(v => {
-      this.filteredData = this.calculateFilteredData(v.surveyStatus);
-      filterCache ?
-        filterCache['dismantlingStarted'] = v.surveyStatus :
-        this.filterCache['DismantlingIdleComponent'] = {surveyStatus: v.surveyStatus}
-
-      // console.log(this.filteredData);
-    });
-
-
-
-
 
     this.optionsArr = [
       {
@@ -141,6 +125,25 @@ export class DismantlingIdleComponent implements OnInit {
         ]
       }
     ];
+
+    this.filterValueChangesRxx.next({
+      surveyStatus: this.optionsArr[0].initValue
+    });
+
+    this.filterValueChangesRxx.subscribe(v => {
+      this.filteredData = this.calculateFilteredData(v.surveyStatus);
+      filterCache ?
+        filterCache['dismantlingStarted'] = v.surveyStatus :
+        this.filterCache['DismantlingIdleComponent'] = {surveyStatus: v.surveyStatus}
+
+      // console.log(this.filteredData);
+    });
+
+
+
+
+
+
 
 
 
