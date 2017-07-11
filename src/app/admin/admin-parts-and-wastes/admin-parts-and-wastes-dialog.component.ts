@@ -21,10 +21,11 @@ export class AdminPartsAndWastesDialogComponent implements OnInit {
 
   ngOnInit() {
     const cat = this.dataFromTrigger.nextId.slice(0, 1);
-    switch (cat) {
-      case 'p': this.title = '添加零件类别'; break;
-      case 'w': this.title = '添加危废品类别'; break;
-    }
+    this.title = `添加${this.dataFromTrigger.categoryTitle}类别`;
+    // switch (cat) {
+    //   case 'p': this.title = '添加零件类别'; break;
+    //   case 'w': this.title = '添加危废品类别'; break;
+    // }
     this.fform = this.fb.group({
       id: [{value: this.dataFromTrigger.nextId, disabled: true}],
       name: ['', [Validators.required, this.sv.duplicateNameInObjArray(this.dataFromTrigger.POWs)]]

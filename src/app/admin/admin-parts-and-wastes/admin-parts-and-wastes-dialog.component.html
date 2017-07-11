@@ -1,29 +1,42 @@
-<md-card>
-    <md-card-header>
-      <md-card-title class="vertical-center-container">
-        <h3>
-          {{title}}
-        </h3>
-      </md-card-title>
-    </md-card-header>
-    <md-card-content>
-      <form [formGroup]="fform">
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="'编号'" formControlName="id">
-        </md-input-container>
-        <md-input-container class="l-size-input">
-          <input mdInput [placeholder]="'名称'" formControlName="name">
-        </md-input-container>
-        <div>
-          <button md-button type="button" color="primary" [disabled]="!fform.valid"
-            (click)="onSubmit()"
-          >添加（未保存）</button>
-          <button md-button type="button" (click)="dialogRef.close(null)">取消</button>
-        </div>
-      </form>
-      <div *ngIf="fform.dirty || fform.touched">
-        <div class="errorMessage" *ngIf="fform.get('name').errors && fform.get('name').errors.required">请填写名称</div>
-        <div class="errorMessage" *ngIf="fform.get('name').errors && fform.get('name').errors.duplicateNameInObjArray">名称重复</div>
-      </div>
-     </md-card-content>
-</md-card>
+  <form [formGroup]="fform">
+    <div md-dialog-title>
+      {{title}}
+    </div>
+    <app-close-button [dialogRef]="dialogRef" [fform]="fform"></app-close-button>
+
+    <div md-dialog-content>
+      <md-card class="info-card">
+        <md-card-content>
+
+          <md-list>
+            <md-list-item>
+              <div md-line>
+                <md-input-container class="m-size-input">
+                  <input mdInput [placeholder]="'编号'" formControlName="id">
+                </md-input-container>
+                <md-input-container class="l-size-input">
+                  <input mdInput [placeholder]="'名称'" formControlName="name">
+                </md-input-container>
+              </div>
+              <div md-line>
+                <ng-container *ngIf="fform.dirty && fform.get('name').errors">
+                  <span class="errorMessage" *ngIf="fform.get('name').errors.required">请填写名称</span>
+                  <span class="errorMessage" *ngIf="fform.get('name').errors.duplicateNameInObjArray">名称重复</span>
+                </ng-container>
+              </div>
+            </md-list-item>
+          </md-list>
+
+        </md-card-content>
+      </md-card>
+
+    </div>
+    <div md-dialog-actions>
+      <span class="space-filler"></span>
+      <button md-button type="button" color="primary" [disabled]="!fform.valid"
+        (click)="onSubmit()"
+      >添加（未保存）</button>
+
+      <!--<button md-button type="button" (click)="dialogRef.close(null)">取消</button>-->
+    </div>
+  </form>

@@ -18,6 +18,14 @@ export abstract class BaseForComponentWithAsyncData implements OnInit, OnDestroy
   ) {}
 
   ngOnInit() {
+    this.reset();
+  }
+
+  reset() {
+    const currSubHolder = this.asyncDataLoader.holder[this.asyncDataHolderId];
+    if (currSubHolder) {
+      currSubHolder.destroy();
+    }
     this.holder = this.asyncDataLoader.init(this.asyncDataHolderId, this.dataRxHash);
     this.holder.refreshAll();
   }

@@ -1,10 +1,14 @@
 <app-loading-or-error-3 [holder]="holderPub">
 
   <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
-    <app-admin-parts-and-wastes-sub-form category="parts" [typesForm]="typesForm" (submit)="onSubmit()">
+    <ng-container *ngFor="let category of categories">
+      <app-admin-parts-and-wastes-sub-form [category]="category" [typesForm]="typesForm" (submit)="onSubmit()">
+      </app-admin-parts-and-wastes-sub-form>
+    </ng-container>
+    <!--<app-admin-parts-and-wastes-sub-form category="parts" [typesForm]="typesForm" (submit)="onSubmit()">
     </app-admin-parts-and-wastes-sub-form>
     <app-admin-parts-and-wastes-sub-form category="wastes" [typesForm]="typesForm" (submit)="onSubmit()">
-    </app-admin-parts-and-wastes-sub-form>
+    </app-admin-parts-and-wastes-sub-form>-->
   </ng-container>
 
 </app-loading-or-error-3>

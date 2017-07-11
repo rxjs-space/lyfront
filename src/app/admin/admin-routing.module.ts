@@ -9,9 +9,10 @@ import { OtherTypesComponent } from './other-types/other-types.component';
 const routes: Routes = [
   {path: '', canActivate: [AuthGuard], component: AdminHomeComponent, children: [
     {path: '', pathMatch: 'full', redirectTo: 'parts-and-wastes'},
-    {path: 'parts-and-wastes', component: AdminPartsAndWastesComponent},
+    {path: 'parts-and-wastes', component: AdminPartsAndWastesComponent, data: {categories: ['parts', 'wastes']}},
     {path: 'users-and-roles', canLoad: [AuthGuard], loadChildren: './users-and-roles/users-and-roles.module#UsersAndRolesModule'},
-    {path: 'other-types', component: OtherTypesComponent},
+    {path: 'other-types', component: AdminPartsAndWastesComponent, data: {categories: ['facilities']}},
+    // {path: 'other-types', component: OtherTypesComponent},
   ]}
 ];
 

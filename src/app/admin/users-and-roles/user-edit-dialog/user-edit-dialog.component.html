@@ -7,8 +7,8 @@
       </div>
       <app-close-button [dialogRef]="dialogRef" [fform]="userForm"></app-close-button>
       <div md-dialog-content>
-        <md-card class="info-card">
-          <md-card-content>
+        <md-card class="info-card no-padding-top">
+          <!--<md-card-content>-->
 
           <md-list>
             <md-list-item>
@@ -63,8 +63,13 @@
                 </ng-container>                
               </div>
             </md-list-item>
-            <md-list-item></md-list-item>
+            <div style="height: 1em"></div>
             <md-list-item>
+              <md-select class="right-margin-1" placeholder="所属单位" formControlName="facility">
+                <md-option *ngFor="let facility of facilities" [value]="facility.id">
+                  {{facility.name}}
+                </md-option>
+              </md-select>
               <md-select placeholder="角色" formControlName="roles" [multiple]="true">
                 <md-option *ngFor="let role of holderPub.latestResultRxxHash['roles'].getValue().sort()" [value]="role">
                   {{role}}
@@ -75,13 +80,15 @@
           </md-list>
 
 
-          </md-card-content>
+          <!--</md-card-content>-->
         </md-card>
       </div>
 
       <div md-dialog-actions>
         <span class="space-filler"></span>
-        <button type="submit" md-raised-button color="primary" [disabled]="userForm.invalid">保存</button>
+        <md-spinner class="mini-spinner-1" *ngIf="isSaving"></md-spinner>
+        <button type="submit" md-raised-button color="primary" 
+          [disabled]="userForm.invalid || !userForm.touched || isSaving">保存</button>
       </div>
     </form>
   </ng-container>

@@ -3,4 +3,5 @@ export class User {
   password = '';
   isActive = true;
   roles = ['guest'];
+  facility: '';
 }

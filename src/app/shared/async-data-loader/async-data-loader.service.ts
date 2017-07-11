@@ -7,9 +7,9 @@ export interface SubHolder {
   latestResultRxxHash: {[key: string]: BehaviorSubject<any>};
   isLoadedWithoutErrorRxx: BehaviorSubject<boolean>;
   isWithErrorRxx: BehaviorSubject<boolean>;
-  refreshAll: () => {};
-  refreshByTitle: (title: string) => {};
-  destroy: () => {};
+  refreshAll: () => void;
+  refreshByTitle: (title: string) => void;
+  destroy: () => void;
 }
 
 /**
@@ -21,7 +21,7 @@ export interface SubHolder {
 @Injectable()
 export class AsyncDataLoaderService {
   dataLoadedRxx = new BehaviorSubject({});
-  holder = {};
+  holder: {[key: string]: SubHolder} = {};
   constructor() { }
 
   init(source: string, itemRxHash: {[key: string]: Observable<any>}): SubHolder {

@@ -9,7 +9,7 @@ import { AdminPartsAndWastesDialogComponent } from './admin-parts-and-wastes-dia
   styleUrls: ['./admin-parts-and-wastes-sub-form.component.scss']
 })
 export class AdminPartsAndWastesSubFormComponent implements OnInit, OnDestroy {
-  @Input() category: 'parts' | 'wastes';
+  @Input() category: string;
   @Input() typesForm: FormGroup;
   fform: FormArray;
   title: string;
@@ -25,15 +25,19 @@ export class AdminPartsAndWastesSubFormComponent implements OnInit, OnDestroy {
         this.title = '回用件'; break;
       case 'wastes':
         this.title = '危废品'; break;
+      case 'facilities':
+        this.title = '收车单位'; break;
     }
     this.fform = this.typesForm.get(this.category) as FormArray;
   }
 
   openDialogEdit() {
-    console.log('edit');
+    // console.log('edit');
     const nextId = this.getNextId();
     const dialogRef = this.dialog.open(AdminPartsAndWastesDialogComponent, {
+      disableClose: true,
       data: {
+        categoryTitle: this.title,
         nextId,
         POWs: this.fform.getRawValue()
       },
@@ -57,7 +61,7 @@ export class AdminPartsAndWastesSubFormComponent implements OnInit, OnDestroy {
     const maxId = POWs.map((pow: {id: string}) => pow.id).sort((a, b) => b.localeCompare(a))[0];
     const maxIdNumber = +maxId.slice(-3);
     const nextIdNumber = maxIdNumber + 1;
-    const prefix = maxId.slice(0, 1);
+    const prefix = maxId.length > 3 ? maxId.slice(0, maxId.length - 3) : '';
     function pad(str, max) {
       str = str.toString();
       return str.length < max ? pad('0' + str, max) : str;

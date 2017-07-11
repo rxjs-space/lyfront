@@ -138,8 +138,9 @@ md-spinner.mini-spinner-1 {
   height: 1em;
   width: 1em;
   display: inline-block;
-  margin-left: 1em;
-  margin-right: 1em;
+  // margin-left: 1em;
+  // margin-right: 1em;
+  margin: auto 1em;
 }
 
 md-spinner.mini-spinner-1p {
@@ -207,3 +208,6 @@ div.chart-column {
   font-size: 0.8em;
 }
 
+.right-margin-1 {
+  margin-right: 1em;
+}

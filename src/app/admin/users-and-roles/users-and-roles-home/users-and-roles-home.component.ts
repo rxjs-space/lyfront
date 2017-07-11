@@ -18,7 +18,7 @@ export class UsersAndRolesHomeComponent implements OnInit {
 
   openUserEditDialog(userId) {
     this.dialog.open(UserEditDialogComponent, {
-      width: '300px',
+      // width: '300px',
       disableClose: true,
       data: {
         userId
