@@ -37,7 +37,7 @@ export class DismantlingIdleComponent implements OnInit {
       firstSurvey: true, secondSurvey: false
     },
     '4': {
-      sumPredicate: curr => {return curr['status.firstSurvey.done'] && !curr['status.secondSurvey.done']},
+      sumPredicate: curr => {return curr['status.firstSurvey.done'] && curr['status.secondSurvey.done']},
       firstSurvey: true, secondSurvey: true
     },
   };

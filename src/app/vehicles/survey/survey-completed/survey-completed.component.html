@@ -33,7 +33,7 @@
 
         <md-grid-tile colspan="2"></md-grid-tile>
         <md-grid-tile class="y-axis"><span class="vertical-text">数量</span></md-grid-tile>
-        <ng-container *ngFor="let report of reports['resultVehicleTypezOnlyFirstDone'].reverse(); index as i">
+        <ng-container *ngFor="let report of reports['resultVehicleTypezFirstDone'].reverse(); index as i">
           <md-grid-tile></md-grid-tile>
           <md-grid-tile><div class="chart-column" [style.height.%]="(report.total / max)*100"></div></md-grid-tile>
         </ng-container>
@@ -65,7 +65,7 @@
 
       <md-grid-list cols="50" class="underlying-data">
         <md-grid-tile colspan="4"><span>验车周一</span></md-grid-tile>
-        <ng-container *ngFor="let report of reports['resultVehicleTypezOnlyFirstDone'].reverse(); index as i">
+        <ng-container *ngFor="let report of reports['resultVehicleTypezFirstDone'].reverse(); index as i">
           <md-grid-tile><span>{{(report.date).slice(8, 10)}}</span></md-grid-tile>
           <md-grid-tile></md-grid-tile>
         </ng-container>
@@ -85,7 +85,7 @@
 
       <md-grid-list cols="50" class="underlying-data">
         <md-grid-tile colspan="4"><span>验车数量</span></md-grid-tile>
-        <ng-container *ngFor="let report of reports['resultVehicleTypezOnlyFirstDone'].reverse(); index as i">
+        <ng-container *ngFor="let report of reports['resultVehicleTypezFirstDone'].reverse(); index as i">
           <md-grid-tile><button md-button color="primary" [disabled]="!report.total">{{report.total}}</button></md-grid-tile>
           <md-grid-tile></md-grid-tile>
         </ng-container>

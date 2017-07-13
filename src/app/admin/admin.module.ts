@@ -10,7 +10,6 @@ import { AdminHomeComponent } from './admin-home/admin-home.component';
 import { AdminPartsAndWastesComponent } from './admin-parts-and-wastes/admin-parts-and-wastes.component';
 import { AdminPartsAndWastesSubFormComponent } from './admin-parts-and-wastes/admin-parts-and-wastes-sub-form.component';
 import { AdminPartsAndWastesDialogComponent } from './admin-parts-and-wastes/admin-parts-and-wastes-dialog.component';
-import { OtherTypesComponent } from './other-types/other-types.component';
 
 @NgModule({
   imports: [
@@ -27,7 +26,6 @@ import { OtherTypesComponent } from './other-types/other-types.component';
     AdminPartsAndWastesComponent,
     AdminPartsAndWastesSubFormComponent,
     AdminPartsAndWastesDialogComponent,
-    OtherTypesComponent,
   ],
 })
 export class AdminModule { }

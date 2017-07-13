@@ -9,7 +9,7 @@ import 'rxjs/add/observable/of';
 
 import { Vehicle } from './vehicle';
 import { User } from './user';
-import { BACK_END_URL } from '../app-config';
+import { BACK_END_URL, BOT_URL } from '../app-config';
 
 
 
@@ -33,6 +33,7 @@ export class DataService {
   btityRxx = new BehaviorSubject(null);
   constructor(
     @Inject(BACK_END_URL) private host1,
+    @Inject(BOT_URL) private botUrl,
     private http: Http
     ) {
 
@@ -40,6 +41,24 @@ export class DataService {
       // this.getTitlesOnce();
       // this.getBrandsOnce();
     }
+
+  mofcomInit() {
+    return this.http.post(this.botUrl + '/mofcom/init', {})
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
+  mofcomLogin(captcha) {
+    return this.http.post(this.botUrl + '/mofcom/login', {captcha})
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
+  mofcomNewVehicle(vehicle) {
+    return this.http.post(this.botUrl + '/mofcom/new-vehicle', {vehicle})
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
 
   refreshBtity() {
     return Observable.zip(
@@ -348,6 +367,6 @@ export class DataService {
 
   private handleError(error: any) {
     console.log('Lyfront caught an error', error); // for demo purposes only
-    return Observable.throw(error);
+    return Observable.throw(error.json());
   }
 }

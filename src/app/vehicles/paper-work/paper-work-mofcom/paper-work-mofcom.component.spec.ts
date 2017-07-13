@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OtherTypesComponent } from './other-types.component';
+import { PaperWorkMofcomComponent } from './paper-work-mofcom.component';
 
-describe('OtherTypesComponent', () => {
-  let component: OtherTypesComponent;
-  let fixture: ComponentFixture<OtherTypesComponent>;
+describe('PaperWorkMofcomComponent', () => {
+  let component: PaperWorkMofcomComponent;
+  let fixture: ComponentFixture<PaperWorkMofcomComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OtherTypesComponent ]
+      declarations: [ PaperWorkMofcomComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OtherTypesComponent);
+    fixture = TestBed.createComponent(PaperWorkMofcomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

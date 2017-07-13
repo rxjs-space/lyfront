@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  backendUrl: 'http://localhost:3001'
+  backendUrl: 'http://localhost:3001',
+  botUrl: 'http://localhost:3002'
 };

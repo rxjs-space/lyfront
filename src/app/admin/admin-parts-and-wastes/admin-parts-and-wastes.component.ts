@@ -46,6 +46,7 @@ export class AdminPartsAndWastesComponent extends BaseForComponentWithAsyncData 
   }
 
   rebuildForm() {
+    console.log(this.holderPub.latestResultRxxHash['btity'].getValue()['types']);
     const types = this.holderPub.latestResultRxxHash['btity'].getValue()['types'];
     this.categories = this.holderPub.latestResultRxxHash['routeData'].getValue()['categories'];
     this.typesForm = this.fb.group({});

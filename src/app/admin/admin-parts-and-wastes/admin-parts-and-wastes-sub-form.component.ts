@@ -16,6 +16,7 @@ export class AdminPartsAndWastesSubFormComponent implements OnInit, OnDestroy {
   isCollapsed: boolean;
   subscriptions: Subscription[] = [];
   isSaving = false;
+  disableAddCategoryList = ['mofcomRegisterTypes'];
   @Output() submit = new EventEmitter();
   constructor(public dialog: MdDialog) { }
 
@@ -27,6 +28,10 @@ export class AdminPartsAndWastesSubFormComponent implements OnInit, OnDestroy {
         this.title = '危废品'; break;
       case 'facilities':
         this.title = '收车单位'; break;
+      case 'mofcomRegisterTypes':
+        this.title = '商务部登记类别'; break;
+      case 'vehicleTypes':
+        this.title = '车辆类型'; break;
     }
     this.fform = this.typesForm.get(this.category) as FormArray;
   }
@@ -59,15 +64,21 @@ export class AdminPartsAndWastesSubFormComponent implements OnInit, OnDestroy {
   getNextId() {
     const POWs = this.fform.getRawValue(); // POWs is partsOrWastes
     const maxId = POWs.map((pow: {id: string}) => pow.id).sort((a, b) => b.localeCompare(a))[0];
-    const maxIdNumber = +maxId.slice(-3);
-    const nextIdNumber = maxIdNumber + 1;
-    const prefix = maxId.length > 3 ? maxId.slice(0, maxId.length - 3) : '';
-    function pad(str, max) {
+    const pad = (str, max) => {
       str = str.toString();
       return str.length < max ? pad('0' + str, max) : str;
     }
-    const nextId = prefix + pad(nextIdNumber, 3);
-    return nextId;
+
+    if (isNaN(+maxId)) {
+      const maxIdNumber = +maxId.slice(-3);
+      const nextIdNumber = maxIdNumber + 1;
+      const prefix = maxId.length > 3 ? maxId.slice(0, maxId.length - 3) : '';
+
+      const nextId = prefix + pad(nextIdNumber, 3);
+      return nextId;
+    } else {
+      return (+maxId + 1).toString();
+    }
   }
 
   ngOnDestroy() {

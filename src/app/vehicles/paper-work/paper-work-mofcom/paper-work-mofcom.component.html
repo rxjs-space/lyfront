@@ -1,0 +1,50 @@
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title>登录商务部网站</md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <div style="max-width: 500px">
+      <md-grid-list cols="5" rowHeight="4em" *ngIf="isBotDown">
+        <md-grid-tile>机器人掉线。</md-grid-tile>
+      </md-grid-list>
+      <md-grid-list cols="5" rowHeight="4em" *ngIf="isLoggedIn">
+        <md-grid-tile>已登录。</md-grid-tile>
+        <md-grid-tile>
+          <button type="button" md-button color="primary" (click)="mofcomInit()">重新登录</button>
+        </md-grid-tile>
+        <md-grid-tile>
+          <button type="button" md-raised-button color="primary" (click)="mofcomNewVehicle()">新建车辆</button>
+        </md-grid-tile>
+      </md-grid-list>
+      <md-grid-list cols="5" rowHeight="4em" *ngIf="!isLoggedIn">
+        <md-grid-tile>验证码图片：</md-grid-tile>
+        <md-grid-tile>
+          <md-spinner class="mini-spinner-1" *ngIf="!captchaBase64"></md-spinner>
+          <app-paper-work-mofcom-captcha
+            *ngIf="captchaBase64"
+            [captchaBase64]="captchaBase64"></app-paper-work-mofcom-captcha>
+        </md-grid-tile>
+        <md-grid-tile>
+          <md-input-container>
+            <input mdInput [placeholder]="'验证码'" [formControl]="captchaCtrl">
+          </md-input-container>
+        </md-grid-tile>
+        <md-grid-tile>
+          <button type="button" md-raised-button color="primary"
+            [disabled]="!captchaBase64 || !captchaCtrl.value"
+            *ngIf="!isLoggingIn"
+            (click)="mofcomLogin()"
+          >登录</button>
+          <span *ngIf="isLoggingIn">
+            登录中 <md-spinner class="mini-spinner-1"></md-spinner>
+          </span>
+        </md-grid-tile>
+        <md-grid-tile>
+          <button type="button" md-button color="primary" (click)="mofcomInit()">刷新</button>
+        </md-grid-tile>
+      </md-grid-list>
+  </div>
+  </md-card-content>
+</md-card>
+<md-card class="info-card">
+</md-card>

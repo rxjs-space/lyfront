@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 // import { VehicleInfoModule } from './vehicle-info/vehicle-info.module';
-import { BACK_END_URL } from './app-config';
+import { BACK_END_URL, BOT_URL } from './app-config';
 import { environment } from './../environments/environment';
 
 /*
@@ -34,7 +34,8 @@ import { dataServices } from './data';
   providers: [
     ...dataServices,
     { provide: LOCALE_ID, useValue: 'zh-cn' },
-    { provide: BACK_END_URL, useValue: environment.backendUrl }
+    { provide: BACK_END_URL, useValue: environment.backendUrl },
+    { provide: BOT_URL, useValue: environment.botUrl }
   ],
   bootstrap: [ AppComponent ]
 })
