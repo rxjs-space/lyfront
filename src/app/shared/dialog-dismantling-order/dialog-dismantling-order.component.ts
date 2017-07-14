@@ -41,17 +41,21 @@ export class DialogDismantlingOrderComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.dataFromTrigger);
-    this.rebuildForm();
+    if (this.dataFromTrigger.canCreateNew) {
+      this.rebuildForm();
 
-    const enableForm = () => {
-      this.doForm.enable();
-      this.doForm.get('orderDate').disable();
-    };
-    this.creatingNewRxx.subscribe(v => {
-      v ? this.doForm.disable() : enableForm()
-    });
+      const enableForm = () => {
+        this.doForm.enable();
+        this.doForm.get('orderDate').disable();
+      };
+      this.creatingNewRxx.subscribe(v => {
+        v ? this.doForm.disable() : enableForm()
+      });
 
-    this.asyncMonitorHolder = this.asyncMonitor.init(this.asyncMonitorId);
+      this.asyncMonitorHolder = this.asyncMonitor.init(this.asyncMonitorId);
+
+    }
+
   }
 
 

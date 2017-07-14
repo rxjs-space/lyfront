@@ -22,7 +22,7 @@ export class FormUtilsService {
   idToName(id: string, idToNameHashArray: any) {
     if (!id) {return ''; }
     const matchObj = idToNameHashArray.find(item => item.id === id) || idToNameHashArray.find(item => item._id === id)
-    if (!matchObj) {console.error(`no obj with an id as ${id}`); return; }
+    if (!matchObj) {console.error(`no obj with an id as ${id}`); return id; }
     // if (!matchObj) {throw new Error(`no obj with an id as ${id}`); }
     return matchObj['name'];
   }
@@ -30,7 +30,7 @@ export class FormUtilsService {
   nameToId(name: string, idToNameHashArray: any) {
     if (!name) {return ''; }
     const matchObj = idToNameHashArray.find(item => item.name === name);
-    if (!matchObj) {console.error(`no obj with a name as ${name}`); return; }
+    if (!matchObj) {console.error(`no obj with a name as ${name}`); return name; }
     // if (!matchObj) {throw new Error(`no obj with a name as ${name}`); }
     return matchObj['id'] || matchObj['_id'];
   }

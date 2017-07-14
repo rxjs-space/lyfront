@@ -12,11 +12,15 @@ export class Vehicle {
   status2 = {
     surveyPending: false,
     surveyPendingReason: '',
+    surveyPendingSince: '',
+    surveyPendingTill: '',
     dismantlingPending: false,
     dismantlingPendingReason: '',
+    dismantlingPendingSince: '',
+    dismantlingPendingTill: '',
     auctioning: false,
     dismantling: false
-  }
+  };
   remarks = [];
   metadata = {
     isDeleted: false,

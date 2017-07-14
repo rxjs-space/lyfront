@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 
 import { DialogDismantlingOrderComponent } from '../../shared/dialog-dismantling-order/dialog-dismantling-order.component';
+import { FormUtilsService } from '../form-utils/form-utils.service';
 
 @Component({
   selector: 'app-trigger-dismantling-order',
@@ -15,6 +16,7 @@ export class TriggerDismantlingOrderComponent implements OnInit {
   // @Output() createdNew = new EventEmitter();
   @Input() canCreateNew;
   constructor(
+    private fu: FormUtilsService,
     public dialog: MdDialog,
   ) { }
 
@@ -25,7 +27,6 @@ export class TriggerDismantlingOrderComponent implements OnInit {
   }
 
   openDialogDO(vehicle) {
-
     const dialogRef = this.dialog.open(DialogDismantlingOrderComponent, {
       width: '650px',
       disableClose: true,
@@ -33,7 +34,7 @@ export class TriggerDismantlingOrderComponent implements OnInit {
         types: this.types,
         titles: this.titles,
         vin: vehicle.vin,
-        vehicleType: vehicle.vehicle.vehicleType,
+        vehicleType: this.fu.idToName(vehicle.vehicle.vehicleType, this.types.vehicleTypes),
         canCreateNew: this.canCreateNew
       },
     });
