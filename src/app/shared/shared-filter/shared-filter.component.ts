@@ -29,8 +29,8 @@ export class SharedFilterComponent implements OnInit {
       });
   }
 
-  // onSubmit() {
-  //   this.filter.emit(this.filterForm.value);
-  // }
+  onSubmit() {
+    this.filter.emit(this.filterForm.value);
+  }
 
 }
