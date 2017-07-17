@@ -65,7 +65,7 @@ export class DismantlingIdleComponent implements OnInit {
       // disableClose: true,
       data: {
         searchQuery,
-        source: '待拆车辆',
+        source: '未下达拆解计划车辆',
         surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)),
         entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
         vehicleType

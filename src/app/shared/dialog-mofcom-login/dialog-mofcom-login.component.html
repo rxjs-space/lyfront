@@ -1,0 +1,34 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div md-dialog-title>登录商务部网站</div>
+  <div md-dialog-content>
+
+    <app-loading-or-error-3 [holder]="holderPub">
+
+      <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+
+        <md-grid-list cols="3" rowHeight="4em">
+          <md-grid-tile>验证码图片：</md-grid-tile>
+          <md-grid-tile>
+            <app-mofcom-captch
+            [imgBase64]="holderPub.latestResultRxxHash['captchaImgBase64'].getValue()['captchaBase64']"></app-mofcom-captch>
+          </md-grid-tile>
+          <md-grid-tile>
+            <md-input-container>
+              <input mdInput [placeholder]="'验证码'" formControlName="captcha">
+            </md-input-container>
+          </md-grid-tile>
+        </md-grid-list> 
+
+      </ng-container>
+
+    </app-loading-or-error-3>
+
+  </div>
+  <div md-dialog-actions>
+    <span class="space-filler"></span>
+    <md-spinner class="mini-spinner-1" *ngIf="isSubmitting"></md-spinner>
+    <button type="submit" md-raised-button color="primary"
+      [disabled]="isSubmitting || loginForm.invalid"
+    >登录</button>
+  </div>
+</form>

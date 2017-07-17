@@ -1,0 +1,4 @@
+<button type="button" md-raised-button color="primary" (click)="openDialog()"
+  *ngIf="!(backend.mofcomLoggedInRxx | async)"
+>登录商务部网站</button>
+<button type="button" md-raised-button disabled *ngIf="(backend.mofcomLoggedInRxx | async)">已登录商务部网站</button>

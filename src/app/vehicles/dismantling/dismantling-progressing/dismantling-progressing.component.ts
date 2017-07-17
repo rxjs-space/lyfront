@@ -107,22 +107,7 @@ export class DismantlingProgressingComponent implements OnInit {
         vehicleType
       }
     });
-    // const dialogRef = this.dialog.open(DialogVehicleListComponent, {
-    //   width: '650px',
-    //   // disableClose: true,
-    //   data: {
-    //     searchQuery,
-    //     source: '待拆车辆',
-    //     surveyStatus: (this.optionsArr[0].options.find(op => op.value === surveyStatus)),
-    //     entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
-    //     vehicleType
-    //   },
-    // });
 
-    // dialogRef.afterClosed().subscribe(v => {
-    //   // if (v) {this.needUpdate.emit(true); }
-    //   // this.needUpdate.emit(v);
-    // });
 
   }
 

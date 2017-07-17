@@ -24,6 +24,10 @@
       <md-input-container class="l-size-input">
         <input mdInput placeholder="名称" formControlName="name">
       </md-input-container>
+      <md-input-container class="l-size-input" *ngIf="category==='vehicleTypes'">
+        <input mdInput placeholder="商务部名称" formControlName="mofcomName">
+      </md-input-container>
     </div>
+
   </md-card-content>
 </md-card>

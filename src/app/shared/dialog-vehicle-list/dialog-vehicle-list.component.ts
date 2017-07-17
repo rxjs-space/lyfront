@@ -69,7 +69,7 @@ export class DialogVehicleListComponent implements OnInit, AfterViewInit, OnDest
     this.subscriptions.push(sub0_);
 
 
-    const sub1_ = this.actionTriggerRxx
+    const sub1_ = (this.actionTriggerRxx as Observable<boolean>)
       .filter(actionParams => actionParams)
       .subscribe(actionParams => {
         const surveyType: string = actionParams[0];

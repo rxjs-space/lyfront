@@ -31,6 +31,7 @@ export class DataService {
   // titlesApiUrl = this.host + '/titles';
   // private cache: {[key: string]: any} = {};
   btityRxx = new BehaviorSubject(null);
+  mofcomLoggedInRxx = new BehaviorSubject(false);
   constructor(
     @Inject(BACK_END_URL) private host1,
     @Inject(BOT_URL) private botUrl,
@@ -43,19 +44,22 @@ export class DataService {
     }
 
   mofcomInit() {
-    return this.http.post(this.botUrl + '/mofcom/init', {})
+    return this.http.post(this.botUrl + '/mofcom/init', {}, this.setupOptions(true))
       .map(res => res.json())
       .catch(this.handleError);
   }
 
   mofcomLogin(captcha) {
-    return this.http.post(this.botUrl + '/mofcom/login', {captcha})
-      .map(res => res.json())
+    return this.http.post(this.botUrl + '/mofcom/login', {captcha}, this.setupOptions(true))
+      .map(res => {
+        this.mofcomLoggedInRxx.next(true);
+        return res.json();
+      })
       .catch(this.handleError);
   }
 
   mofcomNewVehicle(vehicle) {
-    return this.http.post(this.botUrl + '/mofcom/new-vehicle', {vehicle})
+    return this.http.post(this.botUrl + '/mofcom/new-vehicle', {vehicle}, this.setupOptions(true))
       .map(res => res.json())
       .catch(this.handleError);
   }

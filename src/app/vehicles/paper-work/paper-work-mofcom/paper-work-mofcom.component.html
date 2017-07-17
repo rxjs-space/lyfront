@@ -1,50 +1,80 @@
 <md-card class="info-card">
-  <md-card-header>
-    <md-card-title>登录商务部网站</md-card-title>
-  </md-card-header>
   <md-card-content>
-    <div style="max-width: 500px">
-      <md-grid-list cols="5" rowHeight="4em" *ngIf="isBotDown">
-        <md-grid-tile>机器人掉线。</md-grid-tile>
-      </md-grid-list>
-      <md-grid-list cols="5" rowHeight="4em" *ngIf="isLoggedIn">
-        <md-grid-tile>已登录。</md-grid-tile>
-        <md-grid-tile>
-          <button type="button" md-button color="primary" (click)="mofcomInit()">重新登录</button>
-        </md-grid-tile>
-        <md-grid-tile>
-          <button type="button" md-raised-button color="primary" (click)="mofcomNewVehicle()">新建车辆</button>
-        </md-grid-tile>
-      </md-grid-list>
-      <md-grid-list cols="5" rowHeight="4em" *ngIf="!isLoggedIn">
-        <md-grid-tile>验证码图片：</md-grid-tile>
-        <md-grid-tile>
-          <md-spinner class="mini-spinner-1" *ngIf="!captchaBase64"></md-spinner>
-          <app-paper-work-mofcom-captcha
-            *ngIf="captchaBase64"
-            [captchaBase64]="captchaBase64"></app-paper-work-mofcom-captcha>
-        </md-grid-tile>
-        <md-grid-tile>
-          <md-input-container>
-            <input mdInput [placeholder]="'验证码'" [formControl]="captchaCtrl">
-          </md-input-container>
-        </md-grid-tile>
-        <md-grid-tile>
-          <button type="button" md-raised-button color="primary"
-            [disabled]="!captchaBase64 || !captchaCtrl.value"
-            *ngIf="!isLoggingIn"
-            (click)="mofcomLogin()"
-          >登录</button>
-          <span *ngIf="isLoggingIn">
-            登录中 <md-spinner class="mini-spinner-1"></md-spinner>
-          </span>
-        </md-grid-tile>
-        <md-grid-tile>
-          <button type="button" md-button color="primary" (click)="mofcomInit()">刷新</button>
-        </md-grid-tile>
-      </md-grid-list>
-  </div>
+    <app-dialog-mofcom-login-trigger></app-dialog-mofcom-login-trigger>
   </md-card-content>
 </md-card>
 <md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>回收证明待办车辆</span>
+      <span style="width: 2em"></span>
+      <app-shared-filter class="scale-down-filter"
+        [optionsArr]="optionsArr"
+        (valueChanges)="filterCacheRxx.next($event)"
+      >
+      </app-shared-filter>
+
+    </md-card-title>
+  </md-card-header>
+   <md-card-content>
+
+    <app-loading-or-error-3 [holder]="holderPub">
+      <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+
+        <md-list class="normal-font-size-list">
+          <md-list-item>
+            <md-grid-list cols="4" rowHeight="2em" md-line>
+              <md-grid-tile>
+                车辆进场日期 \ 车型
+              </md-grid-tile>
+              <md-grid-tile>
+                非摩托车
+              </md-grid-tile>
+              <md-grid-tile>
+                摩托车
+              </md-grid-tile>
+              <md-grid-tile>
+                合计
+              </md-grid-tile>
+            </md-grid-list>        
+          </md-list-item>
+          <md-divider></md-divider>
+          <ng-container *ngFor="let item of dataProps; last as isLast">
+            <md-divider *ngIf="isLast"></md-divider>
+            <md-list-item>
+              <md-grid-list cols="4" rowHeight="2em" md-line>
+                <md-grid-tile>
+                  {{item.title}}
+                </md-grid-tile>
+                <md-grid-tile>
+                  <button md-button color="primary" [disabled]="!(filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0)" 
+                  (click)="queryList(item.name, 'z')">
+                    {{filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0}}
+                  </button>
+                </md-grid-tile>
+
+                <md-grid-tile>
+                  <button md-button color="primary" [disabled]="!(filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0)" 
+                    (click)="queryList(item.name, '3')">
+                    {{filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0}}
+                  </button>
+                </md-grid-tile>
+
+                <md-grid-tile>
+                  <button md-button color="primary" [disabled]="!((filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0) + (filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0))" 
+                  (click)="queryList(item.name)">
+                    {{(filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0) + (filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0)}}
+                  </button>
+                </md-grid-tile>
+              </md-grid-list>
+            </md-list-item>
+          </ng-container>
+        </md-list> 
+
+
+      </ng-container>
+    </app-loading-or-error-3>
+
+  </md-card-content> 
 </md-card>

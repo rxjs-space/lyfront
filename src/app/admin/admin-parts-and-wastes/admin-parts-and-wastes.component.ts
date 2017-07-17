@@ -39,7 +39,7 @@ export class AdminPartsAndWastesComponent extends BaseForComponentWithAsyncData 
   ngOnInit() {
     super.ngOnInit();
     this.holderPub = this.holder;
-    const sub0_ = this.holderPub.isLoadedWithoutErrorRxx
+    const sub0_ = (this.holderPub.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(v => v)
       .subscribe(() => this.rebuildForm());
     this.subscriptions.push(sub0_);
@@ -51,14 +51,22 @@ export class AdminPartsAndWastesComponent extends BaseForComponentWithAsyncData 
     this.categories = this.holderPub.latestResultRxxHash['routeData'].getValue()['categories'];
     this.typesForm = this.fb.group({});
     this.categories.forEach(cat => {
-      const dataBeforeChange = (types[cat] as {id: string, name: string}[]).sort((a, b) => {
+      const dataBeforeChange = (types[cat] as {id: string, name: string, mofcomName?: string}[]).sort((a, b) => {
         return a.id.localeCompare(b.id);
       });
       this.typesForm.setControl(cat, this.fb.array(dataBeforeChange.map(x => {
-        return this.fb.group({
-          id: {value: x.id, disabled: true},
-          name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]]
-        });
+        if (cat==='vehicleTypes') {
+          return this.fb.group({
+            id: {value: x.id, disabled: true},
+            name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]],
+            mofcomName: [{value: x.mofcomName, disabled: true}]
+          });
+        } else {
+          return this.fb.group({
+            id: {value: x.id, disabled: true},
+            name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]]
+          });
+        }
       })));
     });
 

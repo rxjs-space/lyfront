@@ -67,6 +67,9 @@ import { DialogDismantlingOrderPrintDetailsComponent } from './dialog-dismantlin
 import { LoadingOrError3Component } from './loading-or-error-3/loading-or-error-3.component';
 import { CloseButtonComponent } from './close-button/close-button.component';
 import { DialogYesNo2Component } from './dialog-yes-no-2/dialog-yes-no-2.component';
+import { DialogMofcomLoginComponent } from './dialog-mofcom-login/dialog-mofcom-login.component';
+import { DialogMofcomLoginTriggerComponent } from './dialog-mofcom-login/dialog-mofcom-login-trigger.component';
+import { MofcomCaptchComponent } from './dialog-mofcom-login/mofcom-captch.component';
 
 
 const mdModules = [
@@ -140,6 +143,9 @@ const mdModules = [
     LoadingOrError3Component,
     CloseButtonComponent,
     DialogYesNo2Component,
+    DialogMofcomLoginComponent,
+    DialogMofcomLoginTriggerComponent,
+    MofcomCaptchComponent,
   ],
   exports: [
     CommonModule,
@@ -160,7 +166,8 @@ const mdModules = [
     VehicleSearchComponent,
     DialogDismantlingOrderPrintComponent,
     LoadingOrError3Component,
-    CloseButtonComponent
+    CloseButtonComponent,
+    DialogMofcomLoginTriggerComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,
@@ -174,7 +181,8 @@ const mdModules = [
     DialogDismantlingOrderListComponent,
     DialogMarkComponent,
     DialogConfirmationComponent,
-    DialogYesNo2Component
+    DialogYesNo2Component,
+    DialogMofcomLoginComponent
   ]
 })
 export class SharedModule {
