@@ -6,7 +6,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/of';
-
+import io from 'socket.io-client';
+import { environment } from '../../environments/environment';
 import { Vehicle } from './vehicle';
 import { User } from './user';
 import { BACK_END_URL, BOT_URL } from '../app-config';
@@ -32,15 +33,19 @@ export class DataService {
   // private cache: {[key: string]: any} = {};
   btityRxx = new BehaviorSubject(null);
   mofcomLoggedInRxx = new BehaviorSubject(false);
+
+  socketCaptcha: any;
+
   constructor(
     @Inject(BACK_END_URL) private host1,
     @Inject(BOT_URL) private botUrl,
     private http: Http
     ) {
-
-      // this.getTypesOnceRx();
-      // this.getTitlesOnce();
-      // this.getBrandsOnce();
+      // for debugging socket.io, set localStorage.debug
+      if (!environment.production) {
+        console.log('setting');
+        localStorage.debug = 'socket.io-client:socket';
+      }
     }
 
   mofcomInit() {
@@ -50,12 +55,23 @@ export class DataService {
   }
 
   mofcomLogin(captcha) {
-    return this.http.post(this.botUrl + '/mofcom/login', {captcha}, this.setupOptions(true))
-      .map(res => {
-        this.mofcomLoggedInRxx.next(true);
-        return res.json();
-      })
-      .catch(this.handleError);
+    // return this.http.post(this.botUrl + '/mofcom/login', {captcha}, this.setupOptions(true))
+    //   .map(res => {
+    //     this.mofcomLoggedInRxx.next(true);
+    //     return res;
+    //   })
+    //   .catch(this.handleError);
+    const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
+    return new Observable(observer => {
+        this.socketCaptcha = io(this.botUrl);
+        this.socketCaptcha.emit('captcha', {captcha, jwt});
+        this.socketCaptcha.on('message', (data) => observer.next(data));
+        this.socketCaptcha.on('connect_failed', (error) => observer.error(error));
+        return () => {
+          this.socketCaptcha.disconnect();
+        };
+      });
+
   }
 
   mofcomNewVehicle(vehicle) {

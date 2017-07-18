@@ -43,39 +43,36 @@ export class DialogMofcomLoginComponent extends BaseForComponentWithAsyncData im
     this.isSubmitting = true;
     captchaCtrl.disable();
     this.backend.mofcomLogin(captchaCtrl.value)
-      .catch(error => {
-        captchaCtrl.enable();
-        this.isSubmitting = false;
-        return Observable.of({
-          ok: false, error
-        });
-      })
-      .subscribe(res => {
-        console.log(res);
-        this.dialogRef.close();
-      });
+      .subscribe(
+        res => {
+          console.log(res);
+          this.dialogRef.close();
+        },
+        error => {
+          console.log(error);
+          captchaCtrl.enable();
+          this.isSubmitting = false;
+        }
+      );
+  }
 
-
-  // mofcomLogin() {
-  //   this.isLoggingIn = true;
-  //   this.isLoggedIn = false;
+  // onSubmit() {
+  //   console.log('submitting');
+  //   const captchaCtrl = this.loginForm.get('captcha');
+  //   this.isSubmitting = true;
   //   captchaCtrl.disable();
   //   this.backend.mofcomLogin(captchaCtrl.value)
   //     .catch(error => {
   //       captchaCtrl.enable();
+  //       this.isSubmitting = false;
   //       return Observable.of({
   //         ok: false, error
   //       });
   //     })
   //     .subscribe(res => {
-  //       captchaCtrl.enable();
   //       console.log(res);
-  //       this.isLoggingIn = false;
-  //       this.isLoggedIn = true;
+  //       this.dialogRef.close();
   //     });
   // }
-
-
-  }
 
 }
