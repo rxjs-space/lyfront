@@ -15,6 +15,7 @@ export class VehicleDetailsGeneralComponent implements OnInit {
   @Input() vehicle: any;
   @Input() btity: any;
   @Input() isNew: boolean;
+  @Input() checkMofcomValidityRxx: any;
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -24,19 +25,20 @@ export class VehicleDetailsGeneralComponent implements OnInit {
   ngOnInit() {
     this.fform = this.fb.group({
       vin: [this.vehicle.vin, Validators.required],
-      batchId: [this.vehicle.batchId],
+      batchId: [this.vehicle.batchId, this.sv.startedWithSpace()],
       source: [this.fu.idToName(this.vehicle.source, this.btity.types['sources']), [
         this.sv.notListedButCanBeEmpty(this.btity.types.sources.map(t => t.name))
       ]],
-      isToDeregister: [this.vehicle.isToDeregister],
+      // isToDeregister: [this.vehicle.isToDeregister], // replaced by consignmentType
       mofcomRegisterType: [this.fu.idToName(this.vehicle.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']), [
-        this.sv.notListedButCanBeEmpty(this.btity.types.mofcomRegisterTypes.map(t => t.name))
+        this.sv.notListedButCanBeEmpty(this.btity.types.mofcomRegisterTypes.map(t => t.name)),
+        Validators.required
       ]],
       consignmentType: [this.fu.idToName(this.vehicle.consignmentType, this.btity.types['consignmentTypes']), [
         Validators.required,
         this.sv.notListedButCanBeEmpty(this.btity.types.consignmentTypes.map(t => t.name))
       ]],
-      mofcomRegisterRef: [this.vehicle.mofcomRegisterRef],
+      mofcomRegisterRef: [this.vehicle.mofcomRegisterRef, this.sv.startedWithSpace()],
       entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10), [Validators.required]],
       facility: [{
         value: this.fu.idToName(this.vehicle.facility, this.btity.types.facilities),
@@ -48,7 +50,7 @@ export class VehicleDetailsGeneralComponent implements OnInit {
         deletedBy: [this.vehicle.metadata.deletedBy],
         deletedAt: [this.vehicle.metadata.deletedAt],
       }),
-      internalSurveyor: [this.vehicle.internalSurveyor]
+      internalSurveyor: [this.vehicle.internalSurveyor, this.sv.startedWithSpace()]
     });
 
     /* setting up vinConfirm based on isNew*/
@@ -77,6 +79,9 @@ export class VehicleDetailsGeneralComponent implements OnInit {
 
       });
 
+    this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
+      // no validation rule needs to be changed for general part
+    });
 
   }
 

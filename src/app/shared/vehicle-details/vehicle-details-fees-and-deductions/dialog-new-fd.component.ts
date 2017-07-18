@@ -28,7 +28,7 @@ export class DialogNewFdComponent implements OnInit {
         this.sv.notListedButCanBeEmpty(this.data.btity.types['parts'].map(p => p.name)),
         this.sv.requiredBasedOnAnotherControlAndItsValue('type', '零件遗失')
       ]],
-      details: [''],
+      details: ['', this.sv.startedWithSpace()],
       amount: ['', [Validators.required]]
     });
   }

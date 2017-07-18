@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../auth/auth.service';
+import { SharedValidatorsService } from '../../validators/shared-validators.service';
 
 @Component({
   selector: 'app-dialog-new-vehicle-note',
@@ -12,6 +13,7 @@ export class DialogNewVehicleNoteComponent implements OnInit {
   noteForm: FormGroup;
 
   constructor(
+    private sv: SharedValidatorsService,
     public dialogRef: MdDialogRef<DialogNewVehicleNoteComponent>,
     public fb: FormBuilder,
     private auth: AuthService,
@@ -21,7 +23,7 @@ export class DialogNewVehicleNoteComponent implements OnInit {
     this.noteForm = this.fb.group({
       date: [(new Date()).toISOString().slice(0, 10)],
       by: [this.auth.getUserId()],
-      content: ['', [Validators.required]],
+      content: ['', [Validators.required, this.sv.startedWithSpace()]],
     });
   }
 

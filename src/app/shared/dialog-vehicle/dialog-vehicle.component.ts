@@ -2,6 +2,7 @@ import { Component, ViewChild, HostBinding, Inject, OnInit, OnDestroy } from '@a
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 
 import { DataService } from '../../data/data.service';
 import { Vehicle } from '../../data/vehicle';
@@ -30,8 +31,11 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   isLoadedWithoutErrorRxx: any;
   isWithErrorRxx: any;
   holder: any;
+  subscriptions: Subscription[] = [];
 
   elementHash = {};
+  checkMofcomValidityRxx = new Subject();
+  validAfterMofcomValidityCheck = false;
 
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
@@ -44,6 +48,19 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     // console.log(this.dataFromTrigger);
     this.refresh();
 
+  }
+
+  mofcomCertPrepare() {
+    const vehicle = this.holder.latestResultRxxHash['vehicle'].getValue();
+    const sub0_ = (this.checkMofcomValidityRxx as Observable<any>)
+      .delay(0)
+      .switchMap(() => this.vDetails.isValidRxx as Observable<boolean>)
+      .filter(v => v)
+      .do(v => this.validAfterMofcomValidityCheck = v)
+      .subscribe();
+
+    this.subscriptions.push(sub0_);
+    this.checkMofcomValidityRxx.next(vehicle.mofcomRegisterType);
   }
 
   refresh() {
@@ -110,6 +127,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.rollbackPreparePrint();
     this.asyncDataLoader.destroy(this.asyncDataId);
+    this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
 }

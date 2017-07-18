@@ -65,7 +65,13 @@ export class DataService {
     return new Observable(observer => {
         this.socketCaptcha = io(this.botUrl);
         this.socketCaptcha.emit('captcha', {captcha, jwt});
-        this.socketCaptcha.on('message', (data) => observer.next(data));
+        this.socketCaptcha.on('message', (data) => {
+          observer.next(data);
+          console.log(data.message);
+          if (data.message.indexOf('logged in') > -1) {
+            this.mofcomLoggedInRxx.next(true);
+          }
+        });
         this.socketCaptcha.on('connect_failed', (error) => observer.error(error));
         return () => {
           this.socketCaptcha.disconnect();

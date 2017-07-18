@@ -66,7 +66,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     this.holder.refreshAll();
 
-    const sub9_ = this.holder.isLoadedWithoutErrorRxx
+    const sub9_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(() => this.holder.latestResultRxxHash['btity'].getValue() && this.holder.latestResultRxxHash['vehicleList'].getValue())
       .subscribe(() => {
         this.btity1 = this.holder.latestResultRxxHash['btity'].getValue();

@@ -25,7 +25,7 @@ export class DialogNewVehicleCostComponent implements OnInit {
         Validators.required,
         this.sv.notListedButCanBeEmpty(this.data.btity.types['vehicleCostTypes'].map(type => type.name))
       ]],
-      details: [''],
+      details: ['', this.sv.startedWithSpace()],
       amount: ['', [Validators.required]]
     });
   }

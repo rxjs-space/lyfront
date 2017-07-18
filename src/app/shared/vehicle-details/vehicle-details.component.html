@@ -1,6 +1,7 @@
 <div [hidden]="isInPrintMode" [style.height]="isInPrintMode ? 0 : 'auto'">
 
-  <app-vehicle-details-general [btity]="btity" [vehicle]="vehicle" [isNew]="isNew">
+  <app-vehicle-details-general [btity]="btity" [vehicle]="vehicle" [isNew]="isNew" 
+    [checkMofcomValidityRxx]="checkMofcomValidityRxx">
   </app-vehicle-details-general>
 
   <app-vehicle-details-status [btity]="btity" [vehicle]="vehicle">
@@ -9,7 +10,8 @@
   <app-vehicle-details-vehicle [btity]="btity" [vehicle]="vehicle" #vdv>
   </app-vehicle-details-vehicle>
 
-  <app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle" #vdoa>
+  <app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle" #vdoa
+    [checkMofcomValidityRxx]="checkMofcomValidityRxx">
   </app-vehicle-details-owner-agent>
 
   <app-vehicle-details-docs-provided [btity]="btity" [vehicle]="vehicle" [isPersonRxx]="vdoa.isPersonRxx">

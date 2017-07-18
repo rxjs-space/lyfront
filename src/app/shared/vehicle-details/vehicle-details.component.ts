@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, Validat
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/combineLatest';
@@ -54,6 +55,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild(VehicleDetailsFeesAndDeductionsComponent) dFND: any;
   @ViewChild(VehicleDetailsNotesComponent) dNotes: any;
   @ViewChild(VehicleDetailsCostsComponent) dCosts: any;
+  @Input() checkMofcomValidityRxx: any;
   partialFormContainers = [
     'dGeneral', 'dStatus', 'dVehicle',
     'dOwnerAgent', 'dDocsProvided', 'dFND',
@@ -177,13 +179,13 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   checkValidity() {
     const markAllAsTouched = (control: AbstractControl) => {
       if (control.hasOwnProperty('controls')) {
-        control.markAsTouched(true); // mark group
+        control.markAsTouched(); // mark group
         const ctrl = <any>control;
         for (const innerId in ctrl.controls) {
           markAllAsTouched(ctrl.controls[innerId] as AbstractControl);
         }
       } else {
-        (<FormControl>(control)).markAsTouched(true);  // mark single control
+        (<FormControl>(control)).markAsTouched();  // mark single control
       }
     };
 

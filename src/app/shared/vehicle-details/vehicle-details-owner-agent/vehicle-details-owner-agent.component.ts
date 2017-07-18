@@ -18,6 +18,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
   valueChangesRx: Observable<any>;
   @Input() vehicle: any;
   @Input() btity: any;
+  @Input() checkMofcomValidityRxx: any;
   pTypes: any;
   oTypes: any;
   subscriptions: Subscription[] = [];
@@ -36,8 +37,8 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
 
     this.fform = this.fb.group({
       owner: this.fb.group({
-        name: [this.vehicle.owner.name, Validators.required],
-        address: [this.vehicle.owner.address],
+        name: [this.vehicle.owner.name, [Validators.required, this.sv.startedWithSpace()]],
+        address: [this.vehicle.owner.address, [Validators.required, this.sv.startedWithSpace()]],
         zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
         idType: [this.fu.idToName(this.vehicle.owner.idType, this.btity.types['idTypes']), [
           this.sv.notListedBasedOnOtherControlTFButCanBeEmpty('isPerson', [
@@ -45,21 +46,34 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
             this.pTypes.map(type => type.name),
           ])
         ]],
-        idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
-        idNo: [this.vehicle.owner.idNo],
+        idOtherTypeName: [this.vehicle.owner.idOtherTypeName, this.sv.startedWithSpace()],
+        idNo: [this.vehicle.owner.idNo, this.sv.startedWithSpace()],
         tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
-        isPerson: [this.vehicle.owner.isPerson, [this.sv.shouldBeBoolean()]],
-        isByAgent: [this.vehicle.owner.isByAgent, [this.sv.shouldBeBoolean()]]
+        isPerson: [this.vehicle.owner.isPerson, [this.sv.shouldBeBoolean(), Validators.required]],
+        isByAgent: [this.vehicle.owner.isByAgent, [this.sv.shouldBeBoolean(), Validators.required]]
       }),
       agent: this.fb.group({
-        name: [this.vehicle.agent ? this.vehicle.agent.name : ''],
+        name: [this.vehicle.agent.name, this.sv.startedWithSpace()],
         idType: [this.fu.idToName(this.vehicle.agent.idType, this.btity.types['idTypes']),
           this.sv.notListedButCanBeEmpty(this.pTypes.map(type => type.name))],
-        idOtherTypeName: [this.vehicle.owner.idOtherTypeName],
-        idNo: [this.vehicle.agent.idNo],
+        idOtherTypeName: [this.vehicle.agent.idOtherTypeName, this.sv.startedWithSpace()],
+        idNo: [this.vehicle.agent.idNo, this.sv.startedWithSpace()],
         tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       }),
     });
+
+    const isByAgentChange_ = this.fform.get('owner.isByAgent').valueChanges
+      .subscribe(value => {
+        const agentNameCtrl = this.fform.get('agent.name');
+        if (value) {
+          agentNameCtrl.setValidators([Validators.required]);
+          agentNameCtrl.updateValueAndValidity();
+        } else {
+          agentNameCtrl.clearValidators();
+          agentNameCtrl.updateValueAndValidity();
+        }
+      });
+    this.subscriptions.push(isByAgentChange_);
 
     const isPersonChange_ = this.fform.get('owner.isPerson').valueChanges
       .subscribe(value => {
@@ -85,6 +99,28 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
           return allV;
         // }
       });
+
+    this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
+      console.log(mofcomRegisterType);
+      this.fform.get('owner.idNo').setValidators([Validators.required]);
+      this.fform.get('owner.idNo').updateValueAndValidity();
+      // const markAllAsTouched = (control: AbstractControl) => {
+      //   if (control.hasOwnProperty('controls')) {
+      //     control.markAsTouched(); // mark group
+      //     const ctrl = <any>control;
+      //     for (const innerId in ctrl.controls) {
+      //       markAllAsTouched(ctrl.controls[innerId] as AbstractControl);
+      //     }
+      //   } else {
+      //     (<FormControl>(control)).markAsTouched();  // mark single control
+      //   }
+      // };
+
+      // markAllAsTouched(this.fform);
+
+      // this.fform.get('owner.idNo').updateValueAndValidity();
+    });
+
   }
 
   ngOnDestroy() {

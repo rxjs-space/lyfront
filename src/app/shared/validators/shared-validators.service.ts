@@ -18,6 +18,14 @@ export class SharedValidatorsService {
   constructor(private data: DataService,
     private asyncMon: AsyncMonitorService) { }
 
+  startedWithSpace(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      const value = control.value;
+      if (typeof value !== 'string') {return null; }
+      return value.indexOf(' ') === 0 ? {'startedWithSpace': true} : null;
+    };
+  }
+
   duplicateName(names: string[]): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {
       const newName = control.value;
