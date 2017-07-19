@@ -42,7 +42,7 @@ export class DialogMofcomLoginComponent extends BaseForComponentWithAsyncData im
     const captchaCtrl = this.loginForm.get('captcha');
     this.isSubmitting = true;
     captchaCtrl.disable();
-    this.backend.mofcomLogin(captchaCtrl.value)
+    const sub0_ = this.backend.mofcomLogin(captchaCtrl.value)
       .subscribe(
         res => {
           console.log(res);
@@ -54,6 +54,8 @@ export class DialogMofcomLoginComponent extends BaseForComponentWithAsyncData im
           this.isSubmitting = false;
         }
       );
+
+    this.subscriptions.push(sub0_);
   }
 
   // onSubmit() {
