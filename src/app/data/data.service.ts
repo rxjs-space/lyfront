@@ -34,7 +34,7 @@ export class DataService {
   btityRxx = new BehaviorSubject(null);
   mofcomLoggedInRxx = new BehaviorSubject(false);
 
-  socketCaptcha: any;
+  socketBot: any;
 
   constructor(
     @Inject(BACK_END_URL) private host1,
@@ -43,7 +43,7 @@ export class DataService {
     ) {
       // for debugging socket.io, set localStorage.debug
       if (!environment.production) {
-        console.log('setting');
+        // console.log('setting');
         localStorage.debug = 'socket.io-client:socket';
       }
     }
@@ -63,18 +63,18 @@ export class DataService {
     //   .catch(this.handleError);
     const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
     return new Observable(observer => {
-        this.socketCaptcha = io(this.botUrl);
-        this.socketCaptcha.emit('captcha', {captcha, jwt});
-        this.socketCaptcha.on('message', (data) => {
+        this.socketBot = io(this.botUrl);
+        this.socketBot.emit('captcha', {captcha, jwt});
+        this.socketBot.on('message', (data) => {
           observer.next(data);
-          console.log(data.message);
+          // console.log(data.message);
           if (data.message.indexOf('logged in') > -1) {
             this.mofcomLoggedInRxx.next(true);
           }
         });
-        this.socketCaptcha.on('connect_failed', (error) => observer.error(error));
+        this.socketBot.on('connect_failed', (error) => observer.error(error));
         return () => {
-          this.socketCaptcha.disconnect();
+          this.socketBot.disconnect();
         };
       });
 
