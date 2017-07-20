@@ -46,7 +46,7 @@ export class DialogMofcomLoginComponent extends BaseForComponentWithAsyncData im
       .subscribe(
         res => {
           console.log(res);
-          this.dialogRef.close();
+          this.dialogRef.close({isLoggedIn: true});
         },
         error => {
           console.log(error);

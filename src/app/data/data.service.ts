@@ -69,9 +69,11 @@ export class DataService {
           observer.next(data);
           // console.log(data.message);
           if (data.message.indexOf('logged in') > -1) {
+            console.log('received log in message');
             this.mofcomLoggedInRxx.next(true);
           }
         });
+        this.socketBot.on('error', (error) => observer.error(error));
         this.socketBot.on('connect_failed', (error) => observer.error(error));
         return () => {
           this.socketBot.disconnect();
@@ -81,6 +83,7 @@ export class DataService {
   }
 
   mofcomNewVehicle(vehicle) {
+    // return Observable.of('ok');
     return this.http.post(this.botUrl + '/mofcom/new-vehicle', {vehicle}, this.setupOptions(true))
       .map(res => res.json())
       .catch(this.handleError);

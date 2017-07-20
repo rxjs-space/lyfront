@@ -36,7 +36,9 @@
           [placeholderInput]="btity.titles.vehicles.vehicle.useCharacter"
           [formControlInput]="fform.get('vehicle.useCharacter')"
           [objList]="btity.types.useCharacters"
-          sizeClass='s-size-input'
+          [toSort]="false"
+          [toFilterList]="true"
+          sizeClass='m-size-input'
         >
         </app-autocomplete-combo>
 

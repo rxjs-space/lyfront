@@ -3,16 +3,19 @@
 <div *ngIf="holder.isLoadedWithoutErrorRxx | async">
   <app-dismantling-idle 
     [data]="(holder.latestResultRxxHash['reports'] | async)['idle']"
+    [btity]="holder.latestResultRxxHash['btity'] | async"
     [filterCache]="filterCache"
   ></app-dismantling-idle>
 
   <app-dismantling-progressing 
     [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"
+    [btity]="holder.latestResultRxxHash['btity'] | async"
     [filterCache]="filterCache"
   ></app-dismantling-progressing>
 
   <app-dismantling-completed
     [data]="(holder.latestResultRxxHash['reports'] | async)['completed']"
+    [btity]="holder.latestResultRxxHash['btity'] | async"
     [filterCache]="filterCache"
   ></app-dismantling-completed>
 </div>

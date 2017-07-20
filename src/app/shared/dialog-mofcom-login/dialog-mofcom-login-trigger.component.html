@@ -1,4 +1,11 @@
-<button type="button" md-raised-button color="primary" (click)="openDialog()"
-  *ngIf="!(backend.mofcomLoggedInRxx | async)"
->登录商务部网站</button>
-<button type="button" md-raised-button disabled *ngIf="(backend.mofcomLoggedInRxx | async)">已登录商务部网站</button>
+<ng-container *ngIf="!isLoginAndSubmit">
+  <button type="button" md-raised-button color="primary" (click)="openDialog()"
+    *ngIf="!(backend.mofcomLoggedInRxx | async)"
+  >登录商务部网站</button>
+  <button type="button" md-raised-button disabled *ngIf="(backend.mofcomLoggedInRxx | async)">已登录商务部网站</button>
+</ng-container>
+<ng-container *ngIf="isLoginAndSubmit">
+  <button md-raised-button type="button" color="accent" (click)="loginAndSubmit()"
+    [disabled]="disabledInput">录入回收证明</button>
+</ng-container>
+

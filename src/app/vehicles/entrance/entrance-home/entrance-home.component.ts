@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AsyncDataLoaderService, SubHolder } from '../../../shared/async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from '../../../shared/async-monitor/async-monitor.service';
-
 import { DataService } from '../../../data/data.service';
 @Component({
   selector: 'app-entrance-home',
@@ -14,7 +14,8 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
   asyncDataId = 'entranceHome';
   asyncDataHolder: SubHolder;
   itemRxHash = {
-    reports: this.data.vehiclesReports('entrance')
+    reports: this.data.vehiclesReports('entrance'),
+    btity: this.data.btityRxx
   };
   reports: any;
   asyncMonitorHolder_InsertUpdateVehicle = this.asyncMonitor.init('insertUpdateVehicle');
@@ -30,8 +31,12 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
 
 
     this.asyncDataHolder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
-    this.asyncDataHolder.latestResultRxxHash['reports']
-      .filter(r => r)
+    (this.asyncDataHolder.isLoadedWithoutErrorRxx as Observable<boolean>)
+      .filter(v => v)
+      .switchMap(() => {
+        return this.asyncDataHolder.latestResultRxxHash['reports']
+          .filter(r => r);
+      })
       .subscribe(reportsRaw => {
         // console.log(reportsRaw);
         const reportsPreparedLastTenDays = this.lastDays(10).reduce((acc, curr) => {
@@ -44,8 +49,10 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           return acc;
         }, {'非摩托车': [], '摩托车': [], 'max': 10});
 
+        const vehicleTypeIdsForMotocycle = this.asyncDataHolder.latestResultRxxHash['btity'].getValue()['types']['vehicleTypeIdsForMotocycle'];
         reportsRaw['lastTenDays'].reduce((acc, curr) => {
-          const key = curr['vehicle.vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
+          const key = vehicleTypeIdsForMotocycle.indexOf(curr['vehicle.vehicleType']) > -1
+            ? '摩托车' : '非摩托车';
 
           const itemToReplace = acc[key].find(item => item.date === curr.entranceDate);
           itemToReplace.total = curr.total + itemToReplace.total;
@@ -55,8 +62,8 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
         // console.log(reportsPreparedLastTenDays);
         const reportsPreparedLastFiveWeeks = reportsRaw['lastFiveWeeks'].reduce((acc, curr) => {
           const currType = Object.keys(curr)[0];
-          switch (currType) {
-            case '3':
+          switch (true) {
+            case vehicleTypeIdsForMotocycle.indexOf(currType) > -1:
               acc['摩托车'] = curr[currType];
               acc['摩托车'].forEach(item => {
                 if (item.total > acc.max) {

@@ -72,7 +72,7 @@
       <ng-container *ngFor="let report of filteredData['非摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
-          (click)="queryList('z', report.completedDate)"
+          (click)="queryList('non-motorcycle', report.completedDate)"
         >{{report.total}}</button></md-grid-tile>
         <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>
@@ -83,7 +83,7 @@
       <ng-container *ngFor="let report of filteredData['摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
-          (click)="queryList('3', report.completedDate)"
+          (click)="queryList('motorcycle', report.completedDate)"
         >{{report.total}}</button></md-grid-tile>
         <!--<md-grid-tile><span>{{report.total}}</span></md-grid-tile>-->
         <md-grid-tile></md-grid-tile>

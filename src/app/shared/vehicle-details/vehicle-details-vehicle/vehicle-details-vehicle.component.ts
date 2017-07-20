@@ -65,7 +65,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
           this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))
         ]],
         seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
-        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.shouldBeBoolean()]],
+        isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.shouldBeBoolean(), Validators.required]],
       }),
     });
 

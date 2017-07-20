@@ -35,12 +35,20 @@
       [disabled]="vd.isChangedRxx | async"
       *ngIf="!isInPrintMode">准备打印</button>
     <button md-button type="button" color="accent"
-      [disabled]="(vd.isChangedRxx | async) || (!!vehicleRxx.getValue()['mofcomRegisterRef'])"
-      (click)="mofcomCertPrepare()"
+      [disabled]="(!!vehicleRxx.getValue()['mofcomRegisterRef'])"
+      (click)="mofcomCertValidation()"
       *ngIf="!isInPrintMode && !validAfterMofcomValidityCheck">回收证明数据验证</button>
-    <button md-raised-button type="button" color="accent"
+    <!-- <button md-raised-button type="button" color="accent"
       [disabled]="(vd.isChangedRxx | async) || (!!vehicleRxx.getValue()['mofcomRegisterRef'])"
-    *ngIf="!isInPrintMode && validAfterMofcomValidityCheck">录入回收证明</button>
+      (click)="mofcomCertSubmit()"
+      *ngIf="!isInPrintMode && validAfterMofcomValidityCheck">录入回收证明</button> -->
+    <app-dialog-mofcom-login-trigger
+      [btity]="this.holder.latestResultRxxHash['btity'].getValue()"
+      [isLoginAndSubmit]="true"
+      [vehicle]="holder.latestResultRxxHash['vehicle'].getValue()"
+      *ngIf="!isInPrintMode && validAfterMofcomValidityCheck"
+      [disabledInput]="(vd.isChangedRxx | async) || (!!vehicleRxx.getValue()['mofcomRegisterRef'])"
+    ></app-dialog-mofcom-login-trigger>
     <button md-raised-button type="button" 
       (click)="rollbackPreparePrint()" color="accent" *ngIf="isInPrintMode"
       class="cancel-print-right"

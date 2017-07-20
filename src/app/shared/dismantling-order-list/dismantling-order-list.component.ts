@@ -42,7 +42,7 @@ export class DismantlingOrderListComponent implements OnInit, OnDestroy {
       .filter(v => v)
       .first()
       .subscribe(v => {
-        console.log(v);
+        // console.log(v);
         this.dismantlingOrders = v;
 
           this.dialogDismantlingOrderMarkAsyncMonitorHolder = this.asyncMonitor.init('dialogDismantlingOrderMark');

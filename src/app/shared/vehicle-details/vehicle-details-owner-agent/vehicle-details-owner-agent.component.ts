@@ -58,7 +58,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
           this.sv.notListedButCanBeEmpty(this.pTypes.map(type => type.name))],
         idOtherTypeName: [this.vehicle.agent.idOtherTypeName, this.sv.startedWithSpace()],
         idNo: [this.vehicle.agent.idNo, this.sv.startedWithSpace()],
-        tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
+        // tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       }),
     });
 
@@ -101,9 +101,19 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
       });
 
     this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
-      console.log(mofcomRegisterType);
-      this.fform.get('owner.idNo').setValidators([Validators.required]);
-      this.fform.get('owner.idNo').updateValueAndValidity();
+      // console.log(mofcomRegisterType);
+      const requiredFields = [
+        'owner.idNo', 'owner.zipCode', 'owner.tel'
+      ];
+      if (this.fform.get('owner.isByAgent').value) {
+        requiredFields.push('agent.idNo');
+      }
+      requiredFields.forEach(f => {
+        this.fform.get(f).setValidators(Validators.required);
+        this.fform.get(f).updateValueAndValidity();
+      })
+      // this.fform.get('owner.idNo').setValidators([Validators.required]);
+      // this.fform.get('owner.idNo').updateValueAndValidity();
       // const markAllAsTouched = (control: AbstractControl) => {
       //   if (control.hasOwnProperty('controls')) {
       //     control.markAsTouched(); // mark group

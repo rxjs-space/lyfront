@@ -18,6 +18,7 @@ export class PaperWorkMofcomComponent extends BaseForComponentWithAsyncData impl
   asyncDataHolderId = 'PaperWorkMofcomComponent';
   dataRxHash = {
     mofcomReport: this.backend.vehiclesReports('mofcom'),
+    btity: this.backend.btityRxx
   };
   holderPub: SubHolder;
   filterCacheRxx = new BehaviorSubject({mofcomStatus: 2});
@@ -79,8 +80,10 @@ export class PaperWorkMofcomComponent extends BaseForComponentWithAsyncData impl
   calculateFilteredData(mofcomStatus) {
     // console.log(mofcomStatus);
     const data = this.holder.latestResultRxxHash['mofcomReport'].getValue();
+    const vehicleTypeIdsForMotocycle = this.holder.latestResultRxxHash['btity'].getValue()['types']['vehicleTypeIdsForMotocycle'];
     return data.reduce((acc, curr) => {
-      const currType = curr['vehicle.vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
+      const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicle.vehicleType']) > -1
+        ? '摩托车' : '非摩托车';
       const obj = Object.assign({}, acc[currType]);
       for (const item of this.dataProps) {
         const name = item.name; // week

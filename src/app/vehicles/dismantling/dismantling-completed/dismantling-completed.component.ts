@@ -11,6 +11,7 @@ import { DialogDismantlingOrderListComponent } from '../../../shared/dialog-dism
 export class DismantlingCompletedComponent implements OnInit {
   @Input() data;
   @Input() filterCache;
+  @Input() btity;
   filteredData: any;
   filterValueChangesRxx = new BehaviorSubject({isAdHoc: 2});
   optionsArr = [];
@@ -80,7 +81,10 @@ export class DismantlingCompletedComponent implements OnInit {
 
     this.data.reduce((acc, curr) => {
       // console.log(curr);
-      const key = curr['vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
+      const vehicleTypeIdsForMotocycle = this.btity['types']['vehicleTypeIdsForMotocycle'];
+      const key = vehicleTypeIdsForMotocycle.indexOf(curr['vehicleType']) > -1
+        ? '摩托车' : '非摩托车';
+
       const itemToReplace = acc[key].find(item => item.completedDate === curr.completedDate);
       // console.log(itemToReplace);
       let totalToAdd = 0;

@@ -60,7 +60,7 @@
       <ng-container *ngFor="let report of reports['非摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
-          (click)="queryVehicles('z', report.entranceDate)"
+          (click)="queryVehicles('non-motorcycle', report.entranceDate)"
         >{{report.total}}</button></md-grid-tile>
         <md-grid-tile></md-grid-tile>
       </ng-container>
@@ -70,7 +70,7 @@
       <ng-container *ngFor="let report of reports['摩托车']; index as i">
         <md-grid-tile><button type="button" md-button color="primary"
           [disabled]="!report.total"
-          (click)="queryVehicles(3, report.entranceDate)"
+          (click)="queryVehicles('motorcycle', report.entranceDate)"
         >{{report.total}}</button></md-grid-tile>
         <md-grid-tile></md-grid-tile>
       </ng-container>

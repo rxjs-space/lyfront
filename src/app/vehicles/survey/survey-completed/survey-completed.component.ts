@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { AsyncDataLoaderService, SubHolder } from '../../../shared/async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from '../../../shared/async-monitor/async-monitor.service';
 import { DataService } from '../../../data/data.service';
@@ -30,7 +31,7 @@ export class SurveyCompletedComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.asyncMonitorToWatch = this.asyncMonitor.init('dialogVehicleList');
-    this.isCollapsedRxx
+    (this.isCollapsedRxx as Observable<boolean>)
       .filter(v => !v)
       .first()
       .subscribe(() => {

@@ -12,6 +12,7 @@ import { DialogDismantlingOrderListComponent } from '../../../shared/dialog-dism
 export class DismantlingProgressingComponent implements OnInit {
   @Input() data;
   @Input() filterCache;
+  @Input() btity;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({dismantlingStarted: 1});
   optionsArr = [];
@@ -70,7 +71,9 @@ export class DismantlingProgressingComponent implements OnInit {
 
   calculateFilteredData(dismantlingStarted) {
     return this.data.reduce((acc, curr) => {
-      const currType = curr['vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
+      const vehicleTypeIdsForMotocycle = this.btity['types']['vehicleTypeIdsForMotocycle'];
+      const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicleType']) > -1
+        ? '摩托车' : '非摩托车';
       const obj = Object.assign({}, acc[currType]);
       for (const item of this.dataProps) {
         const name = item.name;  // name is week

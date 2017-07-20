@@ -12,6 +12,7 @@ import { DialogVehicleListComponent } from '../../../shared/dialog-vehicle-list/
 export class DismantlingIdleComponent implements OnInit {
   @Input() data;
   @Input() filterCache;
+  @Input() btity;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({surveyStatus: 1});
   // @Output() needUpdate = new EventEmitter();
@@ -93,7 +94,9 @@ export class DismantlingIdleComponent implements OnInit {
     //   '4': curr => {return curr['status.secondSurvey.done']},
     // };
     return this.data.reduce((acc, curr) => {
-      const currType = curr['vehicle.vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
+      const vehicleTypeIdsForMotocycle = this.btity['types']['vehicleTypeIdsForMotocycle'];
+      const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicle.vehicleType']) > -1
+        ? '摩托车' : '非摩托车';
       const obj = Object.assign({}, acc[currType]);
       for (const item of this.dataProps) {
         const name = item.name; // week

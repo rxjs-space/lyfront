@@ -50,7 +50,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
 
   }
 
-  mofcomCertPrepare() {
+  mofcomCertValidation() {
     const vehicle = this.holder.latestResultRxxHash['vehicle'].getValue();
     const sub0_ = (this.checkMofcomValidityRxx as Observable<any>)
       .delay(0)
@@ -62,6 +62,20 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub0_);
     this.checkMofcomValidityRxx.next(vehicle.mofcomRegisterType);
   }
+
+  // mofcomCertSubmit() {
+  //   const vehicle = this.holder.latestResultRxxHash['vehicle'].getValue();
+  //   (this.data.mofcomLoggedInRxx as Observable<boolean>)
+  //     .switchMap(v => {
+  //       if (!v) {
+  //         return Observable.of('no');
+  //       } else {
+  //         return this.data.mofcomNewVehicle(vehicle);
+  //       }
+  //     })
+  //     .subscribe();
+  //   // this.data.mofcomNewVehicle(vehicle)
+  // }
 
   refresh() {
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);

@@ -18,7 +18,8 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
 
   asyncDataId = 'SurveyIdleComponent';
   itemRxHash = {
-    reports: this.data.vehiclesReports('surveyIdle')
+    reports: this.data.vehiclesReports('surveyIdle'),
+    btity: this.data.btityRxx
   };
   holder: SubHolder;
   filterValueChangesRxx: BehaviorSubject<any>;
@@ -58,9 +59,11 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
 
   calculateFilteredData(combo) {
     const surveyStatus = combo['filter']['surveyStatus'];
+    const vehicleTypeIdsForMotocycle = combo['btity']['types']['vehicleTypeIdsForMotocycle'];
     const reports = combo['reports'];
     return reports.reduce((acc, curr) => {
-      const currType = curr['vehicle.vehicleType'] * 1 === 3 ? '摩托车' : '非摩托车';
+      const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicle.vehicleType']) > -1
+        ? '摩托车' : '非摩托车';
       const obj = Object.assign({}, acc[currType]);
       for (const item of this.dataProps) {
         const name = item.name; // week
@@ -85,9 +88,10 @@ export class SurveyIdleComponent implements OnDestroy, OnInit {
     const sub0_ = Observable.combineLatest(
       this.holder.latestResultRxxHash['reports'],
       this.filterValueChangesRxx,
-      (reports, filter) => ({reports, filter})
+      this.holder.latestResultRxxHash['btity'],
+      (reports, filter, btity) => ({reports, filter, btity})
     )
-      .filter(combo => !!combo['reports'] && !!combo['filter'])
+      .filter(combo => !!combo['reports'] && !!combo['filter'] && !!combo['btity'])
       .subscribe(combo => {
         this.filteredData = this.calculateFilteredData.bind(this)(combo);
       });

@@ -44,14 +44,14 @@
             </md-grid-tile>
             <md-grid-tile>
               <button md-button color="primary" [disabled]="!(filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0)" 
-              (click)="queryList(item.name, 'z')">
+              (click)="queryList(item.name, 'non-motorcycle')">
                 {{filteredData['非摩托车'] ? (filteredData['非摩托车'][item.name] || 0) : 0}}
               </button>
             </md-grid-tile>
 
             <md-grid-tile>
               <button md-button color="primary" [disabled]="!(filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0)" 
-                (click)="queryList(item.name, '3')">
+                (click)="queryList(item.name, 'motorcycle')">
                 {{filteredData['摩托车'] ? (filteredData['摩托车'][item.name] || 0) : 0}}
               </button>
             </md-grid-tile>
