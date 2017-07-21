@@ -32,11 +32,9 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   isWithErrorRxx: any;
   holder: any;
   subscriptions: Subscription[] = [];
-
   elementHash = {};
   checkMofcomValidityRxx = new Subject();
   validAfterMofcomValidityCheck = false;
-
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
     private data: DataService,
@@ -50,7 +48,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
 
   }
 
-  mofcomCertValidation() {
+  mofcomCertValidation(mofcomRegisterType) {
     const vehicle = this.holder.latestResultRxxHash['vehicle'].getValue();
     const sub0_ = (this.checkMofcomValidityRxx as Observable<any>)
       .delay(0)
@@ -60,7 +58,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
       .subscribe();
 
     this.subscriptions.push(sub0_);
-    this.checkMofcomValidityRxx.next(vehicle.mofcomRegisterType);
+    this.checkMofcomValidityRxx.next(mofcomRegisterType);
   }
 
   // mofcomCertSubmit() {

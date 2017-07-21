@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MdDialog, MdDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { DialogMofcomLoginComponent } from './dialog-mofcom-login.component';
@@ -36,6 +36,46 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
       .subscribe(console.log);
   }
 
+  prepareVehicleCopy() {
+    const vehicleCopy = JSON.parse(JSON.stringify(this.vehicle));
+    vehicleCopy['vehicle']['useCharacter'] = this.fu.idToName(vehicleCopy['vehicle']['useCharacter'], this.btity['types']['useCharacters']);
+    return vehicleCopy;
+  }
+
+  mofcomGo() {
+    const vehicle = this.prepareVehicleCopy();
+    let dialogRef: MdDialogRef<DialogMofcomLoginComponent>;
+    const mofcomBotMessages_ = this.backend.mofcomBotGetMessageRxx
+      // .switchMap() // notLoggedIn, loggedIn, finishedInput
+      .subscribe(message => {
+        switch (true) {
+          case message.message && message.message.indexOf('notLoggedIn') > -1:
+            dialogRef = this.dialog.open(DialogMofcomLoginComponent, {
+              width: '400px',
+              data: message.data
+            });
+            break;
+          case message.message && message.message.indexOf('loggedIn') > -1:
+            console.log('loggedIn');
+            dialogRef.close();
+            this.backend.mofcomBotSendMessage({
+              bot: 'mofcom',
+              action: 'newEntryAgain'
+            })
+            break;
+          case message.message && message.message.indexOf('finishedInput') > -1:
+            console.log('finishedInput');
+            break;
+        }
+      });
+    this.subscriptions.push(mofcomBotMessages_);
+    // send newEntry message to start the process
+    this.backend.mofcomBotSendMessage({
+      bot: 'mofcom',
+      action: 'newEntry',
+      data: {vehicle}
+    });
+  }
   loginAndSubmit() {
     const vehicleCopy = JSON.parse(JSON.stringify(this.vehicle));
     vehicleCopy['vehicle']['useCharacter'] = this.fu.idToName(vehicleCopy['vehicle']['useCharacter'], this.btity['types']['useCharacters']);

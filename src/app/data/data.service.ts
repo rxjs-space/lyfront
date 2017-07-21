@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
@@ -33,7 +34,7 @@ export class DataService {
   // private cache: {[key: string]: any} = {};
   btityRxx = new BehaviorSubject(null);
   mofcomLoggedInRxx = new BehaviorSubject(false);
-
+  mofcomBotGetMessageRxx: Subject<any> = new Subject();
   socketBot: any;
 
   constructor(
@@ -46,13 +47,81 @@ export class DataService {
         // console.log('setting');
         localStorage.debug = 'socket.io-client:socket';
       }
+
+      this.socketBot = io(this.botUrl);
+      this.socketBot.on('message', (message) => {
+        this.mofcomBotGetMessageRxx.next(message);
+      });
     }
 
+
+  // get mofcomBotGetMessageRx(): Observable<any> {
+  //   if (!this.socketBot) {
+  //     this.socketBot = io(this.botUrl);
+  //   }
+  //   return new Observable(observer => {
+  //     this.socketBot.on('message', (message) => {
+  //       observer.next(message);
+  //       this.mofcomBotGetMessageRxx.next(message);
+  //     });
+  //     return () => {
+  //       this.socketBot.disconnect();
+  //     };
+  //   })
+  // }
+
+  mofcomBotSendMessage(message) {
+    /* sample message
+    {
+      bot: 'mofcom',
+      action: 'newEntry',
+      data: {vehicle}
+    }
+    */
+    const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
+    if (!this.socketBot) {
+      this.socketBot = io(this.botUrl);
+    }
+    message.jwt = jwt;
+    this.socketBot.send(message);
+  }
+
+  mofcomOps(vehicle): Observable<{done: boolean, message: string}> {
+    const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
+    return new Observable(observer => {
+        this.socketBot = io(this.botUrl);
+        this.socketBot.emit('mofcomEntry', {jwt, vehicle});
+        this.socketBot.on('notLoggedIn', () => {
+          observer.next({
+            done: false,
+            message: 'notLoggedIn'
+          });
+        });
+        // this.socketBot.emit('captcha', {captcha, jwt});
+        // this.socketBot.on('message', (data) => {
+        //   observer.next(data);
+        //   // console.log(data.message);
+        //   if (data.message.indexOf('logged in') > -1) {
+        //     console.log('received log in message');
+        //     this.mofcomLoggedInRxx.next(true);
+        //   }
+        // });
+        // this.socketBot.on('error', (error) => observer.error(error));
+        // this.socketBot.on('connect_failed', (error) => observer.error(error));
+        return () => {
+          this.socketBot.disconnect();
+        };
+      });
+  }
+
   mofcomInit() {
+    // this.mofcomBotSendMessage
+
     return this.http.post(this.botUrl + '/mofcom/init', {}, this.setupOptions(true))
       .map(res => res.json())
       .catch(this.handleError);
   }
+    
 
   mofcomLogin(captcha) {
     // return this.http.post(this.botUrl + '/mofcom/login', {captcha}, this.setupOptions(true))

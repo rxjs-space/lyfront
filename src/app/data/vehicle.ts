@@ -48,7 +48,7 @@ export class Vehicle {
     idType: '',
     idOtherTypeName: '',
     idNo: '',
-    tel: ''
+    // tel: ''
   };
   vehicle = {
     plateNo: '',
@@ -57,19 +57,19 @@ export class Vehicle {
     brand: '',
     model: '',
     conditionOnEntrance: '',
-    residualValueBeforeFD: 0,
+    residualValueBeforeFD: '',
     engineNo: '',
     registrationDate: '',
-    curbWeightKG: 0,
-    totalMassKG: 0,
-    lengthOverallMM: 0,
+    curbWeightKG: '',
+    totalMassKG: '',
+    lengthOverallMM: '',
     color: '',
     aquisitionType: '',
     aquisitionOtherTypeDetail: '',
-    displacementL: 0,
-    displacementML: 0,
+    // displacementL: '',
+    displacementML: '',
     fuelType: '',
-    seats: 0,
+    seats: '',
     isNEV: false
   };
   feesAndDeductions = [];
@@ -78,7 +78,7 @@ export class Vehicle {
     vRegistrationCert: false,
     vLicenseA: false,
     vLicenseB: false,
-    plateCount: 0,
+    plateCount: '',
     infoQueryForm: false,
     ownerOIdCopy: false,
     ownerPIdCopy: false,

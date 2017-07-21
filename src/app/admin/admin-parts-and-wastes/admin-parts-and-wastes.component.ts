@@ -46,7 +46,7 @@ export class AdminPartsAndWastesComponent extends BaseForComponentWithAsyncData 
   }
 
   rebuildForm() {
-    console.log(this.holderPub.latestResultRxxHash['btity'].getValue()['types']);
+    // console.log(this.holderPub.latestResultRxxHash['btity'].getValue()['types']);
     const types = this.holderPub.latestResultRxxHash['btity'].getValue()['types'];
     this.categories = this.holderPub.latestResultRxxHash['routeData'].getValue()['categories'];
     this.typesForm = this.fb.group({});
@@ -55,18 +55,23 @@ export class AdminPartsAndWastesComponent extends BaseForComponentWithAsyncData 
         return a.id.localeCompare(b.id);
       });
       this.typesForm.setControl(cat, this.fb.array(dataBeforeChange.map(x => {
-        if (cat==='vehicleTypes') {
-          return this.fb.group({
-            id: {value: x.id, disabled: true},
-            name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]],
-            mofcomName: [{value: x.mofcomName, disabled: true}]
-          });
-        } else {
-          return this.fb.group({
-            id: {value: x.id, disabled: true},
-            name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]]
-          });
-        }
+        return this.fb.group({
+          id: {value: x.id, disabled: true},
+          name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]]
+        });
+
+        // if (cat==='vehicleTypes') {
+        //   return this.fb.group({
+        //     id: {value: x.id, disabled: true},
+        //     name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]],
+        //     mofcomName: [{value: x.mofcomName, disabled: true}]
+        //   });
+        // } else {
+        //   return this.fb.group({
+        //     id: {value: x.id, disabled: true},
+        //     name: [{value: x.name, disabled: true}, [this.sv.duplicateNameInObjArray(dataBeforeChange)]]
+        //   });
+        // }
       })));
     });
 

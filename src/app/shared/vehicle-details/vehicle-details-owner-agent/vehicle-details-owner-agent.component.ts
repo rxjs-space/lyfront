@@ -102,33 +102,21 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
 
     this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
       // console.log(mofcomRegisterType);
-      const requiredFields = [
-        'owner.idNo', 'owner.zipCode', 'owner.tel'
-      ];
-      if (this.fform.get('owner.isByAgent').value) {
-        requiredFields.push('agent.idNo');
+      switch (mofcomRegisterType) {
+        case '1':
+          const requiredFields = [
+            'owner.idNo', 'owner.zipCode', 'owner.tel'
+          ];
+          if (this.fform.get('owner.isByAgent').value === true) {
+            requiredFields.push('agent.idNo');
+          }
+          requiredFields.forEach(f => {
+            this.fform.get(f).setValidators(Validators.required);
+            this.fform.get(f).updateValueAndValidity();
+          });
+          break;
       }
-      requiredFields.forEach(f => {
-        this.fform.get(f).setValidators(Validators.required);
-        this.fform.get(f).updateValueAndValidity();
-      })
-      // this.fform.get('owner.idNo').setValidators([Validators.required]);
-      // this.fform.get('owner.idNo').updateValueAndValidity();
-      // const markAllAsTouched = (control: AbstractControl) => {
-      //   if (control.hasOwnProperty('controls')) {
-      //     control.markAsTouched(); // mark group
-      //     const ctrl = <any>control;
-      //     for (const innerId in ctrl.controls) {
-      //       markAllAsTouched(ctrl.controls[innerId] as AbstractControl);
-      //     }
-      //   } else {
-      //     (<FormControl>(control)).markAsTouched();  // mark single control
-      //   }
-      // };
 
-      // markAllAsTouched(this.fform);
-
-      // this.fform.get('owner.idNo').updateValueAndValidity();
     });
 
   }

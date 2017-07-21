@@ -22,6 +22,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   formErrorsRxxHolder;
   @Input() vehicle: any;
   @Input() btity: any;
+  @Input() checkMofcomValidityRxx: any;
   subscriptions: Subscription[] = [];
   insertingNewBrand = false;
   constructor(
@@ -83,6 +84,36 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
           return allV;
         // }
       });
+
+    this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
+      console.log(mofcomRegisterType);
+      switch (mofcomRegisterType) {
+        case '1':
+          const requiredFields = [
+            'vehicle.useCharacter',
+            'vehicle.brand',
+            'vehicle.model',
+            'vehicle.engineNo',
+            'vehicle.registrationDate',
+            'vehicle.totalMassKG',
+            'vehicle.lengthOverallMM',
+            'vehicle.fuelType',
+            'vehicle.seats',
+            'vehicle.isNEV',
+          ];
+          requiredFields.forEach(f => {
+            this.fform.get(f).setValidators(Validators.required);
+            this.fform.get(f).updateValueAndValidity();
+          });
+          break;
+      }
+
+
+
+
+
+
+    });
 
     // // send errors to formErrorsService
     // this.formErrorsRxxHolder = this.fe.ini(this.formErrorsFormName);

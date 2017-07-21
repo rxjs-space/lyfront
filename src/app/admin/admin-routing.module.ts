@@ -11,7 +11,7 @@ const routes: Routes = [
     {path: 'parts-and-wastes', component: AdminPartsAndWastesComponent, data: {categories: ['parts', 'wastes']}},
     {path: 'users-and-roles', canLoad: [AuthGuard], loadChildren: './users-and-roles/users-and-roles.module#UsersAndRolesModule'},
     {path: 'other-types', component: AdminPartsAndWastesComponent, data: {categories: [
-      'facilities', 'mofcomRegisterTypes', 'vehicleTypes'
+      'facilities', 'mofcomRegisterTypes', 'vehicleTypes', 'useCharacters'
       ]}},
   ]}
 ];

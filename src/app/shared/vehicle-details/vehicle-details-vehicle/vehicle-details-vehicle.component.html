@@ -26,8 +26,9 @@
           [placeholderInput]="btity.titles.vehicles.vehicle.vehicleType"
           [formControlInput]="fform.get('vehicle.vehicleType')"
           [objList]="btity.types.vehicleTypes"
-          sizeClass='m-size-input'
-          [toFilterList]="false"
+          sizeClass='l-size-input'
+          [toFilterList]="true"
+          [toSort]="false"
         >
         </app-autocomplete-combo>
 
@@ -38,7 +39,7 @@
           [objList]="btity.types.useCharacters"
           [toSort]="false"
           [toFilterList]="true"
-          sizeClass='m-size-input'
+          sizeClass='l-size-input'
         >
         </app-autocomplete-combo>
 

@@ -39,6 +39,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   isSavingRxx = new BehaviorSubject(false);
   isChangedRxx = new BehaviorSubject(false);
   isValidRxx = new BehaviorSubject(false);
+  isMofcomRegisterTypeSpecifiedRxx = new BehaviorSubject('');
   @Output() isChangedAndValid = new EventEmitter();
   @Input() saveTriggerRxx: any;
   @Input() checkValidityTriggerRxx: any;
@@ -159,7 +160,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.subscriptions.push(sub1_);
     const sub2_ = this.checkValidityTriggerRxx.subscribe(() => {
       this.checkValidity();
-    })
+    });
 
     // this.isValidIsChangedCombo.isValid = this.dGeneral.fform.valid && this.dStatus.fform.valid;
   }
@@ -169,9 +170,10 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     const oldVehicle = JSON.parse(JSON.stringify(this.vehicle)); // is this necessary?
     this.newVehicle = Object.assign({}, oldVehicle, ...dataThatMayHaveChangedArray);
     delete this.newVehicle.vinConfirm;
+    // console.log(this.newVehicle.mofcomRegisterType);
+    this.isMofcomRegisterTypeSpecifiedRxx.next(this.newVehicle.mofcomRegisterType);
     this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
     // this.isChangedAndValid.emit(!!this.patches[length]);
-    // console.log(this.patches);
     this.isChangedRxx.next(!!this.patches[length]);
     this.checkValidity.bind(this)();
   }

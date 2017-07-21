@@ -35,8 +35,8 @@
       [disabled]="vd.isChangedRxx | async"
       *ngIf="!isInPrintMode">准备打印</button>
     <button md-button type="button" color="accent"
-      [disabled]="(!!vehicleRxx.getValue()['mofcomRegisterRef'])"
-      (click)="mofcomCertValidation()"
+      [disabled]="(!!vehicleRxx.getValue()['mofcomRegisterRef']) || !vd.isMofcomRegisterTypeSpecifiedRxx.getValue()"
+      (click)="mofcomCertValidation(vd.isMofcomRegisterTypeSpecifiedRxx.getValue())"
       *ngIf="!isInPrintMode && !validAfterMofcomValidityCheck">回收证明数据验证</button>
     <!-- <button md-raised-button type="button" color="accent"
       [disabled]="(vd.isChangedRxx | async) || (!!vehicleRxx.getValue()['mofcomRegisterRef'])"
