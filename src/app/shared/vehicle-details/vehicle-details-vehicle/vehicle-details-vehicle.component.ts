@@ -34,6 +34,17 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   ) { }
 
   ngOnInit() {
+    const defaultValidators = {
+      'vehicle.useCharacter': [this.sv.notListedButCanBeEmpty(this.btity.types.useCharacters.map(type => type.name))],
+      'vehicle.brand': [this.sv.notListedButCanBeEmpty(this.btity.brands.map(brand => brand.name))],
+      'vehicle.model': [],
+      'vehicle.engineNo': [],
+      'vehicle.registrationDate': [],
+      'vehicle.totalMassKG': [Validators.pattern(/^[0-9]+$/)],
+      'vehicle.lengthOverallMM': [Validators.pattern(/^[0-9]+$/)],
+      'vehicle.fuelType': [this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))],
+      'vehicle.seats': [Validators.pattern(/^[0-9]{1,2}$/)],
+    };
     this.fform = this.fb.group({
       vehicle: this.fb.group({
         plateNo: [this.vehicle.vehicle.plateNo, [Validators.required, Validators.pattern(/^.{7,7}$/), this.sv.startedWithSpace()]],
@@ -41,20 +52,16 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
           Validators.required,
           this.sv.notListedButCanBeEmpty(this.btity.types.vehicleTypes.map(type => type.name))
         ]],
-        useCharacter: [this.fu.idToName(this.vehicle.vehicle.useCharacter, this.btity.types['useCharacters']), [
-          this.sv.notListedButCanBeEmpty(this.btity.types.useCharacters.map(type => type.name))
-        ]],
-        brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands), [
-          this.sv.notListedButCanBeEmpty(this.btity.brands.map(brand => brand.name))
-        ]],
+        useCharacter: [this.fu.idToName(this.vehicle.vehicle.useCharacter, this.btity.types['useCharacters']), defaultValidators['vehicle.useCharacter']],
+        brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands), defaultValidators['vehicle.brand']],
         model: [this.vehicle.vehicle.model, this.sv.startedWithSpace()],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance, this.sv.startedWithSpace()],
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],
         engineNo: [this.vehicle.vehicle.engineNo, this.sv.startedWithSpace()],
         registrationDate: [this.vehicle.vehicle.registrationDate],
         curbWeightKG: [this.vehicle.vehicle.curbWeightKG, Validators.pattern(/^[0-9]+$/)],
-        totalMassKG: [this.vehicle.vehicle.totalMassKG, Validators.pattern(/^[0-9]+$/)],
-        lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, Validators.pattern(/^[0-9]+$/)],
+        totalMassKG: [this.vehicle.vehicle.totalMassKG, defaultValidators['vehicle.totalMassKG']],
+        lengthOverallMM: [this.vehicle.vehicle.lengthOverallMM, defaultValidators['vehicle.lengthOverallMM']],
         color: [this.vehicle.vehicle.color, this.sv.startedWithSpace()],
         aquisitionType: [this.fu.idToName(this.vehicle.vehicle.aquisitionType, this.btity.types['aquisitionTypes']), [
           this.sv.notListedButCanBeEmpty(this.btity.types.aquisitionTypes.map(type => type.name))
@@ -62,10 +69,8 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
         aquisitionOtherTypeDetail: [this.vehicle.vehicle.aquisitionOtherTypeDetail, this.sv.startedWithSpace()],
         displacementML: [this.vehicle.vehicle.displacementML, Validators.pattern(/^[0-9]+$/)],
         // displacementL: [this.vehicle.vehicle.displacementL], // todo: delete this line once ver1 show-vehicle-details is gone
-        fuelType: [this.fu.idToName(this.vehicle.vehicle.fuelType, this.btity.types['fuelTypes']), [
-          this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))
-        ]],
-        seats: [this.vehicle.vehicle.seats, Validators.pattern(/^[0-9]{1,2}$/)],
+        fuelType: [this.fu.idToName(this.vehicle.vehicle.fuelType, this.btity.types['fuelTypes']), defaultValidators['vehicle.fuelType']],
+        seats: [this.vehicle.vehicle.seats, defaultValidators['vehicle.seats']],
         isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.shouldBeBoolean(), Validators.required]],
       }),
     });
@@ -99,10 +104,9 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
             'vehicle.lengthOverallMM',
             'vehicle.fuelType',
             'vehicle.seats',
-            'vehicle.isNEV',
           ];
           requiredFields.forEach(f => {
-            this.fform.get(f).setValidators(Validators.required);
+            this.fform.get(f).setValidators(defaultValidators[f].concat(Validators.required));
             this.fform.get(f).updateValueAndValidity();
           });
           break;

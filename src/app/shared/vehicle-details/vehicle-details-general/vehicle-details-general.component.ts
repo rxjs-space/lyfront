@@ -79,9 +79,9 @@ export class VehicleDetailsGeneralComponent implements OnInit {
 
       });
 
-    this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
-      // no validation rule needs to be changed for general part
-    });
+    // this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
+    //   // no validation rule needs to be changed for general part
+    // });
 
   }
 

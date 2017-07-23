@@ -34,12 +34,19 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
     this.pTypes = this.btity.types.idTypes.filter(t => t.id.indexOf('o') === -1);
     this.oTypes = this.btity.types.idTypes.filter(t => t.id.indexOf('p') === -1);
 
+    const defaultValidators = {
+      'owner.idNo': [this.sv.startedWithSpace()],
+      'owner.zipCode': [Validators.pattern(/^[0-9]{6,6}$/)],
+      'owner.tel': [Validators.pattern(/^[0-9]{7,11}$/)],
+      'agent.idNo': [this.sv.startedWithSpace()],
+    };
+
 
     this.fform = this.fb.group({
       owner: this.fb.group({
         name: [this.vehicle.owner.name, [Validators.required, this.sv.startedWithSpace()]],
         address: [this.vehicle.owner.address, [Validators.required, this.sv.startedWithSpace()]],
-        zipCode: [this.vehicle.owner.zipCode, Validators.pattern(/^[0-9]{6,6}$/)],
+        zipCode: [this.vehicle.owner.zipCode, defaultValidators['owner.zipCode']],
         idType: [this.fu.idToName(this.vehicle.owner.idType, this.btity.types['idTypes']), [
           this.sv.notListedBasedOnOtherControlTFButCanBeEmpty('isPerson', [
             this.oTypes.map(type => type.name),
@@ -47,8 +54,8 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
           ])
         ]],
         idOtherTypeName: [this.vehicle.owner.idOtherTypeName, this.sv.startedWithSpace()],
-        idNo: [this.vehicle.owner.idNo, this.sv.startedWithSpace()],
-        tel: [this.vehicle.owner.tel, Validators.pattern(/^[0-9]{7,11}$/)],
+        idNo: [this.vehicle.owner.idNo, defaultValidators['owner.idNo']],
+        tel: [this.vehicle.owner.tel, defaultValidators['owner.tel']],
         isPerson: [this.vehicle.owner.isPerson, [this.sv.shouldBeBoolean(), Validators.required]],
         isByAgent: [this.vehicle.owner.isByAgent, [this.sv.shouldBeBoolean(), Validators.required]]
       }),
@@ -57,7 +64,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
         idType: [this.fu.idToName(this.vehicle.agent.idType, this.btity.types['idTypes']),
           this.sv.notListedButCanBeEmpty(this.pTypes.map(type => type.name))],
         idOtherTypeName: [this.vehicle.agent.idOtherTypeName, this.sv.startedWithSpace()],
-        idNo: [this.vehicle.agent.idNo, this.sv.startedWithSpace()],
+        idNo: [this.vehicle.agent.idNo, defaultValidators['agent.idNo']],
         // tel: [this.vehicle.agent.tel, Validators.pattern(/^[0-9]{7,11}$/)],
       }),
     });
@@ -111,7 +118,7 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
             requiredFields.push('agent.idNo');
           }
           requiredFields.forEach(f => {
-            this.fform.get(f).setValidators(Validators.required);
+            this.fform.get(f).setValidators(defaultValidators[f].concat(Validators.required));
             this.fform.get(f).updateValueAndValidity();
           });
           break;
