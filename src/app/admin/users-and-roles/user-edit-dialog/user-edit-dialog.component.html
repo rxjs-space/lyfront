@@ -63,6 +63,21 @@
                 </ng-container>                
               </div>
             </md-list-item>
+            <md-list-item>
+              <div md-line>
+                <md-input-container>
+                  <input mdInput placeholder="显示名" formControlName="displayName">
+                </md-input-container>
+              </div>
+              <div md-line>
+                <ng-container *ngIf="userForm.get('displayName').touched && userForm.get('displayName').errors">
+                  <span class="error-message" *ngIf="userForm.get('displayName').errors.required">
+                    请填写显示名
+                  </span>            
+                </ng-container>
+              </div>
+            </md-list-item>
+
             <div style="height: 1em"></div>
             <md-list-item>
               <md-select class="right-margin-1" placeholder="所属单位" formControlName="facility">

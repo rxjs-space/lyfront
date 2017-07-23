@@ -70,6 +70,7 @@ import { DialogYesNo2Component } from './dialog-yes-no-2/dialog-yes-no-2.compone
 import { DialogMofcomLoginComponent } from './dialog-mofcom-login/dialog-mofcom-login.component';
 import { DialogMofcomLoginTriggerComponent } from './dialog-mofcom-login/dialog-mofcom-login-trigger.component';
 import { MofcomCaptchComponent } from './dialog-mofcom-login/mofcom-captch.component';
+import { DialogMofcomProgressComponent } from './dialog-mofcom-progress/dialog-mofcom-progress.component';
 
 
 const mdModules = [
@@ -146,6 +147,7 @@ const mdModules = [
     DialogMofcomLoginComponent,
     DialogMofcomLoginTriggerComponent,
     MofcomCaptchComponent,
+    DialogMofcomProgressComponent,
   ],
   exports: [
     CommonModule,
@@ -182,7 +184,8 @@ const mdModules = [
     DialogMarkComponent,
     DialogConfirmationComponent,
     DialogYesNo2Component,
-    DialogMofcomLoginComponent
+    DialogMofcomLoginComponent,
+    DialogMofcomProgressComponent
   ]
 })
 export class SharedModule {

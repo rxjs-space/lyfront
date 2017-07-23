@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from '../auth/auth.guard';
-import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { VehiclesHomeComponent } from './vehicles-home/vehicles-home.component';
 
 

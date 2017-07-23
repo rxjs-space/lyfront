@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isLoginAndSubmit">
+<!-- <ng-container *ngIf="!isLoginAndSubmit">
   <button type="button" md-raised-button color="primary" (click)="openDialog()"
     *ngIf="!(backend.mofcomLoggedInRxx | async)"
   >登录商务部网站</button>
@@ -7,5 +7,10 @@
 <ng-container *ngIf="isLoginAndSubmit">
   <button md-raised-button type="button" color="accent" (click)="mofcomGo()"
     [disabled]="disabledInput">录入回收证明</button>
-</ng-container>
+</ng-container> -->
 
+
+  <button md-raised-button type="button" color="accent" (click)="mofcomGo()"
+    [disabled]="disabledInput">
+    录入回收证明
+  </button>

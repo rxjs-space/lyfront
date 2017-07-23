@@ -31,6 +31,12 @@ const routes: Routes = [
     { path: 'vehicles',
       canLoad: [AuthGuard],
       loadChildren: 'app/vehicles/vehicles.module#VehiclesModule' },
+    { path: 'inventory',
+      canLoad: [AuthGuard],
+      loadChildren: 'app/inventory/inventory.module#InventoryModule' },
+    { path: 'sales',
+      canLoad: [AuthGuard],
+      loadChildren: 'app/sales/sales.module#SalesModule' },
       // loadChildren: 'app/vehicle-info/vehicle-info.module#VehicleInfoModule' },
     { path: '**', component: NotFoundComponent }
   ]},

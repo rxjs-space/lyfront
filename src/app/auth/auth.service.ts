@@ -33,7 +33,8 @@ export class AuthService {
       currentUser.token && 
       this.getJwtPayload(currentUser.token)['exp'] > (Math.ceil(Date.now() / 1000))) {
         isLoggedIn = true;
-        this.usernameRxx.next(currentUser.username);
+        const displayName = currentUser.displayName;
+        this.usernameRxx.next(displayName);
       }
     this.isLoggedInRxx.next(isLoggedIn);
     return isLoggedIn;
@@ -76,12 +77,13 @@ export class AuthService {
     return this.getJwtPayload(localStorage.getItem('currentUser'))['sub']['_id'];
   }
 
+
   redirectAfterSuccess() {
     const url = this.attemptedUrl || '/dashboard';
     this.router.navigate([url]);
   }
 
-  authenticate(user: {username: string, password: string}) {
+  authenticate(user: {username: string, password: string, displayName: string}) {
     console.log('authenticating at backend', this.host1);
     const authenticateUrl = `${this.host1}/authenticate`;
     return this.http.post(authenticateUrl, {
@@ -91,7 +93,12 @@ export class AuthService {
       .map(res => {
         if (res.json() && res.json()['token']) {
           const token = res.json()['token'];
-          localStorage.setItem('currentUser', JSON.stringify({ username: user.username, token }));
+          const displayName = res.json()['displayName'];
+          localStorage.setItem('currentUser', JSON.stringify({
+            username: user.username,
+            displayName,
+            token,
+          }));
           // const x = JSON.parse(localStorage.getItem('currentUser'));
           // console.log(x.token);
           this.redirectAfterSuccess();

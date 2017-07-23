@@ -46,7 +46,7 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
   ngOnInit() {
     super.ngOnInit();
     this.holderPub = this.holder;
-    const sub0_ = this.holderPub.isLoadedWithoutErrorRxx
+    const sub0_ = (this.holderPub.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(v => v)
       .subscribe(() => {
         this.rebuildForm();
@@ -71,6 +71,10 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
     this.userForm = this.fb.group({
       username: [
         user.username,
+        [Validators.required]
+      ],
+      displayName: [
+        user.displayName,
         [Validators.required]
       ],
       isActive: [user.isActive, Validators.required],

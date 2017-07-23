@@ -410,6 +410,12 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
+
+  getUsers() {
+    return this.http.get(this.usersApiUrl, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
   /**
    * if (!userId), return Observable.of(User class), ie, empty user
    */
@@ -417,7 +423,7 @@ export class DataService {
     if (userId) {
       return this.http.get(this.usersApiUrl + `/one?userId=${userId}`, this.setupOptions(true))
         .map(res => res.json())
-        .catch(this.handleError)
+        .catch(this.handleError);
     } else {
       return Observable.of(new User());
     }
