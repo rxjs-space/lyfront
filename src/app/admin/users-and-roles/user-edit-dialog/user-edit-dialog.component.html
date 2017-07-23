@@ -10,7 +10,138 @@
         <md-card class="info-card no-padding-top">
           <!--<md-card-content>-->
 
-          <md-list>
+        <md-grid-list cols="2" rowHeight="3.5em" class="left-aligned-grid-list">
+          <md-grid-tile>
+            <md-input-container>
+              <input mdInput placeholder="用户名" formControlName="username">
+            </md-input-container>
+          </md-grid-tile>
+          <md-grid-tile>
+            <md-input-container>
+              <input mdInput placeholder="显示名" formControlName="displayName">
+            </md-input-container>
+          </md-grid-tile>
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="1em" class="left-aligned-grid-list">
+          <md-grid-tile>
+            <ng-container *ngIf="userForm.get('username').touched && userForm.get('username').errors">
+              <small><span class="error-message" *ngIf="userForm.get('username').errors.required">
+                请填写用户名
+              </span>            
+              <span *ngIf="userForm.get('username').errors.checkingDuplicateUsername">
+                <md-spinner class="mini-spinner-1"></md-spinner>检查是否存在相同用户名
+              </span>            
+              <span class="error-message" *ngIf="userForm.get('username').errors.duplicateUsername">
+                已存在相同用户名
+              </span></small>
+            </ng-container>
+          </md-grid-tile>
+          <md-grid-tile>
+            <ng-container *ngIf="userForm.get('displayName').touched && userForm.get('displayName').errors">
+              <small><span class="error-message" *ngIf="userForm.get('displayName').errors.required">
+                请填写显示名
+              </span></small>          
+            </ng-container>
+          </md-grid-tile>
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="3.5em" class="left-aligned-grid-list">
+          <md-grid-tile>
+            <md-input-container>
+              <input mdInput placeholder="密码" formControlName="password">
+            </md-input-container>
+          </md-grid-tile>
+          <md-grid-tile>
+            <md-input-container>
+              <input mdInput placeholder="密码确认" formControlName="passwordConfirm">
+            </md-input-container>
+          </md-grid-tile>
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="1em" class="left-aligned-grid-list">
+          <md-grid-tile>
+            <small>
+              <ng-container *ngIf="userForm.get('password').touched && userForm.get('password').errors">
+                <span class="error-message" *ngIf="userForm.get('password').errors.required">
+                  请填写密码
+                </span>            
+              </ng-container>
+            </small>
+          </md-grid-tile>
+          <md-grid-tile>
+            <small>
+              <ng-container *ngIf="userForm.get('passwordConfirm').touched && userForm.get('passwordConfirm').errors">
+                <span class="error-message" *ngIf="userForm.get('passwordConfirm').errors.required">
+                  请确认密码
+                </span>            
+                <span class="error-message" *ngIf="userForm.get('passwordConfirm').errors.notMatching">
+                  两次输入的密码不一致
+                </span>            
+              </ng-container>
+            </small>
+          </md-grid-tile>
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="5em" class="left-aligned-grid-list">
+          <md-grid-tile>
+            <md-select class="right-margin-1" placeholder="所属单位" formControlName="facility">
+              <md-option *ngFor="let facility of facilities" [value]="facility.id">
+                {{facility.name}}
+              </md-option>
+            </md-select>
+          </md-grid-tile>
+          <md-grid-tile>
+            <md-select class="right-margin-1" placeholder="所属部门" formControlName="department">
+              <md-option *ngFor="let department of departments" [value]="department.id">
+                {{department.name}}
+              </md-option>
+            </md-select>
+          </md-grid-tile>
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="1em" class="left-aligned-grid-list">
+          <md-grid-tile class="move-error-up-tile">
+            <small>
+              <ng-container *ngIf="userForm.get('facility').touched && userForm.get('facility').errors">
+                <span class="error-message" *ngIf="userForm.get('facility').errors.required">
+                  请选择所属单位
+                </span>
+              </ng-container>
+            </small>
+          </md-grid-tile>
+          <md-grid-tile class="move-error-up-tile">
+            <small>
+              <ng-container *ngIf="userForm.get('department').touched && userForm.get('department').errors">
+                <span class="error-message" *ngIf="userForm.get('department').errors.required">
+                  请选择所属部门
+                </span>
+              </ng-container>
+            </small>
+          </md-grid-tile>
+
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="5em" class="left-aligned-grid-list">
+          <md-grid-tile>
+            <md-select placeholder="角色" formControlName="roles" [multiple]="true">
+              <md-option *ngFor="let role of holderPub.latestResultRxxHash['roles'].getValue().sort()" [value]="role">
+                {{role}}
+              </md-option>
+            </md-select>
+          </md-grid-tile>
+          <md-grid-tile>
+
+          </md-grid-tile>
+        </md-grid-list>
+        <md-grid-list cols="2" rowHeight="1em" class="left-aligned-grid-list">
+          <md-grid-tile class="move-error-up-tile">
+            <small>
+              <ng-container *ngIf="userForm.get('roles').touched && userForm.get('roles').errors">
+                <span class="error-message" *ngIf="userForm.get('roles').errors.arrayMinLength">
+                  请至少选择一种角色
+                </span>
+              </ng-container>
+            </small>
+          </md-grid-tile>
+        </md-grid-list>
+
+
+          <!-- <md-list>
             <md-list-item>
               <div md-line>
                 <md-input-container>
@@ -92,7 +223,7 @@
               </md-select>
             </md-list-item>
 
-          </md-list>
+          </md-list> -->
 
 
           <!--</md-card-content>-->

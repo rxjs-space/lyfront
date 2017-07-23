@@ -34,6 +34,20 @@ export class SharedValidatorsService {
     };
   }
 
+  arrayMinLength(arrayMinLength: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      const value = control.value;
+      if (!(value instanceof Array)) {
+        return {arrayMinLength: 'not an array'};
+      }
+      if (value.length < arrayMinLength) {
+        return {arrayMinLength: `less than ${arrayMinLength}`};
+      } else {
+        return null;
+      }
+    }
+  }
+
   requiredBasedOnAnotherControlAndItsValue(anotherControlName, anotherControlMatchingValue): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {
       const parentControl = control.parent;
@@ -144,8 +158,6 @@ export class SharedValidatorsService {
       return notListed ? {'notListed': value} : null;
     };
   }
-
-
 
 
   notListedBasedOnOtherControlTFButCanBeEmpty(otherControlName: string, lists: any[][]): ValidatorFn {

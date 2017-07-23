@@ -29,6 +29,7 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
   duplicateUsername_: Subscription;
   isSaving = false;
   facilities: {[key: string]: any}[];
+  departments: {[key: string]: any}[];
 
   constructor(
     private fu: FormUtilsService,
@@ -64,9 +65,10 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
     // console.log(this.holderPub.latestResultRxxHash['user'].getValue());
     const user = this.holderPub.latestResultRxxHash['user'].getValue();
     this.isNew = user._id ? false : true;
-    console.log(this.isNew);
+    // console.log(this.isNew);
     const roles = this.holderPub.latestResultRxxHash['roles'].getValue();
     this.facilities = this.holderPub.latestResultRxxHash['btity'].getValue()['types']['facilities'];
+    this.departments = this.holderPub.latestResultRxxHash['btity'].getValue()['types']['departments'];
     // user.facility = this.fu.idToName(user.facility, this.facilities);
     this.userForm = this.fb.group({
       username: [
@@ -79,7 +81,8 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
       ],
       isActive: [user.isActive, Validators.required],
       facility: [user.facility, [Validators.required, this.sv.notListedButCanBeEmpty(this.facilities.map(f => f.id))]],
-      roles: [user.roles],
+      department: [user.department, [Validators.required, this.sv.notListedButCanBeEmpty(this.departments.map(f => f.id))]],
+      roles: [user.roles, this.sv.arrayMinLength(1)],
     });
 
     if (this.duplicateUsername_) {this.duplicateUsername_.unsubscribe(); }
@@ -142,8 +145,8 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
       }))
       .subscribe(res => {
         this.isSaving = false;
-        console.log(res);
-        console.log(res._id);
+        // console.log(res);
+        // console.log(res._id);
         if (res.error) {
           console.log(res.error);
         } else {

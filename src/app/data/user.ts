@@ -5,4 +5,5 @@ export class User {
   isActive = true;
   roles = ['guest'];
   facility: '';
+  department: '';
 }
