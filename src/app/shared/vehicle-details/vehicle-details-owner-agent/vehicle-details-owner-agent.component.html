@@ -63,9 +63,19 @@
         <md-input-container class="l-size-input">
           <input type="tel" mdInput [placeholder]="btity.titles.vehicles.owner.tel" formControlName="tel">
         </md-input-container>
-        <md-input-container class="m-size-input">
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.owner.address"
+          [formControlInput]="fform.get('owner.address')"
+          [objList]="btity.types.chaoyangCounties"
+          sizeClass='m-size-input'
+          [toSort]="false"
+        >
+        </app-autocomplete-combo>
+
+
+        <!-- <md-input-container class="m-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.owner.address" formControlName="address">
-        </md-input-container>
+        </md-input-container> -->
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.owner.zipCode" formControlName="zipCode">
         </md-input-container>

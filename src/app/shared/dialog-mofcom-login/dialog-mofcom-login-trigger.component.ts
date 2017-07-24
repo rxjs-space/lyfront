@@ -18,6 +18,11 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
   @Input() disabledInput: any;
   @Input() vehicle: any;
   @Input() btity: any;
+  messageRxx = new BehaviorSubject('');
+  resultBase64Rxx = new BehaviorSubject(null);
+  captchaBase64Rxx = new BehaviorSubject(null);
+
+
   subscriptions: Subscription[] = [];
   constructor(
     private fu: FormUtilsService,
@@ -25,6 +30,39 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
     private dialog: MdDialog) { }
 
   ngOnInit() {
+
+    const mofcomBotMessages_ = this.backend.mofcomBotGetMessageRxx
+      // .switchMap() // notLoggedIn, loggedIn, finishedInput
+      .subscribe(message => {
+        switch (true) {
+          case message.message && message.message.indexOf('notLoggedIn') > -1:
+            this.messageRxx.next('输入登录验证码...');
+            this.captchaBase64Rxx.next(message.data.captchaBase64);
+            // dialogRefLogin = this.dialog.open(DialogMofcomLoginComponent, {
+            //   width: '400px',
+            //   disableClose: true,
+            //   data: message.data
+            // });
+            break;
+          case message.message && message.message.indexOf('loggedIn') > -1:
+            this.messageRxx.next('已登录。继续发送数据...');
+            console.log('loggedIn');
+            // dialogRefLogin.close();
+            this.backend.mofcomBotSendMessage({
+              bot: 'mofcom',
+              action: 'newEntryAgain'
+            });
+            break;
+          case message.message && message.message.indexOf('finishedInput') > -1:
+            this.messageRxx.next('完成录入。');
+            console.log('finishedInput');
+            this.resultBase64Rxx.next(message.data.resultBase64);
+            // setTimeout(() => {dialogRefProgress.close(); }, 1000)
+            break;
+        }
+      });
+    this.subscriptions.push(mofcomBotMessages_);
+
   }
 
   // openDialog() {
@@ -40,51 +78,25 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
 
   prepareVehicleCopy() {
     const vehicleCopy = JSON.parse(JSON.stringify(this.vehicle));
+    vehicleCopy['vehicle']['vehicleType'] = this.fu.idToName(vehicleCopy['vehicle']['vehicleType'], this.btity['types']['vehicleTypes']);
     vehicleCopy['vehicle']['useCharacter'] = this.fu.idToName(vehicleCopy['vehicle']['useCharacter'], this.btity['types']['useCharacters']);
     return vehicleCopy;
   }
 
   mofcomGo() {
-    const messageRxx = new BehaviorSubject('发送数据...');
-    const resultBase64Rxx = new BehaviorSubject(null);
-    const captchaBase64Rxx = new BehaviorSubject(null);
+    this.messageRxx.next('发送数据...');
+    this.resultBase64Rxx.next(null);
+    this.captchaBase64Rxx.next(null);
     const dialogRefProgress = this.dialog.open(DialogMofcomProgressComponent, {
       disableClose: true,
-      data: {messageRxx, resultBase64Rxx, captchaBase64Rxx}
+      data: {
+        messageRxx: this.messageRxx,
+        resultBase64Rxx: this.resultBase64Rxx,
+        captchaBase64Rxx: this.captchaBase64Rxx}
     });
     const vehicle = this.prepareVehicleCopy();
     // let dialogRefLogin: MdDialogRef<DialogMofcomLoginComponent>;
-    const mofcomBotMessages_ = this.backend.mofcomBotGetMessageRxx
-      // .switchMap() // notLoggedIn, loggedIn, finishedInput
-      .subscribe(message => {
-        switch (true) {
-          case message.message && message.message.indexOf('notLoggedIn') > -1:
-            messageRxx.next('输入登录验证码...');
-            captchaBase64Rxx.next(message.data.captchaBase64);
-            // dialogRefLogin = this.dialog.open(DialogMofcomLoginComponent, {
-            //   width: '400px',
-            //   disableClose: true,
-            //   data: message.data
-            // });
-            break;
-          case message.message && message.message.indexOf('loggedIn') > -1:
-            messageRxx.next('已登录。继续发送数据...');
-            console.log('loggedIn');
-            // dialogRefLogin.close();
-            this.backend.mofcomBotSendMessage({
-              bot: 'mofcom',
-              action: 'newEntryAgain'
-            })
-            break;
-          case message.message && message.message.indexOf('finishedInput') > -1:
-            messageRxx.next('完成录入。');
-            console.log('finishedInput');
-            resultBase64Rxx.next(message.data.resultBase64);
-            // setTimeout(() => {dialogRefProgress.close(); }, 1000)
-            break;
-        }
-      });
-    this.subscriptions.push(mofcomBotMessages_);
+
     // send newEntry message to start the process
     this.backend.mofcomBotSendMessage({
       bot: 'mofcom',
