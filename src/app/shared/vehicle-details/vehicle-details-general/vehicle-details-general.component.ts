@@ -1,21 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-vehicle-details-general',
   templateUrl: './vehicle-details-general.component.html',
   styleUrls: ['./vehicle-details-general.component.scss']
 })
-export class VehicleDetailsGeneralComponent implements OnInit {
+export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
   valueChangesRx: Observable<any>;
   fform: FormGroup;
   @Input() vehicle: any;
   @Input() btity: any;
   @Input() isNew: boolean;
   @Input() checkMofcomValidityRxx: any;
+  subscriptions: Subscription[] = [];
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -50,7 +52,18 @@ export class VehicleDetailsGeneralComponent implements OnInit {
         deletedBy: [this.vehicle.metadata.deletedBy],
         deletedAt: [this.vehicle.metadata.deletedAt],
       }),
-      internalSurveyor: [this.vehicle.internalSurveyor, this.sv.startedWithSpace()]
+      internalSurveyor: [this.vehicle.internalSurveyor, this.sv.startedWithSpace()],
+      isSurveyNecessary: [this.vehicle.isSurveyNecessary, [this.sv.shouldBeBoolean(), Validators.required]],
+      status2: this.fb.group({
+        isSurveyReady: [this.vehicle.status2.isSurveyReady, [this.sv.shouldBeBoolean(), Validators.required]],
+        isSurveyNotReadyReason: [this.vehicle.status2.isSurveyNotReadyReason],
+        isSurveyNotReadySince: [this.vehicle.status2.isSurveyNotReadySince],
+        isDismantlingReady: [this.vehicle.status2.isDismantlingReady, [this.sv.shouldBeBoolean(), Validators.required]],
+        isDismantlingNotReadyReason: [this.vehicle.status2.isDismantlingNotReadyReason],
+        isDismantlingNotReadySince: [this.vehicle.status2.isDismantlingNotReadySince],
+        dismantling: this.vehicle.status2.dismantling,
+        auctioning: this.vehicle.status2.auctioning,
+      })
     });
 
     /* setting up vinConfirm based on isNew*/
@@ -65,10 +78,68 @@ export class VehicleDetailsGeneralComponent implements OnInit {
       this.fform.get('vin').disable();
     }
 
+    const sub0_ = this.fform.get('status2.isDismantlingReady').valueChanges
+    .startWith(this.vehicle.status2.isDismantlingReady)
+    .subscribe(v => {
+      const isDismantlingNotReadyReasonCtrl = this.fform.get('status2.isDismantlingNotReadyReason');
+      const isDismantlingNotReadySinceCtrl = this.fform.get('status2.isDismantlingNotReadySince');
+      if (!v) { // when dismantling is not ready, set validators for isDismantlingNotReadyReason
+        console.log('setting validators');
+        isDismantlingNotReadyReasonCtrl.setValidators([
+          this.sv.startedWithSpace(), Validators.required
+        ]);
+        isDismantlingNotReadyReasonCtrl.markAsDirty();
+        isDismantlingNotReadyReasonCtrl.updateValueAndValidity();
+
+        if ((typeof isDismantlingNotReadySinceCtrl.value !== 'string') || !isDismantlingNotReadySinceCtrl.value) {
+          isDismantlingNotReadySinceCtrl.setValue((new Date()).toISOString().slice(0, 10));
+        }
+      } else {
+        isDismantlingNotReadyReasonCtrl.clearValidators();
+        isDismantlingNotReadyReasonCtrl.updateValueAndValidity();
+      }
+    });
+
+    this.subscriptions.push(sub0_);
+
+    const sub1_ = this.fform.get('status2.isSurveyReady').valueChanges
+    .startWith(this.vehicle.status2.isSurveyReady)
+    .subscribe(v => {
+      const isSurveyNotReadyReasonCtrl = this.fform.get('status2.isSurveyNotReadyReason');
+      const isSurveyNotReadySinceCtrl = this.fform.get('status2.isSurveyNotReadySince');
+      if (!v) { // when dismantling is not ready, set validators for isDismantlingNotReadyReason
+        isSurveyNotReadyReasonCtrl.setValidators([
+          this.sv.startedWithSpace(), Validators.required
+        ]);
+        isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+        if ((typeof isSurveyNotReadySinceCtrl.value !== 'string') || !isSurveyNotReadySinceCtrl.value) {
+          isSurveyNotReadySinceCtrl.setValue((new Date()).toISOString().slice(0, 10));
+        }
+      } else {
+        isSurveyNotReadyReasonCtrl.clearValidators();
+        isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+      }
+    });
+
+    this.subscriptions.push(sub1_);
+
+    const sub2_ = this.fform.get('source').valueChanges
+    .startWith(this.vehicle.source)
+    .subscribe(v => {
+      if (v === '交警') {
+        this.fform.get('batchId').setValidators([Validators.required]);
+        this.fform.get('batchId').updateValueAndValidity();
+      } else {
+        this.fform.get('batchId').clearValidators();
+        this.fform.get('batchId').updateValueAndValidity();
+      }
+    });
+
     this.valueChangesRx = this.fform.valueChanges
       .startWith(null)
       .map(v => {
         // if (this.fform.valid) {
+
           const allV = this.fform.getRawValue();
           allV.source = this.fu.nameToId(allV.source, this.btity.types['sources']);
           allV.mofcomRegisterType = this.fu.nameToId(allV.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']);
@@ -83,6 +154,10 @@ export class VehicleDetailsGeneralComponent implements OnInit {
     //   // no validation rule needs to be changed for general part
     // });
 
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub_ => sub_.unsubscribe());
   }
 
 }

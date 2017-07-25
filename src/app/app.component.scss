@@ -69,6 +69,7 @@
 
 /deep/ .xxl-size-input {
   // min-width: 400px;
+  max-width: 700px;
   flex-grow: 1;
 }
 
@@ -140,7 +141,7 @@
 }
 
 /deep/ .separator-in-flex-container {
-  width: 5px;
+  width: 3px;
 }
 
 /deep/ .variable-length-input-container {

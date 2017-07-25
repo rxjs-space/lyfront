@@ -35,7 +35,6 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     const defaultValidators = {
-      'vehicle.useCharacter': [this.sv.notListedButCanBeEmpty(this.btity.types.useCharacters.map(type => type.name))],
       'vehicle.brand': [this.sv.notListedButCanBeEmpty(this.btity.brands.map(brand => brand.name))],
       'vehicle.model': [],
       'vehicle.engineNo': [],
@@ -52,7 +51,10 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
           Validators.required,
           this.sv.notListedButCanBeEmpty(this.btity.types.vehicleTypes.map(type => type.name))
         ]],
-        useCharacter: [this.fu.idToName(this.vehicle.vehicle.useCharacter, this.btity.types['useCharacters']), defaultValidators['vehicle.useCharacter']],
+        useCharacter: [this.fu.idToName(this.vehicle.vehicle.useCharacter, this.btity.types['useCharacters']), [
+          this.sv.notListedButCanBeEmpty(this.btity.types.useCharacters.map(type => type.name)),
+          Validators.required
+        ]],
         brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands), defaultValidators['vehicle.brand']],
         model: [this.vehicle.vehicle.model, this.sv.startedWithSpace()],
         conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance, this.sv.startedWithSpace()],
@@ -95,7 +97,6 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
       switch (mofcomRegisterType) {
         case '1':
           const requiredFields = [
-            'vehicle.useCharacter',
             'vehicle.brand',
             'vehicle.model',
             'vehicle.engineNo',

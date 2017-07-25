@@ -9,6 +9,7 @@ export class VehiclesHomeComponent implements OnInit {
   navLinks = [
     {route: 'entrance', label: '进场管理'},
     {route: 'survey', label: '验车管理'},
+    {route: 'survey0', label: '验车管理0'},
     {route: 'paper-work', label: '手续管理'},
     {route: 'dismantling', label: '拆解管理'},
   ];

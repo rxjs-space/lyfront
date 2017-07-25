@@ -15,6 +15,7 @@ export class TriggerDismantlingOrderComponent implements OnInit {
   @Input() vehicle;
   // @Output() createdNew = new EventEmitter();
   @Input() canCreateNew;
+  @Input() isDismantlingReady;
   constructor(
     private fu: FormUtilsService,
     public dialog: MdDialog,

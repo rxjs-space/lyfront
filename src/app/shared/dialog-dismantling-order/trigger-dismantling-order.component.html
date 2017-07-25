@@ -1,4 +1,5 @@
 <button type="button" md-button color="primary"
+  [disabled]="!isDismantlingReady"
   (click)="openDialogDO(vehicle)"
   [color]="canCreateNew ? 'primary' : ''"
 >

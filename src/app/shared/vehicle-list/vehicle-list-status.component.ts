@@ -32,6 +32,12 @@ export class VehicleListStatusComponent implements OnInit, OnChanges {
     }
 
     switch (true) {
+      case !this.vehicle.isSurveyNecessary:
+        this.surveyStatus = '无需验车';
+        break;
+      case !this.vehicle.status2.isSurveyReady:
+        this.surveyStatus = '验车暂缓';
+        break;
       case this.vehicle.status.secondSurvey.done:
         this.surveyStatus = '二次验车完成'; break;
       case this.vehicle.status.firstSurvey.done:
@@ -41,6 +47,8 @@ export class VehicleListStatusComponent implements OnInit, OnChanges {
     }
 
     switch(true) {
+      case !this.vehicle.status2.isDismantlingReady:
+        this.dismantlingStatus = '拆解暂缓'; break;
       case this.dismantled:
         this.dismantlingStatus = '彻底拆解'; break;
       case this.dismantling:

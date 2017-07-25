@@ -97,6 +97,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     });
     this.valueChangesRx = Observable.combineLatest(rxArray)
       .delay(0)
+      // .do(console.log);
       // .filter(v => {// emit value only when some partial form is dirty
       //   let someDirty = false;
       //   for (const name of this.partialFormContainers) {
@@ -173,6 +174,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     // console.log(this.newVehicle.mofcomRegisterType);
     this.isMofcomRegisterTypeSpecifiedRxx.next(this.newVehicle.mofcomRegisterType);
     this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
+    // console.log(this.patches);
     // this.isChangedAndValid.emit(!!this.patches[length]);
     this.isChangedRxx.next(!!this.patches[length]);
     this.checkValidity.bind(this)();

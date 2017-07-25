@@ -4,6 +4,9 @@
     [checkMofcomValidityRxx]="checkMofcomValidityRxx">
   </app-vehicle-details-general>
 
+  <app-vehicle-details-notes [btity]="btity" [vehicle]="vehicle">
+  </app-vehicle-details-notes>
+  
   <app-vehicle-details-status [btity]="btity" [vehicle]="vehicle">
   </app-vehicle-details-status>
 
@@ -21,9 +24,6 @@
   <app-vehicle-details-fees-and-deductions [btity]="btity" [vehicle]="vehicle" [vdvFormRxx]="vdv.fformRxx" #vdfd>
   </app-vehicle-details-fees-and-deductions>
 
-  <app-vehicle-details-notes [btity]="btity" [vehicle]="vehicle">
-  </app-vehicle-details-notes>
-
   <app-vehicle-details-costs [btity]="btity" [vehicle]="vehicle" [rvAfterFD]="vdfd.rvAfterFD">
   </app-vehicle-details-costs>
 
@@ -33,6 +33,6 @@
 
 </div>
 <div [hidden]="!isInPrintMode" *ngIf="newVehicle && newVehicle.owner">
-  <app-vehicle-details-print [vehicle]="newVehicle" [btity]="btity"></app-vehicle-details-print>
+  <app-vehicle-details-print [vehicleInput]="newVehicle" [btity]="btity"></app-vehicle-details-print>
 </div>
 

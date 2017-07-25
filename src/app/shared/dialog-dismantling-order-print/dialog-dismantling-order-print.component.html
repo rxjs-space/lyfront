@@ -5,7 +5,7 @@
 <md-spinner *ngIf="!((holder.isLoadedWithoutErrorRxx | async) || (holder.isWithErrorRxx | async))"></md-spinner>
 <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
 <app-dialog-dismantling-order-print-details *ngIf="holder.isLoadedWithoutErrorRxx | async"
-  [vehicle]="this.holder.latestResultRxxHash['vehicle'].getValue()"
+  [vehicleInput]="this.holder.latestResultRxxHash['vehicle'].getValue()"
   [btity]="this.holder.latestResultRxxHash['btity'].getValue()"
   [dismantlingOrder]="dataFromTrigger.dismantlingOrder"
 >

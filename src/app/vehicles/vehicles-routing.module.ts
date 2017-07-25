@@ -10,7 +10,8 @@ const routes: Routes = [{
   path: '', canActivate: [AuthGuard], component: VehiclesHomeComponent, children: [
     {path: '', pathMatch: 'full', redirectTo: 'entrance'},
     {path: 'entrance', canLoad: [AuthGuard], loadChildren: 'app/vehicles/entrance/entrance.module#EntranceModule'},
-    {path: 'survey', canLoad: [AuthGuard], loadChildren: 'app/vehicles/survey/survey.module#SurveyModule'},
+    {path: 'survey', canLoad: [AuthGuard], loadChildren: 'app/vehicles/survey2/survey2.module#Survey2Module'},
+    {path: 'survey0', canLoad: [AuthGuard], loadChildren: 'app/vehicles/survey/survey.module#SurveyModule'},
     {path: 'dismantling', canLoad: [AuthGuard], loadChildren: 'app/vehicles/dismantling/dismantling.module#DismantlingModule'},
     {path: 'paper-work', canLoad: [AuthGuard], loadChildren: 'app/vehicles/paper-work/paper-work.module#PaperWorkModule'},
   ]

@@ -45,7 +45,7 @@ export class SharedValidatorsService {
       } else {
         return null;
       }
-    }
+    };
   }
 
   requiredBasedOnAnotherControlAndItsValue(anotherControlName, anotherControlMatchingValue): ValidatorFn {
@@ -55,7 +55,18 @@ export class SharedValidatorsService {
       const anotherControl = parentControl.get(anotherControlName);
       if (!anotherControl) {return null; }
       const anotherControlHasTheValue = anotherControl.value === anotherControlMatchingValue;
-      const empty = !control.value;
+      let empty;
+      const v = control.value;
+      switch (true) {
+        case typeof v === 'boolean':
+          empty = false;
+          break;
+        case typeof v === 'number':
+          empty = false;
+          break;
+        default:
+          empty = !control.value;
+      }
       return (anotherControlHasTheValue && empty) ? {required: true} : null;
     };
   }

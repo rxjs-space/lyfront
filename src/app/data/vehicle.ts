@@ -8,16 +8,25 @@ export class Vehicle {
   entranceDate = '';
   facility = '';
   internalSurveyor = '';
+  isSurveyNecessary = true;
   // dismantling = false;
   status2 = {
-    surveyPending: false,
-    surveyPendingReason: '',
-    surveyPendingSince: '',
-    surveyPendingTill: '',
-    dismantlingPending: false,
-    dismantlingPendingReason: '',
-    dismantlingPendingSince: '',
-    dismantlingPendingTill: '',
+    isDismantlingReady: false,
+    isDismantlingNotReadyReason: '收车流程进行中。',
+    isDismantlingNotReadySince: '',
+    // isDismantlingNotReadyTill: '',
+    isSurveyReady: false,
+    isSurveyNotReadyReason: '收车流程进行中。',
+    isSurveyNotReadySince: '',
+    // isSurveyNotReadyTill: '',
+    // surveyPending: false,
+    // surveyPendingReason: '',
+    // surveyPendingSince: '',
+    // surveyPendingTill: '',
+    // dismantlingPending: false,
+    // dismantlingPendingReason: '',
+    // dismantlingPendingSince: '',
+    // dismantlingPendingTill: '',
     auctioning: false,
     dismantling: false
   };

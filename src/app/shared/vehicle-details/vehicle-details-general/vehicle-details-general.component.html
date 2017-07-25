@@ -58,7 +58,7 @@
       </md-card-title>
     </md-card-header>
     <md-card-content>
-
+      <div>
         <!-- 收车单位 -->
         <app-autocomplete-combo
           [placeholderInput]="btity.titles.vehicles.facility"
@@ -69,24 +69,15 @@
         >
         </app-autocomplete-combo>
 
+        <!-- 进场日期 -->
         <md-input-container class="l-size-input">
           <input type="date" mdInput [placeholder]="btity.titles.vehicles.entranceDate" 
             [formControl]="fform.get('entranceDate')">
         </md-input-container>
-
-        <!-- 车辆来源 -->
-        <app-autocomplete-combo
-          [placeholderInput]="btity.titles.vehicles.source"
-          [formControlInput]="fform.get('source')"
-          [objList]="btity.types.sources"
-          [toSort]="false"
-          sizeClass='m-size-input'
-        >
-        </app-autocomplete-combo>
-
-        <md-input-container class="xl-size-input" *ngIf="fform.get('source').value === '交警'">
-            <input mdInput [placeholder]="btity.titles.vehicles.batchId" 
-              [formControl]="fform.get('batchId')">
+          
+        <md-input-container class="m-size-input">
+            <input mdInput [placeholder]="btity.titles.vehicles.internalSurveyor" 
+              [formControl]="fform.get('internalSurveyor')">
         </md-input-container>
 
         <!-- 商务部登记类别 -->
@@ -109,11 +100,81 @@
         >
         </app-autocomplete-combo>
 
-        <md-input-container class="m-size-input">
-            <input mdInput [placeholder]="btity.titles.vehicles.internalSurveyor" 
-              [formControl]="fform.get('internalSurveyor')">
+
+      </div>
+      <div>
+        <!-- 车辆来源 -->
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.source"
+          [formControlInput]="fform.get('source')"
+          [objList]="btity.types.sources"
+          [toSort]="false"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+        <md-input-container class="xl-size-input" *ngIf="fform.get('source').value === '交警'">
+            <input mdInput [placeholder]="btity.titles.vehicles.batchId" 
+              [formControl]="fform.get('batchId')">
+        </md-input-container>
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.isSurveyNecessary"
+          [formControlInput]="fform.get('isSurveyNecessary')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+        <app-autocomplete-combo *ngIf="fform.get('status2.isSurveyReady').value && fform.get('isSurveyNecessary').value"
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.status2.isSurveyReady"
+          [formControlInput]="fform.get('status2.isSurveyReady')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+        <app-autocomplete-combo *ngIf="fform.get('status2.isDismantlingReady').value"
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.status2.isDismantlingReady"
+          [formControlInput]="fform.get('status2.isDismantlingReady')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+
+      </div>
+      <div class="flex-container" *ngIf="!fform.get('status2.isSurveyReady').value && fform.get('isSurveyNecessary').value">
+        <!-- 可否验车 -->
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.status2.isSurveyReady"
+          [formControlInput]="fform.get('status2.isSurveyReady')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="xxl-size-input">
+          <input mdInput 
+            [placeholder]="btity.titles.vehicles.status2.isSurveyNotReadyReason" 
+            [formControl]="fform.get('status2.isSurveyNotReadyReason')">
         </md-input-container>
 
+      </div>
+      <div class="flex-container" *ngIf="!fform.get('status2.isDismantlingReady').value">
+        <!-- 可否拆解 -->
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.status2.isDismantlingReady"
+          [formControlInput]="fform.get('status2.isDismantlingReady')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+        <span class="separator-in-flex-container"></span>
+        <md-input-container class="xxl-size-input">
+          <input mdInput 
+            [placeholder]="btity.titles.vehicles.status2.isDismantlingNotReadyReason" 
+            [formControl]="fform.get('status2.isDismantlingNotReadyReason')">
+        </md-input-container>
+        
+      </div>
     </md-card-content>
   </md-card>
 
