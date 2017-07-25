@@ -82,7 +82,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
         });
         if (this.vehicleList1 && this.vehicleList1.length) {
           // init formSelectedVehicleList
-          if (this.dataFromTrigger.source === '待验车辆' && this.dataFromTrigger.surveyStatus.value > 1) {
+          if ((this.dataFromTrigger.source.indexOf('待验') > -1) && (this.dataFromTrigger.surveyStatus.value > 1)) {
             this.formSelectedVehicleList = this.fb.group({
               vehicleList: this.fb.array(this.vehicleList1.map(v => this.fb.group({
                   vin: v.vin,

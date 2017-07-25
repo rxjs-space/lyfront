@@ -1,0 +1,25 @@
+<app-loading-or-error-3 [holder]="holderPub">
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+     <app-survey2-ready-ncnm
+      [reports]="holderPub.latestResultRxxHash['reports'].getValue()"
+      [btity]="holderPub.latestResultRxxHash['btity'].getValue()"
+      (openDialogVehicleList)="onOpenDialogVehicleList($event)"
+    ></app-survey2-ready-ncnm> 
+     <app-survey2-ready-commercial
+      [reports]="holderPub.latestResultRxxHash['reports'].getValue()"
+      [btity]="holderPub.latestResultRxxHash['btity'].getValue()"
+      (openDialogVehicleList)="onOpenDialogVehicleList($event)"
+    ></app-survey2-ready-commercial>
+    <app-survey2-ready-not-ready
+      [reports]="holderPub.latestResultRxxHash['reports'].getValue()"
+      [btity]="holderPub.latestResultRxxHash['btity'].getValue()"
+      (openDialogVehicleList)="onOpenDialogVehicleList($event)"
+    ></app-survey2-ready-not-ready>
+    <app-survey2-ready-survey-not-necessary
+      [reports]="holderPub.latestResultRxxHash['reports'].getValue()"
+      [btity]="holderPub.latestResultRxxHash['btity'].getValue()"
+      (openDialogVehicleList)="onOpenDialogVehicleList($event)"
+    ></app-survey2-ready-survey-not-necessary> 
+
+  </ng-container>
+</app-loading-or-error-3>

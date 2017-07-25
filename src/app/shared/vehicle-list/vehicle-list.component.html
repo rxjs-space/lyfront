@@ -15,7 +15,7 @@
 
         <ng-container>
           <md-grid-tile 
-            *ngIf="dataFromTrigger.source === '待验车辆' && dataFromTrigger.surveyStatus.value > 1; else elseBlock"
+            *ngIf="(dataFromTrigger.source.indexOf('待验') > -1) && (dataFromTrigger.surveyStatus.value > 1); else elseBlock"
           >
             <md-checkbox [formControl]="formSelectedVehicleList.get(['vehicleList', i, 'selected'])" color="primary"></md-checkbox>
           </md-grid-tile>
@@ -26,29 +26,29 @@
           </ng-template>
         </ng-container>
 
-        <md-grid-tile class="left-aligned-tile clickable" [colspan]="dataFromTrigger.source === '待验车辆' ? 11 : 8"  (click)="openDialogVehicle(vehicle.vin)">
-        <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5">-->
+        <md-grid-tile class="left-aligned-tile clickable" [colspan]="dataFromTrigger.source.indexOf('待验') > -1  ? 11 : 8"  (click)="openDialogVehicle(vehicle.vin)">
+          <!--<md-grid-tile class="left-aligned-tile clickable" colspan="5">-->
           <div>
             <div>
               <span>{{vehicle.vin}}</span><span> / </span>
               <span>{{vehicle.vehicle.plateNo || '号牌暂无'}}</span><span> / </span>
               <span>{{vehicle.vehicle.vehicleType || '车型暂无'}}</span><span> / </span>
               <span>{{vehicle.vehicle.brand || '品牌暂无'}}</span><span> / </span>
-              <span *ngIf="!(isInPrintMode && dataFromTrigger.source === '待验车辆')">{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
+              <span *ngIf="!(isInPrintMode && (dataFromTrigger.source.indexOf('待验') > -1))">{{(vehicle.entranceDate | date) || '入场日期暂无'}}</span>
             </div>
             <div>
               <small>
                 <app-vehicle-list-status
-                  *ngIf="!(isInPrintMode && dataFromTrigger.source === '待验车辆')"
+                  *ngIf="!(isInPrintMode && (dataFromTrigger.source.indexOf('待验') > -1))"
                   [vehicle]="vehicle"
-                  [dismantling]="vehicle.dismantling" [dismantled]="vehicle.status.dismantled.done"
+                  [dismantling]="vehicle.status2.dismantling" [dismantled]="vehicle.status.dismantled.done"
                 >
                 </app-vehicle-list-status>
               </small>
             </div>
           </div>
         </md-grid-tile>
-        <md-grid-tile colspan="3" *ngIf="dataFromTrigger.source !== '待验车辆'">
+        <md-grid-tile colspan="3" *ngIf="dataFromTrigger.source.indexOf('待验') === -1">
           <app-trigger-dismantling-order
             [titles]="btity1.titles"
             [types]="btity1.types"

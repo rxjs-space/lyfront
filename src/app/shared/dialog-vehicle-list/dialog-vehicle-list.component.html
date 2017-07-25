@@ -18,7 +18,7 @@
     [selectAllRxx]="selectAllRxx" [isInPrintMode]="isInPrintMode"></app-vehicle-list>
 </div>
 <div md-dialog-actions class="flex-container">
-  <ng-container *ngIf="dataFromTrigger.source === '待验车辆' && dataFromTrigger.surveyStatus.value > 1">
+  <ng-container *ngIf="(dataFromTrigger.source.indexOf('待验') > -1) && dataFromTrigger.surveyStatus.value > 1">
       <button type="button" md-button color="primary" 
         [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
         *ngIf="!isInPrintMode" (click)="preparePrint()"
@@ -56,7 +56,12 @@
         [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async) || !hasSelected || isUpdating"
         *ngIf="dataFromTrigger.surveyStatus.value === 3 && !isInPrintMode"
         type="button" md-raised-button color="accent"
-      >二次验车完成</button>
+      >
+        <span *ngIf="dataFromTrigger.source === '待验非运营车辆及摩托车'; else elsespan">验车完成</span>
+        <ng-template #elsespan>
+          <span>二次验车完成</span>
+        </ng-template>
+      </button>
 
   </ng-container>
 </div>
