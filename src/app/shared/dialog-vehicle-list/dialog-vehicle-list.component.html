@@ -8,7 +8,8 @@
   <div><small>
       <span *ngIf="dataFromTrigger.surveyStatus">验车状态：{{dataFromTrigger.surveyStatus.viewValue}} / </span>
       <span *ngIf="dataFromTrigger.entranceWeek">入场日期：{{dataFromTrigger.entranceWeek}} / </span>
-      <span *ngIf="dataFromTrigger.vehicleType">车辆类型：{{dataFromTrigger.vehicleType}} / </span>
+      <span *ngIf="dataFromTrigger.vehicleType">{{dataFromTrigger.vehicleType}} / </span>
+      <span *ngIf="dataFromTrigger.isDismantlingReady">{{dataFromTrigger.isDismantlingReady.viewValue}} / </span>
       <span *ngIf="dataFromTrigger.entranceDate">入场日期：{{dataFromTrigger.entranceDate | date}}</span>
       <span *ngIf="dataFromTrigger.entranceMonday">入场周一：{{dataFromTrigger.entranceMonday | date}}</span>
     </small></div>

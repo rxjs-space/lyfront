@@ -79,6 +79,7 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
     const vehicleCopy = JSON.parse(JSON.stringify(this.vehicle));
     vehicleCopy['vehicle']['vehicleType'] = this.fu.idToName(vehicleCopy['vehicle']['vehicleType'], this.btity['types']['vehicleTypes']);
     vehicleCopy['vehicle']['useCharacter'] = this.fu.idToName(vehicleCopy['vehicle']['useCharacter'], this.btity['types']['useCharacters']);
+    vehicleCopy['vehicle']['brand'] = this.fu.idToName(vehicleCopy['vehicle']['useCharacter'], this.btity['brands']);
     vehicleCopy['vehicle']['isNEV'] = vehicleCopy['vehicle']['isNEV'] ? '是' : '否';
     vehicleCopy['owner']['isPerson'] = vehicleCopy['owner']['isPerson'] ? '是' : '否';
     return vehicleCopy;

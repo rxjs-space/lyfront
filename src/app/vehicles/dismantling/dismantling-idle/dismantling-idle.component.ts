@@ -135,9 +135,7 @@ export class DismantlingIdleComponent implements OnInit {
 
     this.filterValueChangesRxx.subscribe(v => {
       this.filteredData = this.calculateFilteredData(v.surveyStatus);
-      filterCache ?
-        filterCache['dismantlingStarted'] = v.surveyStatus :
-        this.filterCache['DismantlingIdleComponent'] = {surveyStatus: v.surveyStatus}
+      this.filterCache['DismantlingIdleComponent'] = {surveyStatus: v.surveyStatus}
 
       // console.log(this.filteredData);
     });

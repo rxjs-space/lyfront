@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class SharedFilterComponent implements OnInit {
   @Input() optionsArr: any;
-  @Output() filter = new EventEmitter();
+  // @Output() filter = new EventEmitter();
   @Output() valueChanges = new EventEmitter();
   filterForm: FormGroup;
   constructor(private fb: FormBuilder) { }
@@ -29,8 +29,8 @@ export class SharedFilterComponent implements OnInit {
       });
   }
 
-  onSubmit() {
-    this.filter.emit(this.filterForm.value);
-  }
+  // onSubmit() {
+  //   this.filter.emit(this.filterForm.value);
+  // }
 
 }
