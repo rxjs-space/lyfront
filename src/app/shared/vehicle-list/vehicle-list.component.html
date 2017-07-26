@@ -48,7 +48,7 @@
             </div>
           </div>
         </md-grid-tile>
-        <md-grid-tile colspan="3" *ngIf="dataFromTrigger.source.indexOf('待验') === -1">
+        <md-grid-tile colspan="3" *ngIf="dataFromTrigger.source === '未下达拆解计划车辆'">
           <app-trigger-dismantling-order
             [titles]="btity1.titles"
             [types]="btity1.types"

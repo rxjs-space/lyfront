@@ -84,7 +84,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
       const isDismantlingNotReadyReasonCtrl = this.fform.get('status2.isDismantlingNotReadyReason');
       const isDismantlingNotReadySinceCtrl = this.fform.get('status2.isDismantlingNotReadySince');
       if (!v) { // when dismantling is not ready, set validators for isDismantlingNotReadyReason
-        console.log('setting validators');
+        // console.log('setting validators');
         isDismantlingNotReadyReasonCtrl.setValidators([
           this.sv.startedWithSpace(), Validators.required
         ]);

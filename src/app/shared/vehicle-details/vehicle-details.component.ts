@@ -14,6 +14,7 @@ import 'rxjs/add/operator/delay';
 import jsonpatch from 'fast-json-patch';
 
 import { DataService } from '../../data/data.service';
+import { AuthService } from '../../auth/auth.service';
 
 import { SharedValidatorsService } from '../validators/shared-validators.service';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
@@ -68,6 +69,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   asyncMonitorHolder_InsertUpdateVehicle: any;
 
   constructor(
+    private auth: AuthService,
     private data: DataService,
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -174,7 +176,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     // console.log(this.newVehicle.mofcomRegisterType);
     this.isMofcomRegisterTypeSpecifiedRxx.next(this.newVehicle.mofcomRegisterType);
     this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
-    // console.log(this.patches);
+    console.log(this.patches);
     // this.isChangedAndValid.emit(!!this.patches[length]);
     this.isChangedRxx.next(!!this.patches[length]);
     this.checkValidity.bind(this)();
@@ -204,6 +206,71 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.isValidRxx.next(allValid);
 
   }
+
+  editNoteBasedOnReadiness(patches) {
+    const patchesCopy = JSON.parse(JSON.stringify(patches));
+    const itemsToCheck = ['isSurveyReady', 'isDismantlingReady'];
+    const itemDisplayNameHashes = {
+      'isSurveyReady': '验车',
+      'isDismantlingReady': '拆解'
+    };
+    const sinceHashes = {
+      'isSurveyReady': 'isSurveyNotReadySince',
+      'isDismantlingReady': 'isDismantlingNotReadySince'
+    };
+    const reasonHashes = {
+      'isSurveyReady': 'isSurveyNotReadyReason',
+      'isDismantlingReady': 'isDismantlingNotReadyReason'
+    };
+    itemsToCheck.forEach(item => {
+      const isReadyOpByCurrentUser = patchesCopy.find(p => p.path === `/status2/${item}`);
+      if (isReadyOpByCurrentUser && isReadyOpByCurrentUser.value) {
+          const deleteReasonOp = {
+            op: 'replace',
+            path: `/status2/${item}Reason`,
+            value: ''
+          };
+
+          const reason = this.vehicle.status2[reasonHashes[item]];
+          const noteLength = this.dNotes.fform.get('remarks').length;
+          const userId = this.auth.getUserId();
+          const userDisplayName = this.auth.getUserDisplayName();
+          const notReadySinceDate = this.vehicle.status2[sinceHashes[item]];
+          const todayDate = (new Date()).toISOString().substring(0, 10);
+          const itemDisplayName = itemDisplayNameHashes[item];
+          const noteOp = {
+            op: 'add',
+            path: `/remarks/${noteLength}`,
+            value: {
+              by: userId,
+              byDisplayName: userDisplayName,
+              content: `${itemDisplayName}暂缓解除。暂缓期：${notReadySinceDate} 至 ${todayDate}，原因：${reason}`,
+              date: todayDate
+            }
+          };
+          patchesCopy.push(deleteReasonOp, noteOp);
+          return patchesCopy;
+      }
+    });
+
+
+// let noteLength, userId, userDisplayName, whoNotReady, isNotReadySince, isNotReadyTill, isNotReadyReason, noteDate;
+
+// const noteOp = {
+//   op: "add",
+//   path: `/remarks/${noteLength}`,
+//   value: {
+//     by: userId,
+//     byDisplayName: userDisplayName,
+//     content: `${whoNotReady}暂缓，从${isNotReadySince}到${isNotReadyTill}，原因：${isNotReadyReason}`,
+//     date: noteDate
+//   }
+// }
+
+
+    return patchesCopy;
+  }
+
   save() {
     this.isSavingRxx.next(true);
     console.log('saving...');
@@ -236,7 +303,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
           });
         break;
       case false:
-        this.data.updateVehicle(this.vehicle.vin, {patches: this.patches})
+        this.data.updateVehicle(this.vehicle.vin, {patches: this.editNoteBasedOnReadiness(this.patches)})
           .first()
           .catch(error => Observable.of({
             ok: false, error

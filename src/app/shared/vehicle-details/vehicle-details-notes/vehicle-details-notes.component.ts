@@ -34,7 +34,8 @@ export class VehicleDetailsNotesComponent implements OnInit {
       fooBar: '', // when all the ctrls are disabled, the form.valid is always false
       content: [{value: remark.content, disabled: true}],
       date: [{value: remark.date, disabled: true}],
-      by: [{value: remark.by, disabled: true}]
+      by: [{value: remark.by, disabled: true}],
+      byDisplayName: [{value: remark.byDisplayName, disabled: true}],
     }));
 
     this.notesFormArray = this.fb.array(noteCtrlsArray);
@@ -72,8 +73,9 @@ export class VehicleDetailsNotesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((newNoteForm: FormGroup) => {
       if (newNoteForm) {
-        newNoteForm.get('date').disable();
-        newNoteForm.get('content').disable();
+        newNoteForm.disable();
+        // newNoteForm.get('date').disable();
+        // newNoteForm.get('content').disable();
         this.fform.markAsTouched(); // order 1.a
         this.fform.markAsDirty(); // order 1.b
         this.notesFormArray.push(newNoteForm); // order 2

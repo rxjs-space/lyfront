@@ -61,7 +61,7 @@ export class DismantlingIdle2Component implements OnInit {
 
     this.filterValueChangesRxx.subscribe(v => {
       this.filteredData = this.calculateFilteredData(v);
-      console.log(this.filteredData);
+      // console.log(this.filteredData);
       this.filterCache['DismantlingIdle2Component'] = {isDismantlingReady: v.isDismantlingReady}
 
     });

@@ -77,6 +77,10 @@ export class AuthService {
     return this.getJwtPayload(localStorage.getItem('currentUser'))['sub']['_id'];
   }
 
+  getUserDisplayName() {
+    return JSON.parse(localStorage.getItem('currentUser'))['displayName'];
+  }
+
 
   redirectAfterSuccess() {
     const url = this.attemptedUrl || '/dashboard';

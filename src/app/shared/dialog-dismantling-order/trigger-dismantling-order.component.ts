@@ -35,7 +35,8 @@ export class TriggerDismantlingOrderComponent implements OnInit {
         types: this.types,
         titles: this.titles,
         vin: vehicle.vin,
-        vehicleType: this.fu.idToName(vehicle.vehicle.vehicleType, this.types.vehicleTypes),
+        vehicleType: vehicle.vehicle.vehicleType,
+        // vehicleType: this.fu.idToName(vehicle.vehicle.vehicleType, this.types.vehicleTypes),
         canCreateNew: this.canCreateNew
       },
     });

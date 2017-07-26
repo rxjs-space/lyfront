@@ -23,6 +23,7 @@ export class DialogNewVehicleNoteComponent implements OnInit {
     this.noteForm = this.fb.group({
       date: [(new Date()).toISOString().slice(0, 10)],
       by: [this.auth.getUserId()],
+      byDisplayName: [this.auth.getUserDisplayName()],
       content: ['', [Validators.required, this.sv.startedWithSpace()]],
     });
   }
