@@ -39,6 +39,8 @@ export class DialogMofcomProgressComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub0_);
 
     const sub1_ = this.dataFromTrigger.captchaBase64Rxx.subscribe(c => {
+      this.isSubmitting = false;
+      this.captchaForm.get('captcha').enable();
       if (c) {
         this.captchaBase64 = 'data:image/png;base64, ' + c;
       }

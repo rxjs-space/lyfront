@@ -1,12 +1,18 @@
 
 
-<div md-dialog-title>回收证明录入进度</div>
+<div md-dialog-title style="display:flex; align-items: center;">
+  <span>回收证明录入进度</span>
+  <span class="space-filler"></span>
+  <button type="button" md-button (click)="closeDialog()" style="margin-right: -1em;">
+    <i class="material-icons">close</i>
+  </button>
+</div>
 <div md-dialog-content>
   <md-card>
     <md-card-content>{{message}}</md-card-content>
     <ng-container *ngIf="!!captchaBase64">
       <md-card-content style="width: 300px">
-        <form [formGroup]="captchaForm">
+        <form [formGroup]="captchaForm" (ngSubmit)="onSubmit()">
           <md-grid-list cols="2" rowHeight="4em">
             <md-grid-tile>
               <img [src]="domSanitizer.bypassSecurityTrustUrl(captchaBase64)" alt="验证码"> 
@@ -22,9 +28,6 @@
     </ng-container>
 
     <ng-container  *ngIf="!!resultBase64">
-      <md-card-header>
-        <md-card-title>检查录入结果</md-card-title>
-      </md-card-header>
       <md-card-content>
         <img [src]="domSanitizer.bypassSecurityTrustUrl(resultBase64)" alt="录入截屏"> 
       </md-card-content>
@@ -32,7 +35,7 @@
   </md-card>
 </div>
 <div md-dialog-actions>
-  <button type="button" md-button color="primary" (click)="closeDialog()">关闭</button>
+
   <span class="space-filler"></span>
   <md-spinner class="mini-spinner-1" *ngIf="isSubmitting"></md-spinner>
   <button [disabled]="isSubmitting"

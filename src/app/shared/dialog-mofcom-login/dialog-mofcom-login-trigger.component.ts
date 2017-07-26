@@ -38,11 +38,10 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
           case message.message && message.message.indexOf('notLoggedIn') > -1:
             this.messageRxx.next('输入登录验证码...');
             this.captchaBase64Rxx.next(message.data.captchaBase64);
-            // dialogRefLogin = this.dialog.open(DialogMofcomLoginComponent, {
-            //   width: '400px',
-            //   disableClose: true,
-            //   data: message.data
-            // });
+            break;
+          case message.message && message.message.indexOf('invalidCaptcha') > -1:
+            this.messageRxx.next('验证码有误。请重新输入...');
+            this.captchaBase64Rxx.next(message.data.captchaBase64);
             break;
           case message.message && message.message.indexOf('loggedIn') > -1:
             this.messageRxx.next('已登录。继续发送数据...');
@@ -54,7 +53,7 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
             });
             break;
           case message.message && message.message.indexOf('finishedInput') > -1:
-            this.messageRxx.next('完成录入。');
+            this.messageRxx.next('完成录入。请检查录入结果...');
             console.log('finishedInput');
             this.resultBase64Rxx.next(message.data.resultBase64);
             // setTimeout(() => {dialogRefProgress.close(); }, 1000)
@@ -80,6 +79,8 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
     const vehicleCopy = JSON.parse(JSON.stringify(this.vehicle));
     vehicleCopy['vehicle']['vehicleType'] = this.fu.idToName(vehicleCopy['vehicle']['vehicleType'], this.btity['types']['vehicleTypes']);
     vehicleCopy['vehicle']['useCharacter'] = this.fu.idToName(vehicleCopy['vehicle']['useCharacter'], this.btity['types']['useCharacters']);
+    vehicleCopy['vehicle']['isNEV'] = vehicleCopy['vehicle']['isNEV'] ? '是' : '否';
+    vehicleCopy['owner']['isPerson'] = vehicleCopy['owner']['isPerson'] ? '是' : '否';
     return vehicleCopy;
   }
 
