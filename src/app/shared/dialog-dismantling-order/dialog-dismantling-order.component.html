@@ -6,44 +6,27 @@
       <i class="material-icons">close</i>
     </button>  
   </div>
-  <md-card>
-    <ng-container *ngIf="dataFromTrigger.canCreateNew && !(createdNewRxx | async)">
-      <md-card-header>
-        <md-card-title>新建拆解计划</md-card-title>
-      </md-card-header>
-      <md-card-content>
-        <form [formGroup]="doForm" (ngSubmit)="onDOFormSubmit()">
-            <md-input-container class="m-size-input">
-              <input mdInput type="date" [placeholder]="dataFromTrigger.titles.dismantlingOrders.orderDate" formControlName="orderDate">
-            </md-input-container>
-            <md-input-container class="m-size-input">
-              <input mdInput [placeholder]="dataFromTrigger.titles.dismantlingOrders.dismantlingPIC" formControlName="dismantlingPIC">
-            </md-input-container>
-
-            <app-autocomplete-combo
-              [isTrueOrFalse]="true"
-              [placeholderInput]="dataFromTrigger.titles.dismantlingOrders.isAdHoc"
-              [formControlInput]="doForm.get('isAdHoc')"
-              sizeClass='m-size-input'
-            >
-            </app-autocomplete-combo> 
-            <md-input-container class="l-size-input" *ngIf="this.doForm.get('isAdHoc').value">
-              <input mdInput [placeholder]="dataFromTrigger.titles.dismantlingOrders.correspondingSalesOrder" [disabled]="true" [value]="'tba'">
-            </md-input-container>
-            <!-- todo: correspondingSalesOrder input -->
-          <div>
-            <button type="submit" md-raised-button color="primary"
-              [disabled]="doForm.invalid || (creatingNewRxx | async)"
-            >保存</button>
-            <span><md-spinner class="mini-spinner" *ngIf="creatingNewRxx | async"></md-spinner></span>
-          </div>
-        </form>
-      </md-card-content>
-    </ng-container>
-
+  <div md-dialog-content>
     <app-existing-dismantling-orders
       [titles]="dataFromTrigger.titles"
       [vin]="dataFromTrigger.vin"
       [createdNewRxx]="createdNewRxx"
     ></app-existing-dismantling-orders>
-  </md-card>
+  </div>
+  <div md-dialog-content>
+    <md-card>
+      <ng-container *ngIf="dataFromTrigger.canCreateNew && !(createdNewRxx | async)">
+        <md-card-header>
+          <md-card-title>新建拆解计划</md-card-title>
+        </md-card-header>
+        <md-card-content>
+          <app-dismantling-order-details
+            [doForm]="doForm" (doFormSubmit)="onDOFormSubmit()" [titles]="dataFromTrigger.titles"
+          >
+          </app-dismantling-order-details>
+
+        </md-card-content>
+      </ng-container>
+    </md-card>
+  </div>
+

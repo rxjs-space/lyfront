@@ -1,0 +1,23 @@
+  <form [formGroup]="doForm" (ngSubmit)="onSubmit()">
+      <md-input-container class="m-size-input">
+        <input mdInput type="date" [placeholder]="titles.dismantlingOrders.orderDate" formControlName="orderDate">
+      </md-input-container>
+
+      <app-autocomplete-combo
+        [isTrueOrFalse]="true"
+        [placeholderInput]="titles.dismantlingOrders.isAdHoc"
+        [formControlInput]="doForm.get('isAdHoc')"
+        sizeClass='m-size-input'
+      >
+      </app-autocomplete-combo> 
+      <md-input-container class="l-size-input" *ngIf="this.doForm.get('isAdHoc').value">
+        <input mdInput [placeholder]="titles.dismantlingOrders.correspondingSalesOrder" [disabled]="true" [value]="'tba'">
+      </md-input-container>
+      <!-- todo: correspondingSalesOrder input -->
+    <div>
+      <button type="submit" md-raised-button color="primary"
+        [disabled]="doForm.invalid || (creatingNewRxx | async)"
+      >保存</button>
+      <span><md-spinner class="mini-spinner" *ngIf="creatingNewRxx | async"></md-spinner></span>
+    </div>
+  </form>

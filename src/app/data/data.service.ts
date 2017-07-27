@@ -11,6 +11,7 @@ import io from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { Vehicle } from './vehicle';
 import { User } from './user';
+import { DismantlingOrder } from './dismantling-order';
 import { BACK_END_URL, BOT_URL } from '../app-config';
 
 
@@ -374,15 +375,20 @@ export class DataService {
       .catch(error => this.handleError(error));
   }
 
-  getDismantlingOrderById(id) {
-    return this.http.get(this.dismantlingOrderApiUrl1 + `/one?dismantlingOrderId=${id}`, this.setupOptions(true))
-      .map(res => {
-        const resJSON = res.json();
-        const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
-        if (hasMongoError) {throw resJSON; }
-        return res.json();
-      })
-      .catch(error => this.handleError(error));
+  getDismantlingOrderById(id?) {
+    if (id) {
+      return this.http.get(this.dismantlingOrderApiUrl1 + `/one?dismantlingOrderId=${id}`, this.setupOptions(true))
+        .map(res => {
+          const resJSON = res.json();
+          const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
+          if (hasMongoError) {throw resJSON; }
+          return res.json();
+        })
+        .catch(error => this.handleError(error));
+    } else {
+      return Observable.of(new DismantlingOrder());
+    }
+
   }
 
   insertDismantlingOrder(dismantlingOrderAndPatches: any) {

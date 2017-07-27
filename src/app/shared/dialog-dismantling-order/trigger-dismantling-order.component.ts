@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MdDialog } from '@angular/material';
 
-import { DialogDismantlingOrderComponent } from '../../shared/dialog-dismantling-order/dialog-dismantling-order.component';
+import { DialogDismantlingOrderComponent } from './dialog-dismantling-order.component';
 import { FormUtilsService } from '../form-utils/form-utils.service';
 
 @Component({

@@ -1,0 +1,14 @@
+<app-loading-or-error-3 [holder]="holderPub">
+
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+
+    <app-dismantling-order-details2
+      [vehicle]="dataFromTrigger.vehicle"
+      [dismantlingOrder]="this.holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
+      [btity]="dataFromTrigger.btity"
+      [isNew]="isNew"
+    >
+    </app-dismantling-order-details2>
+
+  </ng-container>
+</app-loading-or-error-3>

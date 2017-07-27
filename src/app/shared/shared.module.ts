@@ -71,6 +71,10 @@ import { DialogMofcomLoginComponent } from './dialog-mofcom-login/dialog-mofcom-
 import { DialogMofcomLoginTriggerComponent } from './dialog-mofcom-login/dialog-mofcom-login-trigger.component';
 import { MofcomCaptchComponent } from './dialog-mofcom-login/mofcom-captch.component';
 import { DialogMofcomProgressComponent } from './dialog-mofcom-progress/dialog-mofcom-progress.component';
+import { DismantlingOrderDetailsComponent } from './dialog-dismantling-order/dismantling-order-details.component';
+import { DialogDismantlingOrder2Component } from './dialog-dismantling-order2/dialog-dismantling-order2.component';
+import { DialogDismantlingOrder2TriggerComponent } from './dialog-dismantling-order2/dialog-dismantling-order2-trigger.component';
+import { DismantlingOrderDetails2Component } from './dismantling-order-details2/dismantling-order-details2.component';
 
 
 const mdModules = [
@@ -148,6 +152,10 @@ const mdModules = [
     DialogMofcomLoginTriggerComponent,
     MofcomCaptchComponent,
     DialogMofcomProgressComponent,
+    DismantlingOrderDetailsComponent,
+    DialogDismantlingOrder2Component,
+    DialogDismantlingOrder2TriggerComponent,
+    DismantlingOrderDetails2Component,
   ],
   exports: [
     CommonModule,
@@ -169,7 +177,8 @@ const mdModules = [
     DialogDismantlingOrderPrintComponent,
     LoadingOrError3Component,
     CloseButtonComponent,
-    DialogMofcomLoginTriggerComponent
+    DialogMofcomLoginTriggerComponent,
+    DialogDismantlingOrder2TriggerComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,
@@ -185,7 +194,8 @@ const mdModules = [
     DialogConfirmationComponent,
     DialogYesNo2Component,
     DialogMofcomLoginComponent,
-    DialogMofcomProgressComponent
+    DialogMofcomProgressComponent,
+    DialogDismantlingOrder2Component
   ]
 })
 export class SharedModule {

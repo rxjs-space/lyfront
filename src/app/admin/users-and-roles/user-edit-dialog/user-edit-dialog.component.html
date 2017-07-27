@@ -119,8 +119,8 @@
         <md-grid-list cols="2" rowHeight="5em" class="left-aligned-grid-list">
           <md-grid-tile>
             <md-select placeholder="角色" formControlName="roles" [multiple]="true">
-              <md-option *ngFor="let role of holderPub.latestResultRxxHash['roles'].getValue().sort()" [value]="role">
-                {{role}}
+              <md-option *ngFor="let role of holderPub.latestResultRxxHash['btity'].getValue()['types']['userRoles']" [value]="role.name">
+                {{role.displayName}}
               </md-option>
             </md-select>
           </md-grid-tile>

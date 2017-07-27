@@ -20,7 +20,7 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
   asyncDataHolderId = 'UserEditDialogComponent' + Math.random();
   dataRxHash = {
     user: this.backend.getUserById(this.dataFromTrigger.userId),
-    roles: this.backend.getRoles(),
+    // roles: this.backend.getRoles(),
     btity: this.backend.btityRxx
   };
   holderPub: SubHolder;
@@ -66,7 +66,7 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
     const user = this.holderPub.latestResultRxxHash['user'].getValue();
     this.isNew = user._id ? false : true;
     // console.log(this.isNew);
-    const roles = this.holderPub.latestResultRxxHash['roles'].getValue();
+    // const roles = this.holderPub.latestResultRxxHash['roles'].getValue();
     this.facilities = this.holderPub.latestResultRxxHash['btity'].getValue()['types']['facilities'];
     this.departments = this.holderPub.latestResultRxxHash['btity'].getValue()['types']['departments'];
     // user.facility = this.fu.idToName(user.facility, this.facilities);
@@ -152,10 +152,10 @@ export class UserEditDialogComponent extends BaseForComponentWithAsyncData  impl
         } else {
           const newUser = res;
           newUser.roles = userFromForm.roles;
-          const roles = this.holderPub.latestResultRxxHash['roles'].getValue();
+          // const roles = this.holderPub.latestResultRxxHash['roles'].getValue();
           this.dataRxHash = {
             user: Observable.of(newUser).delay(500),
-            roles: Observable.of(roles),
+            // roles: Observable.of(roles),
             btity: this.backend.btityRxx
           };
           this.ngOnInit();

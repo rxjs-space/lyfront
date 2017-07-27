@@ -67,7 +67,7 @@ export class DialogDismantlingOrderComponent implements OnInit {
       orderDate: [{value: (new Date()).toISOString().slice(0, 10), disabled: true}],
       isAdHoc: [false, [this.sv.shouldBeBoolean()]],
       correspondingSalesOrder: '',
-      dismantlingPIC: ['', [Validators.required]],
+      // dismantlingPIC: ['', [Validators.required]],
       vehicleType: [this.fu.nameToId(this.dataFromTrigger.vehicleType, this.data.btityRxx.getValue()['types']['vehicleTypes'])]
     });
     // this.doForm.valueChanges.subscribe(console.log);
