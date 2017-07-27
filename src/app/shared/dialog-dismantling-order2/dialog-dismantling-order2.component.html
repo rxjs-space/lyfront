@@ -1,14 +1,28 @@
 <app-loading-or-error-3 [holder]="holderPub">
 
   <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+    <div md-dialog-title>
+      <span>{{isNew ? '新建拆解计划' : '查看拆解计划'}} - </span>
+      <small>
+        <span>{{dataFromTrigger.vehicle.vin}} / </span>
+        <span>{{dataFromTrigger.vehicle.vehicle.plateNo}} / </span>
+        <span>{{dataFromTrigger.vehicle.vehicle.vehicleType}} / </span>
+        <span>{{dataFromTrigger.vehicle.vehicle.brand}}</span>
+      </small>
+      <app-close-button [dialogRef]="dialogRef" [fforms]="dod.fformsRxx | async"></app-close-button>
+    </div>
+    <div md-dialog-content>
+      <app-dismantling-order-details2
+        [vehicle]="dataFromTrigger.vehicle"
+        [dismantlingOrder]="this.holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
+        [staffs]="this.holderPub.latestResultRxxHash['staffs'].getValue()"
+        [btity]="dataFromTrigger.btity"
+        [isNew]="isNew"
+        #dod
+      >
+      </app-dismantling-order-details2>
+    </div>
 
-    <app-dismantling-order-details2
-      [vehicle]="dataFromTrigger.vehicle"
-      [dismantlingOrder]="this.holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
-      [btity]="dataFromTrigger.btity"
-      [isNew]="isNew"
-    >
-    </app-dismantling-order-details2>
 
   </ng-container>
 </app-loading-or-error-3>

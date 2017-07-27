@@ -29,6 +29,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
       vin: [this.vehicle.vin, Validators.required],
       batchId: [this.vehicle.batchId, this.sv.startedWithSpace()],
       source: [this.fu.idToName(this.vehicle.source, this.btity.types['sources']), [
+        Validators.required,
         this.sv.notListedButCanBeEmpty(this.btity.types.sources.map(t => t.name))
       ]],
       // isToDeregister: [this.vehicle.isToDeregister], // replaced by consignmentType

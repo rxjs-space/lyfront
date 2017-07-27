@@ -6,8 +6,8 @@ export class DismantlingOrder {
   completedAt: string = '';
   vin: string = '';
   vehicleType: string = '';
-  partsAndWastes: any[] = [];
   planners: any[] = [];
   productionOperators: any[] = [];
+  partsAndWastesPP: any[] = []; // plan and production
 }
 

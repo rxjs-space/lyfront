@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
 import { SharedValidatorsService } from '../validators/shared-validators.service';
 import { FormUtilsService } from '../form-utils/form-utils.service';
 import { Observable } from 'rxjs/Observable';
@@ -17,9 +18,11 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   @Input() dismantlingOrder: DismantlingOrder;
   @Input() btity;
   @Input() isNew;
+  @Input() staffs;
   subscriptions: Subscription[] = [];
   doForm: FormGroup;
-  pwForm: FormGroup;
+  pwPPForm: FormArray;
+  fformsRxx = new Subject();
   constructor(
     private auth: AuthService,
     private fb: FormBuilder,
@@ -42,15 +45,57 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       startedAt: [{value: oldDO.startedAt, disabled: true}],
       completedAt: [{value: oldDO.completedAt, disabled: true}],
       vin: [{value: (this.isNew ? this.vehicle.vin : oldDO.vin), disabled: true}],
-      vehicleType: [{value: (this.isNew ? this.vehicle.vehicle.vehicleType : oldDO.vehicleType), disabled: true}], // this is displayName now
-      planners: [{value: (this.isNew ? [this.auth.getUserDisplayName()] : oldDO.planners)}], // this is displayName now
-      productionOperators: [{value: oldDO.vin}] // also displayName now
+      vehicleType: [{
+        value: (this.isNew ? this.vehicle.vehicle.vehicleType : oldDO.vehicleType), 
+        disabled: true}], // this is displayName now
+      planners: [this.isNew ? [this.auth.getUserDisplayName()] : oldDO.planners], // this is displayName now
+      productionOperators: [oldDO.productionOperators] // also displayName now
       // partsAndWastesPlanned: [],
       // partsAndWastesProduced: [],
     });
+    const partsAndWastesTypes = this.btity.types.parts.concat(this.btity.types.wastes);
+    const partsAndWastesPPInOldDO = this.dismantlingOrder.partsAndWastesPP; // plan and production
 
-    // - typeId, planned, isMissingBeforeEntrance, conditionBeforeDismantling(intact, defective, unobservable), 
-    // - typeId, actual, noteByProductionOperator, itemIdAfterDismantling
+    const partsAndWastesPPWithTypeNames = partsAndWastesTypes.map(pw => { // combine the plan and production
+      const id = pw.id;
+      const matchedPP = partsAndWastesPPInOldDO.find(PW => PW.id === id);
+      if (matchedPP) {
+        matchedPP.name = pw.name;
+        return matchedPP;
+      } else {
+        pw.countPlan = 0;
+        pw.conditionBeforeDismantling = '忽略';
+        pw.noteByPlanner = '';
+        pw.countProduction = 0;
+        pw.noteByProductionOperator = '';
+        pw.itemIdAfterDismantling = '';
+        return pw;
+      }
+    });
+
+    console.log(partsAndWastesPPWithTypeNames);
+    this.pwPPForm = this.fb.array(partsAndWastesPPWithTypeNames.map(pwPP => {
+      return this.fb.group({
+        id: [{value: pwPP.id, disabled: true}],
+        name: [{value: pwPP.name, disabled: true}],
+        countPlan: [pwPP.countPlan],
+        conditionBeforeDismantling: [pwPP.conditionBeforeDismantling, [
+          Validators.required,
+          this.sv.notListedButCanBeEmpty(this.btity.types['conditionBeforeDismantlingTypes'].map(t => t.name))
+        ]],
+        noteByPlanner: [pwPP.noteByPlanner],
+        countProduction: [pwPP.countProduction],
+        noteByProductionOperator: [pwPP.noteByProductionOperator],
+        itemIdAfterDismantling: [pwPP.itemIdAfterDismantling],
+      });
+    }));
+
+    setTimeout(() => {
+      this.fformsRxx.next([this.doForm, this.pwPPForm]);
+    }, 0)
+    // this.pwPlanedForm = this.fb.array(this.btity)
+    // - id, count, conditionBeforeDismantling(intact, defective, unobservable), 
+    // - id, count, noteByProductionOperator, itemIdAfterDismantling
 
   }
 

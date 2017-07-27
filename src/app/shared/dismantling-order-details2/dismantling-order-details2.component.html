@@ -1,1 +1,103 @@
-{{this.fform.getRawValue() | json}}
+<!-- {{this.doForm.getRawValue() | json}} -->
+
+<md-card class="info-card">
+  <!-- <md-card-header>
+    <md-card-title>
+      
+    </md-card-title>
+  </md-card-header> -->
+  <md-card-content>
+    <form [formGroup]="doForm">
+      <div>
+        <!-- <md-input-container>
+          <input mdInput [placeholder]="btity.titles.vehicles.vin" formControlName="vin">
+        </md-input-container>
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="btity.titles.vehicles.vehicle.vehicleType" formControlName="vehicleType">
+        </md-input-container> -->
+        <md-input-container *ngIf="dismantlingOrder.isAdHoc">
+          <input mdInput 
+            [placeholder]="btity.titles.dismantlingOrders.correspondingSalesOrderId" formControlName="correspondingSalesOrderId">
+        </md-input-container>
+
+        <md-input-container class="m-size-input">
+          <input mdInput [placeholder]="btity.titles.dismantlingOrders.orderDate" formControlName="orderDate">
+        </md-input-container>
+        <md-select [multiple]="true" style="width: 15em;" class="small-select" *ngIf="isNew"
+          [placeholder]="btity.titles.dismantlingOrders.planners" formControlName="planners">
+          <md-option *ngFor="let staff of staffs" [value]="staff._id">
+            {{staff.displayName}}
+          </md-option>
+        </md-select>
+
+        <ng-container *ngIf="!isNew">
+          <md-input-container class="m-size-input">
+            <input mdInput [placeholder]="btity.titles.dismantlingOrders.startedAt" formControlName="startedAt">
+          </md-input-container>
+          <md-input-container class="m-size-input">
+            <input mdInput [placeholder]="btity.titles.dismantlingOrders.completedAt" formControlName="completedAt">
+          </md-input-container>
+        </ng-container>
+
+      </div>
+      <div class="select-container" *ngIf="!isNew">
+        <md-select [multiple]="true" style="width: 15em;" class="small-select"
+          [placeholder]="btity.titles.dismantlingOrders.planners" formControlName="planners">
+          <md-option *ngFor="let staff of staffs" [value]="staff._id">
+            {{staff.displayName}}
+          </md-option>
+        </md-select>
+      </div>
+      <div class="select-container" *ngIf="!isNew">
+        <md-select [multiple]="true" style="width: 30em;" class="small-select"
+          [placeholder]="btity.titles.dismantlingOrders.productionOperators" formControlName="productionOperators">
+          <md-option *ngFor="let staff of staffs" [value]="staff._id">
+            {{staff.displayName}}
+          </md-option>
+        </md-select>
+      </div>
+    </form>
+    
+    <form [formGroup]="pwPPForm">
+      <div *ngFor="let pwPPCtrl of pwPPForm.controls; let i=index" [formGroupName]="i">
+        <md-input-container class="s-size-input">
+          <input mdInput [placeholder]="btity.titles.dismantlingOrders.id" formControlName="id">
+        </md-input-container> 
+        <md-input-container class="s-size-input">
+          <input mdInput [placeholder]="btity.titles.dismantlingOrders.name" formControlName="name">
+        </md-input-container> 
+        <md-input-container class="s-size-input">
+          <input mdInput type="number" [placeholder]="btity.titles.dismantlingOrders.countPlan" formControlName="countPlan">
+        </md-input-container>
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.dismantlingOrders.conditionBeforeDismantling"
+          [formControlInput]="pwPPForm.get([i, 'conditionBeforeDismantling'])"
+          [objList]="btity.types.conditionBeforeDismantlingTypes"
+          [toSort]="false"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>      
+        <md-input-container class="xl-size-input">
+          <input mdInput [placeholder]="btity.titles.dismantlingOrders.noteByPlanner" formControlName="noteByPlanner">
+        </md-input-container>
+        <ng-container *ngIf="!isNew">
+          <md-input-container class="s-size-input">
+            <input mdInput type="number" [placeholder]="btity.titles.dismantlingOrders.countProduction" formControlName="countProduction">
+          </md-input-container>        
+          <md-input-container class="xl-size-input">
+            <input mdInput [placeholder]="btity.titles.dismantlingOrders.noteByProductionOperator" formControlName="noteByProductionOperator">
+          </md-input-container>        
+          <md-input-container class="s-size-input">
+            <input mdInput [placeholder]="btity.titles.dismantlingOrders.itemIdAfterDismantling" formControlName="itemIdAfterDismantling">
+          </md-input-container>
+        </ng-container>
+     
+
+      </div>
+    </form>    
+  </md-card-content>
+</md-card>
+
+      <!--
+      planners: [this.isNew ? [this.auth.getUserDisplayName()] : oldDO.planners], // this is displayName now
+      productionOperators: [oldDO.productionOperators] // also displayName now -->

@@ -10,9 +10,10 @@ import { DataService } from '../../data/data.service';
   styleUrls: ['./dialog-dismantling-order2.component.scss']
 })
 export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncData implements OnInit {
-  asyncDataHolderId = 'DialogDismantlingOrder2Component';
+  asyncDataHolderId = 'DialogDismantlingOrder2Component' + Math.random();
   dataRxHash = {
     dismantlingOrder: this.backend.getDismantlingOrderById(this.dataFromTrigger.dismantlingOrderId),
+    staffs: this.backend.getStaffs()
   };
   holderPub: SubHolder;
   isNew = this.dataFromTrigger.dismantlingOrderId ? false : true;

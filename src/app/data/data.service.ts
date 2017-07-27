@@ -212,6 +212,12 @@ export class DataService {
     return urlSearchParams;
   }
 
+  getStaffs() {
+    return this.http.get(this.usersApiUrl + '/staffs', this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
   getRoles() {
     return this.http.get(this.rolesApiUrl, this.setupOptions(true))
       .map(res => res.json())

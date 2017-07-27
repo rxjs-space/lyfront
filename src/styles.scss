@@ -219,3 +219,9 @@ div.chart-column {
 md-grid-list.left-aligned-grid-list md-grid-tile.mat-grid-tile .mat-figure {
   justify-content: flex-start;
 }
+
+.select-container {
+  display: flex;
+  height: 4em;
+  align-items: center;
+}

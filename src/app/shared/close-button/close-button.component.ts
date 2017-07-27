@@ -10,17 +10,39 @@ import { DialogYesNo2Component } from '../dialog-yes-no-2/dialog-yes-no-2.compon
 export class CloseButtonComponent implements OnInit {
   @Input() dialogRef: any;
   @Input() fform: FormGroup;
+  @Input() fforms: FormGroup[];
   constructor(private dialog: MdDialog) { }
 
   ngOnInit() {
   }
 
   onClose() {
-    if (this.fform && this.fform.dirty) {
-      this.openConfirmationDialog();
-    } else {
-      this.dialogRef.close();
+    switch (true) {
+      case !!this.fform && this.fform.dirty:
+        this.openConfirmationDialog();
+        break;
+      case !!this.fforms:
+        let someDirty = false;
+        for (let i = 0; i < this.fforms.length; i++) {
+          if (this.fforms[i].dirty) {
+            someDirty = true;
+            break;
+          }
+        }
+        if (someDirty) {
+          this.openConfirmationDialog();
+        }
+        break;
+      default:
+        this.dialogRef.close();
     }
+    // if (this.fform && this.fform.dirty) {
+    //   this.openConfirmationDialog();
+    // } else {
+    //   this.dialogRef.close();
+    // }
+
+
   }
 
   openConfirmationDialog() {

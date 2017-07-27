@@ -176,7 +176,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     // console.log(this.newVehicle.mofcomRegisterType);
     this.isMofcomRegisterTypeSpecifiedRxx.next(this.newVehicle.mofcomRegisterType);
     this.patches = jsonpatch.compare(oldVehicle, this.newVehicle);
-    console.log(this.patches);
+    // console.log(this.patches);
     // this.isChangedAndValid.emit(!!this.patches[length]);
     this.isChangedRxx.next(!!this.patches[length]);
     this.checkValidity.bind(this)();
