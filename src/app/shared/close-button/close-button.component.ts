@@ -17,21 +17,22 @@ export class CloseButtonComponent implements OnInit {
   }
 
   onClose() {
+    let someDirty = false;
+    if (this.fforms) {
+      for (let i = 0; i < this.fforms.length; i++) {
+        if (this.fforms[i].dirty) {
+          someDirty = true;
+          break;
+        }
+      }
+    }
+
     switch (true) {
       case !!this.fform && this.fform.dirty:
         this.openConfirmationDialog();
         break;
-      case !!this.fforms:
-        let someDirty = false;
-        for (let i = 0; i < this.fforms.length; i++) {
-          if (this.fforms[i].dirty) {
-            someDirty = true;
-            break;
-          }
-        }
-        if (someDirty) {
-          this.openConfirmationDialog();
-        }
+      case !!this.fforms && someDirty:
+        this.openConfirmationDialog();
         break;
       default:
         this.dialogRef.close();

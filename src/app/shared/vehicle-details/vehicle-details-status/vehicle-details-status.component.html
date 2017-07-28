@@ -76,9 +76,27 @@
       </md-grid-tile>
 
       <md-grid-tile>
+        <div formGroupName="sold">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.auctioning}}
+          </md-checkbox>
+        </div>
       </md-grid-tile>
       <md-grid-tile>
+        <div formGroupName="sold">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.sold}}
+          </md-checkbox>
+        </div>
       </md-grid-tile>
+      <!-- <md-grid-tile>
+        <div formGroupName="preDismantling">
+          <md-checkbox color="primary" formControlName="done">
+            {{btity.titles.vehicles.status.preDismantling}}
+          </md-checkbox>
+        </div>
+      </md-grid-tile> -->
+
       <md-grid-tile>
         <div>
           <md-checkbox color="primary" disabled [checked]="vehicle.status2.dismantling">
@@ -95,20 +113,7 @@
       </md-grid-tile>
 
 
-      <md-grid-tile>
-        <div formGroupName="sold">
-          <md-checkbox color="primary" formControlName="done">
-            {{btity.titles.vehicles.status.auctioning}}
-          </md-checkbox>
-        </div>
-      </md-grid-tile>
-      <md-grid-tile>
-        <div formGroupName="sold">
-          <md-checkbox color="primary" formControlName="done">
-            {{btity.titles.vehicles.status.sold}}
-          </md-checkbox>
-        </div>
-      </md-grid-tile>
+
       <md-grid-tile>
         <app-trigger-dismantling-order
           [titles]="btity.titles"

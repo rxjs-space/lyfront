@@ -18,11 +18,23 @@
         [staffs]="this.holderPub.latestResultRxxHash['staffs'].getValue()"
         [btity]="dataFromTrigger.btity"
         [isNew]="isNew"
+        [saveTriggerRxx]="saveRxx"
+        (isChangedAndValid)="isChangedAndValid = $event"
         #dod
       >
       </app-dismantling-order-details2>
     </div>
-
+    <div md-dialog-actions class="flex-container">
+      <span style="color: red">“拆前状态”为“忽略”的项目将不被记录。</span>
+      <!-- <button md-raised-button type="button" color="primary" [disabled]="true">
+        “拆前状态”为“忽略”的项目将不被记录。
+      </button> -->
+      <span class="space-filler"></span>
+      <md-spinner class="mini-spinner-1" *ngIf="dod.isSaving"></md-spinner>
+      <button md-raised-button type="button" color="primary" (click)="saveRxx.next('anything')"
+        [disabled]="!isChangedAndValid || dod.isSaving"
+      >保存</button>
+    </div>
 
   </ng-container>
 </app-loading-or-error-3>

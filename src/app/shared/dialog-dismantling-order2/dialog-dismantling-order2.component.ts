@@ -1,6 +1,6 @@
 import { Component, Inject, Input, Output, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
-
+import { Subject } from 'rxjs/Subject';
 import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../shared/async-data-loader';
 import { DataService } from '../../data/data.service';
 
@@ -17,6 +17,8 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   };
   holderPub: SubHolder;
   isNew = this.dataFromTrigger.dismantlingOrderId ? false : true;
+  saveRxx = new Subject();
+  isValidAndChanged = false;
   constructor(
     public dialogRef: MdDialogRef<DialogDismantlingOrder2Component>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
@@ -29,7 +31,6 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   ngOnInit() {
     super.ngOnInit();
     this.holderPub = this.holder;
-    
   }
 
 }

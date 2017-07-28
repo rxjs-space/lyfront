@@ -139,6 +139,10 @@ export class Vehicle {
       done: false,
       date: ''
     },
+    // preDismantling: {
+    //   done: false,
+    //   date: ''
+    // },
     firstSurvey: {
       done: false,
       date: ''
@@ -156,7 +160,6 @@ export class Vehicle {
       date: ''
     }
   };
-
 }
 
 

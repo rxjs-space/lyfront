@@ -1,5 +1,3 @@
-<!-- {{this.doForm.getRawValue() | json}} -->
-
 <md-card class="info-card">
   <!-- <md-card-header>
     <md-card-title>
@@ -15,20 +13,21 @@
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="btity.titles.vehicles.vehicle.vehicleType" formControlName="vehicleType">
         </md-input-container> -->
-        <md-input-container *ngIf="dismantlingOrder.isAdHoc">
-          <input mdInput 
-            [placeholder]="btity.titles.dismantlingOrders.correspondingSalesOrderId" formControlName="correspondingSalesOrderId">
-        </md-input-container>
+
 
         <md-input-container class="m-size-input">
           <input mdInput [placeholder]="btity.titles.dismantlingOrders.orderDate" formControlName="orderDate">
         </md-input-container>
-        <md-select [multiple]="true" style="width: 15em;" class="small-select" *ngIf="isNew"
-          [placeholder]="btity.titles.dismantlingOrders.planners" formControlName="planners">
-          <md-option *ngFor="let staff of staffs" [value]="staff._id">
-            {{staff.displayName}}
-          </md-option>
-        </md-select>
+        <ng-container *ngIf="isNew">
+          <ng-container *ngTemplateOutlet="planners"></ng-container>
+        </ng-container>
+        <!-- <ng-container>
+          <span style="width: 1em; display: inline-block"></span>
+          <md-checkbox color="primary" formControlName="noItemToRecycle">
+            {{btity.titles.dismantlingOrders.noItemToRecycle}}
+          </md-checkbox>
+        </ng-container> -->
+
 
         <ng-container *ngIf="!isNew">
           <md-input-container class="m-size-input">
@@ -41,12 +40,7 @@
 
       </div>
       <div class="select-container" *ngIf="!isNew">
-        <md-select [multiple]="true" style="width: 15em;" class="small-select"
-          [placeholder]="btity.titles.dismantlingOrders.planners" formControlName="planners">
-          <md-option *ngFor="let staff of staffs" [value]="staff._id">
-            {{staff.displayName}}
-          </md-option>
-        </md-select>
+        <ng-container *ngTemplateOutlet="planners"></ng-container>
       </div>
       <div class="select-container" *ngIf="!isNew">
         <md-select [multiple]="true" style="width: 30em;" class="small-select"
@@ -58,7 +52,7 @@
       </div>
     </form>
     
-    <form [formGroup]="pwPPForm">
+    <form [formGroup]="doForm.get('partsAndWastesPP')">
       <div *ngFor="let pwPPCtrl of pwPPForm.controls; let i=index" [formGroupName]="i">
         <md-input-container class="s-size-input">
           <input mdInput [placeholder]="btity.titles.dismantlingOrders.id" formControlName="id">
@@ -98,6 +92,16 @@
   </md-card-content>
 </md-card>
 
+<ng-template #planners>
+  <md-select [multiple]="true" style="width: 15em;" class="small-select"
+    [placeholder]="btity.titles.dismantlingOrders.planners" [formControl]="doForm.get('planners')">
+    <md-option *ngFor="let staff of staffs" [value]="staff._id">
+      {{staff.displayName}}
+    </md-option>
+  </md-select>
+</ng-template>
+
+<!-- <ng-container *ngTemplateOutlet="templateRefExp; context: contextExp"></ng-container> -->
       <!--
       planners: [this.isNew ? [this.auth.getUserDisplayName()] : oldDO.planners], // this is displayName now
       productionOperators: [oldDO.productionOperators] // also displayName now -->

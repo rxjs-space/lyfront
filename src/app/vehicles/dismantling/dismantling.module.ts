@@ -7,12 +7,13 @@ import { DismantlingIdleComponent } from './dismantling-idle/dismantling-idle.co
 import { DismantlingProgressingComponent } from './dismantling-progressing/dismantling-progressing.component';
 import { DismantlingCompletedComponent } from './dismantling-completed/dismantling-completed.component';
 import { DismantlingIdle2Component } from './dismantling-idle2/dismantling-idle2.component';
+import { DismantlingPreDismantlingComponent } from './dismantling-pre-dismantling/dismantling-pre-dismantling.component';
 
 @NgModule({
   imports: [
     SharedModule,
     DismantlingRoutingModule
   ],
-  declarations: [DismantlingHomeComponent, DismantlingIdleComponent, DismantlingProgressingComponent, DismantlingCompletedComponent, DismantlingIdle2Component]
+  declarations: [DismantlingHomeComponent, DismantlingIdleComponent, DismantlingProgressingComponent, DismantlingCompletedComponent, DismantlingIdle2Component, DismantlingPreDismantlingComponent]
 })
 export class DismantlingModule { }

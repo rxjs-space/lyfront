@@ -59,10 +59,10 @@
     >数据验证</button>-->
     <span class="space-filler"></span>
     <md-spinner class="mini-spinner-1" *ngIf="vd.isSavingRxx | async"></md-spinner>
+    <button md-button type="button" color="warn" *ngIf="!isInPrintMode && dataFromTrigger.vin">删除</button>
     <button md-raised-button type="button" color="primary" *ngIf="!isInPrintMode"
-      [disabled]="!isValidAndChanged || (vd.isSavingRxx | async)"
-      (click)="saveRxx.next(true)">保存</button>
-    <button md-button type="button" color="warn" *ngIf="!isInPrintMode">删除</button>
+    [disabled]="!isValidAndChanged || (vd.isSavingRxx | async)"
+    (click)="saveRxx.next(true)">保存</button>
   </div>
 
   <div *ngIf="isInPrintMode" class="print-overlay"></div>

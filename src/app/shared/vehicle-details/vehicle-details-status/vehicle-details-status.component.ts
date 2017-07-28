@@ -76,6 +76,10 @@ export class VehicleDetailsStatusComponent implements OnInit {
           done: [{value: this.vehicle.status.sold.done, disabled: true}],
           date: [this.vehicle.status.sold.date],
         }),
+        // preDismantling: this.fb.group({
+        //   done: [{value: this.vehicle.status.preDismantling.done, disabled: true}],
+        //   date: [this.vehicle.status.preDismantling.date],
+        // }),
       })
     });
 

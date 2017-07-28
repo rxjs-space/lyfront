@@ -36,7 +36,8 @@ export class DataService {
   btityRxx = new BehaviorSubject(null);
   mofcomLoggedInRxx = new BehaviorSubject(false);
   mofcomBotGetMessageRxx: Subject<any> = new Subject();
-  socketBot: any;
+  socketBotMofcom: any;
+  socketAPI: any;
 
   constructor(
     @Inject(BACK_END_URL) private host1,
@@ -48,11 +49,11 @@ export class DataService {
         // console.log('setting');
         localStorage.debug = 'socket.io-client:socket';
       }
-
-      this.socketBot = io(this.botUrl);
-      this.socketBot.on('message', (message) => {
-        this.mofcomBotGetMessageRxx.next(message);
-      });
+      this.mofcomBotInit();
+      // this.socketBotMofcom = io(`${this.botUrl}/mofcom`);
+      // this.socketBotMofcom.on('message', (message) => {
+      //   this.mofcomBotGetMessageRxx.next(message);
+      // });
     }
 
 
@@ -71,6 +72,14 @@ export class DataService {
   //   })
   // }
 
+  mofcomBotInit() {
+    this.socketBotMofcom = io(`${this.botUrl}/mofcom`);
+    this.socketBotMofcom.on('message', (message) => {
+      console.log(message);
+      this.mofcomBotGetMessageRxx.next(message);
+    });
+  }
+
   mofcomBotSendMessage(message) {
     /* sample message
     {
@@ -80,19 +89,20 @@ export class DataService {
     }
     */
     const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
-    if (!this.socketBot) {
-      this.socketBot = io(this.botUrl);
+    if (!this.socketBotMofcom) {
+      // this.socketBotMofcom = io(this.botUrl);
+      this.mofcomBotInit();
     }
     message.jwt = jwt;
-    this.socketBot.send(message);
+    this.socketBotMofcom.send(message);
   }
 
   mofcomOps(vehicle): Observable<{done: boolean, message: string}> {
     const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
     return new Observable(observer => {
-        this.socketBot = io(this.botUrl);
-        this.socketBot.emit('mofcomEntry', {jwt, vehicle});
-        this.socketBot.on('notLoggedIn', () => {
+        this.socketBotMofcom = io(this.botUrl);
+        this.socketBotMofcom.emit('mofcomEntry', {jwt, vehicle});
+        this.socketBotMofcom.on('notLoggedIn', () => {
           observer.next({
             done: false,
             message: 'notLoggedIn'
@@ -110,19 +120,11 @@ export class DataService {
         // this.socketBot.on('error', (error) => observer.error(error));
         // this.socketBot.on('connect_failed', (error) => observer.error(error));
         return () => {
-          this.socketBot.disconnect();
+          this.socketBotMofcom.disconnect();
         };
       });
   }
 
-  mofcomInit() {
-    // this.mofcomBotSendMessage
-
-    return this.http.post(this.botUrl + '/mofcom/init', {}, this.setupOptions(true))
-      .map(res => res.json())
-      .catch(this.handleError);
-  }
-    
 
   mofcomLogin(captcha) {
     // return this.http.post(this.botUrl + '/mofcom/login', {captcha}, this.setupOptions(true))
@@ -133,9 +135,9 @@ export class DataService {
     //   .catch(this.handleError);
     const jwt = JSON.parse(localStorage.getItem('currentUser'))['token'];
     return new Observable(observer => {
-        this.socketBot = io(this.botUrl);
-        this.socketBot.emit('captcha', {captcha, jwt});
-        this.socketBot.on('message', (data) => {
+        this.socketBotMofcom = io(this.botUrl);
+        this.socketBotMofcom.emit('captcha', {captcha, jwt});
+        this.socketBotMofcom.on('message', (data) => {
           observer.next(data);
           // console.log(data.message);
           if (data.message.indexOf('logged in') > -1) {
@@ -143,10 +145,10 @@ export class DataService {
             this.mofcomLoggedInRxx.next(true);
           }
         });
-        this.socketBot.on('error', (error) => observer.error(error));
-        this.socketBot.on('connect_failed', (error) => observer.error(error));
+        this.socketBotMofcom.on('error', (error) => observer.error(error));
+        this.socketBotMofcom.on('connect_failed', (error) => observer.error(error));
         return () => {
-          this.socketBot.disconnect();
+          this.socketBotMofcom.disconnect();
         };
       });
 
