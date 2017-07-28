@@ -3,29 +3,36 @@
   <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
     <div md-dialog-title>
       <span>{{isNew ? '新建拆解计划' : '查看拆解计划'}} - </span>
-      <small>
+      <small *ngIf="dataFromTrigger.vehicle">
         <span>{{dataFromTrigger.vehicle.vin}} / </span>
         <span>{{dataFromTrigger.vehicle.vehicle.plateNo}} / </span>
         <span>{{dataFromTrigger.vehicle.vehicle.vehicleType}} / </span>
         <span>{{dataFromTrigger.vehicle.vehicle.brand}}</span>
       </small>
+      <small *ngIf="holderPub.latestResultRxxHash['vehicle'].getValue()">
+        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vin}} / </span>
+        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vehicle.plateNo}} / </span>
+        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vehicle.vehicleType}} / </span>
+        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vehicle.brand}}</span>
+      </small>
       <app-close-button [dialogRef]="dialogRef" [fforms]="dod.fformsRxx | async"></app-close-button>
     </div>
     <div md-dialog-content>
       <app-dismantling-order-details2
-        [vehicle]="dataFromTrigger.vehicle"
-        [dismantlingOrder]="this.holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
-        [staffs]="this.holderPub.latestResultRxxHash['staffs'].getValue()"
+        [vehicle]="dataFromTrigger.vehicle || holderPub.latestResultRxxHash['vehicle'].getValue()"
+        [dismantlingOrder]="holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
+        [staffs]="holderPub.latestResultRxxHash['staffs'].getValue()"
         [btity]="dataFromTrigger.btity"
         [isNew]="isNew"
         [saveTriggerRxx]="saveRxx"
         (isChangedAndValid)="isChangedAndValid = $event"
+        (saved)="onSaved($event)"
         #dod
       >
       </app-dismantling-order-details2>
     </div>
     <div md-dialog-actions class="flex-container">
-      <span style="color: red">“拆前状态”为“忽略”的项目将不被记录。</span>
+      <span style="color: red" *ngIf="isNew">“拆前状态”为“忽略”的项目将不被记录。</span>
       <!-- <button md-raised-button type="button" color="primary" [disabled]="true">
         “拆前状态”为“忽略”的项目将不被记录。
       </button> -->
@@ -33,8 +40,7 @@
       <md-spinner class="mini-spinner-1" *ngIf="dod.isSaving"></md-spinner>
       <button md-raised-button type="button" color="primary" (click)="saveRxx.next('anything')"
         [disabled]="!isChangedAndValid || dod.isSaving"
-      >保存</button>
+      >{{saveButtonTitle}}</button>
     </div>
-
   </ng-container>
 </app-loading-or-error-3>

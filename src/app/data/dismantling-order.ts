@@ -12,5 +12,6 @@ export class DismantlingOrder {
   planners: any[] = [];
   productionOperators: any[] = [];
   partsAndWastesPP: any[] = []; // plan and production
+  confirmDismantlingCompleted = false;
 }
 

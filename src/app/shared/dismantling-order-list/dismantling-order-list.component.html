@@ -42,12 +42,21 @@
               </div>
             </md-grid-tile>
             <md-grid-tile colspan="3">
-              <button md-button type="button" color="primary" 
+               <app-dialog-dismantling-order2-trigger
+                [dismantlingOrderId]="dismantlingOrder._id"
+                [btity]="holder.latestResultRxxHash['btity'].getValue()"
+                [vin]="dismantlingOrder.vin"
+                [dismantlingOrder]="dismantlingOrder"
+              >
+              </app-dialog-dismantling-order2-trigger>
+            
+              <!-- <button md-button type="button" color="primary" 
                 *ngIf="!dismantlingOrder.startedAt" 
                 (click)="openDialogMark('startedAt', dismantlingOrder)">开始拆解</button>
               <button md-button type="button" color="accent" 
                 *ngIf="dismantlingOrder.startedAt && !dismantlingOrder.completedAt" 
-                (click)="openDialogMark('completedAt', dismantlingOrder)">完成拆解</button>
+                (click)="openDialogMark('completedAt', dismantlingOrder)">完成拆解</button> -->
+
               <!--<button md-button type="button">打印计划表</button>-->
               <app-dialog-dismantling-order-print-trigger
                 [buttonTitle]="'打印计划表'" [dismantlingOrder]="dismantlingOrder"

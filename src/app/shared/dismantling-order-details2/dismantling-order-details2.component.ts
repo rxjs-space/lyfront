@@ -25,6 +25,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   @Input() staffs;
   @Input() saveTriggerRxx: Subject<any>;
   @Output() isChangedAndValid = new EventEmitter();
+  @Output() saved = new EventEmitter();
   subscriptions: Subscription[] = [];
   doForm: FormGroup;
   pwPPForm: FormArray;
@@ -62,13 +63,20 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       vehicleType: [{
         value: (this.isNew ? this.vehicle.vehicle.vehicleType : oldDO.vehicleType),
         disabled: true}], // this is displayName now
-      planners: [this.isNew ? [this.auth.getUserId()] : oldDO.planners, [
+      planners: [{
+        value: this.isNew ? [this.auth.getUserId()] : oldDO.planners,
+        disabled: this.isNew ? false : true
+      }, [
         this.sv.arrayMinLength(1)
       ]],
-      productionOperators: [oldDO.productionOperators, [
+      productionOperators: [{
+        value: oldDO.productionOperators,
+        disabled: oldDO.startedAt ? true : false
+      }, [
         this.sv.arrayMinLength(1)
       ]],
-      noItemToRecycle: [oldDO.noItemToRecycle]
+      noItemToRecycle: [oldDO.noItemToRecycle],
+      confirmDismantlingCompleted: [oldDO.confirmDismantlingCompleted]
     });
 
     if (this.isNew) {
@@ -78,35 +86,49 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     const partsAndWastesTypes = this.btity.types.parts.concat(this.btity.types.wastes);
     const partsAndWastesPPInOldDO = this.dismantlingOrder.partsAndWastesPP; // plan and production
 
-    const partsAndWastesPP = partsAndWastesTypes.map(pw => { // combine the plan and production
-      const id = pw.id;
-      const matchedPP = partsAndWastesPPInOldDO.find(PW => PW.id === id);
-      if (matchedPP) {
-        matchedPP.name = pw.name;
-        return matchedPP;
-      } else {
-        pw.countPlan = 0;
-        pw.conditionBeforeDismantling = '忽略';
-        pw.noteByPlanner = '';
-        pw.countProduction = 0;
-        pw.noteByProductionOperator = '';
-        pw.itemIdAfterDismantling = '';
+    let partsAndWastesPP;
+    if (this.isNew) {
+      partsAndWastesPP = partsAndWastesTypes.map(pw => { // combine the plan and production
+        const id = pw.id;
+        const matchedPP = partsAndWastesPPInOldDO.find(PW => PW.id === id);
+        if (matchedPP) {
+          matchedPP.name = pw.name;
+          return matchedPP;
+        } else {
+          pw.countPlan = 0;
+          pw.conditionBeforeDismantling = '忽略';
+          pw.noteByPlanner = '';
+          pw.countProduction = '';
+          pw.noteByProductionOperator = '';
+          pw.itemIdAfterDismantling = '';
+          return pw;
+        }
+      });
+    } else {
+      partsAndWastesPP = partsAndWastesPPInOldDO.map(pw => {
+        const id = pw.id;
+        const name = partsAndWastesTypes.find(item => item.id = id).name;
+        pw.name = name;
         return pw;
-      }
-    });
+      });
+    }
+
 
     // console.log(partsAndWastesPPWithTypeNames);
     this.pwPPForm = this.fb.array(partsAndWastesPP.map(pwPP => {
       return this.fb.group({
         id: [{value: pwPP.id, disabled: true}],
         name: [{value: pwPP.name, disabled: true}],
-        countPlan: [pwPP.countPlan, Validators.pattern(/^[0-9]+$/)],
-        conditionBeforeDismantling: [pwPP.conditionBeforeDismantling, [
+        countPlan: [{value: pwPP.countPlan, disabled: this.isNew ? false : true}, [Validators.pattern(/^[0-9]+$/), Validators.required]],
+        conditionBeforeDismantling: [{
+          value: pwPP.conditionBeforeDismantling,
+          disabled: this.isNew ? false : true
+        }, [
           Validators.required,
           this.sv.notListedButCanBeEmpty(this.btity.types['conditionBeforeDismantlingTypes'].map(t => t.name))
         ]],
-        noteByPlanner: [pwPP.noteByPlanner],
-        countProduction: [pwPP.countProduction, Validators.pattern(/^[0-9]+$/)],
+        noteByPlanner: [{value: pwPP.noteByPlanner, disabled: this.isNew ? false : true}],
+        countProduction: [pwPP.countProduction, [Validators.pattern(/^[0-9]+$/)]],
         noteByProductionOperator: [pwPP.noteByProductionOperator],
         itemIdAfterDismantling: [pwPP.itemIdAfterDismantling],
       });
@@ -118,6 +140,13 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           if (pw.countPlan > 0 && pw.conditionBeforeDismantling === '忽略') {
             this.pwPPForm.get([index, 'conditionBeforeDismantling']).setValue('');
           }
+          const prodNote = this.pwPPForm.get([index, 'noteByProductionOperator']);
+          if (pw.countProduction === 0) {
+            prodNote.setValidators(Validators.required);
+          } else {
+            prodNote.clearValidators();
+          }
+            prodNote.updateValueAndValidity();
         });
       });
     this.subscriptions.push(sub0_);
@@ -128,8 +157,11 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       this.fformsRxx.next([this.doForm]);
     }, 0);
 
-    const sub1_ = this.doForm.valueChanges.subscribe(() => {
+    const sub1_ = this.doForm.valueChanges
+    .delay(0)
+    .subscribe(() => {
       const v = this.doForm.getRawValue();
+      this.doForm.markAsTouched();
       // check if changed and valid, then emit
       switch (true) {
         case this.doForm.invalid:
@@ -143,10 +175,22 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
 
     this.subscriptions.push(sub1_);
 
+    const sub2_ = this.doForm.get('productionOperators')
+      .valueChanges
+      .subscribe(v => {
+        // this.doForm.markAsTouched();
+        const startedAtCtrl = this.doForm.get('startedAt');
+        if (!startedAtCtrl.value) {
+          startedAtCtrl.setValue((new Date()).toISOString().substring(0, 10));
+        }
+      });
+
   }
 
   calculatePatches(oldValue, newValue) {
-    const newDismantlingOrder = this.prepareDismantlingOrder(newValue);
+    const supplymentedNewValue = Object.assign({}, oldValue, newValue);
+    // above will add in backend added properties, like 'createdAt', 'createdBy', '_id'
+    const newDismantlingOrder = this.prepareDismantlingOrder(supplymentedNewValue);
     this.patches = jsonpatch.compare(oldValue, newDismantlingOrder);
     // console.log(newDismantlingOrder);
     console.log(this.patches);
@@ -187,7 +231,12 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       })
       .subscribe(result => {
         console.log(result);
-        this.isSaving = false;
+        if (!result.error) {
+          this.isSaving = false;
+          const doId = result.insertedIds[0];
+          this.saved.emit(doId);
+        }
+
       });
     } else {
       // update with patches
@@ -198,6 +247,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       .subscribe(result => {
         console.log(result);
         this.isSaving = false;
+        this.saved.emit('anything');
       });
     }
   }
