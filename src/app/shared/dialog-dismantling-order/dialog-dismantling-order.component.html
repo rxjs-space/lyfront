@@ -21,7 +21,10 @@
         </md-card-header>
         <md-card-content>
           <app-dismantling-order-details
-            [doForm]="doForm" (doFormSubmit)="onDOFormSubmit()" [titles]="dataFromTrigger.titles"
+            [doForm]="doForm"
+            (doFormSubmit)="onDOFormSubmit()"
+            [titles]="dataFromTrigger.titles"
+            [creatingNewRxx]="creatingNewRxx"
           >
           </app-dismantling-order-details>
 

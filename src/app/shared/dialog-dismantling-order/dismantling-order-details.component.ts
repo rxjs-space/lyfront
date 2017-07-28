@@ -10,6 +10,7 @@ export class DismantlingOrderDetailsComponent implements OnInit {
   @Input() doForm: FormGroup;
   @Input() titles: any;
   @Output() doFormSubmit = new EventEmitter();
+  @Input() creatingNewRxx;
   constructor() { }
 
   ngOnInit() {
