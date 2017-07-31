@@ -19,7 +19,7 @@
         <span>{{vehicle.vin}} / </span>
         <span>{{vehicle.vehicle.plateNo}} / </span>
         <span>{{vehicle.vehicle.vehicleType}} / </span>
-        <span>{{vehicle.vehicle.brand}}</span>
+        <span>{{vehicle.vehicle.brand ? vehicle.vehicle.brand : '品牌暂无'}}</span>
       </small>
       
       <app-close-button [dialogRef]="dialogRef" [fforms]="dod.fformsRxx | async"></app-close-button>

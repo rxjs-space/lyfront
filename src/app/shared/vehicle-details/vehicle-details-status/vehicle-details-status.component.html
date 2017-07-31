@@ -115,18 +115,19 @@
 
 
       <md-grid-tile>
-        <app-trigger-dismantling-order
+        <!-- <app-trigger-dismantling-order
           [titles]="btity.titles"
           [types]="btity.types"
           [vehicle]="vehicle"
           [canCreateNew]="!vehicle.status2.dismantling && !vehicle.status.dismantled.done"
-        ></app-trigger-dismantling-order>
+        ></app-trigger-dismantling-order> -->
 
-          <!-- <app-dialog-dismantling-order2-trigger
-            [btity]="btity1"
+           <app-dialog-dismantling-order2-trigger
+            [btity]="btity"
             [vehicle]="vehicle"
+            [dismantlingOrderId]="vehicle.status.dismantled.ref"
           >
-          </app-dialog-dismantling-order2-trigger> -->
+          </app-dialog-dismantling-order2-trigger> 
 
       </md-grid-tile>
 

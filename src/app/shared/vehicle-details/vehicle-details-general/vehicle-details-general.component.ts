@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, Validat
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -17,6 +18,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
   @Input() btity: any;
   @Input() isNew: boolean;
   @Input() checkMofcomValidityRxx: any;
+  updateVehicleControlValidatorsOnIsDismantlingReadyRxx = new Subject();
   subscriptions: Subscription[] = [];
   constructor(
     private fb: FormBuilder,
@@ -86,6 +88,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
       const isDismantlingNotReadySinceCtrl = this.fform.get('status2.isDismantlingNotReadySince');
       if (!v) { // when dismantling is not ready, set validators for isDismantlingNotReadyReason
         // console.log('setting validators');
+        this.updateVehicleControlValidatorsOnIsDismantlingReadyRxx.next(false);
         isDismantlingNotReadyReasonCtrl.setValidators([
           this.sv.startedWithSpace(), Validators.required
         ]);
@@ -96,6 +99,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
           isDismantlingNotReadySinceCtrl.setValue((new Date()).toISOString().slice(0, 10));
         }
       } else {
+        this.updateVehicleControlValidatorsOnIsDismantlingReadyRxx.next(true);
         isDismantlingNotReadyReasonCtrl.clearValidators();
         isDismantlingNotReadyReasonCtrl.updateValueAndValidity();
       }

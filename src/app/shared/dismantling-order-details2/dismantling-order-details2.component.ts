@@ -95,9 +95,10 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     }
 
     const subProgressPercentage_ = this.doForm.get('progressPercentage').valueChanges
+      .startWith(oldDO.progressPercentage)
       .subscribe(v => {
         switch (true) {
-          case v === 0.99:
+          case v === 0.99 && oldDO.confirmDismantlingCompleted === false:
             this.doForm.get('confirmDismantlingCompleted').enable();
             break;
           case v < 0.99:
@@ -189,6 +190,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
 
     if (!this.isNew) {
       this.pwPPForm.controls.forEach((pwc, index) => {
+        const planCountCtrl = this.pwPPForm.get([index, 'countPlan']);
         const prodCountCtrl = this.pwPPForm.get([index, 'countProduction']);
         const prodNoteCtrl = this.pwPPForm.get([index, 'noteByProductionOperator']);
         const prodFinishedCtrl = this.pwPPForm.get([index, 'productionFinished']);
@@ -200,7 +202,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
               prodCountCtrl.enable();
               prodCountCtrl.markAsTouched();
               prodNoteCtrl.enable();
-              prodCountCtrl.setValidators([Validators.pattern(/^[0-9]+$/), Validators.required]);
+              prodCountCtrl.setValidators([Validators.pattern(/^[0-9]+$/), Validators.required, this.sv.maxValue(planCountCtrl.value)]);
               prodCountCtrl.updateValueAndValidity();
               this.doForm.get('progressPercentage').setValue(this.calculateProgressPercentage(this.pwPPForm));
             } else {

@@ -18,6 +18,12 @@ export class SharedValidatorsService {
   constructor(private data: DataService,
     private asyncMon: AsyncMonitorService) { }
 
+  maxValue(max): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors => {
+      return control.value > max ? {max: `input value is greater than ${max}.`} : null;
+    };
+  }
+
   startedWithSpace(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       const value = control.value;

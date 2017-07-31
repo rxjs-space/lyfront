@@ -1,7 +1,7 @@
 <div [hidden]="isInPrintMode" [style.height]="isInPrintMode ? 0 : 'auto'">
 
   <app-vehicle-details-general [btity]="btity" [vehicle]="vehicle" [isNew]="isNew" 
-    [checkMofcomValidityRxx]="checkMofcomValidityRxx">
+    [checkMofcomValidityRxx]="checkMofcomValidityRxx" #vdg>
   </app-vehicle-details-general>
 
   <app-vehicle-details-notes [btity]="btity" [vehicle]="vehicle">
@@ -11,7 +11,8 @@
   </app-vehicle-details-status>
 
   <app-vehicle-details-vehicle [btity]="btity" [vehicle]="vehicle" #vdv
-    [checkMofcomValidityRxx]="checkMofcomValidityRxx">
+    [checkMofcomValidityRxx]="checkMofcomValidityRxx"
+    [updateVehicleControlValidatorsOnIsDismantlingReadyRxx]="vdg.updateVehicleControlValidatorsOnIsDismantlingReadyRxx">
   </app-vehicle-details-vehicle>
 
   <app-vehicle-details-owner-agent [btity]="btity" [vehicle]="vehicle" #vdoa

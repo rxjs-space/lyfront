@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
@@ -23,6 +24,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
   @Input() vehicle: any;
   @Input() btity: any;
   @Input() checkMofcomValidityRxx: any;
+  @Input() updateVehicleControlValidatorsOnIsDismantlingReadyRxx: Subject<boolean>;
   subscriptions: Subscription[] = [];
   insertingNewBrand = false;
   constructor(
@@ -119,7 +121,22 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
 
 
     });
+    this.updateVehicleControlValidatorsOnIsDismantlingReadyRxx
+      .subscribe(v => {
+        // console.log(v);
+        if (v) { // only setup validators on 'true', without clearing validators on 'false'
+          const requiredFields = [
+            'vehicle.brand',
+            'vehicle.model',
+            'vehicle.registrationDate',
+          ];
+          requiredFields.forEach(f => {
+            this.fform.get(f).setValidators(defaultValidators[f].concat(Validators.required));
+            this.fform.get(f).updateValueAndValidity();
+          });
 
+        }
+      })
     // // send errors to formErrorsService
     // this.formErrorsRxxHolder = this.fe.ini(this.formErrorsFormName);
     // const sub0_ = this.fform.valueChanges

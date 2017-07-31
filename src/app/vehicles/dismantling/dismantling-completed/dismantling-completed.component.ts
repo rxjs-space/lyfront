@@ -13,7 +13,7 @@ export class DismantlingCompletedComponent implements OnInit {
   @Input() filterCache;
   @Input() btity;
   filteredData: any;
-  filterValueChangesRxx = new BehaviorSubject({isAdHoc: 2});
+  filterValueChangesRxx = new BehaviorSubject({orderType: 'dot1'});
   optionsArr = [];
 
   constructor(
@@ -22,22 +22,22 @@ export class DismantlingCompletedComponent implements OnInit {
 
   ngOnInit() {
     const filterCache = this.filterCache['DismantlingCompletedComponent'];
-    if (filterCache && filterCache['isAdHoc']) {
-      this.filterValueChangesRxx.next({isAdHoc: filterCache['isAdHoc']});
+    if (filterCache && filterCache['orderType']) {
+      this.filterValueChangesRxx.next({orderType: filterCache['orderType']});
     }
 
     this.optionsArr = [
       {
-        title: 'isAdHoc',
+        title: 'orderType',
         placeholder: '计划类别',
-        // initValue - if no record in cache, use 2, that is non-adHoc orders
-        initValue: filterCache ? 
-          (filterCache['isAdHoc'] ? filterCache['isAdHoc'] : 2)
-          : 2,
+        initValue: filterCache ?
+          (filterCache['orderType'] ? filterCache['orderType'] : 'dot1')
+          : 'dot1',
         options: [
-          {value: 1, viewValue: '全部'},
-          {value: 2, viewValue: '正常计划'},
-          {value: 3, viewValue: '临时计划'},
+          {value: 'dot0', viewValue: '全部'},
+          {value: 'dot1', viewValue: '正常计划'},
+          {value: 'dot2', viewValue: '临时计划'},
+          {value: 'dot3', viewValue: '前期计划'},
         ]
       }
     ];
@@ -45,8 +45,8 @@ export class DismantlingCompletedComponent implements OnInit {
     this.filterValueChangesRxx.subscribe(v => {
       this.filteredData = this.calculateFilteredData(v);
       filterCache ?
-        filterCache['isAdHoc'] = v.isAdHoc :
-        this.filterCache['DismantlingCompletedComponent'] = {isAdHoc: v.isAdHoc}
+        filterCache['orderType'] = v.orderType :
+        this.filterCache['DismantlingCompletedComponent'] = {orderType: v.orderType}
       // console.log(this.filteredData);
     });
 
@@ -88,12 +88,9 @@ export class DismantlingCompletedComponent implements OnInit {
       const itemToReplace = acc[key].find(item => item.completedDate === curr.completedDate);
       // console.log(itemToReplace);
       let totalToAdd = 0;
-      switch (filterValue.isAdHoc) {
-        case 2:
-          if (!curr.isAdHoc) {totalToAdd = curr.total; }
-          break;
-        case 3:
-          if (curr.isAdHoc) {totalToAdd = curr.total; }
+      switch (true) {
+        case filterValue.orderType !== 'dot0':
+          if (curr.orderType === filterValue.orderType) {totalToAdd = curr.total; }
           break;
         default:
           totalToAdd = curr.total;
