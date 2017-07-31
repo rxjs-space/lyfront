@@ -34,6 +34,7 @@
         [saveTriggerRxx]="saveRxx"
         (isChangedAndValid)="isChangedAndValid = $event"
         (saved)="onSaved($event)"
+        (confirmDismantlingCompleted)="onConfirmDismantlingCompleted($event)"
         #dod
       >
       </app-dismantling-order-details2>
@@ -45,9 +46,12 @@
       </button> -->
       <span class="space-filler"></span>
       <md-spinner class="mini-spinner-1" *ngIf="dod.isSaving"></md-spinner>
-      <button md-raised-button type="button" color="primary" (click)="saveRxx.next('anything')"
+      <button md-raised-button type="button" [color]="toShowCompleteButton ? 'accent' : 'primary'" (click)="saveRxx.next('anything')"
         [disabled]="!isChangedAndValid || dod.isSaving"
-      >{{saveButtonTitle}}</button>
+      >
+        <span *ngIf="!toShowCompleteButton">{{saveButtonTitle}}</span>
+        <span *ngIf="toShowCompleteButton">完成拆解</span>
+      </button>
     </div>
   </ng-container>
 </app-loading-or-error-3>

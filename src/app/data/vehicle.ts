@@ -152,6 +152,7 @@ export class Vehicle {
       date: ''
     },
     dismantled: {
+      ref: '',
       done: false,
       date: ''
     },

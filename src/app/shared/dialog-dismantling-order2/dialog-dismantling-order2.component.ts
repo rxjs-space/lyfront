@@ -20,6 +20,7 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   saveButtonTitle: string;
   vehicle: any;
   dismantlingOrder: any;
+  toShowCompleteButton = false;
   constructor(
     public dialogRef: MdDialogRef<DialogDismantlingOrder2Component>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
@@ -93,6 +94,10 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
     } else {
       this.holderPub.refreshByTitle('dismantlingOrder');
     }
+  }
+
+  onConfirmDismantlingCompleted(event) {
+    this.toShowCompleteButton = event;
   }
 
 }

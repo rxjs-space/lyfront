@@ -27,6 +27,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   @Input() saveTriggerRxx: Subject<any>;
   @Output() isChangedAndValid = new EventEmitter();
   @Output() saved = new EventEmitter();
+  @Output() confirmDismantlingCompleted = new EventEmitter();
   subscriptions: Subscription[] = [];
   doForm: FormGroup;
   pwPPForm: FormArray;
@@ -34,6 +35,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   patches = [];
   newDismantlingOrder;
   isSaving = false;
+
   constructor(
     private backend: DataService,
     private auth: AuthService,
@@ -109,6 +111,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     this.subscriptions.push(subProgressPercentage_);
     const confirmDismantlingCompletedSub_ = this.doForm.get('confirmDismantlingCompleted').valueChanges
       .subscribe(v => {
+        this.confirmDismantlingCompleted.emit(v);
         if (v) {
           this.doForm.get('completedAt').setValue(new Date());
         } else {

@@ -1,4 +1,12 @@
-## todo
+## 20170731
+use dismantlingOrderId to replace status2.dismantling in vehicles collection
+mark dismantlingOrder complete
+report on how many pws not inventoryInputed
+
+
+
+## 201005xx?
+
 move isRemote from owner to misc
 show conditionOnEntrance on dismantlingOrder print
 
