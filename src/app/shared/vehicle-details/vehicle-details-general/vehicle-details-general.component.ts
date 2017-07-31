@@ -108,7 +108,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
     .subscribe(v => {
       const isSurveyNotReadyReasonCtrl = this.fform.get('status2.isSurveyNotReadyReason');
       const isSurveyNotReadySinceCtrl = this.fform.get('status2.isSurveyNotReadySince');
-      if (!v) { // when dismantling is not ready, set validators for isDismantlingNotReadyReason
+      if (!v) { // when survey is not ready, set validators for isSurveyNotReadyReason
         isSurveyNotReadyReasonCtrl.setValidators([
           this.sv.startedWithSpace(), Validators.required
         ]);

@@ -54,7 +54,6 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     const oldDO: DismantlingOrder = JSON.parse(JSON.stringify(this.dismantlingOrder));
     this.doForm = this.fb.group({
       orderDate: [{value: oldDO.orderDate, disabled: true}],
-      isAdHoc: [{value: oldDO.isAdHoc, disabled: !this.isNew}, [Validators.required, this.sv.shouldBeBoolean]],
       orderType: [(oldDO.orderType ? oldDO.orderType : this.btity.types['dismantlingOrderTypes'][0]['id'])],
       correspondingSalesOrderId: [{value: oldDO.correspondingSalesOrderId, disabled: !this.isNew}],
       startedAt: [{value: oldDO.startedAt, disabled: true}],
@@ -75,7 +74,6 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       }, [
         this.sv.arrayMinLength(1)
       ]],
-      noItemToRecycle: [oldDO.noItemToRecycle],
       confirmDismantlingCompleted: [oldDO.confirmDismantlingCompleted]
     });
 
@@ -87,7 +85,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     const partsAndWastesPPInOldDO = this.dismantlingOrder.partsAndWastesPP; // plan and production
 
     let partsAndWastesPP;
-    if (this.isNew) {
+    if (this.isNew) { // if isNew, present a full list of all the possible parts and wastes
       partsAndWastesPP = partsAndWastesTypes.map(pw => { // combine the plan and production
         const id = pw.id;
         const matchedPP = partsAndWastesPPInOldDO.find(PW => PW.id === id);
@@ -100,12 +98,15 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           pw.noteByPlanner = '';
           pw.countProduction = '';
           pw.noteByProductionOperator = '';
-          pw.itemIdAfterDismantling = '';
+          pw.productionDate = '';
+          pw.inventoryInputDate = '';
+          pw.productIds = [];
           return pw;
         }
       });
-    } else {
+    } else { // if !isNew, add pw name only
       partsAndWastesPP = partsAndWastesPPInOldDO.map(pw => {
+        console.log(pw);
         const id = pw.id;
         const name = partsAndWastesTypes.find(item => item.id = id).name;
         pw.name = name;
@@ -130,26 +131,42 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         noteByPlanner: [{value: pwPP.noteByPlanner, disabled: this.isNew ? false : true}],
         countProduction: [pwPP.countProduction, [Validators.pattern(/^[0-9]+$/)]],
         noteByProductionOperator: [pwPP.noteByProductionOperator],
-        itemIdAfterDismantling: [pwPP.itemIdAfterDismantling],
+        productionFinished: [{
+          value: pwPP.productionDate ? true : false,
+          disabled: pwPP.productionDate ? true : false
+        }],
+        productionDate: [pwPP.productionDate],
+        inventoryInputDate: [pwPP.inventoryInputDate],
+        productIds: [pwPP.productIds],
       });
     }));
 
     const sub0_ = this.pwPPForm.valueChanges
       .subscribe(pws => {
         pws.forEach((pw, index) => {
+          console.log('x');
           if (pw.countPlan > 0 && pw.conditionBeforeDismantling === '忽略') {
             this.pwPPForm.get([index, 'conditionBeforeDismantling']).setValue('');
           }
-          const prodNote = this.pwPPForm.get([index, 'noteByProductionOperator']);
-          if (pw.countProduction === 0) {
-            prodNote.setValidators(Validators.required);
-          } else {
-            prodNote.clearValidators();
-          }
-            prodNote.updateValueAndValidity();
         });
       });
     this.subscriptions.push(sub0_);
+
+    if (!this.isNew) {
+      this.pwPPForm.controls.forEach((pwc, index) => {
+        const prodCountCtrl = this.pwPPForm.get([index, 'countProduction']);
+        const prodNoteCtrl = this.pwPPForm.get([index, 'noteByProductionOperator']);
+        const subx_ = prodCountCtrl.valueChanges.subscribe(v => {
+          if (v === 0) {
+            prodNoteCtrl.setValidators(Validators.required);
+          } else {
+            prodNoteCtrl.clearValidators();
+          }
+          prodNoteCtrl.updateValueAndValidity();
+        });
+        this.subscriptions.push(subx_);
+      });
+    }
 
     this.doForm.setControl('partsAndWastesPP', this.pwPPForm);
 

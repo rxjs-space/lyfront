@@ -3,6 +3,7 @@ import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 import { Subject } from 'rxjs/Subject';
 import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../shared/async-data-loader';
 import { DataService } from '../../data/data.service';
+import { FormUtilsService } from '../form-utils/form-utils.service';
 
 @Component({
   selector: 'app-dialog-dismantling-order2',
@@ -17,11 +18,13 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   saveRxx = new Subject();
   isChangedAndValid = false;
   saveButtonTitle: string;
+  vehicle: any;
   constructor(
     public dialogRef: MdDialogRef<DialogDismantlingOrder2Component>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
     asyncDataLoader: AsyncDataLoaderService,
-    backend: DataService
+    backend: DataService,
+    private fu: FormUtilsService
   ) {
     super(asyncDataLoader, backend);
    }
@@ -54,6 +57,18 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
         this.saveButtonTitle = '保存拆解进度'; break;
       default:
         this.saveButtonTitle = '保存';
+    }
+
+    if (this.dataFromTrigger.vehicle) {
+      this.vehicle = this.dataFromTrigger.vehicle;
+    } else {
+      this.holderPub.latestResultRxxHash['vehicle']
+        .filter(v => v)
+        .subscribe(v => {
+          v.vehicle.vehicleType = this.fu.idToName(v.vehicle.vehicleType, this.dataFromTrigger.btity['types']['vehicleTypes']);
+          v.vehicle.brand = this.fu.idToName(v.vehicle.brand, this.dataFromTrigger.btity['brands']);
+          this.vehicle = v;
+        });
     }
 
   }

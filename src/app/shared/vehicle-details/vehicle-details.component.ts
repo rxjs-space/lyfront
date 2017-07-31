@@ -172,6 +172,8 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     this.patches = [];
     const oldVehicle = JSON.parse(JSON.stringify(this.vehicle)); // is this necessary?
     this.newVehicle = Object.assign({}, oldVehicle, ...dataThatMayHaveChangedArray);
+    // console.log(oldVehicle);
+    // console.log(this.newVehicle);
     delete this.newVehicle.vinConfirm;
     // console.log(this.newVehicle.mofcomRegisterType);
     this.isMofcomRegisterTypeSpecifiedRxx.next(this.newVehicle.mofcomRegisterType);
@@ -227,7 +229,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
       if (isReadyOpByCurrentUser && isReadyOpByCurrentUser.value) {
           const deleteReasonOp = {
             op: 'replace',
-            path: `/status2/${item}Reason`,
+            path: `/status2/${reasonHashes[item]}`,
             value: ''
           };
 
