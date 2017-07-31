@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import jsonpatch from 'fast-json-patch';
@@ -15,7 +15,8 @@ import { DataService } from '../../data/data.service';
 @Component({
   selector: 'app-dismantling-order-details2',
   templateUrl: './dismantling-order-details2.component.html',
-  styleUrls: ['./dismantling-order-details2.component.scss']
+  styleUrls: ['./dismantling-order-details2.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   @Input() vehicle;
@@ -42,7 +43,13 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // console.log(JSON.stringify(this.btity.types.parts));
+    this.isChangedAndValid.emit(false);
     this.rebuildForm();
+    // highlight the required items
+    Object.keys(this.doForm.value).forEach(k => {
+      this.doForm.get(k).markAsTouched();
+    });
     this.saveTriggerRxx.subscribe(() => {
       this.save();
     })
@@ -54,7 +61,10 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     const oldDO: DismantlingOrder = JSON.parse(JSON.stringify(this.dismantlingOrder));
     this.doForm = this.fb.group({
       orderDate: [{value: oldDO.orderDate, disabled: true}],
-      orderType: [(oldDO.orderType ? oldDO.orderType : this.btity.types['dismantlingOrderTypes'][0]['id'])],
+      orderType: [{
+        value: oldDO.orderType || this.btity.types['dismantlingOrderTypes'][0]['id'],
+        disabled: true
+      }],
       correspondingSalesOrderId: [{value: oldDO.correspondingSalesOrderId, disabled: !this.isNew}],
       startedAt: [{value: oldDO.startedAt, disabled: true}],
       completedAt: [{value: oldDO.completedAt, disabled: true}],
@@ -74,13 +84,37 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       }, [
         this.sv.arrayMinLength(1)
       ]],
-      confirmDismantlingCompleted: [oldDO.confirmDismantlingCompleted]
+      confirmDismantlingCompleted: [{value: oldDO.confirmDismantlingCompleted, disabled: true}],
+      progressPercentage: [{value: oldDO.progressPercentage, disabled: true}]
     });
 
     if (this.isNew) {
       this.doForm.get('productionOperators').clearValidators();
     }
 
+    const subProgressPercentage_ = this.doForm.get('progressPercentage').valueChanges
+      .subscribe(v => {
+        switch (true) {
+          case v === 0.99:
+            this.doForm.get('confirmDismantlingCompleted').enable();
+            break;
+          case v < 0.99:
+            this.doForm.get('confirmDismantlingCompleted').disable();
+            // this.doForm.get('completedAt').setValue(''); // confirmDismantlingCompletedSub_ will handle this
+            this.doForm.get('confirmDismantlingCompleted').setValue(false);
+            break;
+        }
+      });
+
+    this.subscriptions.push(subProgressPercentage_);
+    const confirmDismantlingCompletedSub_ = this.doForm.get('confirmDismantlingCompleted').valueChanges
+      .subscribe(v => {
+        if (v) {
+          this.doForm.get('completedAt').setValue(new Date());
+        } else {
+          this.doForm.get('completedAt').setValue('');
+        }
+      })
     const partsAndWastesTypes = this.btity.types.parts.concat(this.btity.types.wastes);
     const partsAndWastesPPInOldDO = this.dismantlingOrder.partsAndWastesPP; // plan and production
 
@@ -94,7 +128,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           return matchedPP;
         } else {
           pw.countPlan = 0;
-          pw.conditionBeforeDismantling = '忽略';
+          pw.conditionBeforeDismantling = 'cbd06'; // cbd06 is 忽略
           pw.noteByPlanner = '';
           pw.countProduction = '';
           pw.noteByProductionOperator = '';
@@ -106,36 +140,34 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       });
     } else { // if !isNew, add pw name only
       partsAndWastesPP = partsAndWastesPPInOldDO.map(pw => {
-        console.log(pw);
+        // console.log(pw);
         const id = pw.id;
-        const name = partsAndWastesTypes.find(item => item.id = id).name;
+        const name = partsAndWastesTypes.find(item => item.id === id).name;
         pw.name = name;
         return pw;
       });
     }
 
-
-    // console.log(partsAndWastesPPWithTypeNames);
     this.pwPPForm = this.fb.array(partsAndWastesPP.map(pwPP => {
       return this.fb.group({
         id: [{value: pwPP.id, disabled: true}],
         name: [{value: pwPP.name, disabled: true}],
         countPlan: [{value: pwPP.countPlan, disabled: this.isNew ? false : true}, [Validators.pattern(/^[0-9]+$/), Validators.required]],
         conditionBeforeDismantling: [{
-          value: pwPP.conditionBeforeDismantling,
+          value: this.fu.idToName(pwPP.conditionBeforeDismantling, this.btity.types.conditionBeforeDismantlingTypes),
           disabled: this.isNew ? false : true
         }, [
           Validators.required,
           this.sv.notListedButCanBeEmpty(this.btity.types['conditionBeforeDismantlingTypes'].map(t => t.name))
         ]],
         noteByPlanner: [{value: pwPP.noteByPlanner, disabled: this.isNew ? false : true}],
-        countProduction: [pwPP.countProduction, [Validators.pattern(/^[0-9]+$/)]],
-        noteByProductionOperator: [pwPP.noteByProductionOperator],
+        countProduction: [{value: pwPP.countProduction, disabled: true}],
+        noteByProductionOperator: [{value: pwPP.noteByProductionOperator, disabled: true}],
         productionFinished: [{
           value: pwPP.productionDate ? true : false,
           disabled: pwPP.productionDate ? true : false
         }],
-        productionDate: [pwPP.productionDate],
+        productionDate: [{value: pwPP.productionDate, disabled: true}],
         inventoryInputDate: [pwPP.inventoryInputDate],
         productIds: [pwPP.productIds],
       });
@@ -144,7 +176,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     const sub0_ = this.pwPPForm.valueChanges
       .subscribe(pws => {
         pws.forEach((pw, index) => {
-          console.log('x');
+          // console.log('x');
           if (pw.countPlan > 0 && pw.conditionBeforeDismantling === '忽略') {
             this.pwPPForm.get([index, 'conditionBeforeDismantling']).setValue('');
           }
@@ -156,9 +188,33 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       this.pwPPForm.controls.forEach((pwc, index) => {
         const prodCountCtrl = this.pwPPForm.get([index, 'countProduction']);
         const prodNoteCtrl = this.pwPPForm.get([index, 'noteByProductionOperator']);
+        const prodFinishedCtrl = this.pwPPForm.get([index, 'productionFinished']);
+        const prodDateCtrl = this.pwPPForm.get([index, 'productionDate']);
+        if (!prodFinishedCtrl.value) {
+          const suby_ = prodFinishedCtrl.valueChanges.subscribe(v => {
+            if (v) {
+              prodDateCtrl.setValue(new Date());
+              prodCountCtrl.enable();
+              prodCountCtrl.markAsTouched();
+              prodNoteCtrl.enable();
+              prodCountCtrl.setValidators([Validators.pattern(/^[0-9]+$/), Validators.required]);
+              prodCountCtrl.updateValueAndValidity();
+              this.doForm.get('progressPercentage').setValue(this.calculateProgressPercentage(this.pwPPForm));
+            } else {
+              prodDateCtrl.setValue('');
+              prodCountCtrl.disable();
+              prodNoteCtrl.disable();
+              prodCountCtrl.clearValidators();
+              prodCountCtrl.updateValueAndValidity();
+              this.doForm.get('progressPercentage').setValue(this.calculateProgressPercentage(this.pwPPForm));
+            }
+          });
+          this.subscriptions.push(suby_);
+        }
         const subx_ = prodCountCtrl.valueChanges.subscribe(v => {
           if (v === 0) {
             prodNoteCtrl.setValidators(Validators.required);
+            prodNoteCtrl.markAsTouched();
           } else {
             prodNoteCtrl.clearValidators();
           }
@@ -198,10 +254,22 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         // this.doForm.markAsTouched();
         const startedAtCtrl = this.doForm.get('startedAt');
         if (!startedAtCtrl.value) {
-          startedAtCtrl.setValue((new Date()).toISOString().substring(0, 10));
+          startedAtCtrl.setValue(new Date());
         }
       });
 
+  }
+
+  calculateProgressPercentage(pwPPForm: FormArray) {
+    const items = pwPPForm.controls.length;
+    const itemsFinished = pwPPForm.controls.reduce((acc, curr) => {
+      if (curr.get('productionFinished').value) {
+        acc += 1;
+      }
+      return acc;
+    }, 0);
+    const progressPercent = Math.floor((itemsFinished * 100 - 1) / items) / 100; // max is 99%, confirmDismantlingCompleted is the other 1%
+    return progressPercent < 0 ? 0 : progressPercent;
   }
 
   calculatePatches(oldValue, newValue) {
@@ -216,17 +284,32 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
 
   prepareDismantlingOrder(raw) {
     const rawCopy = JSON.parse(JSON.stringify(raw));
-    rawCopy.vehicleType = this.fu.nameToId(rawCopy.vehicleType, this.btity.types['vehicleTypes']);
+    // console.log(rawCopy);
+    if (rawCopy.vehicleType.indexOf('vt') === -1) {
+      rawCopy.vehicleType = this.fu.nameToId(rawCopy.vehicleType, this.btity.types['vehicleTypes']);
+    }
     const pwsPP = rawCopy.partsAndWastesPP;
-    let processedPwsPP = [];
+    const processedPwsPP = [];
     pwsPP.forEach((pw, index) => {
-      if (!(pw.conditionBeforeDismantling === '忽略' && pw.countProduction === 0)) {
-        pw.conditionBeforeDismantling = this.fu.nameToId(
-          pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
-        );
-        delete pw.name;
-        processedPwsPP.push(pw);
+      if (this.isNew) {
+
+        if (pw.conditionBeforeDismantling !== '忽略' || pw.countPlan !== 0) {
+          pw.conditionBeforeDismantling = this.fu.nameToId(
+            pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
+          );
+          delete pw.name;
+          processedPwsPP.push(pw);
+        }
+
+      } else {
+          pw.conditionBeforeDismantling = this.fu.nameToId(
+            pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
+          );
+          delete pw.name;
+          processedPwsPP.push(pw);
+
       }
+
     });
     rawCopy.partsAndWastesPP = processedPwsPP;
     this.newDismantlingOrder = rawCopy;

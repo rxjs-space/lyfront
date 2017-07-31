@@ -14,11 +14,12 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   asyncDataHolderId = 'DialogDismantlingOrder2Component' + Math.random();
   dataRxHash: any;
   holderPub: SubHolder;
-  isNew = this.dataFromTrigger.dismantlingOrderId ? false : true;
+  isNew: boolean;
   saveRxx = new Subject();
   isChangedAndValid = false;
   saveButtonTitle: string;
   vehicle: any;
+  dismantlingOrder: any;
   constructor(
     public dialogRef: MdDialogRef<DialogDismantlingOrder2Component>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
@@ -30,34 +31,43 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
    }
 
   ngOnInit() {
+    // console.log(JSON.stringify(this.dataFromTrigger.btity.types.parts))
     switch (true) {
-      case !!this.dataFromTrigger.vehicle: // vehicle could already be retrieved
+      case !this.dataRxHash && !!this.dataFromTrigger.vehicle: // vehicle could already be retrieved
         this.dataRxHash = {
           dismantlingOrder: this.backend.getDismantlingOrderById(this.dataFromTrigger.dismantlingOrderId),
           staffs: this.backend.getStaffs()
         };
         break;
-      case !!this.dataFromTrigger.vin:
+      case !this.dataRxHash && !!this.dataFromTrigger.vin:
         this.dataRxHash = {
           dismantlingOrder: this.backend.getDismantlingOrderById(this.dataFromTrigger.dismantlingOrderId),
           staffs: this.backend.getStaffs(),
           vehicle: this.backend.getVehicleByVIN(this.dataFromTrigger.vin)
         };
         break;
-      default:
-        throw (new Error('please provide either a vehicle or a vin'));
+
     }
 
     super.ngOnInit();
     this.holderPub = this.holder;
-    switch (true) {
-      case !!this.dataFromTrigger.dismantlingOrder && !this.dataFromTrigger.dismantlingOrder.startedAt:
-        this.saveButtonTitle = '保存并开始拆解'; break;
-      case !!this.dataFromTrigger.dismantlingOrder && !this.dataFromTrigger.dismantlingOrder.completedAt:
-        this.saveButtonTitle = '保存拆解进度'; break;
-      default:
-        this.saveButtonTitle = '保存';
-    }
+
+    this.holderPub.latestResultRxxHash['dismantlingOrder']
+      .filter(v => v)
+      .startWith(this.dataFromTrigger.dismantlingOrder)
+      .subscribe(v => {
+        this.isNew = (!v || !v._id) ? true : false;
+        switch (true) {
+          case !this.isNew && !v.startedAt:
+            this.saveButtonTitle = '保存并开始拆解'; break;
+          case !this.isNew && !v.completedAt:
+            this.saveButtonTitle = '保存拆解进度'; break;
+          default:
+            this.saveButtonTitle = '保存';
+        }
+
+      });
+
 
     if (this.dataFromTrigger.vehicle) {
       this.vehicle = this.dataFromTrigger.vehicle;
@@ -77,7 +87,7 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
     console.log(event);
     if (this.isNew) {
       const doId = event;
-      this.isNew = false;
+      // this.isNew = false;
       this.dataRxHash.dismantlingOrder = this.backend.getDismantlingOrderById(doId);
       this.ngOnInit();
     } else {

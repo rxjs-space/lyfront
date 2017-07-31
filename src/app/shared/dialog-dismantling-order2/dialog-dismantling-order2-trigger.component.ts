@@ -20,6 +20,7 @@ export class DialogDismantlingOrder2TriggerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // console.log(JSON.stringify(this.btity.types.parts));
     let buttonTitle;
     switch (true) {
       case !this.dismantlingOrderId:

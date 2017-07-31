@@ -31,10 +31,10 @@
 
         <ng-container *ngIf="!isNew">
           <md-input-container class="m-size-input">
-            <input mdInput [placeholder]="btity.titles.dismantlingOrders.startedAt" formControlName="startedAt">
+            <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.startedAt" [value]="doForm.get('startedAt').value | date">
           </md-input-container>
           <md-input-container class="m-size-input">
-            <input mdInput [placeholder]="btity.titles.dismantlingOrders.completedAt" formControlName="completedAt">
+            <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.completedAt" [value]="doForm.get('completedAt').value | date">
           </md-input-container>
 
         </ng-container>
@@ -76,9 +76,15 @@
           <input mdInput [placeholder]="btity.titles.dismantlingOrders.noteByPlanner" formControlName="noteByPlanner">
         </md-input-container>
         <ng-container *ngIf="!isNew && dismantlingOrder.startedAt">
+          <md-checkbox color="primary" formControlName="productionFinished">
+            {{btity.titles.dismantlingOrders.productionFinished}}
+          </md-checkbox>
+          <md-input-container class="m-size-input">
+            <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.productionDate" [value]="pwPPCtrl.get('productionDate').value | date">
+          </md-input-container>
           <md-input-container class="s-size-input">
             <input mdInput type="number" [placeholder]="btity.titles.dismantlingOrders.countProduction" formControlName="countProduction">
-          </md-input-container>        
+          </md-input-container>
           <md-input-container class="xl-size-input">
             <input mdInput [placeholder]="btity.titles.dismantlingOrders.noteByProductionOperator" formControlName="noteByProductionOperator">
           </md-input-container>        
@@ -90,9 +96,11 @@
 
       </div>
     </form>
-    <div>
+    <div *ngIf="dismantlingOrder.startedAt">
+      <md-input-container class="m-size-input">
+        <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.progressPercentage" [value]="doForm.get('progressPercentage').value | percent">
+      </md-input-container>
       <md-checkbox color="primary" 
-        *ngIf="dismantlingOrder.startedAt"
         [formControl]="doForm.get('confirmDismantlingCompleted')">
         {{btity.titles.dismantlingOrders.confirmDismantlingCompleted}}
       </md-checkbox>

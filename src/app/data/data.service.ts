@@ -321,6 +321,7 @@ export class DataService {
     return this.http.get(this.typesApiUrl1, this.setupOptions(true))
       .first()
       .map(res => res.json())
+      // .do(console.log)
       .catch(error => this.handleError(error))
   }
 
