@@ -37,12 +37,11 @@ salesOrder.date
 salesOrder.buyer
 
 
-prices:
-prices._id
-product.vtbmymId
-product.typeId
-prices.price
-prices.unit
+basePrices:
+_id, typeId, price, unit
+
+priceBonus:
+_id, type (brand, age, brand+model), ref(brand id or age number or brandId+model name), bonus (percentage)
 
 vtbmym:
 pw.vtbmymId

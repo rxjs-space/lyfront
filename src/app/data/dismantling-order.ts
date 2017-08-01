@@ -13,5 +13,6 @@ export class DismantlingOrder {
   partsAndWastesPP: any[] = []; // plan and production
   confirmDismantlingCompleted = false;
   progressPercentage = 0;
+  inventoryInputDone = false;
 }
 

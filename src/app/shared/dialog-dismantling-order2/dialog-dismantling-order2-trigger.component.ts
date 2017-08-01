@@ -23,7 +23,8 @@ export class DialogDismantlingOrder2TriggerComponent implements OnInit {
     // console.log(JSON.stringify(this.btity.types.parts));
     let buttonTitle;
     switch (true) {
-      case !this.dismantlingOrderId:
+      // case !this.dismantlingOrderId:
+      case this.vehicle && !this.vehicle.status2.dismantling && !this.vehicle.status.dismantled.done:
         buttonTitle = '新建拆解计划2'; break;
       case !!this.dismantlingOrder && !this.dismantlingOrder.startedAt:
         buttonTitle = '填写拆解人并开始拆解'; break;

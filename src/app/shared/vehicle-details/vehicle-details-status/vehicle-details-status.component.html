@@ -114,7 +114,7 @@
 
 
 
-      <md-grid-tile>
+      <md-grid-tile *ngIf="!isNew">
         <!-- <app-trigger-dismantling-order
           [titles]="btity.titles"
           [types]="btity.types"

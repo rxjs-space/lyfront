@@ -209,6 +209,28 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
+  editVtbmymBasedOnIsDismantlingReady(patches, vehicle?) {
+    const patchesCopy = JSON.parse(JSON.stringify(patches));
+    const itemToCheck = ['isDismantlingReady'];
+    const isReadyOpByCurrentUser = patchesCopy.find(p => p.path === `/status2/${itemToCheck}`);
+    let vehicleCopy;
+    if (isReadyOpByCurrentUser && isReadyOpByCurrentUser.value) {
+      const vtbmymOp = {
+        op: 'replace',
+        path: '/vtbmym',
+        value: 'new'
+      };
+      patchesCopy.push(vtbmymOp);
+      if (vehicle) {
+        vehicleCopy = JSON.parse(JSON.stringify(vehicle));
+        vehicleCopy.vtbmym = 'new';
+      }
+    }
+
+
+    return {patches: patchesCopy, vehicle: vehicleCopy};
+  }
+
   editNoteBasedOnReadiness(patches) {
     const patchesCopy = JSON.parse(JSON.stringify(patches));
     const itemsToCheck = ['isSurveyReady', 'isDismantlingReady'];
@@ -283,10 +305,10 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
     switch (this.isNew) {
       case true:
-
+        const combo = this.editVtbmymBasedOnIsDismantlingReady(this.patches, this.newVehicle);
         this.data.insertVehicle({
-          vehicle: this.newVehicle,
-          patches: this.patches
+          vehicle: combo.vehicle,
+          patches: combo.patches
         }).first()
           .catch(error => Observable.of({
             ok: false, error

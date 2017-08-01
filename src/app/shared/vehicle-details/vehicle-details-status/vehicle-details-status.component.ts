@@ -15,6 +15,7 @@ export class VehicleDetailsStatusComponent implements OnInit {
   fform: FormGroup;
   @Input() vehicle: any;
   @Input() btity: any;
+  @Input() isNew: any;
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,

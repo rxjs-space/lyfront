@@ -9,6 +9,7 @@ export class Vehicle {
   facility = '';
   internalSurveyor = '';
   isSurveyNecessary = true;
+  vtbmym = '';
   // dismantling = false;
   status2 = {
     isDismantlingReady: false,
