@@ -66,7 +66,10 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
         isDismantlingNotReadySince: [this.vehicle.status2.isDismantlingNotReadySince],
         dismantling: this.vehicle.status2.dismantling,
         auctioning: this.vehicle.status2.auctioning,
-      })
+      }),
+      estimatedSurveyDateFirst: [this.vehicle.estimatedSurveyDateFirst],
+      estimatedSurveyDateSecond: [this.vehicle.estimatedSurveyDateSecond],
+      // estimatedSurveyDatesUseDefault: ['']
     });
 
     /* setting up vinConfirm based on isNew*/
@@ -158,6 +161,23 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
     // this.checkMofcomValidityRxx.subscribe((mofcomRegisterType) => {
     //   // no validation rule needs to be changed for general part
     // });
+
+    const subOnDismantlingReady_ = this.updateVehicleControlValidatorsOnIsDismantlingReadyRxx.subscribe(v => {
+      if (v) {
+        this.fform.get('status2.isSurveyReady').setValue(true);
+        this.fform.get('estimatedSurveyDateFirst').setValidators(Validators.required);
+        this.fform.get('estimatedSurveyDateFirst').updateValueAndValidity();
+        this.fform.get('estimatedSurveyDateSecond').setValidators(Validators.required);
+        this.fform.get('estimatedSurveyDateSecond').updateValueAndValidity();
+      } else {
+        this.fform.get('estimatedSurveyDateFirst').clearValidators();
+        this.fform.get('estimatedSurveyDateFirst').updateValueAndValidity();
+        this.fform.get('estimatedSurveyDateSecond').clearValidators();
+        this.fform.get('estimatedSurveyDateSecond').updateValueAndValidity();
+      }
+    });
+
+    this.subscriptions.push(subOnDismantlingReady_);
 
   }
 

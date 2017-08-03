@@ -9,6 +9,8 @@ export class Vehicle {
   facility = '';
   internalSurveyor = '';
   isSurveyNecessary = true;
+  estimatedSurveyDateFirst = '';
+  estimatedSurveyDateSecond = '';
   vtbmym = '';
   // dismantling = false;
   status2 = {

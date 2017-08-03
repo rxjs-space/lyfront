@@ -6,18 +6,21 @@
         <span>{{isNew ? '新建拆解计划' : '查看拆解计划'}} - </span>
         <small>
           <span>{{vehicle.vin}} / </span>
-          <span>{{vehicle.vehicle.plateNo}}</span>
+          <span>{{vehicle.vehicle.plateNo}} / </span>
+          <span>{{vehicle.vehicle.vehicleType}} / </span>
+          <span>{{vehicle.vehicle.brand ? vehicle.vehicle.brand : '品牌暂无'}} / </span>
+          <span>{{vehicle.vehicle.useCharacter === 'uc006' ? '非营运' : '营运'}}</span>
         </small>
       </div>
       <div>
         <small>
-          <span>{{vehicle.vehicle.vehicleType}} / </span>
-          <span>{{vehicle.vehicle.brand ? vehicle.vehicle.brand : '品牌暂无'}} / </span>
           <span>{{vehicle.isSurveyNecessary ? '需要验车' : '无需验车'}} / </span>
-          <span>{{vehicle.vehicle.useCharacter === 'uc006' ? '非营运' : '营运'}}</span>
+          <ng-container *ngIf="vehicle.isSurveyNecessary">
+            <span>预计首验日期：{{vehicle.estimatedSurveyDateFirst | date}} / </span>
+            <span>预计二验日期：{{vehicle.estimatedSurveyDateSecond | date}}</span>
+          </ng-container>
         </small>
       </div>
-
       
       <app-close-button [dialogRef]="dialogRef" [fforms]="dod.fformsRxx | async"></app-close-button>
     </div>

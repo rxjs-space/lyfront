@@ -41,6 +41,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
       'vehicle.model': [],
       'vehicle.engineNo': [],
       'vehicle.registrationDate': [],
+      'vehicle.curbWeightKG': [],
       'vehicle.totalMassKG': [Validators.pattern(/^[0-9]+$/)],
       'vehicle.lengthOverallMM': [Validators.pattern(/^[0-9]+$/)],
       'vehicle.fuelType': [this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))],
@@ -129,6 +130,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
             'vehicle.brand',
             'vehicle.model',
             'vehicle.registrationDate',
+            'vehicle.curbWeightKG'
           ];
           requiredFields.forEach(f => {
             this.fform.get(f).setValidators(defaultValidators[f].concat(Validators.required));

@@ -117,20 +117,7 @@
             <input mdInput [placeholder]="btity.titles.vehicles.batchId" 
               [formControl]="fform.get('batchId')">
         </md-input-container>
-        <app-autocomplete-combo
-          [isTrueOrFalse]="true"
-          [placeholderInput]="btity.titles.vehicles.isSurveyNecessary"
-          [formControlInput]="fform.get('isSurveyNecessary')"
-          sizeClass='m-size-input'
-        >
-        </app-autocomplete-combo>
-        <app-autocomplete-combo *ngIf="fform.get('status2.isSurveyReady').value && fform.get('isSurveyNecessary').value"
-          [isTrueOrFalse]="true"
-          [placeholderInput]="btity.titles.vehicles.status2.isSurveyReady"
-          [formControlInput]="fform.get('status2.isSurveyReady')"
-          sizeClass='m-size-input'
-        >
-        </app-autocomplete-combo>
+
         <app-autocomplete-combo *ngIf="fform.get('status2.isDismantlingReady').value"
           [isTrueOrFalse]="true"
           [placeholderInput]="btity.titles.vehicles.status2.isDismantlingReady"
@@ -141,23 +128,7 @@
 
 
       </div>
-      <div class="flex-container" *ngIf="!fform.get('status2.isSurveyReady').value && fform.get('isSurveyNecessary').value">
-        <!-- 可否验车 -->
-        <app-autocomplete-combo
-          [isTrueOrFalse]="true"
-          [placeholderInput]="btity.titles.vehicles.status2.isSurveyReady"
-          [formControlInput]="fform.get('status2.isSurveyReady')"
-          sizeClass='m-size-input'
-        >
-        </app-autocomplete-combo>
-        <span class="separator-in-flex-container"></span>
-        <md-input-container class="xxl-size-input">
-          <input mdInput 
-            [placeholder]="btity.titles.vehicles.status2.isSurveyNotReadyReason" 
-            [formControl]="fform.get('status2.isSurveyNotReadyReason')">
-        </md-input-container>
 
-      </div>
       <div class="flex-container" *ngIf="!fform.get('status2.isDismantlingReady').value">
         <!-- 可否拆解 -->
         <app-autocomplete-combo
@@ -167,7 +138,7 @@
           sizeClass='m-size-input'
         >
         </app-autocomplete-combo>
-        <span class="separator-in-flex-container"></span>
+        <!-- <span class="separator-in-flex-container"></span> -->
         <md-input-container class="xxl-size-input">
           <input mdInput 
             [placeholder]="btity.titles.vehicles.status2.isDismantlingNotReadyReason" 
@@ -175,6 +146,50 @@
         </md-input-container>
         
       </div>
+
+      <div class="flex-container">
+        <app-autocomplete-combo
+          [isTrueOrFalse]="true"
+          [placeholderInput]="btity.titles.vehicles.isSurveyNecessary"
+          [formControlInput]="fform.get('isSurveyNecessary')"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+        <ng-container *ngIf="fform.get('isSurveyNecessary').value">
+          <!-- 可否验车 -->
+          <app-autocomplete-combo
+            [isTrueOrFalse]="true"
+            [placeholderInput]="btity.titles.vehicles.status2.isSurveyReady"
+            [formControlInput]="fform.get('status2.isSurveyReady')"
+            sizeClass='m-size-input'
+          >
+          </app-autocomplete-combo>
+          <!-- <span class="separator-in-flex-container"></span> -->
+          <md-input-container class="xxl-size-input" *ngIf="!fform.get('status2.isSurveyReady').value">
+            <input mdInput 
+              [placeholder]="btity.titles.vehicles.status2.isSurveyNotReadyReason" 
+              [formControl]="fform.get('status2.isSurveyNotReadyReason')">
+          </md-input-container>
+          <ng-container *ngIf="fform.get('status2.isSurveyReady').value">
+
+            <md-input-container class="l-size-input">
+              <input mdInput type="date"
+                [placeholder]="btity.titles.vehicles.estimatedSurveyDateFirst"
+                [formControl]="fform.get('estimatedSurveyDateFirst')">
+            </md-input-container>
+            <span style="display: inline-block; width: 2em;"></span>
+            <md-input-container class="l-size-input">
+              <input mdInput type="date"
+                [placeholder]="btity.titles.vehicles.estimatedSurveyDateSecond"
+                [formControl]="fform.get('estimatedSurveyDateSecond')">
+            </md-input-container>
+
+          </ng-container>
+        </ng-container>    
+
+
+      </div>
+
     </md-card-content>
   </md-card>
 
