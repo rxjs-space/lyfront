@@ -470,7 +470,7 @@ export class DataService {
 
   }
 
-  vehiclesSurveyStatus(surveyType: string, vehicleList: string[]) {
+  vehiclesUpdateSurveyStatus(surveyType: string, vehicleList: string[]) {
     return this.http.patch(this.vehiclesApiUrl1 + '/survey', {
       surveyType,
       vehicleList

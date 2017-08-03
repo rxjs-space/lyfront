@@ -51,7 +51,8 @@
         type="button" md-raised-button color="primary"
       >首次验车完成</button>
       <button
-        appDialogConfirmationTrigger dialogTitle="将选中车辆的二次验车状态标记为“完成”？" dialogContent="（验车完成日期以点击确定日期为准。）"
+        appDialogConfirmationTrigger dialogTitle="将选中车辆的二次验车状态标记为“完成”？" 
+        dialogContent="（验车完成日期以点击确定日期为准。）"
         [actionTriggerRxx]="actionTriggerRxx" [actionParams]="['secondSurvey']"
         [actionResultRxx]="actionResultRxx"
         [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async) || !hasSelected || isUpdating"

@@ -91,7 +91,7 @@ export class DialogVehicleListComponent implements OnInit, AfterViewInit, OnDest
       value: null,
       error: null
     });
-    this.data.vehiclesSurveyStatus(surveyType, vehicleList)
+    this.data.vehiclesUpdateSurveyStatus(surveyType, vehicleList)
       .catch(error => Observable.of({
         ok: false, error
       }))
