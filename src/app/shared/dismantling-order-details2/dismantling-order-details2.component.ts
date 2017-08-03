@@ -280,7 +280,9 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   calculateProgressPercentage(pwPPForm: FormArray) {
     const items = pwPPForm.controls.length;
     const itemsFinishedOrIgnored = pwPPForm.controls.reduce((acc, curr) => {
-      if (curr.get('productionFinished').value || curr.get('productionIgnored')) {
+      if (curr.get('productionFinished').value || curr.get('productionIgnored').value) {
+        console.log(curr.get('productionFinished').value)
+        console.log(curr.get('productionIgnored').value)
         acc += 1;
       }
       return acc;
@@ -352,8 +354,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
 
     const itemsCount = processedPwsPP.length;
     // max is 99%, confirmDismantlingCompleted is the other 1%
-    rawCopy.progressPercentage = Math.floor(((itemsFinishedOrIgnoredCount) * 100 - 1) / itemsCount) / 100;
-
+    const progressPercentage = Math.floor(((itemsFinishedOrIgnoredCount) * 100 - 1) / itemsCount) / 100;
+    rawCopy.progressPercentage = progressPercentage < 0 ? 0 : progressPercentage;
     rawCopy.partsAndWastesPP = processedPwsPP;
     this.newDismantlingOrder = rawCopy;
     return rawCopy;
