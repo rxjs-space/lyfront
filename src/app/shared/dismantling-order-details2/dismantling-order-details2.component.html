@@ -79,7 +79,7 @@
           <md-checkbox color="primary" formControlName="productionFinished" *ngIf="pwPPForm.get([i, 'conditionBeforeDismantling']).value.indexOf('遗失') === -1">
             {{btity.titles.dismantlingOrders.productionFinished}}
           </md-checkbox>
-          <md-checkbox color="primary" formControlName="productionFinished" *ngIf="pwPPForm.get([i, 'conditionBeforeDismantling']).value.indexOf('遗失') > -1">
+          <md-checkbox color="primary" formControlName="productionIgnored" *ngIf="pwPPForm.get([i, 'conditionBeforeDismantling']).value.indexOf('遗失') > -1">
             {{btity.titles.dismantlingOrders.productionIgnored}}
           </md-checkbox>
           <md-input-container class="m-size-input">

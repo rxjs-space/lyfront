@@ -145,7 +145,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           pw.productionDate = '';
           pw.inventoryInputDate = '';
           pw.productIds = [];
-          pw.productionFinished = false;
+          // pw.productionFinished = false;
           return pw;
         }
       });
@@ -279,13 +279,13 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
 
   calculateProgressPercentage(pwPPForm: FormArray) {
     const items = pwPPForm.controls.length;
-    const itemsFinished = pwPPForm.controls.reduce((acc, curr) => {
-      if (curr.get('productionFinished').value) {
+    const itemsFinishedOrIgnored = pwPPForm.controls.reduce((acc, curr) => {
+      if (curr.get('productionFinished').value || curr.get('productionIgnored')) {
         acc += 1;
       }
       return acc;
     }, 0);
-    const progressPercent = Math.floor((itemsFinished * 100 - 1) / items) / 100; // max is 99%, confirmDismantlingCompleted is the other 1%
+    const progressPercent = Math.floor((itemsFinishedOrIgnored * 100 - 1) / items) / 100; // max is 99%, confirmDismantlingCompleted is the other 1%
     return progressPercent < 0 ? 0 : progressPercent;
   }
 
@@ -307,49 +307,52 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     }
     const pwsPP = rawCopy.partsAndWastesPP;
     const processedPwsPP = [];
+    let itemsFinishedOrIgnoredCount = 0;
     pwsPP.forEach((pw, index) => {
+      if (pw.productionFinished || pw.productionIgnored) {
+        itemsFinishedOrIgnoredCount += 1;
+      }
+      delete pw.name;
+      delete pw.productionFinished;
+      delete pw.productionIgnored;
+
       if (this.isNew) {
 
         if (pw.conditionBeforeDismantling !== '忽略') { // only keep the items whose conditionBeforeDismantling is not '忽略'
-          console.log(pw.conditionBeforeDismantling);
-          if (pw.conditionBeforeDismantling.indexOf('遗失') > -1) {
-            // mark the lost parts as finished
-            pw.productionFinished = true;
-          }
+          // if (pw.conditionBeforeDismantling.indexOf('遗失') > -1) {
+          //   // mark the lost parts as finished
+          //   pw.productionFinished = true;
+          // }
           pw.conditionBeforeDismantling = this.fu.nameToId(
             pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
           );
-          delete pw.name;
           processedPwsPP.push(pw);
         }
-        
 
       } else {
 
-          if (pw.productionFinished &&
-            !pw.productIds.length &&
-            rawCopy.inventoryInputDone &&
-            (pw.conditionBeforeDismantling.indexOf('遗失') === -1)
-          ) {
-            // if some part is newly finished (not lost), mark the inventoryInputDone as false
-            rawCopy.inventoryInputDone = false;
-          }
+        if (pw.productionFinished &&
+          !pw.productIds.length &&
+          rawCopy.inventoryInputDone &&
+          (pw.conditionBeforeDismantling.indexOf('遗失') === -1)
+        ) {
+          // if some part is newly finished (not lost), mark the inventoryInputDone as false
+          rawCopy.inventoryInputDone = false;
+        }
 
-          pw.conditionBeforeDismantling = this.fu.nameToId(
-            pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
-          );
-          delete pw.name;
-
-          processedPwsPP.push(pw);
+        pw.conditionBeforeDismantling = this.fu.nameToId(
+          pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
+        );
+        processedPwsPP.push(pw);
       }
+
+
 
     });
 
-    // calculate progressPercentage in case of any '入场前遗失'
-    const itemsFinishedCount = processedPwsPP.filter(pw => pw.productionFinished).length;
     const itemsCount = processedPwsPP.length;
     // max is 99%, confirmDismantlingCompleted is the other 1%
-    rawCopy.progressPercentage = Math.floor((itemsFinishedCount * 100 - 1) / itemsCount) / 100; 
+    rawCopy.progressPercentage = Math.floor(((itemsFinishedOrIgnoredCount) * 100 - 1) / itemsCount) / 100;
 
     rawCopy.partsAndWastesPP = processedPwsPP;
     this.newDismantlingOrder = rawCopy;
