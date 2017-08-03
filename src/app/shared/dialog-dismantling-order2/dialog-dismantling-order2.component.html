@@ -2,25 +2,22 @@
 
   <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
     <div md-dialog-title>
-      <span>{{isNew ? '新建拆解计划' : '查看拆解计划'}} - </span>
-      <!-- <small *ngIf="dataFromTrigger.vehicle">
-        <span>{{dataFromTrigger.vehicle.vin}} / </span>
-        <span>{{dataFromTrigger.vehicle.vehicle.plateNo}} / </span>
-        <span>{{dataFromTrigger.vehicle.vehicle.vehicleType}} / </span>
-        <span>{{dataFromTrigger.vehicle.vehicle.brand}}</span>
-      </small>
-      <small *ngIf="holderPub.latestResultRxxHash['vehicle']">
-        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vin}} / </span>
-        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vehicle.plateNo}} / </span>
-        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vehicle.vehicleType}} / </span>
-        <span>{{holderPub.latestResultRxxHash['vehicle'].getValue().vehicle.brand}}</span>
-      </small> -->
-      <small>
-        <span>{{vehicle.vin}} / </span>
-        <span>{{vehicle.vehicle.plateNo}} / </span>
-        <span>{{vehicle.vehicle.vehicleType}} / </span>
-        <span>{{vehicle.vehicle.brand ? vehicle.vehicle.brand : '品牌暂无'}}</span>
-      </small>
+      <div>
+        <span>{{isNew ? '新建拆解计划' : '查看拆解计划'}} - </span>
+        <small>
+          <span>{{vehicle.vin}} / </span>
+          <span>{{vehicle.vehicle.plateNo}}</span>
+        </small>
+      </div>
+      <div>
+        <small>
+          <span>{{vehicle.vehicle.vehicleType}} / </span>
+          <span>{{vehicle.vehicle.brand ? vehicle.vehicle.brand : '品牌暂无'}} / </span>
+          <span>{{vehicle.isSurveyNecessary ? '需要验车' : '无需验车'}} / </span>
+          <span>{{vehicle.vehicle.useCharacter === 'uc006' ? '非营运' : '营运'}}</span>
+        </small>
+      </div>
+
       
       <app-close-button [dialogRef]="dialogRef" [fforms]="dod.fformsRxx | async"></app-close-button>
     </div>
@@ -29,12 +26,13 @@
         [vehicle]="dataFromTrigger.vehicle || holderPub.latestResultRxxHash['vehicle'].getValue()"
         [dismantlingOrder]="holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
         [staffs]="holderPub.latestResultRxxHash['staffs'].getValue()"
-        [btity]="dataFromTrigger.btity"
+        [btity]="holderPub.latestResultRxxHash['btity'].getValue()"
         [isNew]="isNew"
         [saveTriggerRxx]="saveRxx"
         (isChangedAndValid)="isChangedAndValid = $event"
         (saved)="onSaved($event)"
         (confirmDismantlingCompleted)="onConfirmDismantlingCompleted($event)"
+        [source]="dataFromTrigger.source"
         #dod
       >
       </app-dismantling-order-details2>

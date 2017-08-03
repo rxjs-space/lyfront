@@ -15,8 +15,8 @@
         </md-input-container> -->
 
 
-        <md-input-container class="m-size-input">
-          <input mdInput [placeholder]="btity.titles.dismantlingOrders.orderDate" formControlName="orderDate">
+        <md-input-container class="l-size-input">
+          <input mdInput [placeholder]="btity.titles.dismantlingOrders.orderDate" disabled [value]="doForm.get('orderDate').value | date">
         </md-input-container>
         <ng-container *ngIf="isNew">
           <ng-container *ngTemplateOutlet="planners"></ng-container>
@@ -30,10 +30,10 @@
 
 
         <ng-container *ngIf="!isNew">
-          <md-input-container class="m-size-input">
+          <md-input-container class="l-size-input">
             <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.startedAt" [value]="doForm.get('startedAt').value | date">
           </md-input-container>
-          <md-input-container class="m-size-input">
+          <md-input-container class="l-size-input">
             <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.completedAt" [value]="doForm.get('completedAt').value | date">
           </md-input-container>
 
@@ -54,7 +54,7 @@
     </form>
     
     <form [formGroup]="doForm.get('partsAndWastesPP')">
-      <div *ngFor="let pwPPCtrl of pwPPForm.controls; let i=index" [formGroupName]="i">
+       <div *ngFor="let pwPPCtrl of pwPPForm.controls; let i=index" [formGroupName]="i">
         <md-input-container class="s-size-input">
           <input mdInput [placeholder]="btity.titles.dismantlingOrders.id" formControlName="id">
         </md-input-container> 
@@ -76,8 +76,11 @@
           <input mdInput [placeholder]="btity.titles.dismantlingOrders.noteByPlanner" formControlName="noteByPlanner">
         </md-input-container>
         <ng-container *ngIf="!isNew && dismantlingOrder.startedAt">
-          <md-checkbox color="primary" formControlName="productionFinished">
+          <md-checkbox color="primary" formControlName="productionFinished" *ngIf="pwPPForm.get([i, 'conditionBeforeDismantling']).value.indexOf('遗失') === -1">
             {{btity.titles.dismantlingOrders.productionFinished}}
+          </md-checkbox>
+          <md-checkbox color="primary" formControlName="productionFinished" *ngIf="pwPPForm.get([i, 'conditionBeforeDismantling']).value.indexOf('遗失') > -1">
+            {{btity.titles.dismantlingOrders.productionIgnored}}
           </md-checkbox>
           <md-input-container class="m-size-input">
             <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.productionDate" [value]="pwPPCtrl.get('productionDate').value | date">
@@ -89,9 +92,10 @@
             <input mdInput [placeholder]="btity.titles.dismantlingOrders.noteByProductionOperator" formControlName="noteByProductionOperator">
           </md-input-container>        
         </ng-container>
-     
-
-      </div>
+        <ng-container *ngIf="this.source === ddoTriggerTypes.inventoryInput">
+          inventoryInput
+        </ng-container>
+      </div> 
     </form>
     <div *ngIf="dismantlingOrder.startedAt">
       <md-input-container class="m-size-input">

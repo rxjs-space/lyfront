@@ -27,6 +27,7 @@ export class DataService {
   rolesApiUrl = this.host1 + '/api/roles';
   dismantlingOrderApiUrl1 = this.host1 + '/api/dismantling-orders';
   vehiclesApiUrl1 = this.host1 + '/api/vehicles';
+  inventoryApiUrl = this.host1 + '/api/inventory';
 
   // vehiclesApiUrl = this.host + '/vehicles';
   // dismantlingOrdersApiUrl = this.host + '/dismantlingOrders';
@@ -483,6 +484,23 @@ export class DataService {
       .map(res => res.json())
       .catch(this.handleError);
   }
+
+
+  /**
+   * imventory part start
+   */
+
+  getInputReadyDismantlingOrders() {
+    return this.http.get(this.inventoryApiUrl + `/reports?title=inputReady`, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
+
+
+
+  /**
+   * imventory part end
+   */
 
   private handleError(error: any) {
     console.log('Lyfront caught an error', error); // for demo purposes only

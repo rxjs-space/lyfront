@@ -1,5 +1,6 @@
 import { Component, Inject, Input, Output, OnInit } from '@angular/core';
 import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../shared/async-data-loader';
 import { DataService } from '../../data/data.service';
@@ -32,19 +33,20 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
    }
 
   ngOnInit() {
-    // console.log(JSON.stringify(this.dataFromTrigger.btity.types.parts))
     switch (true) {
       case !this.dataRxHash && !!this.dataFromTrigger.vehicle: // vehicle could already be retrieved
         this.dataRxHash = {
           dismantlingOrder: this.backend.getDismantlingOrderById(this.dataFromTrigger.dismantlingOrderId),
-          staffs: this.backend.getStaffs()
+          staffs: this.backend.getStaffs(),
+          btity: this.backend.btityRxx
         };
         break;
       case !this.dataRxHash && !!this.dataFromTrigger.vin:
         this.dataRxHash = {
           dismantlingOrder: this.backend.getDismantlingOrderById(this.dataFromTrigger.dismantlingOrderId),
           staffs: this.backend.getStaffs(),
-          vehicle: this.backend.getVehicleByVIN(this.dataFromTrigger.vin)
+          vehicle: this.backend.getVehicleByVIN(this.dataFromTrigger.vin),
+          btity: this.backend.btityRxx
         };
         break;
 
@@ -73,13 +75,24 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
     if (this.dataFromTrigger.vehicle) {
       this.vehicle = this.dataFromTrigger.vehicle;
     } else {
-      this.holderPub.latestResultRxxHash['vehicle']
+      (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
         .filter(v => v)
-        .subscribe(v => {
-          v.vehicle.vehicleType = this.fu.idToName(v.vehicle.vehicleType, this.dataFromTrigger.btity['types']['vehicleTypes']);
-          v.vehicle.brand = this.fu.idToName(v.vehicle.brand, this.dataFromTrigger.btity['brands']);
-          this.vehicle = v;
+        .subscribe((v) => {
+          const vehicle = this.holderPub.latestResultRxxHash['vehicle'].getValue();
+          const btity = this.holderPub.latestResultRxxHash['btity'].getValue();
+          console.log(vehicle);
+          vehicle.vehicleType = this.fu.idToName(vehicle.vehicleType, btity['types']['vehicleTypes']);
+          vehicle.brand = this.fu.idToName(vehicle.brand, btity['brands']);
+          this.vehicle = vehicle;
         });
+      // this.holderPub.latestResultRxxHash['vehicle']
+      //   .filter(v => v)
+      //   .subscribe(v => {
+      //     console.log(v);
+      //     v.vehicle.vehicleType = this.fu.idToName(v.vehicle.vehicleType, this.holderPub.latestResultRxxHash['btity']['types']['vehicleTypes']);
+      //     v.vehicle.brand = this.fu.idToName(v.vehicle.brand, this.holderPub.latestResultRxxHash['btity']['brands']);
+      //     this.vehicle = v;
+      //   });
     }
 
   }

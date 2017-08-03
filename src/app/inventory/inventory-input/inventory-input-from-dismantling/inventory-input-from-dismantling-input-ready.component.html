@@ -1,0 +1,43 @@
+<app-loading-or-error-3 [holder]="holderPub">
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+    <md-card class="info-card">
+      <md-card-header>
+        <md-card-title class="vertical-center-container">
+          <i class="material-icons">chevron_right</i>
+          <span>含有未入库拆解件的拆解计划</span>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
+
+        <md-tab-group class="fixed-height-tab-group">
+          <ng-container *ngFor="let doGroup of dismantlingOrderGroups">
+            <md-tab [label]="doGroup.title">
+              <md-list *ngIf="!doGroup.value.length">
+                <md-list-item>
+                  无
+                </md-list-item>
+              </md-list>
+              <md-list *ngFor="let dismantlingOrder of doGroup.value">
+                <md-list-item>
+                  <!-- <span>{{this.holderPub.latestResultRxxHash['btity'].getValue()['titles']['vehicles']['vinShort']}} - </span> -->
+                  <!-- <span>{{dismantlingOrder.vin}}</span> -->
+                  <app-dialog-dismantling-order2-trigger
+                    [dismantlingOrderId]="dismantlingOrder._id"
+                    [vin]="dismantlingOrder.vin"
+                    [source]="'inventoryInput'"
+                  >
+                  </app-dialog-dismantling-order2-trigger>
+                  
+                </md-list-item>
+              </md-list>
+            </md-tab>
+          </ng-container>
+        </md-tab-group>
+
+      </md-card-content>
+    </md-card>
+
+<!-- {{holderPub.latestResultRxxHash['inputReadyDOs'].getValue() | json}} -->
+  </ng-container>
+</app-loading-or-error-3>
+

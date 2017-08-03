@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { DismantlingOrder } from '../../data/dismantling-order';
 import { AuthService } from '../../auth/auth.service';
 import { DataService } from '../../data/data.service';
-
+import { ddoTriggerTypes } from '../dialog-dismantling-order2';
 
 @Component({
   selector: 'app-dismantling-order-details2',
@@ -25,6 +25,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   @Input() isNew;
   @Input() staffs;
   @Input() saveTriggerRxx: Subject<any>;
+  @Input() source: string;
   @Output() isChangedAndValid = new EventEmitter();
   @Output() saved = new EventEmitter();
   @Output() confirmDismantlingCompleted = new EventEmitter();
@@ -35,6 +36,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   patches = [];
   newDismantlingOrder;
   isSaving = false;
+  ddoTriggerTypes = ddoTriggerTypes;
 
   constructor(
     private backend: DataService,
@@ -73,7 +75,10 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       vin: [{value: (this.isNew ? this.vehicle.vin : oldDO.vin), disabled: true}],
       vehicleType: [{
         value: (this.isNew ? this.vehicle.vehicle.vehicleType : oldDO.vehicleType),
-        disabled: true}], // this is displayName now
+        disabled: true}],
+      vtbmym: [{
+        value: (this.isNew ? this.vehicle.vtbmym : oldDO.vtbmym),
+        disabled: true}],
       planners: [{
         value: this.isNew ? [this.auth.getUserId()] : oldDO.planners,
         disabled: this.isNew ? false : true
@@ -87,7 +92,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         this.sv.arrayMinLength(1)
       ]],
       confirmDismantlingCompleted: [{value: oldDO.confirmDismantlingCompleted, disabled: true}],
-      progressPercentage: [{value: oldDO.progressPercentage, disabled: true}]
+      progressPercentage: [{value: oldDO.progressPercentage, disabled: true}],
+      inventoryInputDone: [oldDO.inventoryInputDone]
     });
 
     if (this.isNew) {
@@ -139,6 +145,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           pw.productionDate = '';
           pw.inventoryInputDate = '';
           pw.productIds = [];
+          pw.productionFinished = false;
           return pw;
         }
       });
@@ -168,8 +175,12 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         countProduction: [{value: pwPP.countProduction, disabled: true}],
         noteByProductionOperator: [{value: pwPP.noteByProductionOperator, disabled: true}],
         productionFinished: [{
-          value: pwPP.productionDate ? true : false,
-          disabled: pwPP.productionDate ? true : false
+          value: !!pwPP.productionDate,
+          disabled: !!pwPP.productionDate
+        }],
+        productionIgnored: [{
+          value: (pwPP.conditionBeforeDismantling === 'cbd05') ,
+          disabled: (pwPP.conditionBeforeDismantling === 'cbd05')
         }],
         productionDate: [{value: pwPP.productionDate, disabled: true}],
         inventoryInputDate: [pwPP.inventoryInputDate],
@@ -183,6 +194,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           // console.log('x');
           if (pw.countPlan > 0 && pw.conditionBeforeDismantling === '忽略') {
             this.pwPPForm.get([index, 'conditionBeforeDismantling']).setValue('');
+            this.pwPPForm.get([index, 'conditionBeforeDismantling']).markAsTouched();
           }
         });
       });
@@ -298,24 +310,47 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     pwsPP.forEach((pw, index) => {
       if (this.isNew) {
 
-        if (pw.conditionBeforeDismantling !== '忽略' || pw.countPlan !== 0) {
+        if (pw.conditionBeforeDismantling !== '忽略') { // only keep the items whose conditionBeforeDismantling is not '忽略'
+          console.log(pw.conditionBeforeDismantling);
+          if (pw.conditionBeforeDismantling.indexOf('遗失') > -1) {
+            // mark the lost parts as finished
+            pw.productionFinished = true;
+          }
           pw.conditionBeforeDismantling = this.fu.nameToId(
             pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
           );
           delete pw.name;
           processedPwsPP.push(pw);
         }
+        
 
       } else {
+
+          if (pw.productionFinished &&
+            !pw.productIds.length &&
+            rawCopy.inventoryInputDone &&
+            (pw.conditionBeforeDismantling.indexOf('遗失') === -1)
+          ) {
+            // if some part is newly finished (not lost), mark the inventoryInputDone as false
+            rawCopy.inventoryInputDone = false;
+          }
+
           pw.conditionBeforeDismantling = this.fu.nameToId(
             pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
           );
           delete pw.name;
-          processedPwsPP.push(pw);
 
+          processedPwsPP.push(pw);
       }
 
     });
+
+    // calculate progressPercentage in case of any '入场前遗失'
+    const itemsFinishedCount = processedPwsPP.filter(pw => pw.productionFinished).length;
+    const itemsCount = processedPwsPP.length;
+    // max is 99%, confirmDismantlingCompleted is the other 1%
+    rawCopy.progressPercentage = Math.floor((itemsFinishedCount * 100 - 1) / itemsCount) / 100; 
+
     rawCopy.partsAndWastesPP = processedPwsPP;
     this.newDismantlingOrder = rawCopy;
     return rawCopy;

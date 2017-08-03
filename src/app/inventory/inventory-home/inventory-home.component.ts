@@ -9,6 +9,7 @@ export class InventoryHomeComponent implements OnInit {
   navLinks = [
     {route: 'input', label: '入库管理'},
     {route: 'output', label: '出库管理'},
+    {route: 'current', label: '当前库存'},
   ];
   constructor() { }
 
