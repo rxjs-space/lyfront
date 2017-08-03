@@ -22,7 +22,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   @Input() vehicle;
   @Input() dismantlingOrder: DismantlingOrder;
   @Input() btity;
-  @Input() isNew;
+  // @Input() isNew;
+  isNew: boolean;
   @Input() staffs;
   @Input() saveTriggerRxx: Subject<any>;
   @Input() source: string;
@@ -48,6 +49,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
 
   ngOnInit() {
     // console.log(JSON.stringify(this.btity.types.parts));
+    this.isNew = !this.dismantlingOrder._id;
+    console.log(this.isNew);
     this.isChangedAndValid.emit(false);
     this.rebuildForm();
     // highlight the required items
@@ -314,9 +317,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       if (pw.productionFinished || pw.productionIgnored) {
         itemsFinishedOrIgnoredCount += 1;
       }
-      delete pw.name;
-      delete pw.productionFinished;
-      delete pw.productionIgnored;
+
 
       if (this.isNew) {
 
@@ -328,6 +329,10 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           pw.conditionBeforeDismantling = this.fu.nameToId(
             pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
           );
+          delete pw.name;
+          delete pw.productionFinished;
+          delete pw.productionIgnored;
+
           processedPwsPP.push(pw);
         }
 
@@ -345,6 +350,10 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         pw.conditionBeforeDismantling = this.fu.nameToId(
           pw.conditionBeforeDismantling, this.btity.types['conditionBeforeDismantlingTypes']
         );
+        delete pw.name;
+        delete pw.productionFinished;
+        delete pw.productionIgnored;
+
         processedPwsPP.push(pw);
       }
 
