@@ -3,7 +3,7 @@
   <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
     <div md-dialog-title>
       <div>
-        <span>{{isNew ? '新建拆解计划' : '查看拆解计划'}} - </span>
+        <span>{{isInventoryInput ? '入库拆解件' : (isNew ? '新建拆解计划' : '查看拆解计划')}} - </span>
         <small>
           <span>{{vehicle.vin}} / </span>
           <span>{{vehicle.vehicle.plateNo}} / </span>

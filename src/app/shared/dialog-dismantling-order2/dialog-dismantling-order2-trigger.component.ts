@@ -26,7 +26,7 @@ export class DialogDismantlingOrder2TriggerComponent implements OnInit {
     let buttonTitle;
     switch (true) {
       case this.source === ddoTriggerTypes.inventoryInput:
-        buttonTitle = `查看大架号为 ${this.vin} 的车辆的拆解计划`;
+        buttonTitle = `入库大架号为 ${this.vin} 的车辆的拆解件`;
         break;
       // case !this.dismantlingOrderId:
       case this.vehicle && !this.vehicle.status2.dismantling && !this.vehicle.status.dismantled.done:

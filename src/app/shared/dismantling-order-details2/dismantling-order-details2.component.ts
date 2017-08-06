@@ -179,13 +179,17 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         noteByProductionOperator: [{value: pwPP.noteByProductionOperator, disabled: true}],
         productionFinished: [{
           value: !!pwPP.productionDate,
-          disabled: !!pwPP.productionDate
+          disabled: !!pwPP.productionDate || (this.source === ddoTriggerTypes.inventoryInput)
         }],
         productionIgnored: [{
           value: (pwPP.conditionBeforeDismantling === 'cbd05') ,
           disabled: (pwPP.conditionBeforeDismantling === 'cbd05')
         }],
         productionDate: [{value: pwPP.productionDate, disabled: true}],
+        inventoryInputFinished: [{
+          value: !!pwPP.inventoryInputDate,
+          disabled: !!pwPP.inventoryInputDate || !pwPP.productionDate
+        }],
         inventoryInputDate: [pwPP.inventoryInputDate],
         productIds: [pwPP.productIds],
       });
@@ -210,6 +214,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         const prodNoteCtrl = this.pwPPForm.get([index, 'noteByProductionOperator']);
         const prodFinishedCtrl = this.pwPPForm.get([index, 'productionFinished']);
         const prodDateCtrl = this.pwPPForm.get([index, 'productionDate']);
+        const invInputFinishedCtrl = this.pwPPForm.get([index, 'inventoryInputFinished']);
+        const invInputDateCtrl = this.pwPPForm.get([index, 'inventoryInputDate']);
         if (!prodFinishedCtrl.value) {
           const suby_ = prodFinishedCtrl.valueChanges.subscribe(v => {
             if (v) {
@@ -231,6 +237,19 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           });
           this.subscriptions.push(suby_);
         }
+
+        if (!invInputFinishedCtrl.value) {
+          const subz_ = invInputFinishedCtrl.valueChanges.subscribe(v => {
+            if (v) {
+              invInputDateCtrl.setValue(new Date());
+            } else {
+              invInputDateCtrl.setValue('');
+            }
+          });
+          this.subscriptions.push(subz_);
+        }
+
+
         const subx_ = prodCountCtrl.valueChanges.subscribe(v => {
           if (v === 0) {
             prodNoteCtrl.setValidators(Validators.required);
@@ -332,6 +351,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           delete pw.name;
           delete pw.productionFinished;
           delete pw.productionIgnored;
+          delete pw.inventoryInputFinished;
 
           processedPwsPP.push(pw);
         }
@@ -353,6 +373,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         delete pw.name;
         delete pw.productionFinished;
         delete pw.productionIgnored;
+        delete pw.inventoryInputFinished;
 
         processedPwsPP.push(pw);
       }

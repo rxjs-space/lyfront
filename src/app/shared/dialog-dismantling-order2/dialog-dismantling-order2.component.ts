@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../shared/async-data-loader';
 import { DataService } from '../../data/data.service';
 import { FormUtilsService } from '../form-utils/form-utils.service';
+import { ddoTriggerTypes } from './index';
 
 @Component({
   selector: 'app-dialog-dismantling-order2',
@@ -22,6 +23,7 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   vehicle: any;
   dismantlingOrder: any;
   toShowCompleteButton = false;
+  isInventoryInput: boolean;
   constructor(
     public dialogRef: MdDialogRef<DialogDismantlingOrder2Component>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
@@ -33,6 +35,7 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
    }
 
   ngOnInit() {
+    this.isInventoryInput = this.dataFromTrigger.source === ddoTriggerTypes.inventoryInput;
     switch (true) {
       case !this.dataRxHash && !!this.dataFromTrigger.vehicle: // vehicle could already be retrieved
         this.dataRxHash = {

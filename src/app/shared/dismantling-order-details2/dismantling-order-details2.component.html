@@ -93,7 +93,13 @@
           </md-input-container>        
         </ng-container>
         <ng-container *ngIf="this.source === ddoTriggerTypes.inventoryInput">
-          inventoryInput
+          <md-checkbox color="primary" formControlName="inventoryInputFinished" *ngIf="pwPPForm.get([i, 'conditionBeforeDismantling']).value.indexOf('遗失') === -1">
+            {{btity.titles.dismantlingOrders.inventoryInputFinished}}
+          </md-checkbox>
+          <md-input-container class="m-size-input">
+            <input mdInput disabled [placeholder]="btity.titles.dismantlingOrders.inventoryInputDate" [value]="pwPPCtrl.get('inventoryInputDate').value | date">
+          </md-input-container>
+          <button md-button color="primary" *ngIf="pwPPCtrl.get('productIds').value.length">查看入库件</button>
         </ng-container>
       </div> 
     </form>

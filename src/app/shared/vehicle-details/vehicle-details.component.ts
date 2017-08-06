@@ -209,12 +209,13 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
-  editVtbmymBasedOnIsDismantlingReady(patches, vehicle?) {
+  editVtbmymBasedOnIsDismantlingReady(patches, vehicle?) { // to delete
     const patchesCopy = JSON.parse(JSON.stringify(patches));
     const itemToCheck = ['isDismantlingReady'];
     const isReadyOpByCurrentUser = patchesCopy.find(p => p.path === `/status2/${itemToCheck}`);
     let vehicleCopy;
-    if (isReadyOpByCurrentUser && isReadyOpByCurrentUser.value) {
+    if (isReadyOpByCurrentUser && isReadyOpByCurrentUser.value && !this.vehicle.vtbmym) {
+      // /status2/iDismantlingReady === true, the brand/model/year/month must be filled
       const vtbmymOp = {
         op: 'replace',
         path: '/vtbmym',
@@ -225,11 +226,28 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         vehicleCopy = JSON.parse(JSON.stringify(vehicle));
         vehicleCopy.vtbmym = 'new';
       }
+      return {patches: patchesCopy, vehicle: vehicleCopy};
+    } else {
+      // there will be no op for vtbmym
+      return {patches, vehicle};
     }
 
-
-    return {patches: patchesCopy, vehicle: vehicleCopy};
   }
+
+  // addsVtbmymOp(patches, vehicle) {
+  //   const patchesCopy = JSON.parse(JSON.stringify(patches));
+  //   const vtbmymOp = {
+  //     op: 'replace',
+  //     path: '/vtbmym',
+  //     value: 'new'
+  //   };
+  //   patchesCopy.push(vtbmymOp);
+
+  //   let vehicleCopy = JSON.parse(JSON.stringify(vehicle));
+  //   vehicleCopy.vtbmym = 'new';
+
+  //   return {patches: patchesCopy, vehicle: vehicleCopy};
+  // }
 
   editNoteBasedOnReadiness(patches) {
     const patchesCopy = JSON.parse(JSON.stringify(patches));
@@ -327,7 +345,9 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
           });
         break;
       case false:
-        this.data.updateVehicle(this.vehicle.vin, {patches: this.editNoteBasedOnReadiness(this.patches)})
+        this.data.updateVehicle(this.vehicle.vin, {
+            patches: this.editVtbmymBasedOnIsDismantlingReady(this.editNoteBasedOnReadiness(this.patches))['patches']
+          })
           .first()
           .catch(error => Observable.of({
             ok: false, error
