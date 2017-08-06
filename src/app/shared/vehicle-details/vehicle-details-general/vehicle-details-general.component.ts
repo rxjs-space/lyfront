@@ -28,7 +28,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fform = this.fb.group({
-      vin: [this.vehicle.vin, Validators.required],
+      vin: [this.vehicle.vin, [Validators.required, this.sv.startedWithSpace()]],
       batchId: [this.vehicle.batchId, this.sv.startedWithSpace()],
       source: [this.fu.idToName(this.vehicle.source, this.btity.types['sources']), [
         Validators.required,

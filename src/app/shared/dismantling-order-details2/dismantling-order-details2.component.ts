@@ -50,16 +50,17 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   ngOnInit() {
     // console.log(JSON.stringify(this.btity.types.parts));
     this.isNew = !this.dismantlingOrder._id;
-    console.log(this.isNew);
+    // console.log(this.isNew);
     this.isChangedAndValid.emit(false);
     this.rebuildForm();
     // highlight the required items
     Object.keys(this.doForm.value).forEach(k => {
       this.doForm.get(k).markAsTouched();
     });
-    this.saveTriggerRxx.subscribe(() => {
+    const sub0_ = this.saveTriggerRxx.subscribe(() => {
       this.save();
-    })
+    });
+    this.subscriptions.push(sub0_);
   }
 
   rebuildForm() {
