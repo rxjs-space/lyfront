@@ -68,7 +68,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   subscriptions: Subscription[] = [];
   asyncMonitorId_InsertUpdateVehicle = 'insertUpdateVehicle';
   asyncMonitorHolder_InsertUpdateVehicle: any;
-  eventListenerTitles = ['Survey2ReadyComponent'];
+  eventListenerTitles = ['Survey2ReadyComponent', 'DismantlingHomeComponent'];
   eventTellerRxx = new Subject();
   constructor(
     private auth: AuthService,
@@ -300,7 +300,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             value: {
               by: userId,
               byDisplayName: userDisplayName,
-              content: `${itemDisplayName}暂缓解除。暂缓期：${notReadySinceDate} 至 ${todayDate}，原因：${reason}`,
+              content: `${itemDisplayName}暂缓解除。暂缓期：${notReadySinceDate} 至 ${todayDate}，暂缓原因：${reason}`,
               date: todayDate
             }
           };

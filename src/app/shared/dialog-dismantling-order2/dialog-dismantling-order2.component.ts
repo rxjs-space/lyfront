@@ -24,6 +24,7 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
   dismantlingOrder: any;
   toShowCompleteButton = false;
   isInventoryInput: boolean;
+  staffs: any[];
   constructor(
     public dialogRef: MdDialogRef<DialogDismantlingOrder2Component>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
@@ -74,29 +75,34 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
 
       });
 
-
+    let subx_;
     if (this.dataFromTrigger.vehicle) {
       this.vehicle = this.dataFromTrigger.vehicle;
+      // subx_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
+      //   .filter(v => v)
+      //   .subscribe((v) => {
+      //     const vehicle = JSON.parse(JSON.stringify(this.dataFromTrigger.vehicle));
+      //     const btity = this.holderPub.latestResultRxxHash['btity'].getValue();
+      //     vehicle.vehicle.vehicleType = this.fu.idToName(vehicle.vehicleType, btity['types']['vehicleTypes']);
+      //     vehicle.vehicle.brand = this.fu.idToName(vehicle.brand, btity['brands']);
+      //     this.vehicle = vehicle;
+      //     console.log(this.vehicle);
+      //   });
+
     } else {
-      (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
+      subx_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
         .filter(v => v)
         .subscribe((v) => {
           const vehicle = this.holderPub.latestResultRxxHash['vehicle'].getValue();
           const btity = this.holderPub.latestResultRxxHash['btity'].getValue();
-          console.log(vehicle);
-          vehicle.vehicleType = this.fu.idToName(vehicle.vehicleType, btity['types']['vehicleTypes']);
-          vehicle.brand = this.fu.idToName(vehicle.brand, btity['brands']);
+          vehicle.vehicle.vehicleType = this.fu.idToName(vehicle.vehicle.vehicleType, btity['types']['vehicleTypes']);
+          vehicle.vehicle.brand = this.fu.idToName(vehicle.vehicle.brand, btity['brands']);
           this.vehicle = vehicle;
+          console.log(this.vehicle);
         });
-      // this.holderPub.latestResultRxxHash['vehicle']
-      //   .filter(v => v)
-      //   .subscribe(v => {
-      //     console.log(v);
-      //     v.vehicle.vehicleType = this.fu.idToName(v.vehicle.vehicleType, this.holderPub.latestResultRxxHash['btity']['types']['vehicleTypes']);
-      //     v.vehicle.brand = this.fu.idToName(v.vehicle.brand, this.holderPub.latestResultRxxHash['btity']['brands']);
-      //     this.vehicle = v;
-      //   });
+
     }
+    this.subscriptions.push(subx_);
 
   }
 

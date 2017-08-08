@@ -40,7 +40,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   isSaving = false;
   ddoTriggerTypes = ddoTriggerTypes;
   eventTellerRxx = new Subject();
-  eventListenerTitles = ['DismantlingHomeComponent'];
+  eventListenerTitles = ['DismantlingHomeComponent', 'InventoryInputFromDismantlingInputReadyComponent'];
   constructor(
     private backend: DataService,
     private auth: AuthService,

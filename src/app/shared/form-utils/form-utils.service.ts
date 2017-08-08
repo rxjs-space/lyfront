@@ -19,12 +19,12 @@ export class FormUtilsService {
   //   return matchObj['name'];
   // }
 
-  idToName(id: string, idToNameHashArray: any) {
+  idToName(id: string, idToNameHashArray: any, nameProp = 'name') {
     if (!id) {return ''; }
     const matchObj = idToNameHashArray.find(item => item.id === id) || idToNameHashArray.find(item => item._id === id)
     if (!matchObj) {console.error(`no obj with an id as ${id}`); return id; }
     // if (!matchObj) {throw new Error(`no obj with an id as ${id}`); }
-    return matchObj['name'];
+    return matchObj[nameProp];
   }
 
   nameToId(name: string, idToNameHashArray: any) {

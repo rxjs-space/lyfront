@@ -82,7 +82,8 @@ export class Vehicle {
     displacementML: '',
     fuelType: '',
     seats: '',
-    isNEV: false
+    isNEV: false,
+    batterySlotCount: ''
   };
   feesAndDeductions = [];
   vehicleCosts = [];

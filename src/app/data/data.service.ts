@@ -167,7 +167,8 @@ export class DataService {
       this.brandsOnceRx,
       this.titlesOnceRx,
       this.typesOnceRx,
-      (brands, titles, types) => ({brands, titles, types})
+      this.staffsRx,
+      (brands, titles, types, staffs) => ({brands, titles, types, staffs})
     ).first()
       .subscribe(v => {
         console.log(v);
@@ -180,11 +181,22 @@ export class DataService {
       this.brandsOnceRx,
       this.titlesOnceRx,
       this.typesOnceRx,
-      (brands, titles, types) => ({brands, titles, types})
+      this.staffsRx,
+      (brands, titles, types, staffs) => ({brands, titles, types, staffs})
     ).first()
       .do(this.btityRxx)
       .catch(this.handleError);
   }
+
+  get staffsRx() {
+    return this.http.get(this.usersApiUrl + '/staffs', this.setupOptions(true))
+      .map(res => res.json())
+      .map(staffs => staffs.sort((a, b) => {
+        return a['displayName'].localeCompare(b['displayName'], 'zh-CN');
+      }))
+      .catch(this.handleError);
+  }
+
 
   setupOptions(withJWT: Boolean = false): RequestOptions {
     let headers;
@@ -218,6 +230,9 @@ export class DataService {
   getStaffs() {
     return this.http.get(this.usersApiUrl + '/staffs', this.setupOptions(true))
       .map(res => res.json())
+      .map(staffs => staffs.sort((a, b) => {
+        return a['displayName'].localeCompare(b['displayName'], 'zh-CN');
+      }))
       .catch(this.handleError);
   }
 

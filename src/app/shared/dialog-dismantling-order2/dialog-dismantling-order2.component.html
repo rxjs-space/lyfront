@@ -33,7 +33,7 @@
       <app-dismantling-order-details2
         [vehicle]="dataFromTrigger.vehicle || holderPub.latestResultRxxHash['vehicle'].getValue()"
         [dismantlingOrder]="holderPub.latestResultRxxHash['dismantlingOrder'].getValue()"
-        [staffs]="holderPub.latestResultRxxHash['staffs'].getValue()"
+        [staffs]="this.holderPub.latestResultRxxHash['staffs'].getValue()"
         [btity]="holderPub.latestResultRxxHash['btity'].getValue()"
         [saveTriggerRxx]="saveRxx"
         (isChangedAndValid)="isChangedAndValid = $event"

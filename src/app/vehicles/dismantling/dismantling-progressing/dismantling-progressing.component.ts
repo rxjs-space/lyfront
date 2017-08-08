@@ -13,10 +13,11 @@ export class DismantlingProgressingComponent implements OnInit {
   @Input() data;
   @Input() filterCache;
   @Input() btity;
+  @Input() orderType;
   filteredData;
   filterValueChangesRxx = new BehaviorSubject({dismantlingStarted: 1});
   optionsArr = [];
-
+  title: string;
   dataProps = [ // dismantlingOrderWeek
     {title: '本周', name: 'thisWeek'},
     {title: '上周', name: 'lastWeek'},
@@ -41,6 +42,12 @@ export class DismantlingProgressingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    switch (this.orderType) {
+      case 'dot1':
+        this.title = '正常'; break;
+      case 'dot3':
+        this.title = '前期'; break;
+    }
     const filterCache = this.filterCache['DismantlingProgressingComponent'];
     if (filterCache && filterCache['dismantlingStarted']) {
       this.filterValueChangesRxx.next({dismantlingStarted: filterCache['dismantlingStarted']});
@@ -71,26 +78,30 @@ export class DismantlingProgressingComponent implements OnInit {
 
   calculateFilteredData(dismantlingStarted) {
     return this.data.reduce((acc, curr) => {
-      const vehicleTypeIdsForMotocycle = this.btity['types']['vehicleTypeIdsForMotocycle'];
-      const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicleType']) > -1
-        ? '摩托车' : '非摩托车';
-      const obj = Object.assign({}, acc[currType]);
-      for (const item of this.dataProps) {
-        const name = item.name;  // name is week
+      if (curr.orderType === this.orderType) {
+        const vehicleTypeIdsForMotocycle = this.btity['types']['vehicleTypeIdsForMotocycle'];
+        const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicleType']) > -1
+          ? '摩托车' : '非摩托车';
+        const obj = Object.assign({}, acc[currType]);
+        for (const item of this.dataProps) {
+          const name = item.name;  // name is week
 
-        if (this.basedOnDismantlingStarted[dismantlingStarted].sumPredicate(curr)) {
-          obj[name] = (acc[currType] ? (acc[currType][name] ? acc[currType][name] : 0) : 0) + curr[name];
+          if (this.basedOnDismantlingStarted[dismantlingStarted].sumPredicate(curr)) {
+            obj[name] = (acc[currType] ? (acc[currType][name] ? acc[currType][name] : 0) : 0) + curr[name];
+          }
         }
+        acc[currType] = Object.assign({}, obj);
       }
-
-      acc[currType] = Object.assign({}, obj);
       return acc;
     }, {});
   }
 
   queryList(dismantlingOrderWeek, vehicleType?) {
     const dismantlingStarted = (this.filterValueChangesRxx.getValue()).dismantlingStarted;
-    const searchQuery = {completed: false};
+    const searchQuery = {
+      completed: false,
+      orderType: this.orderType
+    };
     if (dismantlingStarted > 1) {
       searchQuery['dismantlingStarted'] = dismantlingStarted === 2 ? true : false;
     }

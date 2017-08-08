@@ -15,15 +15,22 @@
   ></app-dismantling-idle> -->
 
   <app-dismantling-progressing 
+    [orderType]="'dot1'"
     [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"
     [btity]="holder.latestResultRxxHash['btity'] | async"
     [filterCache]="filterCache"
   ></app-dismantling-progressing>
-  <app-dismantling-pre-dismantling
+  <app-dismantling-progressing 
+    [orderType]="'dot3'"
+    [data]="(holder.latestResultRxxHash['reports'] | async)['progressing']"
+    [btity]="holder.latestResultRxxHash['btity'] | async"
+    [filterCache]="filterCache"
+  ></app-dismantling-progressing>
+  <!-- <app-dismantling-pre-dismantling
     [report]="(holder.latestResultRxxHash['reports'] | async)['preDismantling']"
     [btity]="holder.latestResultRxxHash['btity'] | async"
   >
-  </app-dismantling-pre-dismantling>
+  </app-dismantling-pre-dismantling> -->
   <app-dismantling-completed
     [data]="(holder.latestResultRxxHash['reports'] | async)['completed']"
     [btity]="holder.latestResultRxxHash['btity'] | async"

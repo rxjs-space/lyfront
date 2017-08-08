@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { MdDialog } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { DataService } from '../../data/data.service';
+import { FormUtilsService } from '../form-utils/form-utils.service';
 import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
 import { SubHolder } from '../async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
@@ -30,7 +32,8 @@ export class DismantlingOrderListComponent implements OnInit, OnDestroy {
     public dialog: MdDialog,
     private data: DataService,
     private asyncDataLoader: AsyncDataLoaderService,
-    private asyncMonitor: AsyncMonitorService
+    private asyncMonitor: AsyncMonitorService,
+    private fu: FormUtilsService
   ) { }
 
   ngOnInit() {
@@ -38,25 +41,30 @@ export class DismantlingOrderListComponent implements OnInit, OnDestroy {
     this.itemRxHash.dismantlingOrders = this.data.getDismantlingOrders(this.searchQuery);
     this.holder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     this.holder.refreshAll();
-    const sub0_ = this.holder.latestResultRxxHash['dismantlingOrders']
+    const sub0_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(v => v)
-      .first()
       .subscribe(v => {
-        // console.log(v);
-        this.dismantlingOrders = v;
+        this.dismantlingOrders = this.holder.latestResultRxxHash['dismantlingOrders'].getValue();
+        const btity = this.holder.latestResultRxxHash['btity'].getValue();
+        this.dismantlingOrders.forEach(DOx => {
+          DOx.productionOperators.forEach((operator, index) => {
+            DOx.productionOperators[index] = this.fu.idToName(operator, btity.staffs, 'displayName');
+          });
+        });
+        // console.log(this.dismantlingOrders);
 
-          this.dialogDismantlingOrderMarkAsyncMonitorHolder = this.asyncMonitor.init('dialogDismantlingOrderMark');
-          const sub1_ = this.dialogDismantlingOrderMarkAsyncMonitorHolder
-            .filter(result => result.done && result.value)
-            .subscribe(result => {
-              if (!result.error) {
-                const updatedDismantlingOrderId = result.value._id;
-                const dismantlingIdArray = this.dismantlingOrders.map(dismantlingOrder => dismantlingOrder._id);
-                const indexToReplace = dismantlingIdArray.indexOf(updatedDismantlingOrderId);
-                this.dismantlingOrders[indexToReplace] = result.value;
-              }
-            });
-            this.subscriptions.push(sub1_);
+          // this.dialogDismantlingOrderMarkAsyncMonitorHolder = this.asyncMonitor.init('dialogDismantlingOrderMark');
+          // const sub1_ = this.dialogDismantlingOrderMarkAsyncMonitorHolder
+          //   .filter(result => result.done && result.value)
+          //   .subscribe(result => {
+          //     if (!result.error) {
+          //       const updatedDismantlingOrderId = result.value._id;
+          //       const dismantlingIdArray = this.dismantlingOrders.map(dismantlingOrder => dismantlingOrder._id);
+          //       const indexToReplace = dismantlingIdArray.indexOf(updatedDismantlingOrderId);
+          //       this.dismantlingOrders[indexToReplace] = result.value;
+          //     }
+          //   });
+          //   this.subscriptions.push(sub1_);
       });
     this.subscriptions.push(sub0_);
 

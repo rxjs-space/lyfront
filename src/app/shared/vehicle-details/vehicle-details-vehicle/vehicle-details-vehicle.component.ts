@@ -78,6 +78,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
         fuelType: [this.fu.idToName(this.vehicle.vehicle.fuelType, this.btity.types['fuelTypes']), defaultValidators['vehicle.fuelType']],
         seats: [this.vehicle.vehicle.seats, defaultValidators['vehicle.seats']],
         isNEV: [this.vehicle.vehicle.isNEV ? true : false, [this.sv.shouldBeBoolean(), Validators.required]],
+        batterySlotCount: [this.vehicle.vehicle.batterySlotCount, [Validators.pattern(/^[0-9]+$/), Validators.required]]
       }),
     });
 

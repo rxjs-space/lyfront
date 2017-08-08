@@ -125,7 +125,11 @@
           [formControlInput]="fform.get('vehicle.isNEV')"
           sizeClass='s-size-input'
         >
-        </app-autocomplete-combo>        
+        </app-autocomplete-combo>
+
+        <md-input-container class="m-size-input">
+          <input type="number" mdInput [placeholder]="btity.titles.vehicles.vehicle.batterySlotCount" formControlName="batterySlotCount">
+        </md-input-container>
 
       </div>
     </md-card-content>

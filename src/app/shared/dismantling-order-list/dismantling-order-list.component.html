@@ -29,7 +29,6 @@
                 </div>
                 <div>
                   <small>
-                    <span>{{dismantlingOrder.dismantlingPIC}}</span><span> / </span>
                     <span>{{dismantlingOrder.startedAt ? (dismantlingOrder.startedAt | date) : '未'}}开始</span><span> / </span>
                     <span *ngIf="dismantlingOrder.completedAt">{{(dismantlingOrder.completedAt | date)}}完成</span>
                     <span *ngIf="!dismantlingOrder.completedAt">进度 {{dismantlingOrder.progressPercentage | percent}}</span>
@@ -38,6 +37,11 @@
                       [dismantling]="vehicle.dismantling" [dismantled]="vehicle.status.dismantled.done"
                     >
                     </app-vehicle-list-status>-->
+                  </small>
+                </div>
+                <div>
+                  <small>
+                    <span *ngFor="let operator of dismantlingOrder.productionOperators">{{operator}} / </span>
                   </small>
                 </div>
               </div>

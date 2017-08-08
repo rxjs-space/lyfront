@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../../shared/async-data-loader';
+import { EventListenersService } from '../../../shared/event-listeners/event-listeners.service';
 import { DataService } from '../../../data/data.service';
 
 @Component({
@@ -27,10 +28,13 @@ export class InventoryInputFromDismantlingInputReadyComponent extends BaseForCom
     }
   ];
   buttonTitle: string;
+  listenerRxx = this.el.add('InventoryInputFromDismantlingInputReadyComponent');
+
   constructor(
     public dialog: MdDialog,
     asyncDataLoader: AsyncDataLoaderService,
-    backend: DataService
+    backend: DataService,
+    private el: EventListenersService
   ) {
     super(asyncDataLoader, backend);
   }
@@ -53,6 +57,12 @@ export class InventoryInputFromDismantlingInputReadyComponent extends BaseForCom
     //     this.dismantlingOrderGroups[1].value = DOs.filter(DO => DO.orderType === 'dot3');
     //   });
     this.subscriptions.push(sub0_);
+
+    const sub1_ = this.listenerRxx.subscribe(event => {
+      this.holder.refreshByTitle('inputReadyDOs');
+    });
+    this.subscriptions.push(sub1_);
+
   }
 
 }
