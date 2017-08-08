@@ -496,6 +496,11 @@ export class DataService {
       .catch(this.handleError);
   }
 
+  getInputDone(days = 10) {
+    return this.http.get(this.inventoryApiUrl + `/reports?title=inputDone&days=${days}`, this.setupOptions(true))
+      .map(res => res.json())
+      .catch(this.handleError);
+  }
 
 
   /**

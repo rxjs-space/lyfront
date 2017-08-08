@@ -304,8 +304,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
     const items = pwPPForm.controls.length;
     const itemsFinishedOrIgnored = pwPPForm.controls.reduce((acc, curr) => {
       if (curr.get('productionFinished').value || curr.get('productionIgnored').value) {
-        console.log(curr.get('productionFinished').value)
-        console.log(curr.get('productionIgnored').value)
+        // console.log(curr.get('productionFinished').value)
+        // console.log(curr.get('productionIgnored').value)
         acc += 1;
       }
       return acc;
