@@ -46,6 +46,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
       'vehicle.lengthOverallMM': [Validators.pattern(/^[0-9]+$/)],
       'vehicle.fuelType': [this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))],
       'vehicle.seats': [Validators.pattern(/^[0-9]{1,2}$/)],
+      'vehicle.conditionOnEntrance': [this.sv.startedWithSpace()],
     };
     this.fform = this.fb.group({
       vehicle: this.fb.group({
@@ -60,7 +61,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
         ]],
         brand: [this.fu.idToName(this.vehicle.vehicle.brand, this.btity.brands), defaultValidators['vehicle.brand']],
         model: [this.vehicle.vehicle.model, this.sv.startedWithSpace()],
-        conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance, this.sv.startedWithSpace()],
+        conditionOnEntrance: [this.vehicle.vehicle.conditionOnEntrance, defaultValidators['vehicle.conditionOnEntrance']],
         residualValueBeforeFD: [this.vehicle.vehicle.residualValueBeforeFD, Validators.pattern(/^[0-9]+$/)],
         engineNo: [this.vehicle.vehicle.engineNo, this.sv.startedWithSpace()],
         registrationDate: [this.vehicle.vehicle.registrationDate],
@@ -130,7 +131,8 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
             'vehicle.brand',
             'vehicle.model',
             'vehicle.registrationDate',
-            'vehicle.curbWeightKG'
+            'vehicle.curbWeightKG',
+            'vehicle.conditionOnEntrance'
           ];
           requiredFields.forEach(f => {
             this.fform.get(f).setValidators(defaultValidators[f].concat(Validators.required));

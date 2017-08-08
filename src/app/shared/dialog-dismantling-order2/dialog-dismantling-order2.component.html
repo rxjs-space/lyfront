@@ -14,11 +14,16 @@
       </div>
       <div>
         <small>
-          <span>{{vehicle.isSurveyNecessary ? '需要验车' : '无需验车'}} / </span>
+          <span>{{vehicle.isSurveyNecessary ? '需要验车 / ' : '无需验车'}}</span>
           <ng-container *ngIf="vehicle.isSurveyNecessary">
             <span>预计首验日期：{{vehicle.estimatedSurveyDateFirst | date}} / </span>
             <span>预计二验日期：{{vehicle.estimatedSurveyDateSecond | date}}</span>
           </ng-container>
+        </small>
+      </div>
+      <div>
+        <small>{{holderPub.latestResultRxxHash['btity'].getValue()['titles']['vehicles']['vehicle']['conditionOnEntrance']}}: 
+          {{vehicle.vehicle.conditionOnEntrance ? vehicle.vehicle.conditionOnEntrance : '未填写'}}
         </small>
       </div>
       

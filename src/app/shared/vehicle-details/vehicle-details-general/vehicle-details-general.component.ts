@@ -184,13 +184,9 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
 
 
     const onIsDismantlingReadyAndIsSurveyNecessaryChange_ = Observable.combineLatest(
-      this.fform.get('status2.isDismantlingReady').valueChanges,
-      this.fform.get('isSurveyNecessary').valueChanges,
-    ).startWith([
-      this.fform.get('status2.isDismantlingReady').value,
-      this.fform.get('isSurveyNecessary').value
-    ])
-    .subscribe(combo => {
+      this.fform.get('status2.isDismantlingReady').valueChanges.startWith(this.fform.get('status2.isDismantlingReady').value),
+      this.fform.get('isSurveyNecessary').valueChanges.startWith(this.fform.get('isSurveyNecessary').value),
+    ).subscribe(combo => {
       const isDismantlingReady = combo[0];
       const isSurveyNecessary = combo[1];
       switch (true) {
