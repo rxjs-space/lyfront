@@ -18,6 +18,7 @@ import { AuthService } from '../../auth/auth.service';
 
 import { SharedValidatorsService } from '../validators/shared-validators.service';
 import { AsyncMonitorService } from '../async-monitor/async-monitor.service';
+import { EventListenersService } from '../event-listeners/event-listeners.service';
 
 import { VehicleDetailsGeneralComponent } from './vehicle-details-general/vehicle-details-general.component';
 import { VehicleDetailsStatusComponent } from './vehicle-details-status/vehicle-details-status.component';
@@ -67,14 +68,16 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   subscriptions: Subscription[] = [];
   asyncMonitorId_InsertUpdateVehicle = 'insertUpdateVehicle';
   asyncMonitorHolder_InsertUpdateVehicle: any;
-
+  eventListenerTitles = ['Survey2ReadyComponent'];
+  eventTellerRxx = new Subject();
   constructor(
     private auth: AuthService,
     private data: DataService,
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
     private router: Router,
-    private asyncMon: AsyncMonitorService
+    private asyncMon: AsyncMonitorService,
+    private el: EventListenersService
   ) { }
 
   ngOnInit() {
@@ -91,6 +94,17 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
     this.subscriptions.push(sub0_);
     this.asyncMonitorHolder_InsertUpdateVehicle = this.asyncMon.init(this.asyncMonitorId_InsertUpdateVehicle);
+    this.subscribeListenersToTeller();
+  }
+
+  subscribeListenersToTeller() {
+    this.eventListenerTitles.forEach(t => {
+      const listener = this.el.getListener(t);
+      if (listener) {
+        const sub_ = this.eventTellerRxx.subscribe(listener);
+        this.subscriptions.push(sub_);
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -341,12 +355,17 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             } else {
               console.log('inserted new', r.insertedIds[0]);
               this.saved.emit({vin: this.newVehicle['vin']});
+              this.eventTellerRxx.next({
+                message: `new vehicle inserted`,
+                vin: this.newVehicle['vin']
+              });
             }
           });
         break;
       case false:
+        const patchesToSend = this.editVtbmymBasedOnIsDismantlingReady(this.editNoteBasedOnReadiness(this.patches))['patches'];
         this.data.updateVehicle(this.vehicle.vin, {
-            patches: this.editVtbmymBasedOnIsDismantlingReady(this.editNoteBasedOnReadiness(this.patches))['patches']
+            patches: patchesToSend
           })
           .first()
           .catch(error => Observable.of({
@@ -362,6 +381,10 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             } else {
               console.log('updated');
               this.saved.emit(r);
+              this.eventTellerRxx.next({
+                message: `vehicle updated.`,
+                patches: patchesToSend
+              })
             }
           });
         break;

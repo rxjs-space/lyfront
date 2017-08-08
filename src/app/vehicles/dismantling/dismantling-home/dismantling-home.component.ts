@@ -7,6 +7,7 @@ import 'rxjs/add/observable/merge';
 import { DataService } from '../../../data/data.service';
 import { AsyncDataLoaderService } from '../../../shared/async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from '../../../shared/async-monitor/async-monitor.service';
+import { EventListenersService } from '../../../shared/event-listeners/event-listeners.service';
 
 @Component({
   selector: 'app-dismantling-home',
@@ -27,10 +28,12 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
   ];
   subscriptions: Subscription[] = [];
   filterCache = {}; // caching the filter value of child components
+  listenerRxx = this.el.add('DismantlingHomeComponent');
   constructor(
     private data: DataService,
     private asyncDataLoader: AsyncDataLoaderService,
-    private asyncMonitor: AsyncMonitorService
+    private asyncMonitor: AsyncMonitorService,
+    private el: EventListenersService
   ) { }
 
   ngOnInit() {
@@ -48,11 +51,18 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
         }
       });
     this.subscriptions.push(sub0_);
+
+    const sub1_ = this.listenerRxx.subscribe(event => {
+      this.holder.refreshByTitle('reports');
+    });
+    this.subscriptions.push(sub1_);
+
   }
 
   ngOnDestroy() {
     this.holder.destroy();
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
+    this.listenerRxx.remove();
   }
 
 }

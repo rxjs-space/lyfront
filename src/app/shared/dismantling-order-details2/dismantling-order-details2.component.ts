@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import jsonpatch from 'fast-json-patch';
 
 import { SharedValidatorsService } from '../validators/shared-validators.service';
+import { EventListenersService } from '../event-listeners/event-listeners.service';
 import { FormUtilsService } from '../form-utils/form-utils.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -38,13 +39,15 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
   newDismantlingOrder;
   isSaving = false;
   ddoTriggerTypes = ddoTriggerTypes;
-
+  eventTellerRxx = new Subject();
+  eventListenerTitles = ['DismantlingHomeComponent'];
   constructor(
     private backend: DataService,
     private auth: AuthService,
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
-    private fu: FormUtilsService
+    private fu: FormUtilsService,
+    private el: EventListenersService
   ) { }
 
   ngOnInit() {
@@ -61,7 +64,19 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
       this.save();
     });
     this.subscriptions.push(sub0_);
+    this.subscribeListenersToTeller();
   }
+
+  subscribeListenersToTeller() {
+    this.eventListenerTitles.forEach(t => {
+      const listener = this.el.getListener(t);
+      if (listener) {
+        const sub_ = this.eventTellerRxx.subscribe(listener);
+        this.subscriptions.push(sub_);
+      }
+    });
+  }
+
 
   rebuildForm() {
     // console.log(this.isNew);
@@ -411,6 +426,10 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           this.isSaving = false;
           const doId = result.insertedIds[0];
           this.saved.emit(doId);
+          this.eventTellerRxx.next({
+            message: 'new dismantling order inserted.',
+            id: doId
+          });
         }
 
       });
@@ -424,6 +443,13 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         console.log(result);
         this.isSaving = false;
         this.saved.emit('anything');
+        this.eventTellerRxx.next({
+          message: 'new dismantling order inserted.',
+          id: this.dismantlingOrder._id,
+          vin: this.dismantlingOrder.vin,
+          patches: this.patches
+        });
+
       });
     }
   }
