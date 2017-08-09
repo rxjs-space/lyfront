@@ -143,7 +143,7 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           '摩托车': JSON.parse(JSON.stringify(emptyReportWeekly)),
           'max': 10
         });
-        console.log(reportsPreparedLastFiveWeeks);
+        // console.log(reportsPreparedLastFiveWeeks);
 
 
         this.reports = {
