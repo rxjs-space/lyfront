@@ -75,22 +75,10 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
 
       });
 
-    let subx_;
     if (this.dataFromTrigger.vehicle) {
       this.vehicle = this.dataFromTrigger.vehicle;
-      // subx_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
-      //   .filter(v => v)
-      //   .subscribe((v) => {
-      //     const vehicle = JSON.parse(JSON.stringify(this.dataFromTrigger.vehicle));
-      //     const btity = this.holderPub.latestResultRxxHash['btity'].getValue();
-      //     vehicle.vehicle.vehicleType = this.fu.idToName(vehicle.vehicleType, btity['types']['vehicleTypes']);
-      //     vehicle.vehicle.brand = this.fu.idToName(vehicle.brand, btity['brands']);
-      //     this.vehicle = vehicle;
-      //     console.log(this.vehicle);
-      //   });
-
     } else {
-      subx_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
+      const subx_ = (this.holder.isLoadedWithoutErrorRxx as Observable<boolean>)
         .filter(v => v)
         .subscribe((v) => {
           const vehicle = this.holderPub.latestResultRxxHash['vehicle'].getValue();
@@ -100,10 +88,8 @@ export class DialogDismantlingOrder2Component extends BaseForComponentWithAsyncD
           this.vehicle = vehicle;
           console.log(this.vehicle);
         });
-
+      this.subscriptions.push(subx_);
     }
-    this.subscriptions.push(subx_);
-
   }
 
   onSaved(event) {

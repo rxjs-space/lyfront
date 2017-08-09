@@ -52,7 +52,7 @@
           [toFilterList]="true"
         >
         </app-autocomplete-combo>
-        <button type="button" md-raised-button color="primary"
+        <button type="button" md-raised-button color="accent"
           *ngIf="fform.get('vehicle.brand').errors && fform.get('vehicle.brand').errors['notListed']"
           (click)="createNewBrand(fform.get('vehicle.brand').value)"
           [disabled]="insertingNewBrand"

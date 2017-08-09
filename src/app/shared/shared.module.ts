@@ -27,6 +27,7 @@ import { DialogDataService } from './dialog-data/dialog-data.service';
 import { FormErrorsService } from './form-errors/form-errors.service';
 import { CalculatePatchesService } from './calculate-patches/calculate-patches.service';
 import { EventListenersService } from './event-listeners/event-listeners.service';
+import { TimeCalculationService } from './time-calculation/time-calculation.service';
 
 import { LoadingOrErrorComponent } from './loading-or-error/loading-or-error.component';
 import { AutocompleteComboComponent } from './autocomplete-combo/autocomplete-combo.component';
@@ -212,7 +213,8 @@ export class SharedModule {
         DialogDataService,
         FormErrorsService,
         CalculatePatchesService,
-        EventListenersService
+        EventListenersService,
+        TimeCalculationService
       ]
     };
   }

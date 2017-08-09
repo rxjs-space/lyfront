@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AsyncDataLoaderService, SubHolder } from '../../../shared/async-data-loader/async-data-loader.service';
 import { AsyncMonitorService } from '../../../shared/async-monitor/async-monitor.service';
+import { TimeCalculationService } from '../../../shared/time-calculation/time-calculation.service';
 import { DataService } from '../../../data/data.service';
 @Component({
   selector: 'app-entrance-home',
@@ -24,12 +25,13 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
   constructor(
     private asyncMonitor: AsyncMonitorService,
     private data: DataService,
-    private asyncDataLoader: AsyncDataLoaderService
+    private asyncDataLoader: AsyncDataLoaderService,
+    private tc: TimeCalculationService
   ) { }
 
   ngOnInit() {
 
-
+    const last5Mondays: string[] = this.tc.lastMondays(5);
     this.asyncDataHolder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     (this.asyncDataHolder.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(v => v)
@@ -60,51 +62,85 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           return acc;
         }, reportsPreparedLastTenDays);
         // console.log(reportsPreparedLastTenDays);
+        const emptyReport: any[] = [
+          {entranceDate: 0, total: 0},
+          {entranceDate: 0, total: 0},
+          {entranceDate: 0, total: 0},
+          {entranceDate: 0, total: 0},
+          {entranceDate: 0, total: 0},
+        ];
+        for (let i = 0; i < 5; i ++) {
+          emptyReport.push({
+            entranceDate: last5Mondays[i],
+            total: 0
+          });
+        }
+
         const reportsPreparedLastFiveWeeks = reportsRaw['lastFiveWeeks'].reduce((acc, curr) => {
           const currType = Object.keys(curr)[0];
-          switch (true) {
-            case vehicleTypeIdsForMotocycle.indexOf(currType) > -1:
-              acc['摩托车'] = curr[currType];
-              acc['摩托车'].forEach(item => {
-                if (item.total > acc.max) {
-                  acc.max = item.total;
-                }
-              });
-              acc['摩托车'] = [
-                {entranceDate: 0, total: 0},
-                {entranceDate: 0, total: 0},
-                {entranceDate: 0, total: 0},
-                {entranceDate: 0, total: 0},
-                {entranceDate: 0, total: 0},
-              ].concat(acc['摩托车']);
-              break;
-            default:
-              if (!acc['非摩托车'].length) {
-                acc['非摩托车'] = curr[currType];
-                acc['非摩托车'] = [
-                  {entranceDate: 0, total: 0},
-                  {entranceDate: 0, total: 0},
-                  {entranceDate: 0, total: 0},
-                  {entranceDate: 0, total: 0},
-                  {entranceDate: 0, total: 0},
-                ].concat(acc['非摩托车']);
+          const key = vehicleTypeIdsForMotocycle.indexOf(currType) > -1 ? '摩托车' : '非摩托车';
+          curr[currType].forEach(r => {
+            const itemX = acc[key].find(item => item.entranceDate === r.entranceDate);
+            itemX.total += r.total;
+          });
 
-              } else {
-                acc['非摩托车'] = acc['非摩托车'].map(item => {
-                  if (item.entranceDate !== 0) {
-                    item.total += curr[currType].find(iitem => iitem.entranceDate === item.entranceDate)['total'];
-                  }
-                  return item;
-                });
-                acc['非摩托车'].forEach(item => {
-                  if (item.total > acc.max) {
-                    acc.max = item.total;
-                  }
-                });
-              }
-          }
+          acc[key].forEach(item => {
+            if (item.total > acc.max) {
+              acc.max = item.total;
+            }
+          });
+
+          // switch (true) {
+          //   case vehicleTypeIdsForMotocycle.indexOf(currType) > -1:
+          //     curr[currType].forEach(r => {
+          //       const itemX = acc['摩托车'].find(item => item.entranceDate === r.entranceDate);
+          //       itemX.total = r.total;
+          //     });
+
+          //     acc['摩托车'].forEach(item => {
+          //       if (item.total > acc.max) {
+          //         acc.max = item.total;
+          //       }
+          //     });
+          //     // acc['摩托车'] = [
+          //     //   {entranceDate: 0, total: 0},
+          //     //   {entranceDate: 0, total: 0},
+          //     //   {entranceDate: 0, total: 0},
+          //     //   {entranceDate: 0, total: 0},
+          //     //   {entranceDate: 0, total: 0},
+          //     // ].concat(acc['摩托车']);
+          //     break;
+          //   default:
+          //     if (!acc['非摩托车'].length) {
+          //       acc['非摩托车'] = curr[currType];
+          //       acc['非摩托车'] = [
+          //         {entranceDate: 0, total: 0},
+          //         {entranceDate: 0, total: 0},
+          //         {entranceDate: 0, total: 0},
+          //         {entranceDate: 0, total: 0},
+          //         {entranceDate: 0, total: 0},
+          //       ].concat(acc['非摩托车']);
+
+          //     } else {
+          //       acc['非摩托车'] = acc['非摩托车'].map(item => {
+          //         if (item.entranceDate !== 0) {
+          //           item.total += curr[currType].find(iitem => iitem.entranceDate === item.entranceDate)['total'];
+          //         }
+          //         return item;
+          //       });
+          //       acc['非摩托车'].forEach(item => {
+          //         if (item.total > acc.max) {
+          //           acc.max = item.total;
+          //         }
+          //       });
+          //     }
+          // }
           return acc;
-        }, {'非摩托车': [], '摩托车': [], 'max': 10});
+        }, {
+          '非摩托车': JSON.parse(JSON.stringify(emptyReport)),
+          '摩托车': JSON.parse(JSON.stringify(emptyReport)),
+          'max': 10
+        });
         // console.log(reportsPreparedLastFiveWeeks);
 
 
