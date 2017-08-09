@@ -4,10 +4,13 @@ import { Injectable } from '@angular/core';
 export class TimeCalculationService {
   constructor() { }
 
+  /**
+   * return an array of Monday dates of specified weeks
+   */
   lastMondays(weeks) {
     const today = (new Date());
     const onedayMS = 1000 * 60 * 60 * 24;
-    const todayDay = today.getDay();
+    const todayDay = today.getUTCDay();
     let daysFromLatestMonday;
     switch (todayDay) {
       case 0:

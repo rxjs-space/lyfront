@@ -35,11 +35,8 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
     this.asyncDataHolder = this.asyncDataLoader.init(this.asyncDataId, this.itemRxHash);
     (this.asyncDataHolder.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(v => v)
-      .switchMap(() => {
-        return this.asyncDataHolder.latestResultRxxHash['reports']
-          .filter(r => r);
-      })
-      .subscribe(reportsRaw => {
+      .subscribe(() => {
+        const reportsRaw = this.asyncDataHolder.latestResultRxxHash['reports'].getValue();
         // console.log(reportsRaw);
         const reportsPreparedLastTenDays = this.lastDays(10).reduce((acc, curr) => {
           acc['非摩托车'].push({
@@ -51,7 +48,8 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           return acc;
         }, {'非摩托车': [], '摩托车': [], 'max': 10});
 
-        const vehicleTypeIdsForMotocycle = this.asyncDataHolder.latestResultRxxHash['btity'].getValue()['types']['vehicleTypeIdsForMotocycle'];
+        const btity = this.asyncDataHolder.latestResultRxxHash['btity'].getValue();
+        const vehicleTypeIdsForMotocycle = btity['types']['vehicleTypeIdsForMotocycle'];
         reportsRaw['lastTenDays'].reduce((acc, curr) => {
           const key = vehicleTypeIdsForMotocycle.indexOf(curr['vehicle.vehicleType']) > -1
             ? '摩托车' : '非摩托车';
@@ -62,7 +60,8 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           return acc;
         }, reportsPreparedLastTenDays);
         // console.log(reportsPreparedLastTenDays);
-        const emptyReport: any[] = [
+
+        const emptyReportWeekly: any[] = [
           {entranceDate: 0, total: 0},
           {entranceDate: 0, total: 0},
           {entranceDate: 0, total: 0},
@@ -70,16 +69,18 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           {entranceDate: 0, total: 0},
         ];
         for (let i = 0; i < 5; i ++) {
-          emptyReport.push({
+          emptyReportWeekly.push({
             entranceDate: last5Mondays[i],
             total: 0
           });
         }
 
         const reportsPreparedLastFiveWeeks = reportsRaw['lastFiveWeeks'].reduce((acc, curr) => {
+          // console.log(curr);
           const currType = Object.keys(curr)[0];
           const key = vehicleTypeIdsForMotocycle.indexOf(currType) > -1 ? '摩托车' : '非摩托车';
           curr[currType].forEach(r => {
+            // console.log(r);
             const itemX = acc[key].find(item => item.entranceDate === r.entranceDate);
             itemX.total += r.total;
           });
@@ -89,6 +90,7 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
               acc.max = item.total;
             }
           });
+          // console.log(acc);
 
           // switch (true) {
           //   case vehicleTypeIdsForMotocycle.indexOf(currType) > -1:
@@ -137,11 +139,11 @@ export class EntranceHomeComponent implements OnInit, OnDestroy {
           // }
           return acc;
         }, {
-          '非摩托车': JSON.parse(JSON.stringify(emptyReport)),
-          '摩托车': JSON.parse(JSON.stringify(emptyReport)),
+          '非摩托车': JSON.parse(JSON.stringify(emptyReportWeekly)),
+          '摩托车': JSON.parse(JSON.stringify(emptyReportWeekly)),
           'max': 10
         });
-        // console.log(reportsPreparedLastFiveWeeks);
+        console.log(reportsPreparedLastFiveWeeks);
 
 
         this.reports = {
