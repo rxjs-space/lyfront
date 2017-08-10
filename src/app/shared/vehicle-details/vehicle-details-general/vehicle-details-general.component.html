@@ -75,10 +75,21 @@
             [formControl]="fform.get('entranceDate')">
         </md-input-container>
           
-        <md-input-container class="m-size-input">
+
+        <app-autocomplete-combo
+          [placeholderInput]="btity.titles.vehicles.internalSurveyor"
+          [formControlInput]="fform.get('internalSurveyor')"
+          [objList]="btity.staffs"
+          [objListTitleKey]="'displayName'"
+          [toSort]="false"
+          sizeClass='m-size-input'
+        >
+        </app-autocomplete-combo>
+
+        <!-- <md-input-container class="m-size-input">
             <input mdInput [placeholder]="btity.titles.vehicles.internalSurveyor" 
               [formControl]="fform.get('internalSurveyor')">
-        </md-input-container>
+        </md-input-container> -->
 
         <!-- 商务部登记类别 -->
         <app-autocomplete-combo
@@ -154,14 +165,14 @@
           </md-option>
         </md-select>
 
-        <app-autocomplete-combo
+        <!-- <app-autocomplete-combo
           [isTrueOrFalse]="true"
           [placeholderInput]="btity.titles.vehicles.isSurveyNecessary"
           [formControlInput]="fform.get('isSurveyNecessary')"
           sizeClass='m-size-input'
         >
-        </app-autocomplete-combo>
-        <ng-container *ngIf="fform.get('isSurveyNecessary').value">
+        </app-autocomplete-combo> -->
+        <ng-container *ngIf="fform.get('surveyRounds').value !== 'zero'">
           <!-- 可否验车 -->
           <app-autocomplete-combo
             [isTrueOrFalse]="true"
@@ -184,7 +195,7 @@
                 [formControl]="fform.get('estimatedSurveyDateFirst')">
             </md-input-container>
             <span style="display: inline-block; width: 2em;"></span>
-            <md-input-container class="l-size-input">
+            <md-input-container class="l-size-input" *ngIf="fform.get('surveyRounds').value === 'two'">
               <input mdInput type="date"
                 [placeholder]="btity.titles.vehicles.estimatedSurveyDateSecond"
                 [formControl]="fform.get('estimatedSurveyDateSecond')">

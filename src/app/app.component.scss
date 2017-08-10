@@ -168,9 +168,11 @@
 
 /deep/ .scale-down-filter {
   transform: scale(0.8, 0.8);
+  transform-origin: left;
 }
 
 /deep/ .scale-down-filter-90 {
   transform: scale(0.9, 0.9);
+  transform-origin: left;
 }
 

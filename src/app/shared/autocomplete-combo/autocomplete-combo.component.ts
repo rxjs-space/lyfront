@@ -17,7 +17,8 @@ export class AutocompleteComboComponent implements OnInit {
   @Input() placeholderInput: string;
   @Input() formControlInput: FormControl;
   @Input() sizeClass: string;
-  @Input() objList: {name: string}[];
+  @Input() objList: {[key: string]: string}[];
+  @Input() objListTitleKey: string;
   @Input() toHideInitList: Boolean;
   @Input() list: any[];
   @Input() toFilterList: Boolean = false;
@@ -45,7 +46,7 @@ export class AutocompleteComboComponent implements OnInit {
         console.log(this.list);
         // no break;
       case Boolean(this.objList):
-        this.baseList = this.objList.map(item => item.name);
+        this.baseList = this.objList.map(item => this.objListTitleKey ? item[this.objListTitleKey] : item.name);
         break;
       case Boolean(this.list):
         this.baseList = this.list;

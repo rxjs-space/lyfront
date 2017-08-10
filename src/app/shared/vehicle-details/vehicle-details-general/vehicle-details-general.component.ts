@@ -60,7 +60,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
         deletedBy: [this.vehicle.metadata.deletedBy],
         deletedAt: [this.vehicle.metadata.deletedAt],
       }),
-      internalSurveyor: [this.vehicle.internalSurveyor, this.sv.startedWithSpace()],
+      internalSurveyor: [this.vehicle.internalSurveyor, [this.sv.startedWithSpace(), Validators.required]],
       isSurveyNecessary: [this.vehicle.isSurveyNecessary, [this.sv.shouldBeBoolean(), Validators.required]],
       surveyRounds: [this.vehicle.surveyRounds, [Validators.required]],
       status2: this.fb.group({
@@ -116,35 +116,80 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(sub0_);
 
-    const sub1_ = this.fform.get('status2.isSurveyReady').valueChanges
-    .startWith(this.vehicle.status2.isSurveyReady)
-    .subscribe(v => {
+    const sub1_ = Observable.combineLatest(
+      this.fform.get('status2.isSurveyReady').valueChanges.startWith(this.vehicle.status2.isSurveyReady),
+      this.fform.get('surveyRounds').valueChanges.startWith(this.fform.get('surveyRounds').value),
+    ).subscribe(combo => {
+      const isSurveyReady = combo[0];
+      const surveyRounds = combo[1];
+
       const isSurveyNotReadyReasonCtrl = this.fform.get('status2.isSurveyNotReadyReason');
       const isSurveyNotReadySinceCtrl = this.fform.get('status2.isSurveyNotReadySince');
       const firstSurveyDateCtrl = this.fform.get('estimatedSurveyDateFirst');
       const secondSurveyDateCtrl = this.fform.get('estimatedSurveyDateSecond');
-      if (!v) { // when survey is not ready, set validators for isSurveyNotReadyReason
-        isSurveyNotReadyReasonCtrl.setValidators([
-          this.sv.startedWithSpace(), Validators.required
-        ]);
-        isSurveyNotReadyReasonCtrl.updateValueAndValidity();
-        if ((typeof isSurveyNotReadySinceCtrl.value !== 'string') || !isSurveyNotReadySinceCtrl.value) {
-          isSurveyNotReadySinceCtrl.setValue((new Date()).toISOString().slice(0, 10));
-        }
 
-        firstSurveyDateCtrl.clearValidators();
-        firstSurveyDateCtrl.updateValueAndValidity();
-        secondSurveyDateCtrl.clearValidators();
-        secondSurveyDateCtrl.updateValueAndValidity();
-      } else {
-        isSurveyNotReadyReasonCtrl.clearValidators();
-        isSurveyNotReadyReasonCtrl.updateValueAndValidity();
-        firstSurveyDateCtrl.setValidators(Validators.required);
-        firstSurveyDateCtrl.updateValueAndValidity();
-        secondSurveyDateCtrl.setValidators(Validators.required);
-        secondSurveyDateCtrl.updateValueAndValidity();
+      switch (true) {
+        case !isSurveyReady:
+          isSurveyNotReadyReasonCtrl.setValidators([
+            this.sv.startedWithSpace(), Validators.required
+          ]);
+          isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+          if ((typeof isSurveyNotReadySinceCtrl.value !== 'string') || !isSurveyNotReadySinceCtrl.value) {
+            isSurveyNotReadySinceCtrl.setValue((new Date()).toISOString().slice(0, 10));
+          }
+
+          firstSurveyDateCtrl.clearValidators();
+          firstSurveyDateCtrl.updateValueAndValidity();
+          secondSurveyDateCtrl.clearValidators();
+          secondSurveyDateCtrl.updateValueAndValidity();
+          break;
+        case isSurveyReady && surveyRounds === 'one':
+          isSurveyNotReadyReasonCtrl.clearValidators();
+          isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+          firstSurveyDateCtrl.setValidators(Validators.required);
+          firstSurveyDateCtrl.updateValueAndValidity();
+          secondSurveyDateCtrl.clearValidators();
+          secondSurveyDateCtrl.updateValueAndValidity();
+          break;
+        case isSurveyReady && surveyRounds === 'two':
+          isSurveyNotReadyReasonCtrl.clearValidators();
+          isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+          firstSurveyDateCtrl.setValidators(Validators.required);
+          firstSurveyDateCtrl.updateValueAndValidity();
+          secondSurveyDateCtrl.setValidators(Validators.required);
+          secondSurveyDateCtrl.updateValueAndValidity();
+          break;
+
       }
     });
+
+    // .subscribe(v => {
+    //   const isSurveyNotReadyReasonCtrl = this.fform.get('status2.isSurveyNotReadyReason');
+    //   const isSurveyNotReadySinceCtrl = this.fform.get('status2.isSurveyNotReadySince');
+    //   const firstSurveyDateCtrl = this.fform.get('estimatedSurveyDateFirst');
+    //   const secondSurveyDateCtrl = this.fform.get('estimatedSurveyDateSecond');
+    //   if (!v) { // when survey is not ready, set validators for isSurveyNotReadyReason
+    //     isSurveyNotReadyReasonCtrl.setValidators([
+    //       this.sv.startedWithSpace(), Validators.required
+    //     ]);
+    //     isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+    //     if ((typeof isSurveyNotReadySinceCtrl.value !== 'string') || !isSurveyNotReadySinceCtrl.value) {
+    //       isSurveyNotReadySinceCtrl.setValue((new Date()).toISOString().slice(0, 10));
+    //     }
+
+    //     firstSurveyDateCtrl.clearValidators();
+    //     firstSurveyDateCtrl.updateValueAndValidity();
+    //     secondSurveyDateCtrl.clearValidators();
+    //     secondSurveyDateCtrl.updateValueAndValidity();
+    //   } else {
+    //     isSurveyNotReadyReasonCtrl.clearValidators();
+    //     isSurveyNotReadyReasonCtrl.updateValueAndValidity();
+    //     firstSurveyDateCtrl.setValidators(Validators.required);
+    //     firstSurveyDateCtrl.updateValueAndValidity();
+    //     secondSurveyDateCtrl.setValidators(Validators.required);
+    //     secondSurveyDateCtrl.updateValueAndValidity();
+    //   }
+    // });
 
     this.subscriptions.push(sub1_);
 
@@ -189,20 +234,20 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
 
 
 
-    const onIsDismantlingReadyAndIsSurveyNecessaryChange_ = Observable.combineLatest(
+    const onIsDismantlingReadyAndSurveyRoundsChange_ = Observable.combineLatest(
       this.fform.get('status2.isDismantlingReady').valueChanges.startWith(this.fform.get('status2.isDismantlingReady').value),
-      this.fform.get('isSurveyNecessary').valueChanges.startWith(this.fform.get('isSurveyNecessary').value),
+      this.fform.get('surveyRounds').valueChanges.startWith(this.fform.get('surveyRounds').value),
     ).subscribe(combo => {
       const isDismantlingReady = combo[0];
-      const isSurveyNecessary = combo[1];
+      const surveyRounds = combo[1];
       switch (true) {
-        case !isSurveyNecessary:
+        case surveyRounds === 'zero':
           this.fform.get('status2.isSurveyReady').setValue(false); break;
         case isDismantlingReady:
           this.fform.get('status2.isSurveyReady').setValue(true); break;
       }
     });
-    this.subscriptions.push(onIsDismantlingReadyAndIsSurveyNecessaryChange_);
+    this.subscriptions.push(onIsDismantlingReadyAndSurveyRoundsChange_);
 
   }
 
