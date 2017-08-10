@@ -58,6 +58,10 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
             this.resultBase64Rxx.next(message.data.resultBase64);
             // setTimeout(() => {dialogRefProgress.close(); }, 1000)
             break;
+          case message.message && message.message.indexOf('newEntrySubmitted') > -1:
+            this.messageRxx.next(`已提交。回收证明编号为 ${message.data.mofcomRegisterRef}。`);
+            // update vehicle status and mofcomRegisterRef
+            break;
         }
       });
     this.subscriptions.push(mofcomBotMessages_);

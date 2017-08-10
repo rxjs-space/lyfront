@@ -27,7 +27,7 @@
       </md-card-content>
     </ng-container>
 
-    <ng-container  *ngIf="!!resultBase64">
+    <ng-container *ngIf="!!resultBase64">
       <md-card-content>
         <img [src]="domSanitizer.bypassSecurityTrustUrl(resultBase64)" alt="录入截屏"> 
       </md-card-content>
@@ -37,11 +37,11 @@
 <div md-dialog-actions>
 
   <span class="space-filler"></span>
-  <md-spinner class="mini-spinner-1" *ngIf="isSubmitting"></md-spinner>
-  <button [disabled]="isSubmitting"
+  <md-spinner class="mini-spinner-1" *ngIf="isSubmittingCaptcha"></md-spinner>
+  <button [disabled]="isSubmittingCaptcha"
     *ngIf="!!captchaBase64" type="button" md-raised-button color="accent" (click)="onSubmit()">登录</button>
   <ng-container *ngIf="!!resultBase64">
-      <button type="button" md-raised-button color="primary">确认</button>
+      <button type="button" md-raised-button color="primary" (click)="confirmNewEntry()">确认</button>
   </ng-container>
 </div>
 

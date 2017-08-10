@@ -16,7 +16,8 @@ export class DialogMofcomProgressComponent implements OnInit, OnDestroy {
   captchaBase64;
   captchaForm: FormGroup;
   subscriptions: Subscription[] = [];
-  isSubmitting = false;
+  isSubmittingCaptcha = false;
+  isSubmittingNewEntry = false;
   constructor(
     private dialogRef: MdDialogRef<DialogMofcomProgressComponent>,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger,
@@ -39,7 +40,7 @@ export class DialogMofcomProgressComponent implements OnInit, OnDestroy {
     this.subscriptions.push(sub0_);
 
     const sub1_ = this.dataFromTrigger.captchaBase64Rxx.subscribe(c => {
-      this.isSubmitting = false;
+      this.isSubmittingCaptcha = false;
       this.captchaForm.get('captcha').enable();
       if (c) {
         this.captchaBase64 = 'data:image/png;base64, ' + c;
@@ -52,7 +53,11 @@ export class DialogMofcomProgressComponent implements OnInit, OnDestroy {
       this.message = m;
       if (m.indexOf('已登录') > -1) {
         this.captchaBase64 = ''; // this will hide the log-in button
-        this.isSubmitting = false;
+        this.isSubmittingCaptcha = false;
+      }
+      if (m.indexOf('已提交') > -1) {
+        this.resultBase64 = ''; // this will hide the log-in button
+        this.isSubmittingNewEntry = false;
       }
     });
 
@@ -67,7 +72,7 @@ export class DialogMofcomProgressComponent implements OnInit, OnDestroy {
     console.log('logging in...');
     const captchaCtrl = this.captchaForm.get('captcha');
     const captcha = captchaCtrl.value;
-    this.isSubmitting = true;
+    this.isSubmittingCaptcha = true;
     captchaCtrl.disable();
     this.backend.mofcomBotSendMessage({
       bot: 'mofcom',
@@ -79,6 +84,16 @@ export class DialogMofcomProgressComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
+  }
+
+  confirmNewEntry() {
+    console.log('input confirmed, submitting...');
+    this.isSubmittingNewEntry = true;
+    this.backend.mofcomBotSendMessage({
+      bot: 'mofcom',
+      action: 'submit'
+    });
+
   }
 
 }
