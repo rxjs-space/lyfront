@@ -1,22 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-survey2-ready-ncnm',
-  templateUrl: './survey2-ready-ncnm.component.html',
-  styleUrls: ['./survey2-ready-ncnm.component.scss']
+  selector: 'app-survey2-ready2-zero-survey',
+  templateUrl: './survey2-ready2-zero-survey.component.html',
+  styleUrls: ['./survey2-ready2-zero-survey.component.scss']
 })
-export class Survey2ReadyNcnmComponent implements OnInit {
+export class Survey2Ready2ZeroSurveyComponent implements OnInit {
   @Input() reports: any;
   @Input() btity: any;
   @Output() openDialogVehicleList = new EventEmitter();
   dataProps = [
     {title: '本周', name: 'thisWeek'},
     {title: '上周', name: 'lastWeek'},
-    {title: '更早', name: 'evenEarlier'},
+    // {title: '更早', name: 'evenEarlier'},
     {title: '合计', name: 'total'},
   ];
   processedReport: any;
-
+  title = '无需查验车辆';
   constructor() { }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class Survey2ReadyNcnmComponent implements OnInit {
   }
 
   calculateProcessedReport() {
-    const report = this.reports['resultSurveyReadyNonCommercialVehiclesAndMotorcycles'];
+    const report = this.reports['resultZeroSurvey'];
     const vehicleTypeIdsForMotocycle = this.btity['types']['vehicleTypeIdsForMotocycle'];
     this.processedReport = report.reduce((acc, curr) => {
       const currType = vehicleTypeIdsForMotocycle.indexOf(curr['vehicle.vehicleType']) > -1
@@ -43,31 +43,18 @@ export class Survey2ReadyNcnmComponent implements OnInit {
     // console.log(entranceWeek, simpleVehicleType);
     const searchQuery = {
       entranceWeek,
-      isSurveyNecessary: true,
-      'status2.isSurveyReady': true,
-      'status.secondSurvey.done': false
     };
-    switch (simpleVehicleType) {
-      case 'motorcycle':
-        searchQuery['vehicle.vehicleType'] = simpleVehicleType;
-        break;
-      case 'non-motorcycle':
-        searchQuery['vehicle.vehicleType'] = simpleVehicleType;
-        searchQuery['vehicle.useCharacter'] = 'non-commercial';
-        break;
-      default:
-        searchQuery['ncnm'] = true;
+    if (simpleVehicleType) {
+      searchQuery['vehicle.vehicleType'] = simpleVehicleType;
     }
 
     const dialogData = {
         searchQuery,
-        surveyStatus: {value: 3, viewValue: '未验车'}, // this is to work with vehicleListComponent and to pretend that all vehicles here are firstSurvey.done and !secondSurvey.done
-        source: '待验非运营车辆及摩托车',
+        source: '无需查验车辆',
         entranceWeek: (this.dataProps.find(dp => dp.name === entranceWeek)).title,
         vehicleType: simpleVehicleType
     };
     this.openDialogVehicleList.emit(dialogData);
   }
-
 
 }

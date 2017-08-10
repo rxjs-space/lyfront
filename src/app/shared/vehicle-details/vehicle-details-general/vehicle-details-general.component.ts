@@ -20,6 +20,11 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
   // @Input() checkMofcomValidityRxx: any;
   updateVehicleControlValidatorsOnIsDismantlingReadyRxx = new Subject();
   subscriptions: Subscription[] = [];
+  surveyRoundsHash = [
+    {value: 'zero', displayValue: '0'},
+    {value: 'one', displayValue: '1'},
+    {value: 'two', displayValue: '2'},
+  ]
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
@@ -57,6 +62,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
       }),
       internalSurveyor: [this.vehicle.internalSurveyor, this.sv.startedWithSpace()],
       isSurveyNecessary: [this.vehicle.isSurveyNecessary, [this.sv.shouldBeBoolean(), Validators.required]],
+      surveyRounds: [this.vehicle.surveyRounds, [Validators.required]],
       status2: this.fb.group({
         isSurveyReady: [this.vehicle.status2.isSurveyReady, [this.sv.shouldBeBoolean(), Validators.required]],
         isSurveyNotReadyReason: [this.vehicle.status2.isSurveyNotReadyReason],

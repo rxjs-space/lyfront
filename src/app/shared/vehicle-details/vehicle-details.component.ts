@@ -68,7 +68,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   subscriptions: Subscription[] = [];
   asyncMonitorId_InsertUpdateVehicle = 'insertUpdateVehicle';
   asyncMonitorHolder_InsertUpdateVehicle: any;
-  eventListenerTitles = ['Survey2ReadyComponent', 'DismantlingHomeComponent'];
+  eventListenerTitles = ['Survey2ReadyComponent', 'DismantlingHomeComponent', 'Survey2Ready2Component'];
   eventTellerRxx = new Subject();
   constructor(
     private auth: AuthService,

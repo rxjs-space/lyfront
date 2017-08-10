@@ -31,7 +31,7 @@
 
       <span class="space-filler"></span>
       <md-checkbox 
-        *ngIf="dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode" 
+        *ngIf="(dataFromTrigger.source.indexOf('仅需一次') === -1) && dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode" 
         [formControl]="formUIStatus.get('canCheckFirstSurvey')"
         [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async)"
       >已完成二次验车检查</md-checkbox>
@@ -41,13 +41,22 @@
       >全选</button>
       <button type="button" md-button color="accent" *ngIf="selectAllRxx.getValue()" (click)="selectAllRxx.next(null)">全不选</button>
       <button 
+        appDialogConfirmationTrigger dialogTitle="将选中车辆的验车状态标记为“完成”？" dialogContent="（验车完成日期以点击确定日期为准。）"
+        [actionTriggerRxx]="actionTriggerRxx" [actionParams]="['firstSurvey']"
+        [actionResultRxx]="actionResultRxx"
+        [disabled]="!(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async) || 
+          !hasSelected || isUpdating"
+        *ngIf="(dataFromTrigger.source.indexOf('仅需一次') > -1) && dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode"
+        type="button" md-raised-button color="primary"
+      >验车完成</button>
+      <button 
         appDialogConfirmationTrigger dialogTitle="将选中车辆的首次验车状态标记为“完成”？" dialogContent="（验车完成日期以点击确定日期为准。）"
         [actionTriggerRxx]="actionTriggerRxx" [actionParams]="['firstSurvey']"
         [actionResultRxx]="actionResultRxx"
         [disabled]="!formUIStatus.get('canCheckFirstSurvey').value || 
           !(vehicleListComponent.holder.isLoadedWithoutErrorRxx | async) || 
           !hasSelected || isUpdating"
-        *ngIf="dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode"
+        *ngIf="(dataFromTrigger.source.indexOf('仅需一次') === -1) && dataFromTrigger.surveyStatus.value === 2 && !isInPrintMode"
         type="button" md-raised-button color="primary"
       >首次验车完成</button>
       <button

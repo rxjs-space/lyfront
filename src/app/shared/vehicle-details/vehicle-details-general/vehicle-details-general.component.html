@@ -148,6 +148,12 @@
       </div>
 
       <div class="flex-container">
+        <md-select class="scale-down-filter-90" [placeholder]="btity.titles.vehicles.surveyRounds" [formControl]="fform.get('surveyRounds')">
+          <md-option *ngFor="let option of surveyRoundsHash" [value]="option.value">
+            {{ option.displayValue }}
+          </md-option>
+        </md-select>
+
         <app-autocomplete-combo
           [isTrueOrFalse]="true"
           [placeholderInput]="btity.titles.vehicles.isSurveyNecessary"

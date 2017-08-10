@@ -9,6 +9,7 @@ export class Vehicle {
   facility = '';
   internalSurveyor = '';
   isSurveyNecessary = true;
+  surveyRounds = 2;
   estimatedSurveyDateFirst = '';
   estimatedSurveyDateSecond = '';
   vtbmym = '';
