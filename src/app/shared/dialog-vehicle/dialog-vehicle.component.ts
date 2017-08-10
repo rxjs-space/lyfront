@@ -8,6 +8,7 @@ import { DataService } from '../../data/data.service';
 import { Vehicle } from '../../data/vehicle';
 import { AsyncDataLoaderService } from '../async-data-loader/async-data-loader.service';
 import { VehicleDetailsComponent } from '../vehicle-details/vehicle-details.component';
+import { EventListenersService } from '../event-listeners/event-listeners.service';
 
 
 @Component({
@@ -35,17 +36,23 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
   elementHash = {};
   checkMofcomValidityRxx = new Subject();
   validAfterMofcomValidityCheck = false;
+  listenerRxx = this.el.add('DialogVehicleComponent');
+
   constructor(
     public asyncDataLoader: AsyncDataLoaderService,
     private data: DataService,
     public dialogRef: MdDialogRef<DialogVehicleComponent>,
+    private el: EventListenersService,
     @Inject(MD_DIALOG_DATA) public dataFromTrigger: any,
   ) { }
 
   ngOnInit() {
     // console.log(this.dataFromTrigger);
     this.refresh();
-
+    const sub1_ = this.listenerRxx.subscribe(event => {
+      this.refresh();
+    });
+    this.subscriptions.push(sub1_);
   }
 
   mofcomCertValidation(mofcomRegisterType) {
@@ -140,6 +147,7 @@ export class DialogVehicleComponent implements OnInit, OnDestroy {
     this.rollbackPreparePrint();
     this.asyncDataLoader.destroy(this.asyncDataId);
     this.subscriptions.forEach(sub_ => sub_.unsubscribe());
+    this.listenerRxx.remove();
   }
 
 }

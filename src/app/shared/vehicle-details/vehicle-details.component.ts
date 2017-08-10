@@ -364,6 +364,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
         break;
       case false:
         const patchesToSend = this.editVtbmymBasedOnIsDismantlingReady(this.editNoteBasedOnReadiness(this.patches))['patches'];
+        console.log(patchesToSend);
         this.data.updateVehicle(this.vehicle.vin, {
             patches: patchesToSend
           })
@@ -384,7 +385,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
               this.eventTellerRxx.next({
                 message: `vehicle updated.`,
                 patches: patchesToSend
-              })
+              });
             }
           });
         break;

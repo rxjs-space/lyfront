@@ -2,11 +2,13 @@ import { Component, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import { DialogMofcomLoginComponent } from './dialog-mofcom-login.component';
 import { DialogMofcomProgressComponent } from '../dialog-mofcom-progress/dialog-mofcom-progress.component';
 import { DataService } from '../../data/data.service';
 import { FormUtilsService } from '../form-utils/form-utils.service';
+import { EventListenersService } from '../event-listeners/event-listeners.service';
 
 @Component({
   selector: 'app-dialog-mofcom-login-trigger',
@@ -21,10 +23,11 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
   messageRxx = new BehaviorSubject('');
   resultBase64Rxx = new BehaviorSubject(null);
   captchaBase64Rxx = new BehaviorSubject(null);
-
-
+  eventTellerRxx = new Subject();
+  eventListenerTitles = ['DialogVehicleComponent']
   subscriptions: Subscription[] = [];
   constructor(
+    private el: EventListenersService,
     private fu: FormUtilsService,
     public backend: DataService,
     private dialog: MdDialog) { }
@@ -61,11 +64,44 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
           case message.message && message.message.indexOf('newEntrySubmitted') > -1:
             this.messageRxx.next(`已提交。回收证明编号为 ${message.data.mofcomRegisterRef}。`);
             // update vehicle status and mofcomRegisterRef
+            const patchesToSend = [{
+              op: 'replace',
+              path: '/mofcomRegisterRef',
+              value: message.data.mofcomRegisterRef
+            }]
+            this.backend.updateVehicle(this.vehicle.vin, {
+                patches: patchesToSend
+              })
+              .first()
+              .catch(error => Observable.of({
+                ok: false, error
+              }))
+              .subscribe(r => {
+                if (r.error) {
+                  console.log(r.error);
+                } else {
+                  console.log('updated');
+                  this.eventTellerRxx.next({
+                    message: `mofcomRegisterRef updated.`,
+                    patches: patchesToSend
+                  });
+                }
+              });
             break;
         }
       });
     this.subscriptions.push(mofcomBotMessages_);
+    this.subscribeListenersToTeller();
+  }
 
+  subscribeListenersToTeller() {
+    this.eventListenerTitles.forEach(t => {
+      const listener = this.el.getListener(t);
+      if (listener) {
+        const sub_ = this.eventTellerRxx.subscribe(listener);
+        this.subscriptions.push(sub_);
+      }
+    });
   }
 
   // openDialog() {

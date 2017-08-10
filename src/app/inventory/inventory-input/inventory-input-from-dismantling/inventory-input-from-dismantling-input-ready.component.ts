@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../../shared/async-data-loader';
@@ -10,7 +10,7 @@ import { DataService } from '../../../data/data.service';
   templateUrl: './inventory-input-from-dismantling-input-ready.component.html',
   styleUrls: ['./inventory-input-from-dismantling-input-ready.component.scss']
 })
-export class InventoryInputFromDismantlingInputReadyComponent extends BaseForComponentWithAsyncData implements OnInit {
+export class InventoryInputFromDismantlingInputReadyComponent extends BaseForComponentWithAsyncData implements OnInit, OnDestroy {
   asyncDataHolderId = 'InventoryInputFromDismantlingInputReadyComponent';
   dataRxHash = {
     inputReadyDOs: this.backend.getInputReadyDismantlingOrders(),
@@ -63,6 +63,11 @@ export class InventoryInputFromDismantlingInputReadyComponent extends BaseForCom
     });
     this.subscriptions.push(sub1_);
 
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.listenerRxx.remove();
   }
 
 }
