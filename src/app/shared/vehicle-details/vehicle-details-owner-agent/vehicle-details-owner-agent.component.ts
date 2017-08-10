@@ -111,6 +111,9 @@ export class VehicleDetailsOwnerAgentComponent implements OnInit, OnDestroy {
       // console.log(mofcomRegisterType);
       switch (mofcomRegisterType) {
         case '1':
+        case '2':
+        case '3':
+        case '4':
           const requiredFields = [
             'owner.idNo', 'owner.zipCode', 'owner.tel'
           ];

@@ -17,7 +17,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
   @Input() vehicle: any;
   @Input() btity: any;
   @Input() isNew: boolean;
-  @Input() checkMofcomValidityRxx: any;
+  // @Input() checkMofcomValidityRxx: any;
   updateVehicleControlValidatorsOnIsDismantlingReadyRxx = new Subject();
   subscriptions: Subscription[] = [];
   constructor(

@@ -101,6 +101,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
       console.log(mofcomRegisterType);
       switch (mofcomRegisterType) {
         case '1':
+        case '2':
           const requiredFields = [
             'vehicle.brand',
             'vehicle.model',
