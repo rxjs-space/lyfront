@@ -27,9 +27,9 @@ export class FormUtilsService {
     return matchObj[nameProp];
   }
 
-  nameToId(name: string, idToNameHashArray: any) {
+  nameToId(name: string, idToNameHashArray: any, nameProp = 'name') {
     if (!name) {return ''; }
-    const matchObj = idToNameHashArray.find(item => item.name === name);
+    const matchObj = idToNameHashArray.find(item => item[nameProp] === name);
     if (!matchObj) {console.error(`no obj with a name as ${name}`); return name; }
     // if (!matchObj) {throw new Error(`no obj with a name as ${name}`); }
     return matchObj['id'] || matchObj['_id'];

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
@@ -60,7 +60,10 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
         deletedBy: [this.vehicle.metadata.deletedBy],
         deletedAt: [this.vehicle.metadata.deletedAt],
       }),
-      internalSurveyor: [this.vehicle.internalSurveyor, [this.sv.startedWithSpace(), Validators.required]],
+      internalSurveyor: [
+        this.fu.idToName(this.vehicle.internalSurveyor,
+        this.btity.staffs, 'displayName'), [this.sv.startedWithSpace(), Validators.required]
+      ],
       isSurveyNecessary: [this.vehicle.isSurveyNecessary, [this.sv.shouldBeBoolean(), Validators.required]],
       surveyRounds: [this.vehicle.surveyRounds, [Validators.required]],
       status2: this.fb.group({
@@ -216,6 +219,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
           allV.mofcomRegisterType = this.fu.nameToId(allV.mofcomRegisterType, this.btity.types['mofcomRegisterTypes']);
           allV.consignmentType = this.fu.nameToId(allV.consignmentType, this.btity.types['consignmentTypes']);
           allV.facility = this.fu.nameToId(allV.facility, this.btity.types['facilities']);
+          allV.internalSurveyor = this.fu.nameToId(allV.internalSurveyor, this.btity.staffs, 'displayName');
           return allV;
         // }
 

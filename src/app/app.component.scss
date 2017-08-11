@@ -64,8 +64,15 @@
 }
 
 
-/deep/ .info-card {
+/deep/ .info-card.mat-card {
+  // padding-top: 0;
   margin-bottom: 5px;
+  &.has-input-in-title {
+    padding-top: 0;
+    md-card-title {
+      margin-bottom: 0;
+    }
+  }
 
   /deep/ .vertical-center-container {
     display: flex;
