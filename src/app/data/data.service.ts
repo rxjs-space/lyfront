@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import io from 'socket.io-client';
 import { environment } from '../../environments/environment';

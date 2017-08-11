@@ -25,6 +25,7 @@ export class AutocompleteComboComponent implements OnInit {
   @Input() isTrueOrFalse: Boolean = false;
   @Input() toSort: Boolean = true;
   @Output() blur: EventEmitter<any> = new EventEmitter();
+  widthInEm: string;
   baseList: string[];
   filteredTypesRx: Observable<string[]>;
   constructor(
@@ -38,6 +39,43 @@ export class AutocompleteComboComponent implements OnInit {
   // }
 
   ngOnInit() {
+
+    /* 
+    
+    /deep/ .s-size-input {
+  width: 4em;
+}
+
+/deep/ .m-size-input .mat-input-wrapper {
+  width: 6em;
+}
+
+/deep/ .l-size-input .mat-input-wrapper {
+  width: 9em;
+}
+
+/deep/ .xl-size-input .mat-input-wrapper {
+  width: 12em;
+}
+
+    
+    
+    */
+
+    switch (this.sizeClass) {
+      case 's-size-input':
+        this.widthInEm = '4em'; break;
+      case 'm-size-input':
+        this.widthInEm = '6em'; break;
+      case 'l-size-input':
+        this.widthInEm = '9em'; break;
+      case 'xl-size-input':
+        this.widthInEm = '12em'; break;
+      default:
+        this.widthInEm = '10em';
+    }
+
+
     let sortedList;
     switch (true) {
       case Boolean(this.objList && this.list):

@@ -225,3 +225,26 @@ md-grid-list.left-aligned-grid-list md-grid-tile.mat-grid-tile .mat-figure {
   height: 4em;
   align-items: center;
 }
+
+.s-size-input {
+  width: 4em;
+}
+
+.m-size-input {
+  width: 6em;
+}
+
+.l-size-input {
+  width: 9em;
+}
+
+.xl-size-input {
+  width: 12em;
+}
+
+
+.xxl-size-input {
+  // min-width: 400px;
+  max-width: 700px;
+  flex-grow: 1;
+}
