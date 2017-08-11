@@ -68,7 +68,16 @@ export class DialogMofcomLoginTriggerComponent implements OnInit, OnDestroy {
               op: 'replace',
               path: '/mofcomRegisterRef',
               value: message.data.mofcomRegisterRef
-            }]
+            }, {
+              op: 'replace',
+              path: '/status/mofcomEntry/date',
+              value: (new Date()).toISOString().substring(0, 10)
+            }, {
+              op: 'replace',
+              path: '/status/mofcomEntry/done',
+              value: true
+            }];
+
             this.backend.updateVehicle(this.vehicle.vin, {
                 patches: patchesToSend
               })
