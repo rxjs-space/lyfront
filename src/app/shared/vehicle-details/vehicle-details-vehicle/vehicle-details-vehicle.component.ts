@@ -46,7 +46,7 @@ export class VehicleDetailsVehicleComponent implements OnDestroy, OnInit {
       'vehicle.lengthOverallMM': [Validators.pattern(/^[0-9]+$/)],
       'vehicle.fuelType': [this.sv.notListedButCanBeEmpty(this.btity.types.fuelTypes.map(type => type.name))],
       'vehicle.seats': [Validators.pattern(/^[0-9]{1,2}$/)],
-      'vehicle.conditionOnEntrance': [this.sv.startedWithSpace()],
+      'vehicle.conditionOnEntrance': [this.sv.startedWithSpace(), Validators.required],
     };
     this.fform = this.fb.group({
       vehicle: this.fb.group({

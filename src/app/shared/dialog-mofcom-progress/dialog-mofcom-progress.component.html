@@ -41,7 +41,7 @@
   <button [disabled]="isSubmittingCaptcha"
     *ngIf="!!captchaBase64" type="button" md-raised-button color="accent" (click)="onSubmit()">登录</button>
   <ng-container *ngIf="!!resultBase64">
-      <button type="button" md-raised-button color="primary" (click)="confirmNewEntry()">确认</button>
+      <button type="button" md-raised-button color="primary" [disabled]="isSubmittingNewEntry" (click)="confirmNewEntry()">确认</button>
   </ng-container>
 </div>
 
