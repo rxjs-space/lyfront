@@ -1,24 +1,48 @@
+<md-card class="info-card">
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>近 10 天拆解件入库统计</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+    <app-loading-or-error-3 [holder]="holderPub">
+      <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+
+<div class="table-container">
+  <md-table #table [dataSource]="tableDataSource">
+
+    <ng-container cdkColumnDef="typeId">
+      <md-header-cell *cdkHeaderCellDef> 名称 </md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <div>{{row.typeId}}</div>
+        <div>{{fu.idToName(row.typeId, btity.types.parts.concat(btity.types.wastes))}}</div>
+      </md-cell>
+    </ng-container>
+    <ng-container cdkColumnDef="total">
+      <md-header-cell *cdkHeaderCellDef> 合计 </md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.total}} </md-cell>
+    </ng-container>
+    <ng-container *ngFor="let date of dates">
+      <ng-container [cdkColumnDef]="date">
+        <md-header-cell *cdkHeaderCellDef> {{date.substring(5)}} </md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row[date] === 0 ? '' : row[date] }} </md-cell>
+      </ng-container>
+    </ng-container>
+
+    <md-header-row *cdkHeaderRowDef="tableColumns"></md-header-row>
+    <md-row *cdkRowDef="let row; columns: tableColumns; let odd=odd"></md-row>
+  </md-table>
+</div>
 
 
 
+        <!-- {{this.holderPub.latestResultRxxHash['inputDonePWs'].getValue() | json}} -->
 
-    <md-card class="info-card">
-      <md-card-header>
-        <md-card-title class="vertical-center-container">
-          <i class="material-icons">chevron_right</i>
-          <span>近 10 天拆解件入库统计</span>
-        </md-card-title>
-      </md-card-header>
-      <md-card-content>
-
-<app-loading-or-error-3 [holder]="holderPub">
-  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
-
-    {{this.holderPub.latestResultRxxHash['inputDonePWs'].getValue() | json}}
-
-  </ng-container>
-</app-loading-or-error-3> 
+      </ng-container>
+    </app-loading-or-error-3> 
 
 
-      </md-card-content>
-    </md-card>
+  </md-card-content>
+</md-card>

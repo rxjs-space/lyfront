@@ -168,6 +168,7 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
           return pw;
         }
       });
+      
     } else { // if !isNew, add pw name only
       partsAndWastesPP = partsAndWastesPPInOldDO.map(pw => {
         // console.log(pw);

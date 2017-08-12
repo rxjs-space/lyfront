@@ -41,6 +41,10 @@ export class DataService {
   socketBotMofcom: any;
   socketAPI: any;
 
+  socketBotRtc: any;
+  rtcBotIncomingMessageRxx: Subject<any> = new Subject();
+  inventoryInputDoneRxx = new BehaviorSubject(null);
+
   constructor(
     @Inject(BACK_END_URL) private host1,
     @Inject(BOT_URL) private botUrl,
@@ -72,6 +76,14 @@ export class DataService {
   //       this.socketBot.disconnect();
   //     };
   //   })
+  // }
+
+  // rtcBotInit() {
+  //   this.socketBotRtc = io(`${this.host1}/rtc`);
+  //   this.socketBotRtc.on('message', (message) => {
+  //     console.log('rtc message:', message);
+  //     this.rtcBotIncomingMessageRxx.next(message);
+  //   });
   // }
 
   mofcomBotInit() {
@@ -514,7 +526,11 @@ export class DataService {
 
   getInputDone(days = 10) {
     return this.http.get(this.inventoryApiUrl + `/reports?title=inputDone&days=${days}`, this.setupOptions(true))
-      .map(res => res.json())
+      .map(res => {
+        const report = res.json();
+        this.inventoryInputDoneRxx.next(report);
+        return report;
+      })
       .catch(this.handleError);
   }
 

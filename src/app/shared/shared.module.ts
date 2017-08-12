@@ -12,6 +12,7 @@ import {
   MdTabsModule, MdSelectModule, MdProgressSpinnerModule, MdRadioModule,
   MdTooltipModule, MdSnackBarModule, MdTableModule
 } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -98,7 +99,8 @@ const mdModules = [
     MdRadioModule,
     MdTooltipModule,
     MdSnackBarModule,
-    MdTableModule
+    MdTableModule,
+    CdkTableModule
 ];
 
 @NgModule({
