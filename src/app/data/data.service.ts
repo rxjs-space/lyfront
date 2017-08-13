@@ -447,8 +447,8 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  dismantlingOrderReports() {
-    return this.http.get(this.dismantlingOrderApiUrl1 + '/reports', this.setupOptions(true))
+  dismantlingOrderReports(title) {
+    return this.http.get(this.dismantlingOrderApiUrl1 + `/reports?title=${title}`, this.setupOptions(true))
       .map(res => {
         const resJSON = res.json();
         const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
