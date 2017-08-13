@@ -143,8 +143,8 @@ export class DismantlingOrderDetails2Component implements OnInit, OnDestroy {
         } else {
           this.doForm.get('completedAt').setValue('');
         }
-      })
-    const partsAndWastesTypes = this.btity.types.parts.concat(this.btity.types.wastes);
+      });
+    const partsAndWastesTypes = this.btity.types.parts.concat(this.btity.types.wastes).filter(item => item.id !== 'p000');
     const partsAndWastesPPInOldDO = this.dismantlingOrder.partsAndWastesPP; // plan and production
 
     let partsAndWastesPP;

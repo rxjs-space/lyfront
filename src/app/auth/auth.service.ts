@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 
 import { BACK_END_URL } from '../app-config';
+import { DataService } from '../data/data.service';
 
 
 @Injectable()
@@ -18,6 +19,7 @@ export class AuthService {
   isX = new BehaviorSubject('a');
 
   constructor(
+    private backend: DataService,
     @Inject(BACK_END_URL) private host1,
     private http: Http,
     private router: Router) {
@@ -105,6 +107,7 @@ export class AuthService {
           }));
           // const x = JSON.parse(localStorage.getItem('currentUser'));
           // console.log(x.token);
+          this.backend.rtcSocketInit();
           this.redirectAfterSuccess();
           return {ok: true};
         }

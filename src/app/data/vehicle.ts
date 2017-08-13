@@ -18,11 +18,11 @@ export class Vehicle {
     isDismantlingReady: false,
     isDismantlingNotReadyReason: '收车流程进行中。',
     isDismantlingNotReadySince: '',
-    // isDismantlingNotReadyTill: '',
+    isDismantlingNotReadyTill: '',
     isSurveyReady: false,
     isSurveyNotReadyReason: '收车流程进行中。',
     isSurveyNotReadySince: '',
-    // isSurveyNotReadyTill: '',
+    isSurveyNotReadyTill: '',
     // surveyPending: false,
     // surveyPendingReason: '',
     // surveyPendingSince: '',
@@ -31,8 +31,8 @@ export class Vehicle {
     // dismantlingPendingReason: '',
     // dismantlingPendingSince: '',
     // dismantlingPendingTill: '',
-    auctioning: false,
-    dismantling: false
+    // auctioning: false,
+    // dismantling: false
   };
   remarks = [];
   metadata = {
@@ -157,7 +157,7 @@ export class Vehicle {
       date: ''
     },
     dismantled: {
-      ref: '',
+      // ref: '',
       done: false,
       date: ''
     },

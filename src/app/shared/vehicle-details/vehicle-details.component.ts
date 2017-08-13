@@ -263,7 +263,29 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
   //   return {patches: patchesCopy, vehicle: vehicleCopy};
   // }
 
-  editNoteBasedOnReadiness(patches) {
+  editIsNotReadyTill(patches) { // for new vehicle only
+    const patchesCopy = JSON.parse(JSON.stringify(patches));
+    const itemsToCheck = ['isSurveyReady', 'isDismantlingReady'];
+    const tillHashes = {
+      'isSurveyReady': 'isSurveyNotReadyTill',
+      'isDismantlingReady': 'isDismantlingNotReadyTill'
+    };
+    itemsToCheck.forEach(item => {
+      const isReadyOpByCurrentUser = patchesCopy.find(p => p.path === `/status2/${item}`);
+      if (isReadyOpByCurrentUser && isReadyOpByCurrentUser.value) {
+          const today = new Date();
+          const notReadyTillOp = {
+            op: 'replace',
+            path: `/status2/${tillHashes[item]}`,
+            value: today
+          };
+          patchesCopy.push(notReadyTillOp);
+      }
+    });
+    return patchesCopy;
+  }
+
+  editNoteBasedOnReadiness(patches) { // for old vehicle only and feature including editIsnotReadyTill
     const patchesCopy = JSON.parse(JSON.stringify(patches));
     const itemsToCheck = ['isSurveyReady', 'isDismantlingReady'];
     const itemDisplayNameHashes = {
@@ -273,6 +295,10 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
     const sinceHashes = {
       'isSurveyReady': 'isSurveyNotReadySince',
       'isDismantlingReady': 'isDismantlingNotReadySince'
+    };
+    const tillHashes = {
+      'isSurveyReady': 'isSurveyNotReadyTill',
+      'isDismantlingReady': 'isDismantlingNotReadyTill'
     };
     const reasonHashes = {
       'isSurveyReady': 'isSurveyNotReadyReason',
@@ -287,13 +313,22 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
             value: ''
           };
 
+
           const reason = this.vehicle.status2[reasonHashes[item]];
           const noteLength = this.dNotes.fform.get('remarks').length;
           const userId = this.auth.getUserId();
           const userDisplayName = this.auth.getUserDisplayName();
           const notReadySinceDate = this.vehicle.status2[sinceHashes[item]];
-          const todayDate = (new Date()).toISOString().substring(0, 10);
+          const today = new Date();
+          const todayDate = (today).toISOString().substring(0, 10);
           const itemDisplayName = itemDisplayNameHashes[item];
+
+          const notReadyTillOp = {
+            op: 'replace',
+            path: `/status2/${tillHashes[item]}`,
+            value: today
+          };
+
           const noteOp = {
             op: 'add',
             path: `/remarks/${noteLength}`,
@@ -304,8 +339,8 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
               date: todayDate
             }
           };
-          patchesCopy.push(deleteReasonOp, noteOp);
-          return patchesCopy;
+          patchesCopy.push(deleteReasonOp, notReadyTillOp, noteOp);
+          // return patchesCopy;
       }
     });
 
@@ -337,7 +372,7 @@ export class VehicleDetailsComponent implements OnInit, AfterViewInit, OnDestroy
 
     switch (this.isNew) {
       case true:
-        const combo = this.editVtbmymBasedOnIsDismantlingReady(this.patches, this.newVehicle);
+        const combo = this.editVtbmymBasedOnIsDismantlingReady(this.editIsNotReadyTill(this.patches), this.newVehicle);
         this.data.insertVehicle({
           vehicle: combo.vehicle,
           patches: combo.patches

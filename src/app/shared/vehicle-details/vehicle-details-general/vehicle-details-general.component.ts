@@ -123,7 +123,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
       this.fform.get('status2.isSurveyReady').valueChanges.startWith(this.vehicle.status2.isSurveyReady),
       this.fform.get('surveyRounds').valueChanges.startWith(this.fform.get('surveyRounds').value),
     ).subscribe(combo => {
-      console.log(combo);
+      // console.log(combo);
       const isSurveyReady = combo[0];
       const surveyRounds = combo[1];
 

@@ -42,7 +42,8 @@ export class DataService {
   socketAPI: any;
 
   socketBotRtc: any;
-  rtcBotIncomingMessageRxx: Subject<any> = new Subject();
+  rtcSocketIncomingMessageRxx: Subject<any> = new Subject();
+  // rtcSocketConnectedRxx = new BehaviorSubject(null);
   inventoryInputDoneRxx = new BehaviorSubject(null);
 
   constructor(
@@ -78,13 +79,16 @@ export class DataService {
   //   })
   // }
 
-  // rtcBotInit() {
-  //   this.socketBotRtc = io(`${this.host1}/rtc`);
-  //   this.socketBotRtc.on('message', (message) => {
-  //     console.log('rtc message:', message);
-  //     this.rtcBotIncomingMessageRxx.next(message);
-  //   });
-  // }
+  rtcSocketInit() {
+    // if (!this.rtcSocketConnectedRxx.getValue()) {
+      this.socketBotRtc = io(`${this.host1}/rtc`);
+      this.socketBotRtc.on('message', (message) => {
+        console.log('rtc message:', message);
+        this.rtcSocketIncomingMessageRxx.next(message);
+      });
+    // }
+
+  }
 
   mofcomBotInit() {
     this.socketBotMofcom = io(`${this.botUrl}/mofcom`);
