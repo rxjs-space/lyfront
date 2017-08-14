@@ -75,8 +75,9 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
         isDismantlingNotReadyReason: [this.vehicle.status2.isDismantlingNotReadyReason],
         isDismantlingNotReadySince: [this.vehicle.status2.isDismantlingNotReadySince],
         isDismantlingNotReadyTill: [this.vehicle.status2.isDismantlingNotReadyTill],
-        dismantling: this.vehicle.status2.dismantling,
-        auctioning: this.vehicle.status2.auctioning,
+        dismantlingOrderId: [this.vehicle.status2.dismantlingOrderId]
+        // dismantling: this.vehicle.status2.dismantling,
+        // auctioning: this.vehicle.status2.auctioning,
       }),
       estimatedSurveyDateFirst: [this.vehicle.estimatedSurveyDateFirst],
       estimatedSurveyDateSecond: [this.vehicle.estimatedSurveyDateSecond],

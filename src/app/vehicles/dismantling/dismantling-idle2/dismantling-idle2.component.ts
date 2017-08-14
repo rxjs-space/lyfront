@@ -91,7 +91,7 @@ export class DismantlingIdle2Component implements OnInit {
     const isDismantlingReady = (this.filterValueChangesRxx.getValue()).isDismantlingReady;
     const searchQuery = {
       entranceWeek,
-      'status2.dismantling': false,
+      'status2.dismantlingOrderId': '',
       'status.dismantled.done': false
     };
 

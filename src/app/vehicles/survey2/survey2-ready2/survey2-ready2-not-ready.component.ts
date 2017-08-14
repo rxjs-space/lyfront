@@ -46,6 +46,7 @@ export class Survey2Ready2NotReadyComponent implements OnInit {
     const searchQuery = {
       entranceWeek,
       'status2.isSurveyReady': false,
+      'isSurveyNecessary': true
     };
     
     if (simpleVehicleType) {

@@ -104,7 +104,7 @@ export class DismantlingCompletedComponent implements OnInit {
   }
 
   queryList(vehicleType, completedDate) {
-    const searchQuery = {vehicleType, completedDate};
+    const searchQuery = {vehicleType, completedDate, orderType: this.filterValueChangesRxx.getValue()['orderType']};
 
     const dialogRef = this.dialog.open(DialogDismantlingOrderListComponent, {
       width: '80%',

@@ -23,6 +23,7 @@ export class Vehicle {
     isSurveyNotReadyReason: '收车流程进行中。',
     isSurveyNotReadySince: '',
     isSurveyNotReadyTill: '',
+    dismantlingOrderId: ''
     // surveyPending: false,
     // surveyPendingReason: '',
     // surveyPendingSince: '',

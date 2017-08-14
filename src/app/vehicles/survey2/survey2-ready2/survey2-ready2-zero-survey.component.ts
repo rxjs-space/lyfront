@@ -43,6 +43,7 @@ export class Survey2Ready2ZeroSurveyComponent implements OnInit {
     // console.log(entranceWeek, simpleVehicleType);
     const searchQuery = {
       entranceWeek,
+      'isSurveyNecessary': false
     };
     if (simpleVehicleType) {
       searchQuery['vehicle.vehicleType'] = simpleVehicleType;

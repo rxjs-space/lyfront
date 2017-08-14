@@ -19,7 +19,8 @@ export class DialogVehicleTriggerComponent implements OnInit {
   openDialog() {
     this.dialog.open(DialogVehicleComponent, {
       disableClose: true,
-      width: '80%',
+      // width: '90%',
+      height: '100%',
       data: {
         vin: this.vin
       }

@@ -43,8 +43,9 @@ export class DialogDismantlingOrder2TriggerComponent implements OnInit {
 
   openDialogDO() {
     const dialogRef = this.dialog.open(DialogDismantlingOrder2Component, {
-      width: '80%',
-      // disableClose: true,
+      // width: '80%',
+      height: '100%',
+      disableClose: true,
       data: {
         // btity: this.btity,
         vehicle: this.vehicle, // if vehicle already retrieved, use this, otherwise, query with vin
