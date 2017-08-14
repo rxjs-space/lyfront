@@ -252,3 +252,11 @@ md-grid-list.left-aligned-grid-list md-grid-tile.mat-grid-tile .mat-figure {
 md-dialog-container.mat-dialog-container {
   overflow: hidden;
 }
+
+[md-dialog-title].mat-dialog-title {
+  max-height: 5%;
+}
+
+[md-dialog-content].mat-dialog-content {
+  max-height: 80%;
+}
