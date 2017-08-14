@@ -1,16 +1,12 @@
-.table-container {
+.table-container-x {
   display: flex;
   flex-direction: column;
   max-height: 500px;
   min-width: 300px;
-}
-
-// .mat-input-container {
-//   font-size: 14px;
-//   flex-grow: 1;
-//   margin-left: 32px;
-// }
-
-.mat-table {
   overflow: auto;
 }
+
+// .mat-table {
+
+//   }
+

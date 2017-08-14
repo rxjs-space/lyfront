@@ -40,7 +40,7 @@ export class InventoryInputFromDismantlingInputDoneComponent extends BaseForComp
     this.holderPub = this.holder;
     this.dates = this.calculateDates();
     this.tableColumns = this.tableColumns.concat(this.dates.reverse());
-    (this.holderPub.isLoadedWithoutErrorRxx as Observable<boolean>)
+    const sub0_ = (this.holderPub.isLoadedWithoutErrorRxx as Observable<boolean>)
       .filter(v => v)
       .subscribe(() => {
         this.btity = this.holderPub.latestResultRxxHash['btity'].getValue();
@@ -51,7 +51,7 @@ export class InventoryInputFromDismantlingInputDoneComponent extends BaseForComp
     const sub1_ = this.listenerRxx.subscribe(event => {
       this.holder.refreshByTitle('inputDonePWs');
     });
-    this.subscriptions.push(sub1_);
+    this.subscriptions.push(sub0_, sub1_);
 
   }
 

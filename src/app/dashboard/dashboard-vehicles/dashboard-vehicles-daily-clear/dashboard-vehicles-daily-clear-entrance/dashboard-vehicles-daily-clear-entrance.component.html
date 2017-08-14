@@ -1,7 +1,7 @@
 <app-loading-or-error-3 [holder]="holderPub">
   <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
    
-<md-card class="info-card">
+<md-card >
 
   <md-card-header>
     <md-card-title class="vertical-center-container">
@@ -12,13 +12,42 @@
   <md-card-content>
 
     
+    <div>
+      <md-table [dataSource]="dailyClearEntranceDataSource">
+
+        <ng-container cdkColumnDef="vehicleType">
+          <md-header-cell *cdkHeaderCellDef>车辆类型</md-header-cell>
+          <md-cell *cdkCellDef="let row">
+            <div>{{fu.idToName(row.vehicleType, btity.types.vehicleTypes.concat([{id: 'total', name: '合计'}]))}}</div>
+          </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="vs1">
+          <md-header-cell *cdkHeaderCellDef>来自车主</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.vs1 === 0 ? '' : row.vs1}} </md-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="vs2">
+          <md-header-cell *cdkHeaderCellDef>来自交警</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.vs2 === 0 ? '' : row.vs2}} </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="total">
+          <md-header-cell *cdkHeaderCellDef>合计</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.total}} </md-cell>
+        </ng-container>
+
+        <md-header-row *cdkHeaderRowDef="dailyClearEntranceColumns"></md-header-row>
+        <md-row *cdkRowDef="let row; columns: dailyClearEntranceColumns;"></md-row>
+      </md-table> 
+    </div>
+
 
 
   </md-card-content>
 
   
 </md-card>
-<md-card class="info-card">
+<md-card >
 
   <md-card-header>
     <md-card-title class="vertical-center-container">
@@ -28,14 +57,43 @@
   </md-card-header>
   <md-card-content>
 
-    
+
+    <div>
+      <md-table [dataSource]="dailyClearEntranceMofcomDataSource">
+
+        <ng-container cdkColumnDef="noDataEntry">
+          <md-header-cell *cdkHeaderCellDef>回收证明未录入</md-header-cell>
+          <md-cell *cdkCellDef="let row">
+            <div>{{row.noDataEntry === 0 ? '' : row.noDataEntry}}</div>
+          </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="onlyDataEntryDone">
+          <md-header-cell *cdkHeaderCellDef>回收证明已录入，未打印</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.onlyDataEntryDone === 0 ? '' : row.onlyDataEntryDone}} </md-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="certDone">
+          <md-header-cell *cdkHeaderCellDef>回收证明已打印</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.certDone === 0 ? '' : row.certDone}} </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="total">
+          <md-header-cell *cdkHeaderCellDef>合计</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.total === 0 ? '' : row.total}} </md-cell>
+        </ng-container>
+
+        <md-header-row *cdkHeaderRowDef="dailyClearEntranceMofcomColumns"></md-header-row>
+        <md-row *cdkRowDef="let row; columns: dailyClearEntranceMofcomColumns;"></md-row>
+      </md-table> 
+    </div>
+
 
 
   </md-card-content>
 
   
 </md-card>
-<md-card class="info-card">
+<md-card >
 
   <md-card-header>
     <md-card-title class="vertical-center-container">
@@ -45,15 +103,38 @@
   </md-card-header>
   <md-card-content>
 
-    
+
+    <div>
+      <md-table [dataSource]="dailyClearEntranceDismantlingReadinessDataSource">
+        <ng-container cdkColumnDef="notReady">
+          <md-header-cell *cdkHeaderCellDef>不可拆解</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.notReady === 0 ? '' : row.notReady}} </md-cell>
+        </ng-container>
+        <ng-container cdkColumnDef="ready">
+          <md-header-cell *cdkHeaderCellDef>可以拆解</md-header-cell>
+          <md-cell *cdkCellDef="let row">
+            <div>{{row.ready === 0 ? '' : row.ready}}</div>
+          </md-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="total">
+          <md-header-cell *cdkHeaderCellDef>合计</md-header-cell>
+          <md-cell *cdkCellDef="let row"> {{row.total === 0 ? '' : row.total}} </md-cell>
+        </ng-container>
+
+
+        <md-header-row *cdkHeaderRowDef="dailyClearEntranceDismantlingReadinessColumns"></md-header-row>
+        <md-row *cdkRowDef="let row; columns: dailyClearEntranceDismantlingReadinessColumns;"></md-row>
+      </md-table> 
+    </div>
+
+
 
 
   </md-card-content>
 
   
 </md-card>   
-
-{{holderPub.latestResultRxxHash['reports'].getValue() | json}}
 
 
 

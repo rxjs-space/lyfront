@@ -38,7 +38,12 @@ export class AuthService {
         const displayName = currentUser.displayName;
         this.usernameRxx.next(displayName);
       }
-    this.isLoggedInRxx.next(isLoggedIn);
+    if (this.isLoggedInRxx.getValue() !== isLoggedIn) {
+      this.isLoggedInRxx.next(isLoggedIn);
+      if (isLoggedIn) {
+        this.backend.rtcSocketInit();
+      } // todo: else?
+    }
     return isLoggedIn;
 
     // if (currentUser && currentUser.token) {

@@ -43,9 +43,9 @@ export class DataService {
 
   socketBotRtc: any;
   rtcSocketIncomingMessageRxx: Subject<any> = new Subject();
-  // rtcSocketConnectedRxx = new BehaviorSubject(null);
+  rtcSocketConnectedRxx = new BehaviorSubject(null);
   inventoryInputDoneRxx = new BehaviorSubject(null);
-  vehiclesReportsRxx = new BehaviorSubject({});
+  vehiclesReportsRxx = new BehaviorSubject(null);
 
   constructor(
     @Inject(BACK_END_URL) private host1,
@@ -81,13 +81,22 @@ export class DataService {
   // }
 
   rtcSocketInit() {
-    // if (!this.rtcSocketConnectedRxx.getValue()) {
+    if (!this.rtcSocketConnectedRxx.getValue()) {
       this.socketBotRtc = io(`${this.host1}/rtc`);
+      this.socketBotRtc.on('connect', () => {
+        this.rtcSocketConnectedRxx.next(true);
+        console.log('rtc socket connected')
+      });
+      this.socketBotRtc.on('disconnect', () => {
+        this.rtcSocketConnectedRxx.next(false);
+        console.log('rtc socket disconnected');
+      });
+
       this.socketBotRtc.on('message', (message) => {
         console.log('rtc message:', message);
         this.rtcSocketIncomingMessageRxx.next(message);
       });
-    // }
+    }
 
   }
 
@@ -498,7 +507,7 @@ export class DataService {
         const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
         if (hasMongoError) {throw resJSON; }
         const newVehicleReports = Object.assign({}, this.vehiclesReportsRxx.getValue(), {
-          title: resJSON
+          [title]: resJSON
         })
         this.vehiclesReportsRxx.next(newVehicleReports);
         return resJSON;
