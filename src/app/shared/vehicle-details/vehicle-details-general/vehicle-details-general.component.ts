@@ -70,9 +70,11 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
         isSurveyReady: [this.vehicle.status2.isSurveyReady, [this.sv.shouldBeBoolean(), Validators.required]],
         isSurveyNotReadyReason: [this.vehicle.status2.isSurveyNotReadyReason],
         isSurveyNotReadySince: [this.vehicle.status2.isSurveyNotReadySince],
+        isSurveyNotReadyTill: [this.vehicle.status2.isSurveyNotReadyTill],
         isDismantlingReady: [this.vehicle.status2.isDismantlingReady, [this.sv.shouldBeBoolean(), Validators.required]],
         isDismantlingNotReadyReason: [this.vehicle.status2.isDismantlingNotReadyReason],
         isDismantlingNotReadySince: [this.vehicle.status2.isDismantlingNotReadySince],
+        isDismantlingNotReadyTill: [this.vehicle.status2.isDismantlingNotReadyTill],
         dismantling: this.vehicle.status2.dismantling,
         auctioning: this.vehicle.status2.auctioning,
       }),
@@ -133,7 +135,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
       const secondSurveyDateCtrl = this.fform.get('estimatedSurveyDateSecond');
 
       switch (true) {
-        case !isSurveyReady:
+        case !isSurveyReady && surveyRounds !== 'zero':
           isSurveyNotReadyReasonCtrl.setValidators([
             this.sv.startedWithSpace(), Validators.required
           ]);
@@ -245,11 +247,21 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
     ).subscribe(combo => {
       const isDismantlingReady = combo[0];
       const surveyRounds = combo[1];
+      const isSurveyReadyCtrl = this.fform.get('status2.isSurveyReady');
       switch (true) {
         case surveyRounds === 'zero':
-          this.fform.get('status2.isSurveyReady').setValue(false); break;
+          isSurveyReadyCtrl.setValue(false);
+          break;
         case isDismantlingReady:
-          this.fform.get('status2.isSurveyReady').setValue(true); break;
+          isSurveyReadyCtrl.setValue(true);
+          break;
+      }
+
+      switch (true) {
+        case isDismantlingReady:
+          isSurveyReadyCtrl.disable(); break;
+        case !isDismantlingReady:
+          isSurveyReadyCtrl.enable(); break;
       }
     });
     this.subscriptions.push(onIsDismantlingReadyAndSurveyRoundsChange_);

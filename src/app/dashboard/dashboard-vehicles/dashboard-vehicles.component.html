@@ -1,0 +1,23 @@
+<md-card class="info-card">
+
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>车辆汇总</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+
+    <md-tab-group class="fixed-height-tab-group">
+      <md-tab label="日清情况">
+        <app-dashboard-vehicles-daily-clear></app-dashboard-vehicles-daily-clear>
+      </md-tab>
+      <md-tab label="当前状态">
+        <app-dashboard-vehicles-current-states></app-dashboard-vehicles-current-states>
+      </md-tab>
+    </md-tab-group>
+
+  </md-card-content>
+
+</md-card>

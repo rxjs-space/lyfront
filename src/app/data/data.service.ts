@@ -45,6 +45,7 @@ export class DataService {
   rtcSocketIncomingMessageRxx: Subject<any> = new Subject();
   // rtcSocketConnectedRxx = new BehaviorSubject(null);
   inventoryInputDoneRxx = new BehaviorSubject(null);
+  vehiclesReportsRxx = new BehaviorSubject({});
 
   constructor(
     @Inject(BACK_END_URL) private host1,
@@ -447,7 +448,7 @@ export class DataService {
       .catch(this.handleError);
   }
 
-  dismantlingOrderReports(title) {
+  dismantlingOrdersReports(title) {
     return this.http.get(this.dismantlingOrderApiUrl1 + `/reports?title=${title}`, this.setupOptions(true))
       .map(res => {
         const resJSON = res.json();
@@ -496,7 +497,11 @@ export class DataService {
         const resJSON = res.json();
         const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
         if (hasMongoError) {throw resJSON; }
-        return res.json();
+        const newVehicleReports = Object.assign({}, this.vehiclesReportsRxx.getValue(), {
+          title: resJSON
+        })
+        this.vehiclesReportsRxx.next(newVehicleReports);
+        return resJSON;
       })
       .catch(error => this.handleError(error));
 

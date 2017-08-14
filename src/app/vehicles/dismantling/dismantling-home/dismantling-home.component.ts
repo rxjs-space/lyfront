@@ -19,7 +19,7 @@ export class DismantlingHomeComponent implements OnInit, OnDestroy {
   asyncDataId = 'dismantlingHome' + Math.random();
   itemRxHash = {
     btity: this.data.btityRxx,
-    reports: this.data.dismantlingOrderReports('operational')
+    reports: this.data.dismantlingOrdersReports('operational')
   };
   holder: any;
   asyncMonitorIdsToWatch = [

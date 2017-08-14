@@ -1,0 +1,62 @@
+<app-loading-or-error-3 [holder]="holderPub">
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
+   
+<md-card class="info-card">
+
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>昨日车辆入场统计</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+    
+
+
+  </md-card-content>
+
+  
+</md-card>
+<md-card class="info-card">
+
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>昨日入场车辆回收证明填制情况</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+    
+
+
+  </md-card-content>
+
+  
+</md-card>
+<md-card class="info-card">
+
+  <md-card-header>
+    <md-card-title class="vertical-center-container">
+      <i class="material-icons">chevron_right</i>
+      <span>昨日入场车辆拆解准备情况</span>
+    </md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+    
+
+
+  </md-card-content>
+
+  
+</md-card>   
+
+{{holderPub.latestResultRxxHash['reports'].getValue() | json}}
+
+
+
+  </ng-container>
+</app-loading-or-error-3>
+
