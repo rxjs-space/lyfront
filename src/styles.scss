@@ -109,6 +109,7 @@ md-dialog-container.mat-dialog-container.prepare-print-dialog-container, .prepar
   width: 100%;
   position: absolute;
   height: auto;
+  box-shadow: none;
   // center the dialog-container
   // width: 900px;
   // left: 50%;
@@ -259,4 +260,15 @@ md-dialog-container.mat-dialog-container {
 
 [md-dialog-content].mat-dialog-content {
   max-height: 80%;
+}
+
+.flex-container {
+  &.mat-dialog-title {
+    display: flex;
+  }
+  display: flex;
+  align-items: center;
+  md-input-container, button {
+    margin-right: 0.2em;
+  }
 }

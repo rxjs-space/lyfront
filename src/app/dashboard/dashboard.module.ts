@@ -13,6 +13,7 @@ import { DashboardVehiclesDailyClearDismantlingComponent } from './dashboard-veh
 import { DashboardVehiclesCurrentStatesVehiclesCountByDismantlingComponent } from './dashboard-vehicles/dashboard-vehicles-current-states/dashboard-vehicles-current-states-vehicles-count-by-dismantling/dashboard-vehicles-current-states-vehicles-count-by-dismantling.component';
 import { DashboardVehiclesCurrentStatesVehiclesCountByMofcomComponent } from './dashboard-vehicles/dashboard-vehicles-current-states/dashboard-vehicles-current-states-vehicles-count-by-mofcom/dashboard-vehicles-current-states-vehicles-count-by-mofcom.component';
 import { DashboardVehiclesCurrentStatesVehiclesCountBySurveyComponent } from './dashboard-vehicles/dashboard-vehicles-current-states/dashboard-vehicles-current-states-vehicles-count-by-survey/dashboard-vehicles-current-states-vehicles-count-by-survey.component';
+import { DashboardDismantlingComponent } from './dashboard-dismantling/dashboard-dismantling.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { DashboardVehiclesCurrentStatesVehiclesCountBySurveyComponent } from './
     DashboardVehiclesDailyClearDismantlingComponent,
     DashboardVehiclesCurrentStatesVehiclesCountByDismantlingComponent,
     DashboardVehiclesCurrentStatesVehiclesCountByMofcomComponent,
-    DashboardVehiclesCurrentStatesVehiclesCountBySurveyComponent
+    DashboardVehiclesCurrentStatesVehiclesCountBySurveyComponent,
+    DashboardDismantlingComponent
   ]
 })
 export class DashboardModule { }

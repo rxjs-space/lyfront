@@ -78,6 +78,9 @@ import { DismantlingOrderDetailsComponent } from './dialog-dismantling-order/dis
 import { DialogDismantlingOrder2Component } from './dialog-dismantling-order2/dialog-dismantling-order2.component';
 import { DialogDismantlingOrder2TriggerComponent } from './dialog-dismantling-order2/dialog-dismantling-order2-trigger.component';
 import { DismantlingOrderDetails2Component } from './dismantling-order-details2/dismantling-order-details2.component';
+import { PartsAndWastesListComponent } from './parts-and-wastes-list/parts-and-wastes-list.component';
+import { PartsAndWastesListDialogComponent } from './parts-and-wastes-list/parts-and-wastes-list-dialog.component';
+import { PartsAndWastesListDialogTriggerComponent } from './parts-and-wastes-list/parts-and-wastes-list-dialog-trigger.component';
 
 
 const mdModules = [
@@ -161,6 +164,9 @@ const mdModules = [
     DialogDismantlingOrder2Component,
     DialogDismantlingOrder2TriggerComponent,
     DismantlingOrderDetails2Component,
+    PartsAndWastesListComponent,
+    PartsAndWastesListDialogComponent,
+    PartsAndWastesListDialogTriggerComponent,
   ],
   exports: [
     CommonModule,
@@ -183,7 +189,8 @@ const mdModules = [
     LoadingOrError3Component,
     CloseButtonComponent,
     DialogMofcomLoginTriggerComponent,
-    DialogDismantlingOrder2TriggerComponent
+    DialogDismantlingOrder2TriggerComponent,
+    PartsAndWastesListDialogTriggerComponent
   ],
   entryComponents: [
     DialogYesOrNoComponent,
@@ -200,7 +207,8 @@ const mdModules = [
     DialogYesNo2Component,
     DialogMofcomLoginComponent,
     DialogMofcomProgressComponent,
-    DialogDismantlingOrder2Component
+    DialogDismantlingOrder2Component,
+    PartsAndWastesListDialogComponent
   ]
 })
 export class SharedModule {

@@ -1,4 +1,14 @@
-<app-dashboard-vehicles></app-dashboard-vehicles>
-<app-dashboard-inventory></app-dashboard-inventory>
-<app-dashboard-sales></app-dashboard-sales>
-
+<md-tab-group>
+  <md-tab label="收车汇总">
+    <app-dashboard-vehicles></app-dashboard-vehicles>
+  </md-tab>
+  <md-tab label="拆解汇总">
+    <app-dashboard-dismantling></app-dashboard-dismantling>
+  </md-tab>
+  <md-tab label="库存汇总">
+    <app-dashboard-inventory></app-dashboard-inventory>
+  </md-tab>
+  <md-tab label="销售汇总">
+    <app-dashboard-sales></app-dashboard-sales>
+  </md-tab>
+</md-tab-group>

@@ -35,7 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.usernameRxx = this.auth.usernameRxx;
     this.navLinks = [
       {route: '/dashboard', label: '主页'},
-      {route: '/vehicles', label: '车辆管理'},
+      {route: '/vehicles', label: '收车管理'},
+      {route: '/dismantling', label: '拆解管理'},
       {route: '/inventory', label: '库存管理'},
       {route: '/sales', label: '销售管理'},
     ];

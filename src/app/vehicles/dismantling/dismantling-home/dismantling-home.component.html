@@ -2,6 +2,9 @@
 <p *ngIf="holder.isWithErrorRxx | async">Something broke.</p>
 <div *ngIf="holder.isLoadedWithoutErrorRxx | async">
 
+  <md-card>
+    <app-parts-and-wastes-list-dialog-trigger></app-parts-and-wastes-list-dialog-trigger>
+  </md-card>
   <app-dismantling-idle2
     [report]="(holder.latestResultRxxHash['reports'] | async)['idle']"
     [btity]="holder.latestResultRxxHash['btity'] | async"
