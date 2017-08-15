@@ -72,7 +72,8 @@ export class DismantlingOrderListComponent implements OnInit, OnDestroy {
 
   openDialogVehicle(vin) {
     this.dialog.open(DialogVehicleComponent, {
-      width: '80%',
+      // width: '80%',
+      height: '100%',
       // panelClass: '',
       disableClose: true,
       data: {

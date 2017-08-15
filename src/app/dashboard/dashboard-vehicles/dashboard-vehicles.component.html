@@ -4,9 +4,12 @@
     <md-card-title class="vertical-center-container">
       <i class="material-icons">chevron_right</i>
       <span>车辆汇总</span>
+      <span><button md-button color="primary" (click)="isCollapsed=!isCollapsed">
+        {{isCollapsed ? '展开' : '收起'}}
+      </button></span>
     </md-card-title>
   </md-card-header>
-  <md-card-content>
+  <md-card-content *ngIf="!isCollapsed">
 
 
     <md-tab-group>

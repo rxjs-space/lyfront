@@ -110,7 +110,8 @@ export class VehicleSearchComponent implements OnInit, AfterViewInit, OnDestroy 
 
   openDialogByVIN(vin: string) {
     this.dialog.open(DialogVehicleComponent, {
-      width: '80%',
+      height: '100%',
+      // width: '80%',
       data: {
         vin
       }

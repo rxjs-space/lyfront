@@ -12,7 +12,6 @@
   <md-card-content>
 
     
-    <div>
       <md-table [dataSource]="dailyClearEntranceDataSource">
 
         <ng-container cdkColumnDef="vehicleType">
@@ -39,7 +38,7 @@
         <md-header-row *cdkHeaderRowDef="dailyClearEntranceColumns"></md-header-row>
         <md-row *cdkRowDef="let row; columns: dailyClearEntranceColumns;"></md-row>
       </md-table> 
-    </div>
+
 
 
 
@@ -52,24 +51,23 @@
   <md-card-header>
     <md-card-title class="vertical-center-container">
       <i class="material-icons">chevron_right</i>
-      <span>昨日入场车辆回收证明填制情况</span>
+      <span>昨日入场车辆【回收证明填制】情况</span>
     </md-card-title>
   </md-card-header>
   <md-card-content>
 
 
-    <div>
       <md-table [dataSource]="dailyClearEntranceMofcomDataSource">
 
         <ng-container cdkColumnDef="noDataEntry">
-          <md-header-cell *cdkHeaderCellDef>回收证明未录入</md-header-cell>
+          <md-header-cell *cdkHeaderCellDef style="color: red;">回收证明未录入</md-header-cell>
           <md-cell *cdkCellDef="let row">
             <div>{{row.noDataEntry === 0 ? '' : row.noDataEntry}}</div>
           </md-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="onlyDataEntryDone">
-          <md-header-cell *cdkHeaderCellDef>回收证明已录入，未打印</md-header-cell>
+          <md-header-cell *cdkHeaderCellDef style="color: orange">回收证明已录入，未打印</md-header-cell>
           <md-cell *cdkCellDef="let row"> {{row.onlyDataEntryDone === 0 ? '' : row.onlyDataEntryDone}} </md-cell>
         </ng-container>
         <ng-container cdkColumnDef="certDone">
@@ -85,7 +83,6 @@
         <md-header-row *cdkHeaderRowDef="dailyClearEntranceMofcomColumns"></md-header-row>
         <md-row *cdkRowDef="let row; columns: dailyClearEntranceMofcomColumns;"></md-row>
       </md-table> 
-    </div>
 
 
 
@@ -98,16 +95,15 @@
   <md-card-header>
     <md-card-title class="vertical-center-container">
       <i class="material-icons">chevron_right</i>
-      <span>昨日入场车辆拆解准备情况</span>
+      <span>昨日入场车辆【拆解准备】情况</span>
     </md-card-title>
   </md-card-header>
   <md-card-content>
 
 
-    <div>
       <md-table [dataSource]="dailyClearEntranceDismantlingReadinessDataSource">
         <ng-container cdkColumnDef="notReady">
-          <md-header-cell *cdkHeaderCellDef>不可拆解</md-header-cell>
+          <md-header-cell *cdkHeaderCellDef style="color: red;">不可拆解</md-header-cell>
           <md-cell *cdkCellDef="let row"> {{row.notReady === 0 ? '' : row.notReady}} </md-cell>
         </ng-container>
         <ng-container cdkColumnDef="ready">
@@ -125,8 +121,7 @@
 
         <md-header-row *cdkHeaderRowDef="dailyClearEntranceDismantlingReadinessColumns"></md-header-row>
         <md-row *cdkRowDef="let row; columns: dailyClearEntranceDismantlingReadinessColumns;"></md-row>
-      </md-table> 
-    </div>
+      </md-table>
 
 
 

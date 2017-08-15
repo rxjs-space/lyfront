@@ -14,6 +14,7 @@ const routes: Routes = [{
     // {path: 'survey0', canLoad: [AuthGuard], loadChildren: 'app/vehicles/survey/survey.module#SurveyModule'},
     {path: 'dismantling', canLoad: [AuthGuard], loadChildren: 'app/vehicles/dismantling/dismantling.module#DismantlingModule'},
     {path: 'paper-work', canLoad: [AuthGuard], loadChildren: 'app/vehicles/paper-work/paper-work.module#PaperWorkModule'},
+    {path: 'payment', canLoad: [AuthGuard], loadChildren: 'app/vehicles/payment/payment.module#PaymentModule'},
   ]
 }];
 

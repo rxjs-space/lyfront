@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormUtilsService } from '../form-utils/form-utils.service';
 @Component({
   selector: 'app-vehicle-details-print',
@@ -10,9 +11,20 @@ export class VehicleDetailsPrintComponent implements OnInit {
   vehicle: any;
   @Input() btity: any;
   residualValueAfterFD: number;
-  constructor(private fu: FormUtilsService) { }
+  constructor(private fu: FormUtilsService, private fb: FormBuilder) { }
+  configForm: FormGroup;
+  rowHeightA = 1.7;
+  rowHeightB = 1.51;
+  rowHeightC = 1.38;
+  rowHeightD = 1.7;
 
   ngOnInit() {
+    this.configForm = this.fb.group({
+      rowHeightA: 1.7,
+      rowHeightB: 1.51,
+      rowHeightC: 1.38,
+      rowHeightD: 1.7
+    });
     this.vehicle = JSON.parse(JSON.stringify(this.vehicleInput));
     // console.log(this.vehicle.entranceDate);
     if (this.vehicle.vehicle.brand) {

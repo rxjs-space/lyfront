@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-vehicles.component.scss']
 })
 export class DashboardVehiclesComponent implements OnInit {
-
+  isCollapsed = true;
   constructor() { }
 
   ngOnInit() {

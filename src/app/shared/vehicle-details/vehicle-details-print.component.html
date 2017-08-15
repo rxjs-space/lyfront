@@ -1,7 +1,35 @@
-  <md-grid-list cols="50" rowHeight="1.7em" class="print-vehicle-form">
+  <md-grid-list cols="55" [rowHeight]="configForm.get('rowHeightA').value + 'em'" class="print-vehicle-form">
     <!-- empty row -->
-    <md-grid-tile class="hidden-when-print" colspan="50"></md-grid-tile>
+    <md-grid-tile class="hidden-when-print" colspan="55">
+      <div style="z-index:1001">
+        <md-input-container class="m-size-input in-title-input">
+          <input mdInput type="number"
+            placeholder="rowHeightA"
+            [formControl]="configForm.get('rowHeightA')">
+        </md-input-container>
+        <md-input-container class="m-size-input in-title-input">
+          <input mdInput type="number"
+            placeholder="rowHeightB"
+            [formControl]="configForm.get('rowHeightB')">
+        </md-input-container>
+        <md-input-container class="m-size-input in-title-input">
+          <input mdInput type="number"
+            placeholder="rowHeightC"
+            [formControl]="configForm.get('rowHeightC')">
+        </md-input-container>
+        <md-input-container class="m-size-input in-title-input">
+          <input mdInput type="number"
+            placeholder="rowHeightD"
+            [formControl]="configForm.get('rowHeightD')">
+        </md-input-container>
+      </div>
+
+
+
+
+    </md-grid-tile>
     <!-- section 1 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="3" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="3" colspan="5">机动车信息</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="7">车辆所有人</md-grid-tile>
     <md-grid-tile colspan="12" class="form-contents">{{vehicle.owner.name}}</md-grid-tile>
@@ -30,6 +58,7 @@
     <md-grid-tile colspan="22" class="form-contents">{{vehicle.vehicle.aquisitionOtherTypeDetail}}</md-grid-tile>
 
     <!-- section 2 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="3" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="3" colspan="5">机动车所有人信息</md-grid-tile>
     <!-- this checkbox is always checked -->
     <md-grid-tile colspan="2"><i class="material-icons">check</i></md-grid-tile>
@@ -67,6 +96,7 @@
     <md-grid-tile class="form-contents" colspan="11">{{vehicle.owner.idNo}}</md-grid-tile>
 
     <!-- section 3 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="2" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="2" colspan="5">经办人信息</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="3">姓名：</md-grid-tile>
     <md-grid-tile class="form-contents" colspan="10">{{vehicle.agent.name}}</md-grid-tile>
@@ -90,6 +120,7 @@
     <md-grid-tile class="form-contents" colspan="18">{{vehicle.agent.idNo}}</md-grid-tile>
 
     <!-- section 4 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="8">申请人委托</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="2">1、</md-grid-tile>
     <md-grid-tile colspan="2"><i *ngIf="vehicle.consignmentType == '1'" class="material-icons">check</i></md-grid-tile>
@@ -101,9 +132,10 @@
     <md-grid-tile colspan="13" class="hidden-when-print"></md-grid-tile>
     <md-grid-tile colspan="2" class="hidden-when-print"></md-grid-tile>
   </md-grid-list>
-  <md-grid-list cols="50" rowHeight="1.51em" class="print-vehicle-form">
+  <md-grid-list cols="55" [rowHeight]="configForm.get('rowHeightB').value + 'em'" class="print-vehicle-form">
 
     <!-- section 5 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="9" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="9" colspan="3">申请人承诺</md-grid-tile>
     <!-- line 1 -->
     <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
@@ -127,8 +159,9 @@
     <md-grid-tile class="hidden-when-print" colspan="45"></md-grid-tile>
 
   </md-grid-list>
-  <md-grid-list cols="50" rowHeight="1.38em" class="print-vehicle-form">
+  <md-grid-list cols="55" [rowHeight]="configForm.get('rowHeightC').value + 'em'" class="print-vehicle-form">
     <!-- section 6 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="12" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="12" colspan="3">申请人需要提供的材料</md-grid-tile>
 
     <!-- line 1 -->
@@ -213,13 +246,15 @@
     <md-grid-tile colspan="39" class="form-contents">{{vehicle.docsProvided.others}}</md-grid-tile>
 
   </md-grid-list>
-  <md-grid-list cols="50" rowHeight="1.7em" class="print-vehicle-form">
+  <md-grid-list cols="55" [rowHeight]="configForm.get('rowHeightD').value + 'em'" class="print-vehicle-form">
     <!-- section 7 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="2" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="2" colspan="5">车辆状况：</md-grid-tile>
     <md-grid-tile class="form-contents" rowspan="2" colspan="43">{{vehicle.vehicle.conditionOnEntrance}}</md-grid-tile>
     <md-grid-tile class="hidden-when-print" rowspan="2" colspan="2"></md-grid-tile>
 
     <!-- section 8 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="5">车辆残值：</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="5"></md-grid-tile>
     <md-grid-tile class="form-contents-right" colspan="3"></md-grid-tile>
@@ -238,6 +273,7 @@
     <md-grid-tile class="hidden-when-print" colspan="2"></md-grid-tile>
 
     <!-- section 9 -->
+    <md-grid-tile class="hidden-when-print left-space-filler" rowspan="3" colspan="5"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="7">收车单位（章）</md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="10"></md-grid-tile>
     <md-grid-tile class="hidden-when-print" colspan="8">查验人员（签字）</md-grid-tile>

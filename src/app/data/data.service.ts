@@ -46,6 +46,7 @@ export class DataService {
   rtcSocketConnectedRxx = new BehaviorSubject(null);
   inventoryInputDoneRxx = new BehaviorSubject(null);
   vehiclesReportsRxx = new BehaviorSubject(null);
+  dismantlingOrdersReportsRxx = new BehaviorSubject(null);
 
   constructor(
     @Inject(BACK_END_URL) private host1,
@@ -463,7 +464,11 @@ export class DataService {
         const resJSON = res.json();
         const hasMongoError = JSON.stringify(resJSON).indexOf('MongoError') > -1;
         if (hasMongoError) {throw resJSON; }
-        return res.json();
+        const newReports = Object.assign({}, this.dismantlingOrdersReportsRxx.getValue(), {
+          [title]: resJSON
+        });
+        this.dismantlingOrdersReportsRxx.next(newReports);
+        return resJSON;
       })
       .catch(error => this.handleError(error));
   }
@@ -508,7 +513,7 @@ export class DataService {
         if (hasMongoError) {throw resJSON; }
         const newVehicleReports = Object.assign({}, this.vehiclesReportsRxx.getValue(), {
           [title]: resJSON
-        })
+        });
         this.vehiclesReportsRxx.next(newVehicleReports);
         return resJSON;
       })

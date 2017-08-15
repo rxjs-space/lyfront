@@ -1,34 +1,101 @@
-<md-card class="info-card">
+<app-loading-or-error-3 [holder]="holderPub">
+  <ng-container *ngIf="holderPub.isLoadedWithoutErrorRxx | async">
 
-  <md-card-header>
-    <md-card-title class="vertical-center-container">
-      <i class="material-icons">chevron_right</i>
-      <span>昨日可拆解车辆拆解计划下达情况</span>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
+    <md-card>
 
-    
+      <md-card-header>
+        <md-card-title class="vertical-center-container">
+          <i class="material-icons">chevron_right</i>
+          <span>昨日可拆解车辆【拆解计划下达】情况</span>
+          <small>&nbsp;<span>(昨日可拆解车辆包含从前日16:00到昨日16:00之间拆解准备完成的车辆)</span></small>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
+
+        <md-table [dataSource]="dailyClearReadyVehicleWithDODataSource">
+          <ng-container cdkColumnDef="vehicleType">
+            <md-header-cell *cdkHeaderCellDef>车辆类型</md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{fu.idToName(row.vehicleType, btity.types.vehicleTypes.concat([{id: 'total', name: '合计'}]))}} </md-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="noDismantlingOrder">
+            <md-header-cell *cdkHeaderCellDef style="color:red;">拆解计划未下达车辆数量</md-header-cell>
+            <md-cell *cdkCellDef="let row">
+              <div>{{row.noDismantlingOrder === 0 ? '' : row.noDismantlingOrder}}</div>
+            </md-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="hasDismantlingOrder">
+            <md-header-cell *cdkHeaderCellDef>拆解计划下达车辆数量</md-header-cell>
+            <md-cell *cdkCellDef="let row">
+              <div>{{row.hasDismantlingOrder === 0 ? '' : row.hasDismantlingOrder}}</div>
+            </md-cell>
+          </ng-container>
 
 
-  </md-card-content>
-
-  
-</md-card>
-<md-card class="info-card">
-
-  <md-card-header>
-    <md-card-title class="vertical-center-container">
-      <i class="material-icons">chevron_right</i>
-      <span>前日下达拆解计划执行情况</span>
-    </md-card-title>
-  </md-card-header>
-  <md-card-content>
-
-    
+          <ng-container cdkColumnDef="total">
+            <md-header-cell *cdkHeaderCellDef>合计</md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.total === 0 ? '' : row.total}} </md-cell>
+          </ng-container>
 
 
-  </md-card-content>
+          <md-header-row *cdkHeaderRowDef="dailyClearReadyVehicleWithDOColumns"></md-header-row>
+          <md-row *cdkRowDef="let row; columns: dailyClearReadyVehicleWithDOColumns;"></md-row>
+        </md-table>
+        
 
-  
-</md-card>
+
+      </md-card-content>
+
+      
+    </md-card>
+    <md-card>
+
+      <md-card-header>
+        <md-card-title class="vertical-center-container">
+          <i class="material-icons">chevron_right</i>
+          <span>前日下达【拆解计划执行】情况</span>
+        </md-card-title>
+      </md-card-header>
+      <md-card-content>
+
+        <md-table [dataSource]="dailyClearDOPlacedTheDayBeforeYesterdayDataSource">
+          <ng-container cdkColumnDef="notStarted">
+            <md-header-cell *cdkHeaderCellDef style="color:red;">拆解计划未开始</md-header-cell>
+            <md-cell *cdkCellDef="let row">
+              <div>{{row.notStarted === 0 ? '' : row.notStarted}}</div>
+            </md-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="startedNotCompleted">
+            <md-header-cell *cdkHeaderCellDef style="color:orange">拆解计划已开始未完成</md-header-cell>
+            <md-cell *cdkCellDef="let row">
+              <div>{{row.startedNotCompleted === 0 ? '' : row.startedNotCompleted}}</div>
+            </md-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="completed">
+            <md-header-cell *cdkHeaderCellDef>拆解计划已完成</md-header-cell>
+            <md-cell *cdkCellDef="let row">
+              <div>{{row.completed === 0 ? '' : row.completed}}</div>
+            </md-cell>
+          </ng-container>
+
+
+          <ng-container cdkColumnDef="total">
+            <md-header-cell *cdkHeaderCellDef>合计</md-header-cell>
+            <md-cell *cdkCellDef="let row"> {{row.total === 0 ? '' : row.total}} </md-cell>
+          </ng-container>
+
+
+          <md-header-row *cdkHeaderRowDef="dailyClearDOPlacedTheDayBeforeYesterdayColumns"></md-header-row>
+          <md-row *cdkRowDef="let row; columns: dailyClearDOPlacedTheDayBeforeYesterdayColumns;"></md-row>
+        </md-table>        
+
+
+      </md-card-content>
+
+      
+    </md-card>
+
+  </ng-container>
+</app-loading-or-error-3>
+

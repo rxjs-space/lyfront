@@ -12,6 +12,7 @@ export class VehiclesHomeComponent implements OnInit {
     // {route: 'survey0', label: '验车管理0'},
     {route: 'paper-work', label: '手续管理'},
     {route: 'dismantling', label: '拆解管理'},
+    {route: 'payment', label: '付款管理'},
   ];
 
   constructor() { }

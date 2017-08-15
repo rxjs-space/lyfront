@@ -4,6 +4,9 @@
   /deep/ & > figure.mat-figure {
     font-size: 0.8em;
   }
+  /deep/ &.form-contents {
+    overflow: visible
+  }
   /deep/ &.form-contents > figure.mat-figure {
     margin-left: 0.3em;
     justify-content: flex-start;
