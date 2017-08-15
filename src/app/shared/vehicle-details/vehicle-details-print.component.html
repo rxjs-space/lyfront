@@ -1,23 +1,31 @@
+  <md-grid-list cols="55" [rowHeight]="configForm.get('rowHeightZ').value + 'em'">
+    <md-grid-tile class="hidden-when-print" colspan="55"></md-grid-tile>
+  </md-grid-list>
   <md-grid-list cols="55" [rowHeight]="configForm.get('rowHeightA').value + 'em'" class="print-vehicle-form">
     <!-- empty row -->
     <md-grid-tile class="hidden-when-print" colspan="55">
       <div style="z-index:1001">
-        <md-input-container class="m-size-input in-title-input">
+        <md-input-container class="s-size-input in-title-input">
+          <input mdInput type="number"
+            placeholder="rowHeightZ"
+            [formControl]="configForm.get('rowHeightZ')">
+        </md-input-container>
+        <md-input-container class="s-size-input in-title-input">
           <input mdInput type="number"
             placeholder="rowHeightA"
             [formControl]="configForm.get('rowHeightA')">
         </md-input-container>
-        <md-input-container class="m-size-input in-title-input">
+        <md-input-container class="s-size-input in-title-input">
           <input mdInput type="number"
             placeholder="rowHeightB"
             [formControl]="configForm.get('rowHeightB')">
         </md-input-container>
-        <md-input-container class="m-size-input in-title-input">
+        <md-input-container class="s-size-input in-title-input">
           <input mdInput type="number"
             placeholder="rowHeightC"
             [formControl]="configForm.get('rowHeightC')">
         </md-input-container>
-        <md-input-container class="m-size-input in-title-input">
+        <md-input-container class="s-size-input in-title-input">
           <input mdInput type="number"
             placeholder="rowHeightD"
             [formControl]="configForm.get('rowHeightD')">

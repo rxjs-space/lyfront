@@ -13,17 +13,18 @@ export class VehicleDetailsPrintComponent implements OnInit {
   residualValueAfterFD: number;
   constructor(private fu: FormUtilsService, private fb: FormBuilder) { }
   configForm: FormGroup;
-  rowHeightA = 1.7;
-  rowHeightB = 1.51;
-  rowHeightC = 1.38;
-  rowHeightD = 1.7;
+  // rowHeightA = 1.7;
+  // rowHeightB = 1.51;
+  // rowHeightC = 1.38;
+  // rowHeightD = 1.7;
 
   ngOnInit() {
     this.configForm = this.fb.group({
-      rowHeightA: 1.7,
-      rowHeightB: 1.51,
-      rowHeightC: 1.38,
-      rowHeightD: 1.7
+      rowHeightA: 1.5,
+      rowHeightB: 1.3,
+      rowHeightC: 1.15,
+      rowHeightD: 1.6,
+      rowHeightZ: 3.5
     });
     this.vehicle = JSON.parse(JSON.stringify(this.vehicleInput));
     // console.log(this.vehicle.entranceDate);
