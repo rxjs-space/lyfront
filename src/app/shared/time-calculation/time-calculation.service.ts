@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TimeCalculationService {
+  oneDayMS = 1000 * 60 * 60 * 24;
   constructor() { }
 
   /**
@@ -35,6 +36,20 @@ export class TimeCalculationService {
     const onedayMS = 1000 * 60 * 60 * 24;
     const daysAgoMS = new Date(Date.parse(startDay) - onedayMS * days);
     return daysAgoMS.toISOString().slice(0, 10);
+  }
+
+  getTodayDateBeijing() {
+    const today = new Date();
+    let timeWithBeijingDate;
+    const uHours = today.getUTCHours();
+    switch (true) {
+      case uHours >= 16:
+        timeWithBeijingDate = new Date(Date.parse(today.toString()) + this.oneDayMS);
+        break;
+      default:
+        timeWithBeijingDate = today;
+    }
+    return timeWithBeijingDate.toISOString().substring(0, 10);
   }
 
 }

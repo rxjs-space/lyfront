@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators, ValidatorFn, FormControl } from '@angular/forms';
 import { SharedValidatorsService } from '../../validators/shared-validators.service';
 import { FormUtilsService } from '../../form-utils/form-utils.service';
+import { TimeCalculationService } from '../../time-calculation/time-calculation.service';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,6 +18,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
   @Input() vehicle: any;
   @Input() btity: any;
   @Input() isNew: boolean;
+  facilityObjList: any;
   // @Input() checkMofcomValidityRxx: any;
   updateVehicleControlValidatorsOnIsDismantlingReadyRxx = new Subject();
   subscriptions: Subscription[] = [];
@@ -28,10 +30,12 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private sv: SharedValidatorsService,
-    private fu: FormUtilsService
+    private fu: FormUtilsService,
+    private tc: TimeCalculationService
   ) { }
 
   ngOnInit() {
+    this.facilityObjList = this.btity.types.facilities.filter(i => i.name !== '隆运总部');
     this.fform = this.fb.group({
       vin: [this.vehicle.vin, [Validators.required, this.sv.startedWithSpace()]],
       batchId: [this.vehicle.batchId, this.sv.startedWithSpace()],
@@ -49,7 +53,7 @@ export class VehicleDetailsGeneralComponent implements OnInit, OnDestroy {
         this.sv.notListedButCanBeEmpty(this.btity.types.consignmentTypes.map(t => t.name))
       ]],
       mofcomRegisterRef: [this.vehicle.mofcomRegisterRef, this.sv.startedWithSpace()],
-      entranceDate: [this.vehicle.entranceDate || (new Date()).toISOString().slice(0, 10), [Validators.required]],
+      entranceDate: [this.vehicle.entranceDate || this.tc.getTodayDateBeijing(), [Validators.required]],
       facility: [{
         value: this.fu.idToName(this.vehicle.facility, this.btity.types.facilities),
         disabled: this.vehicle.facility ? true : false
