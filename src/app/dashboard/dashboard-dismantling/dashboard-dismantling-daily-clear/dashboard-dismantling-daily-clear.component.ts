@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DataSource } from '@angular/cdk';
 import { ChangeDetectorRef } from '@angular/core';
-import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../../../shared/async-data-loader';
-import { FormUtilsService } from '../../../../shared/form-utils/form-utils.service';
-import { DataService } from '../../../../data/data.service';
+import { AsyncDataLoaderService, SubHolder, BaseForComponentWithAsyncData } from '../../../shared/async-data-loader';
+import { FormUtilsService } from '../../../shared/form-utils/form-utils.service';
+import { DataService } from '../../../data/data.service';
 
 @Component({
-  selector: 'app-dashboard-vehicles-daily-clear-dismantling',
-  templateUrl: './dashboard-vehicles-daily-clear-dismantling.component.html',
-  styleUrls: ['./dashboard-vehicles-daily-clear-dismantling.component.scss']
+  selector: 'app-dashboard-dismantling-daily-clear',
+  templateUrl: './dashboard-dismantling-daily-clear.component.html',
+  styleUrls: ['./dashboard-dismantling-daily-clear.component.scss']
 })
-export class DashboardVehiclesDailyClearDismantlingComponent extends BaseForComponentWithAsyncData implements OnInit {
-  asyncDataHolderId = 'DashboardVehiclesDailyClearEntranceComponent';
+export class DashboardDismantlingDailyClearComponent extends BaseForComponentWithAsyncData implements OnInit {
+  asyncDataHolderId = 'DashboardDismantlingDailyClearComponent';
   dataRxHash = {
     reports: this.backend.dismantlingOrdersReports('dailyClearYesterday'),
     btity: this.backend.btityRxx
@@ -23,7 +23,6 @@ export class DashboardVehiclesDailyClearDismantlingComponent extends BaseForComp
   dailyClearReadyVehicleWithDOColumns = ['vehicleType', 'noDismantlingOrder', 'hasDismantlingOrder', 'total'];
   dailyClearDOPlacedTheDayBeforeYesterdayDataSource = new DismantlingOrdersReportsDailyClearReadyDOPlacedTheDayBeforeYesterday(this.backend);
   dailyClearDOPlacedTheDayBeforeYesterdayColumns = ['notStarted', 'startedNotCompleted', 'completed', 'total'];
-
   constructor(
     asyncDataLoader: AsyncDataLoaderService,
     backend: DataService,
